@@ -22,8 +22,24 @@ var app = {
         this.bindEvents();
         var parser = sax.parser(true);
         console.log(parser); 
-        $('#gameCanvas').on('click',function(){alert('clicked!');})
+        // var ctx = $('#gameCanvas')[0].getContext('2d');
+        // ctx.fillStyle = 'rgb(200,200,200)';
+        // ctx.fillRect(0,0,500,500);
+        // $('#content').hide(); 
+        // $('#gameCanvas').on('click',function(){
+        //     $('#gameCanvas').hide(); 
+        //     $('#content').show(); 
+        // })
+        // $('#content').on('click', function(){
+        //     $('#content').hide(); 
+        //     $('#gameCanvas').show(); 
+        // })
+
+
+
+
     },
+    
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
