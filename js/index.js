@@ -16,12 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+function readXml(){
+        $.get('./js/sax-js-master/examples/shopping.xml', function(xml){
+
+            // converts received XML document to string
+            var xmlText = new XMLSerializer().serializeToString(xml);
+            console.log(xmlText);
+
+            var employees = $.xml2json(xml);
+            console.log(employees)
+            // alert(employees.employee[0].name);
+        });
+    }
+
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
         var parser = sax.parser(true);
-        console.log(parser); 
+
+        readXml();
+
+
+        // console.log(parser); 
         // var ctx = $('#gameCanvas')[0].getContext('2d');
         // ctx.fillStyle = 'rgb(200,200,200)';
         // ctx.fillRect(0,0,500,500);

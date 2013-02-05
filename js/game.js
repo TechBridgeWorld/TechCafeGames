@@ -33,6 +33,8 @@ Crafty.scene("main", function() {
             "background-color": "#eeeeee", 
             "padding-top":"50px",
             "text-align": "center" }).bind('Click',function(){Crafty.scene('question');});
+
+    Crafty.e("2D, DOM, Text")
 });
 	
 Crafty.scene("question", function() { 
