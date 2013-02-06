@@ -38,7 +38,8 @@ xhr.onreadystatechange = function() {
 };
 
 xhr.open("GET", 'http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml');
-xhr.send();	
+	xhr.send();
+	
 
 app.get("/register", function(req,res){
 	res.send(output);

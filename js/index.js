@@ -17,41 +17,11 @@
  * under the License.
  */
 
-var ajaxRequest = function(url, fnSuccess, fnError){
-    // var data = new FormData();
-
-    // for (var key in json){
-    //     data.append(key, json[key]);
-    // }
-
-    $.ajax({
-        url: url,
-        data: 'GET',
-        // type: 'POST',
-        success: fnSuccess,
-        error: fnError
-    });
-};
-
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
         
-        ajaxRequest( 
-                '/register', 
-                function onSuccess(data){
-                    if(data)
-                    {   
-                        console.log('data:');
-                        console.log(data['list']);
-                        console.log('stringify:');
-                        console.log(JSON.stringify(data));
-                    }
-                },
-                function onError(data){
-                    console.log(JSON.stringify(data));
-        });
     },
 
     // Bind Event Listeners
