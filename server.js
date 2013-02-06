@@ -20,6 +20,15 @@ var questionData = {};
 questionData['easy'] = [];
 questionData['medium'] = [];
 questionData['hard'] = [];
+
+function isEmpty(obj){
+    for(var i in obj){
+        if(obj.hasOwnProperty(i)){
+            return false;
+        }
+    }
+    return true;
+}
  
 parser.on('end', function(result) {
   numqs = result.list.m2qslist[0].m2qs.length;
@@ -30,14 +39,26 @@ parser.on('end', function(result) {
 	  var currentObj = {};
 	  currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
 	  currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
+	  currentObj['choices'] = []; 
+	  var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
+	  for (var j = 0; j < temp.length; j++){
+	  		console.log(temp[j]);
+	  		if (!isEmpty(temp[j])){
+	  			currentObj['choices'].push(temp[j]);
+	  		}
+	  }
 	  if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
 			questionData['easy'].push(currentObj);
 	  }
-	  //qs.push(x);
+	  if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
+			questionData['medium'].push(currentObj);
+	  }
+	  if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
+			questionData['hard'].push(currentObj);
+	  }
   }
   console.log(questionData);
-  output = result;
-  console.log(JSON.stringify(output));
+  output = questionData;
 });
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -49,18 +70,16 @@ xhr.onreadystatechange = function() {
 	
 	if (this.readyState == 4) {
 		console.log("Complete.\nBody length: " + this.responseText.length);
-		// console.log('Response:' + this.responseText);
 		console.log('Output:');
 		parser.parseString(this.responseText);
 	}
 };
 
 xhr.open("GET", 'http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml');
-	xhr.send();
+xhr.send();
 	
-
 app.get("/register", function(req,res){
 	res.send(output);
-})
+});
 
 
