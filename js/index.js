@@ -44,7 +44,7 @@ var app = {
                     if(data)
                     {   
                         console.log('data:');
-                        console.log(data);
+                        console.log(data['list']);
                         console.log('stringify:');
                         console.log(JSON.stringify(data));
                     }
