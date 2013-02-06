@@ -17,47 +17,43 @@
  * under the License.
  */
 
-function readXml(){
-        $.get('./js/sax-js-master/examples/shopping.xml', function(xml){
+var ajaxRequest = function(url, fnSuccess, fnError){
+    // var data = new FormData();
 
-            // converts received XML document to string
-            var xmlText = new XMLSerializer().serializeToString(xml);
-            console.log(xmlText);
+    // for (var key in json){
+    //     data.append(key, json[key]);
+    // }
 
-            var employees = $.xml2json(xml);
-            console.log(employees)
-            // alert(employees.employee[0].name);
-        });
-    }
+    $.ajax({
+        url: url,
+        data: 'GET',
+        // type: 'POST',
+        success: fnSuccess,
+        error: fnError
+    });
+};
 
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        var parser = sax.parser(true);
-
-        readXml();
-
-
-        // console.log(parser); 
-        // var ctx = $('#gameCanvas')[0].getContext('2d');
-        // ctx.fillStyle = 'rgb(200,200,200)';
-        // ctx.fillRect(0,0,500,500);
-        // $('#content').hide(); 
-        // $('#gameCanvas').on('click',function(){
-        //     $('#gameCanvas').hide(); 
-        //     $('#content').show(); 
-        // })
-        // $('#content').on('click', function(){
-        //     $('#content').hide(); 
-        //     $('#gameCanvas').show(); 
-        // })
-
-
-
-
+        
+        ajaxRequest( 
+                '/register', 
+                function onSuccess(data){
+                    if(data)
+                    {   
+                        console.log('data:');
+                        console.log(data);
+                        console.log('stringify:');
+                        console.log(JSON.stringify(data));
+                    }
+                },
+                function onError(data){
+                    console.log(JSON.stringify(data));
+        });
     },
-    
+
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
