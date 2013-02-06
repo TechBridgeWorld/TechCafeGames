@@ -16,8 +16,26 @@ var options = {
 var output = {};
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
-
+var questionData = {};
+questionData['easy'] = [];
+questionData['medium'] = [];
+questionData['hard'] = [];
+ 
 parser.on('end', function(result) {
+  numqs = result.list.m2qslist[0].m2qs.length;
+  //store each question in a Question object
+  var qs = new Array();
+  for (var i = 0; i < numqs; i++)
+  {	  
+	  var currentObj = {};
+	  currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
+	  currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
+	  if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
+			questionData['easy'].push(currentObj);
+	  }
+	  //qs.push(x);
+  }
+  console.log(questionData);
   output = result;
   console.log(JSON.stringify(output));
 });
