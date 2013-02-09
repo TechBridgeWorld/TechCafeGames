@@ -2,12 +2,10 @@
 
 window.onload = execute();
 
-var width = $(window).width(); 
-var height = $(window).height(); 
 var questionData = {};
 
 function execute() {
-    Crafty.init($(window).width(), $(window).height());
+    // Crafty.init($(window).width(), $(window).height());
     
     var ajaxRequest = function(url, fnSuccess, fnError){
         $.ajax({
@@ -23,63 +21,70 @@ function execute() {
                 function onSuccess(data){
                     if(data)
                     {   
-                        console.log('data:');
-                        console.log(data['list']);
-                        console.log('stringify:');
+                    //     console.log('data:');
+                    //     console.log(data['list']);
+                    //     console.log('stringify:');
                         questionData = data; 
-                        console.log(JSON.stringify(questionData));
+                        // console.log(JSON.stringify(questionData));
                     }
                 },
                 function onError(data){
-                    console.log(JSON.stringify(data));
-    });
-};
-
-//the loading screen
-Crafty.scene("loading", function () {
-    //load takes an array of assets and a callback when complete
-    Crafty.load(['./img/logo.png'], function () {
-        Crafty.scene("main"); //when everything is loaded, run the main scene
+                    // console.log(JSON.stringify(data));
     });
 
-    //black background with some loading text
-    Crafty.background("#EEE");
-    Crafty.e("2D, DOM, Text").attr({ w: width, h: height, x: 0, y: 0 })
-         .text("Loading")
-         .css({ "text-align": "center",
-                "padding-top": "50px" });
-});
-
-Crafty.scene("main", function() { 
-	Crafty.background("#FFF");
-	
-    Crafty.e("2D, DOM, Text, Mouse").attr({w: width, h: height, x: 0, y: 0})
-		  .text("HOME SCREEN")
-		  .css({ "margin-left": "auto",
-            "background-color": "#eeeeee", 
-            "padding-top":"50px",
-            "text-align": "center" }).bind('Click',function(){Crafty.scene('question');});
-
-    // Crafty.e("")
-
-    // Crafty.e("2D, DOM, Text")
-});
-	
-Crafty.scene("question", function() { 
-    Crafty.background("#AAA");
+    var width = window.innerWidth;
+    var height = window.innerHeight;
     
-    var screen = Crafty.e("2D, DOM, Text, Mouse").attr({w: width, h: height, x: 0, y: 0})
-          .text("QUESTION SCREEN")
-          .css({ "margin-left": "auto",
-            "background-color": "#eeeeee", 
-            "padding-top":"50px",
-            "text-align": "center" }).bind('Click',function(){Crafty.scene('main');});
+    var stage = new Kinetic.Stage({
+        container: 'gameCanvas',
+        width: width, 
+        height: height,
+    });
 
-    var box = Crafty.e("2D, Color, Text, Mouse").attr({w:(0.9*width), h:(0.9*height), x:(0.05*width), y:(0.05*height)})
-            .text("AAAAA")
-            .color("#000000");
-});
+    var layer = new Kinetic.Layer(); 
 
-//automatically play the loading scene
-//Crafty.init(300, 400);
-Crafty.scene("loading");
+    var rect = new Kinetic.Rect({
+        x:0,
+        y:0,
+        width: width, 
+        height: height, 
+        fill: 'yellow'
+    });
+
+    layer.add(rect); 
+
+    var image = new Image(); 
+    image.src = "img/road_vert.png";
+    image.onload = function(){
+        var roadY = 0; 
+        var road2Y = -height;
+        var road = new Kinetic.Image({
+            x:0, 
+            y:0,
+            image:image, 
+            width:width, 
+            height:height 
+        });
+        var road2 = new Kinetic.Image({
+            x:0, 
+            y:-height,
+            image:image, 
+            width:width, 
+            height:height 
+        });
+        layer.add(road2);
+        layer.add(road);
+        stage.add(layer);
+
+        var anim = new Kinetic.Animation(function(frame){
+            road.setY(roadY += 60);
+            if (roadY >= height){roadY = -height;}
+            road2.setY(road2Y += 60); 
+            if (road2Y >= height){ road2Y = -height;}
+        }, layer); 
+        anim.start();
+    };
+
+
+};
+  
