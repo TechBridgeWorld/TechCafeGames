@@ -101,3 +101,21 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+#headerDiv{
+    background-image: url(/img/race-assets/dark_fish_skin.png);
+}
+
+.lifePic{
+    margin-top: 6%;
+    margin-left: 6%;
+    width:2%;
+    height:20%;
+}
+
+#score{
+    color:white;
+    position:absolute;
+    top:2%;
+    right:8%;
+}
