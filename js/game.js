@@ -46,10 +46,10 @@ function execute(){
     var questionInterval;
     var questionFlag = false;
     var obstacle;
-    var allObstacles=["cone", "coin"];
+    var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
     var timer = 0;
-    var allPoints=[-10, 20];
+    var allPoints=[-10, 20, -20];
     var obstacleInterval;
     var roadImage = new Image();
     roadImage.src = "img/race-assets/track.png";
@@ -66,6 +66,9 @@ function execute(){
     
     var coinImage = new Image(); 
     coinImage.src = "img/race-assets/coin.png";
+    
+    var manholeImage = new Image(); 
+    manholeImage.src = "img/race-assets/obstacle-m.png";
 
     console.log(questionData);
     function setup(){    
@@ -129,18 +132,32 @@ function execute(){
                 var x;
                 var rand = Math.floor(Math.random()*3);
          if (rand == 0)
-             x = width/4-50; 
+             x = width/4-carWidth/2; 
          if (rand == 1)
-             x = width/2-50; 
+             x = width/2-carWidth/2; 
          if (rand == 2)
-             x = width*0.70-50;
+             x = width*0.70-carWidth/2;
                 obsArr.push(new Obs(allObstacles[index], allPoints[index], x, 0));
             }
             
             for(var i = 0; i < obsArr.length; i++) {
             obsArr[i].update(carPos, carMargin);
             if(obsArr[i].eaten) {
-                console.log("lost " + obsArr[i].points +" points");
+                if(obsArr[i].points >= 0) {
+                    $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
+                    $("#pts").css("color","green");
+                }
+                else {
+                    $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
+                    $("#pts").css("color","red");
+                }
+                $("body").css("position","relative");
+                $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
+                $("#pts").css("margin-left",obsArr[i].x-25);
+                $("#pts").css("position","relative");
+                $("#pts").css("z-index",10);
+                $("#pts").css("font-size",30);
+                window.setTimeout(function(){$("#pts").remove();}, 1000);
                 obsArr.splice(i,1);
             }
             else if(obsArr[i].y >= height) {
@@ -148,9 +165,11 @@ function execute(){
             }
             else 
             {
-                if(obsArr[i].name == "cone") ctx.drawImage(coneImage, obsArr[i].x, obsArr[i].y);
+                if(obsArr[i].name == "cone") ctx.drawImage(coneImage, obsArr[i].x, obsArr[i].y, carWidth, carHeight/2);
                 
-                if(obsArr[i].name == "coin") ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y);
+                if(obsArr[i].name == "coin") ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, carWidth, carHeight/2);
+                
+                if(obsArr[i].name == "manhole") ctx.drawImage(manholeImage, obsArr[i].x, obsArr[i].y, carWidth, carHeight/2);
             }
             }
             //****
