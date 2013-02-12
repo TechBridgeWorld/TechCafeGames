@@ -46,6 +46,10 @@ function execute(){
     var questionInterval;
     var questionFlag = false;
     var obstacle;
+    var allObstacles=["cone", "coin"];
+    var obsArr=[];
+    var timer = 0;
+    var allPoints=[-10, 20];
     var obstacleInterval;
     var roadImage = new Image();
     roadImage.src = "img/race-assets/track.png";
@@ -59,6 +63,9 @@ function execute(){
 
     var coneImage = new Image(); 
     coneImage.src = "img/race-assets/obstacle-c.png";
+    
+    var coinImage = new Image(); 
+    coinImage.src = "img/race-assets/coin.png";
 
     console.log(questionData);
     function setup(){    
@@ -76,22 +83,23 @@ function execute(){
         ctx.fillRect(0,0,width,height); 
         roadY = 0; 
         road2Y = -height; 
-        // obstacles = [];
-        // numObstacles = 0;
+         obstacles = [];
+         numObstacles = 0;
         canvas.addEventListener('touchmove', setupEventListener, false);
 
         drawRoad();
         
         interval = setInterval(draw, 50);
 
-        // obstacleInterval = setInterval(addObstacle, 2000);
+        //obstacleInterval = setInterval(addObstacle, 2000);
 
         questionInterval = setInterval(function(){
             questionFlag = true;
+            
             window.clearInterval(obstacleInterval);
             setTimeout(function(){
                 questionFlag = false;
-                // obstacleInterval = setInterval(addObstacle, 1000);
+                //obstacleInterval = setInterval(addObstacle, 1000);
                 canvas.addEventListener('touchmove', setupEventListener, false);
             }, 10000);
         }, 20000);
@@ -114,7 +122,38 @@ function execute(){
         if (questionFlag) drawQuestionBox();
         else {
             drawScore();
-            // drawObstacles();
+            //**obstacles**
+            timer++;
+            if (timer%150 === 0) {
+                var index = Math.floor(Math.random()*(allObstacles.length));
+                var x;
+                var rand = Math.floor(Math.random()*3);
+         if (rand == 0)
+             x = width/4-50; 
+         if (rand == 1)
+             x = width/2-50; 
+         if (rand == 2)
+             x = width*0.70-50;
+                obsArr.push(new Obs(allObstacles[index], allPoints[index], x, 0));
+            }
+            
+            for(var i = 0; i < obsArr.length; i++) {
+            obsArr[i].update(carPos, carMargin);
+            if(obsArr[i].eaten) {
+                console.log("lost " + obsArr[i].points +" points");
+                obsArr.splice(i,1);
+            }
+            else if(obsArr[i].y >= height) {
+                obsArr.splice(i,1);
+            }
+            else 
+            {
+                if(obsArr[i].name == "cone") ctx.drawImage(coneImage, obsArr[i].x, obsArr[i].y);
+                
+                if(obsArr[i].name == "coin") ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y);
+            }
+            }
+            //****
         }
     }
 
@@ -153,26 +192,29 @@ function execute(){
         ctx.fillText('answer4', width*0.7, height*0.75);
     }
 
-    // function addObstacle(){
-    //     var rand = Math.floor(Math.random()*3);
-    //     var obs = new Object(); 
-    //     obs.y = 0; 
-    //     if (rand == 0)
-    //         obs.x = width/4; 
-    //     if (rand == 1)
-    //         obs.x = width/2; 
-    //     if (rand == 2)
-    //         obs.x = width*0.70;
-    //     obstacles.push(obs);
-    //     numObstacles++;
-    // }
 
-    // function drawObstacle(){
-    //     for (var i = 0; i < obstacles.length;i++){
-    //         ctx.drawImage(coneImage, obstacles[i].x, obstacles[i].y,carWidth,carWidth);
-    //         obstacles[i].y+=10;
-    //     }
-    // }
+
+     /*function addObstacle(){
+         var rand = Math.floor(Math.random()*3);
+         var obs = new Object(); 
+         obs.y = 0; 
+         if (rand == 0)
+             obs.x = width/4; 
+         if (rand == 1)
+             obs.x = width/2; 
+         if (rand == 2)
+             obs.x = width*0.70;
+          obstacles.push(obs);
+         numObstacles++;
+     }
+
+     function drawObstacle(){
+         for (var i = 0; i < obstacles.length;i++){
+             console.log(i);
+             ctx.drawImage(coneImage, obstacles[i].x, obstacles[i].y,carWidth,carWidth);
+             obstacles[i].y+=10;
+         }
+     }*/
 
 }
 
