@@ -85,24 +85,11 @@ h1 {
     display:none;
 }
 
-@keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
-}
- 
-@-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
-}
- 
-.blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
-}
-
 #headerDiv{
+    position:absolute;
+    top:0px;
+    width:100%;
+    z-index: 2;
     background-image: url(/img/race-assets/dark_fish_skin.png);
 }
 
@@ -118,4 +105,66 @@ h1 {
     position:absolute;
     top:2%;
     right:8%;
+    z-index: 3;
+}
+
+
+#gameCanvas{
+    position:absolute;
+    top:10%;
+}
+
+#screen {
+    width: 100%;
+    height: 100%;
+    
+    margin: 0 auto;
+    
+    overflow: hidden;
+    
+    background: white;
+    
+    position: relative;
+}
+
+img {
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#one {    
+    -webkit-animation: scrollone 0.2s infinite linear;
+}
+
+#two {
+    top: -260px;
+    position: absolute;
+    -webkit-animation: scrolltwo 0.2s infinite linear;
+}
+
+@-webkit-keyframes scrollone {
+  from {
+      transform: translate3d(0,0,0);
+      -webkit-transform: translate3d(0,0,0);
+  }
+  
+  to {
+      transform: translate3d(0,260px,0);
+      -webkit-transform: translate3d(0,260px,0);
+  }
+}
+
+@-webkit-keyframes scrolltwo {
+  from {
+      transform: translate3d(0,0,0);
+      -webkit-transform: translate3d(0,0,0);
+  }
+  
+  to {
+      transform: translate3d(0,260px,0);
+      -webkit-transform: translate3d(0,260px,0);
+  }
 }
