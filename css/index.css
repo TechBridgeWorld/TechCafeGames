@@ -135,6 +135,44 @@ img {
     height: 100%;
 }
 
+table {
+    width:100%;
+    height:100%;
+    -moz-border-radius:25px;
+    -o-border-radius:25px;
+    border-radius:25px;
+    text-align:center;
+}
+
+#Q {
+    color:white;
+}
+
+#choice1, #choice2, #choice3, #choice4 {
+   width:50%;
+   background-color:yellow;
+}
+
+#choice1:active {
+    background-color:orange;
+}
+
+#choice2:active {
+    background-color:orange;
+}
+
+#choice3:active {
+    background-color:orange;
+}
+
+#choice4:active {
+    background-color:orange;
+}
+
+table{
+    border: 1px solid orange;
+}
+
 #one {    
     -webkit-animation: scrollone 0.2s infinite linear;
 }

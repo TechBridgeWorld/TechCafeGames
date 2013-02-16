@@ -18,6 +18,7 @@ function execute(){
             if(data)
                 {   
                     questionData = data; 
+                    console.log(questionData);
                 }
             },
         function onError(data){ 
@@ -56,6 +57,7 @@ function execute(){
     var lane1X; 
     var lane2X; 
     var lane3X;
+    var difficulty="easy";
     roadImage.src = "img/race-assets/track.png";
 
     var carImage = new Image(); 
@@ -163,14 +165,53 @@ function execute(){
     }
 
     function drawQuestionBox(){
+    if (!($('#ques').length)){
+    
         canvas.removeEventListener('touchmove', setupEventListener, false);
-        ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
+        
+        var c = Math.round(questionData.easy.length*Math.random());
+        var question = questionData.easy[c];
+        var choiceArr =[];
+        for(var i = 0; i < 4; i++) {
+            if(question.choices[i] != undefined) choiceArr[i] = question.choices[i];
+            else choiceArr[i] = "";
+        }
+        
+        $("body").append('<div id="ques"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>');
+        $("#ques").css("width",2*width/3);
+        $("#ques").css("height",height/2);
+        $("#popQ").css("background-color", "black");
+        $("#ques").css("margin-top",-3*height/4);
+        $("#ques").css("margin-left",width/6);
+        $("#ques").css("position","relative");
+        $("#ques").css("z-index",10);
+        $("#ques").css("font-size",30);
+        
+        $("#choice1").bind("click", function(){checkAns(question.a,choiceArr[0]);});
+        $("#choice1").live('touchstart', function(){checkAns(question.a,choiceArr[0]);});
+        $("#choice2").bind("click", function(){checkAns(question.a,choiceArr[1]);});
+        $("#choice2").live('touchstart', function(){checkAns(question.a,choiceArr[1]);});
+        $("#choice3").bind("click", function(){checkAns(question.a,choiceArr[2]);});
+        $("#choice3").live('touchstart', function(){checkAns(question.a,choiceArr[2]);});
+        $("#choice4").bind("click", function(){checkAns(question.a,choiceArr[3]);});
+        $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3]);});
+        
+        window.setTimeout(function(){$("#ques").remove();}, 10000);
+        
+    }
+        /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
         ctx.textAlign = 'center';
         ctx.fillText('question',width/2,height/4);
         ctx.fillText('answer1', width/3.5,height/2);
         ctx.fillText('answer2', width*0.7, height/2);
         ctx.fillText('answer3', width/3.5, height*0.75);
         ctx.fillText('answer4', width*0.7, height*0.75);
+        */
+    }
+    
+    function checkAns(right, choice) {
+        if(right===choice) alert("Good job!");
+        else alert("Wrong!");
     }
 
     function drawObstacles(){
