@@ -189,11 +189,9 @@ function execute(){
     }
 
     function drawQuestionBox(){
-    if (!($('#ques').length)){
-    
         canvas.removeEventListener('touchmove', setupEventListener, false);
         
-        var c = Math.round(questionData.easy.length*Math.random());
+        var c = Math.round((questionData.easy.length-1)*Math.random());
         var question = questionData.easy[c];
         var choiceArr =[];
         for(var i = 0; i < 4; i++) {
@@ -221,8 +219,7 @@ function execute(){
         $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3]);});
         
         window.setTimeout(function(){$("#ques").remove();}, 10000);
-        
-    }
+        questionFlag=false;
         /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
         ctx.textAlign = 'center';
         ctx.fillText('question',width/2,height/4);
@@ -236,7 +233,8 @@ function execute(){
     function checkAns(right, choice) {
         if(right===choice) alert("Good job!");
         else alert("Wrong!");
-        //questionFlag = false;
+        
+        $("#ques").remove();
 		//canvas.addEventListener('touchmove', setupEventListener, false);
     }
 
