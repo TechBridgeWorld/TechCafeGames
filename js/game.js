@@ -109,6 +109,8 @@ function execute(){
         timer = 0; 
         score = 0;
         
+        barFrac=100;
+        
         /* Canvas+DOM variables */
         canvas = document.getElementById('gameCanvas');
         ctx = $('#gameCanvas')[0].getContext('2d');
