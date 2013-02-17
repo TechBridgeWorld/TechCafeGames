@@ -218,7 +218,6 @@ function execute(){
         $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3]);});
         
         window.setTimeout(stopAsking, 10000);
-        questionFlag=false;
         }
     }
     
