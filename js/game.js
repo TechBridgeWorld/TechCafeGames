@@ -282,6 +282,7 @@ function execute(){
         
         if (storedPowers[0].count != 0) {
 			storedPowers[0].decrement();
+			updateCurrPowers();
 			var del = Math.floor(Math.random() * question.choices.length);
 			while (del == ansIndex) {
 				var del = Math.floor(Math.random() * question.choices.length);
@@ -322,6 +323,14 @@ function execute(){
         ctx.fillText('answer3', width/3.5, height*0.75);
         ctx.fillText('answer4', width*0.7, height*0.75);
         */
+        var timeLimit = questionTime;
+		
+		if (storedPowers[1].count > 0) {
+			storedPowers[1].decrement();
+			updateCurrPowers();
+			timeLimit += 10000;
+		}
+		
         window.setTimeout(stopAsking, questionTime);
         }
     }
@@ -421,13 +430,6 @@ function execute(){
     }
     
     function drawPowerUps() {
-		if (timer == endTime && invincible) {
-			invincibleFlag = false;
-			for (var i = 0; i < storedPowers.length; i++) {
-				if (storedPowers[i].name == "invincible")
-				storedPowers.splice(i, 1);
-			}
-		}
 		var interval = Math.floor(Math.random()*powerUpSpawnTime);
         if (timer%interval === 0) {
             var index = Math.floor(Math.random()*(allPowers.length));
@@ -447,9 +449,14 @@ function execute(){
 				}
 				else if (powerUps[i].name == "invincible") {
 					invincibleFlag = true;
-					endTime = timer + 5000;
+					endTime = timer + 50;
 					storedPowers[2].increment();
 					updateCurrPowers();
+					setTimeout(function() {
+						storedPowers[2].decrement();
+						updateCurrPowers();
+						invincibleFlag = false;
+					}, 3000);
 				}
 				else {
 					if (powerUps[i].name == "crossout") {
@@ -515,11 +522,17 @@ function execute(){
             // console.log("has powers");
             $('#currPowers').show(animationTime);
         }
+        else{
+			$('#currPowers').hide(animationTime);
+		}
 
         if (numInvincible > 0){
             // console.log("has invincible");
             $('#currBoost').show(animationTime);
         }
+        else {
+			$('#currBoost').hide(animationTime);
+		}
 
         if (numTime > 0){
             $('#currTime').show(animationTime);
