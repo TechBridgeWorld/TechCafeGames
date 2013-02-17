@@ -332,6 +332,11 @@ function execute(){
         }
     }
     
+    function meterUp(){
+        var animateInt = window.setInterval(function(){barFrac+=1; updateBar();},feedbackDelay/10);
+        window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay);
+    }
+    
     function checkAns(right, choice, choiceTd, rightTd) {
         console.log("right: " + right);
         console.log("choice: " + choice);
@@ -340,7 +345,7 @@ function execute(){
         if(right===choice){
             // alert("Good job!");
             // console.log($(rightTd));
-            barFrac+=10;
+            meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);
             $feedback.fadeIn(animationTime);
