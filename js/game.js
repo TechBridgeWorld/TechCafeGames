@@ -51,15 +51,13 @@ function execute(){
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
     var timer;
-    
     var allPowers=["gas", "crossout", "timeplus", "invincible"];
     var powerUps=[];
     var storedPowers=[];
     var crossout = false;
-    var invincible = true;
+    var invincible = false;
     var endTime;
     var animationTime = 400;
-    
     var allPoints=[-10, 20, -20];
     var obstacleInterval;
     var roadImage = new Image();
@@ -124,6 +122,11 @@ function execute(){
 
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
+        
+        /*storedPowers array */
+        storedPowers.push(new Power("crossout"));
+        storedPowers.push(new Power("timeplus"));
+        storedPowers.push(new Power("invincible"));
 
         canvas.addEventListener('touchmove', setupEventListener, false);
         
@@ -137,6 +140,13 @@ function execute(){
         $('#currTime .num').hide();
         $('#currEliminate .num').hide();
     }
+    
+    function Power(name) {
+		this.name = name;
+		this.count = 0;
+		this.increment = function() {this.count++;};
+		this.decrement = function() {this.count--;};
+	}
 
     function Obs(name, points, x, y) {
         this.name = name;
@@ -193,8 +203,13 @@ function execute(){
         var c = Math.round((questionData.easy.length-1)*Math.random());
         var question = questionData.easy[c];
         var choiceArr =[];
+        var ansIndex;
         for(var i = 0; i < 4; i++) {
-            if(question.choices[i] != undefined) choiceArr[i] = question.choices[i];
+            if(question.choices[i] != undefined) {
+				choiceArr[i] = question.choices[i];
+				if (question.choices[i] == question.a)
+					ansIndex = i;
+			}
             else choiceArr[i] = "";
         }
         
@@ -213,8 +228,36 @@ function execute(){
         $("#choice4").bind("click", function(){checkAns(question.a,choiceArr[3],"#choice4");});
         $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3],"#choice4");});
         
-        window.setTimeout(function(){$("#ques").remove();}, questionTime);
-        questionFlag=false;
+        if (storedPowers[0].count != 0) {
+			storedPowers[0].decrement();
+			var del = Math.floor(Math.random() * question.choices.length);
+			while (del == ansIndex) {
+				var del = Math.floor(Math.random() * question.choices.length);
+			}
+			switch (del)
+			{
+				case 0:
+					$("#choice1").css("text-decoration", "line-through");
+					$("#choice1").unbind();
+					break;
+				case 1:
+					$("#choice2").css("text-decoration",  "line-through");
+					$("#choice2").unbind();
+					break;
+				case 2:
+					$("#choice3").css("text-decoration",  "line-through");
+					$("#choice3").unbind();
+					break;
+				case 3:
+					$("#choice4").css("text-decoration",  "line-through");
+					$("#choice4").unbind();
+					break;
+				default:
+					break;
+				}
+			}
+        //window.setTimeout(function(){$("#ques").remove();}, questionTime);
+        //questionFlag=false;
         /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
         ctx.textAlign = 'center';
         ctx.fillText('question',width/2,height/4);
@@ -310,7 +353,7 @@ function execute(){
 				storedPowers.splice(i, 1);
 			}
 		}
-		var interval = Math.floor(Math.random()*50);
+		var interval = Math.floor(Math.random()*100);
         if (timer%interval === 0) {
             var index = Math.floor(Math.random()*(allPowers.length));
             var x = chooseLane();
@@ -326,30 +369,36 @@ function execute(){
 						questionFlag = false;
 						canvas.addEventListener('touchmove', setupEventListener, false);
 					}, questionTime);
-					//popPowers();
 				}
-				/*else if (powerUps[i].name == "invincible")
+				else if (powerUps[i].name == "invincible") {
 					invincible = true;
 					endTime = timer + 5000;
-					storedPowers.push(powerUps[i]); */
-				else{
-					storedPowers.push(powerUps[i]);
-                    updateCurrPowers();
-                }
+					storedPowers[2].increment();
+					upadateCurrPowers();
+				}
+				else {
+					if (powerUps[i].name == "crossout") {
+						storedPowers[0].increment();
+					}
+					if (powerUps[i].name == "timeplus") {
+						storedPowers[1].increment();
+					}
+					updateCurrPowers();
+				}
 				powerUps.splice(i, 1);
 			}
 			else if(powerUps[i].y >= height) {
-            powerUps.splice(i,1);
+				powerUps.splice(i,1);
 			}
 			else {
 				if(powerUps[i].name == "gas")
-					ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
+					ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
 				if(powerUps[i].name == "crossout") 
-					ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);       
+					ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);       
 				if(powerUps[i].name == "timeplus") 
-					ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
+					ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
 				if(powerUps[i].name == "invincible") 
-					ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
+					ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
             }
         }
 	}
