@@ -423,11 +423,6 @@ function execute(){
     }
     
     function drawPowerUps() {
-		if (timer == endTime && invincible) {
-			invincibleFlag = false;
-			storedPowers[2].decrement();
-			updateCurrPowers();
-		}
 		var interval = Math.floor(Math.random()*powerUpSpawnTime);
         if (timer%interval === 0) {
             var index = Math.floor(Math.random()*(allPowers.length));
@@ -450,6 +445,11 @@ function execute(){
 					endTime = timer + 50;
 					storedPowers[2].increment();
 					updateCurrPowers();
+					setTimeout(function() {
+						storedPowers[2].decrement();
+						updateCurrPowers();
+						invincibleFlag = false;
+					}, 3000);
 				}
 				else {
 					if (powerUps[i].name == "crossout") {
@@ -515,11 +515,17 @@ function execute(){
             // console.log("has powers");
             $('#currPowers').show(animationTime);
         }
+        else{
+			$('#currPowers').hide(animationTime);
+		}
 
         if (numInvincible > 0){
             // console.log("has invincible");
             $('#currBoost').show(animationTime);
         }
+        else {
+			$('#currBoost').hide(animationTime);
+		}
 
         if (numTime > 0){
             $('#currTime').show(animationTime);
