@@ -18,7 +18,7 @@ function execute(){
             if(data)
                 {   
                     questionData = data; 
-                    console.log(questionData);
+                    // console.log(questionData);
                 }
             },
         function onError(data){ 
@@ -50,6 +50,7 @@ function execute(){
     var obstacle;
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
+    var objectSpeed; 
     var timer;
     var allPowers=["gas", "crossout", "timeplus", "invincible"];
     var powerUps=[];
@@ -103,6 +104,11 @@ function execute(){
     var invincible = new Image(); 
     invincible.src = "img/race-assets/powerup-boost.png";
 
+    var fire = new Image(); 
+    fire.src = 'img/race-assets/fire-sprite.png';
+    
+    var xClip;
+    
     function setup(){    
         
         /* General variables */
@@ -121,14 +127,16 @@ function execute(){
         /* Car variables */
         carWidth = 0.1*width; 
         carHeight = 0.2*width;
-        carY = height - 1.5*carHeight;
+        carY = height - 2*carHeight;
         carX = width/2 - 0.05 * width;
+        xClip = 0;
         
         /* Obstacle Variables */
         obstacleHeight = carHeight/2;
         lane1X = width/4-carWidth/2;
-        lane2X = width/2-carWidth/2; 
+        lane2X = width*.47-carWidth/2; 
         lane3X = width*0.70-carWidth/2;
+        objectSpeed = 10;
 
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
@@ -160,18 +168,19 @@ function execute(){
 		this.decrement = function() {this.count--;};
 	}
 
-    function Obs(name, points, x, y) {
+    function Obs(name, points, x, y, width, height) {
         this.name = name;
         this.points = points;
         this.x=x;
         this.y=y;
+        this.width = width;
+        this.height = height;
         this.eaten=false;
     }
 
-
     Obs.prototype.update = function(){
-        this.y+=10;
-        if(this.x > carX-50 && this.x < carX+50 && this.y+obstacleHeight >= carY) {
+        this.y+=objectSpeed;
+        if(this.x > carX-this.width && this.x < carX+carWidth && this.y+obstacleHeight >= carY && this.y <= carY+carHeight) {
             this.eaten=true;
         }
     }
@@ -182,6 +191,7 @@ function execute(){
     	$(".push").css("margin-left", width/2-105);
     	$("#end").hide();
     }
+
     startScreen();
 
     function setupEventListener(event){
@@ -199,12 +209,19 @@ function execute(){
         drawCar();
         if (questionFlag) drawQuestionBox();
         else {
+            if (invincibleFlag) drawFlames();
             updateBar();
             drawScore();
             drawObstacles();
             drawPowerUps();
         }
     }
+
+    function drawFlames(){
+        ctx.drawImage(fire, xClip, 0, 256, 168, carX - carWidth, carY+carHeight*0.9, carWidth*3, carHeight);
+        xClip = (xClip + 256)%1536; 
+    }
+
 
     function updateBar(){
         barStart = $("#gasIcon").width()/2-5;
@@ -373,13 +390,7 @@ function execute(){
     }
     
     function checkAns(right, choice, choiceTd, rightTd) {
-        console.log("right: " + right);
-        console.log("choice: " + choice);
-        console.log("choiceTd: " + choiceTd);
-        console.log("rightTd: " + rightTd);
         if(right===choice){
-            // alert("Good job!");
-            // console.log($(rightTd));
             meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);
@@ -404,12 +415,12 @@ function execute(){
 	function chooseLane() {
 		var rand = Math.floor(Math.random()*3);
             if (rand == 0)
-                x = width/4-carWidth/2; 
+                x = lane1X; 
             else if (rand == 1)
-                x = width/2-carWidth/2; 
+                x = lane2X; 
             else if (rand == 2)
-                x = width*0.70-carWidth/2;
-         return x
+                x = lane3X;
+         return x;
     }
 
     function drawObstacles(){
@@ -417,7 +428,7 @@ function execute(){
         if (timer%150 === 0) {
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
-            obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight));
+            obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight, carWidth, obstacleHeight));
         }   
             
         for(var i = 0; i < obsArr.length; i++) {
@@ -458,7 +469,7 @@ function execute(){
         if (timer%interval === 0) {
             var index = Math.floor(Math.random()*(allPowers.length));
             var x = chooseLane();
-            powerUps.push(new Obs(allPowers[index], 0, x, -obstacleHeight));
+            powerUps.push(new Obs(allPowers[index], 0, x, -obstacleHeight, powerUpWidth, powerUpWidth));
         }
         for(var i = 0; i < powerUps.length; i++) {
 			powerUps[i].update(carX, carY);
@@ -473,14 +484,16 @@ function execute(){
 				}
 				else if (powerUps[i].name == "invincible") {
 					invincibleFlag = true;
-					endTime = timer + 50;
-					storedPowers[2].increment();
-					updateCurrPowers();
-					setTimeout(function() {
-						storedPowers[2].decrement();
-						updateCurrPowers();
-						invincibleFlag = false;
-					}, 3000);
+                    objectSpeed = 20;
+                    endTime = timer + 50;
+                    storedPowers[2].increment();
+                    updateCurrPowers();
+                    setTimeout(function() {
+                        objectSpeed = 10;
+                        storedPowers[2].decrement();
+                        updateCurrPowers();
+                        invincibleFlag = false;
+                    }, 3000);
 				}
 				else {
 					if (powerUps[i].name == "crossout") {
