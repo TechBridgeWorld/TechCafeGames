@@ -47,7 +47,7 @@ function execute(){
     var carY; 
     var questionInterval;
     var questionFlag = false;
-    var questionTime = 10000;
+    var questionTime = 10000000;
     var obstacle;
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
@@ -201,24 +201,20 @@ function execute(){
         
         $("body").append('<div id="ques"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>');
         $("#ques").css("width",2*width/3);
-        $("#ques").css("height",height/2);
-        $("#popQ").css("background-color", "black");
-        $("#ques").css("margin-top",-3*height/4);
+        $("#ques").css("height",3*height/4);
+        // $("#ques").css("margin-top",-3*height/3);
         $("#ques").css("margin-left",width/6);
-        $("#ques").css("position","relative");
-        $("#ques").css("z-index",10);
-        $("#ques").css("font-size",30);
         
-        $("#choice1").bind("click", function(){checkAns(question.a,choiceArr[0]);});
-        $("#choice1").live('touchstart', function(){checkAns(question.a,choiceArr[0]);});
-        $("#choice2").bind("click", function(){checkAns(question.a,choiceArr[1]);});
-        $("#choice2").live('touchstart', function(){checkAns(question.a,choiceArr[1]);});
-        $("#choice3").bind("click", function(){checkAns(question.a,choiceArr[2]);});
-        $("#choice3").live('touchstart', function(){checkAns(question.a,choiceArr[2]);});
-        $("#choice4").bind("click", function(){checkAns(question.a,choiceArr[3]);});
-        $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3]);});
+        $("#choice1").bind("click", function(){checkAns(question.a,choiceArr[0],"#choice1");});
+        $("#choice1").live('touchstart', function(){checkAns(question.a,choiceArr[0],"#choice1");});
+        $("#choice2").bind("click", function(){checkAns(question.a,choiceArr[1]),"#choice2";});
+        $("#choice2").live('touchstart', function(){checkAns(question.a,choiceArr[1],"#choice2");});
+        $("#choice3").bind("click", function(){checkAns(question.a,choiceArr[2],"#choice3");});
+        $("#choice3").live('touchstart', function(){checkAns(question.a,choiceArr[2],"#choice3");});
+        $("#choice4").bind("click", function(){checkAns(question.a,choiceArr[3],"#choice4");});
+        $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3],"#choice4");});
         
-        window.setTimeout(function(){$("#ques").remove();}, 10000);
+        window.setTimeout(function(){$("#ques").remove();}, questionTime);
         questionFlag=false;
         /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
         ctx.textAlign = 'center';
@@ -230,11 +226,17 @@ function execute(){
         */
     }
     
-    function checkAns(right, choice) {
-        if(right===choice) alert("Good job!");
-        else alert("Wrong!");
+    function checkAns(right, choice, td) {
+        if(right===choice){
+            // alert("Good job!");
+            console.log($(td));
+            $(td).append("<div class='qFeedback correct'></div>").show(animationTime);
+        }
+        else{
+            // alert("Wrong!");
+        }
         
-        $("#ques").remove();
+        // $("#ques").remove();
 		//canvas.addEventListener('touchmove', setupEventListener, false);
     }
 
@@ -298,7 +300,7 @@ function execute(){
 				storedPowers.splice(i, 1);
 			}
 		}
-		var interval = Math.floor(Math.random()*100);
+		var interval = Math.floor(Math.random()*50);
         if (timer%interval === 0) {
             var index = Math.floor(Math.random()*(allPowers.length));
             var x = chooseLane();

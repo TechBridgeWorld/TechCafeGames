@@ -135,6 +135,8 @@ img {
     height: 100%;
 }
 
+/* questions */
+
 table {
     width:100%;
     height:100%;
@@ -144,33 +146,65 @@ table {
     text-align:center;
 }
 
+#ques{
+    position: absolute;
+    top: 15%;
+    z-index: 10;
+    font-size: 20px;
+/*    width: 60%;
+    height: 50%;*/
+    background-image: url('/img/race-assets/question-bg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
 #Q {
     color:white;
+    height: 32%;
+    text-align: left;
+}
+
+#Q td{
+    padding: 5%;
+}
+
+#popQ .qFeedback{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    border-radius: 10px;
+    width: 80%;
+    height: 80%;
+}
+
+.qFeedback.correct{
+    background: rgba(0,255,0,0.2) url('/img/race-assets/checkmark.png') bottom right no-repeat;
 }
 
 #choice1, #choice2, #choice3, #choice4 {
    width:50%;
-   background-color:yellow;
+   position: relative;
+/*   background-color:yellow;*/
 }
 
 #choice1:active {
-    background-color:orange;
+/*    background-color:orange;*/
 }
 
 #choice2:active {
-    background-color:orange;
+/*    background-color:orange;*/
 }
 
 #choice3:active {
-    background-color:orange;
+/*    background-color:orange;*/
 }
 
 #choice4:active {
-    background-color:orange;
+/*    background-color:orange;*/
 }
 
 table{
-    border: 1px solid orange;
+/*    border: 1px solid orange;*/
 }
 
 #one {    
