@@ -46,7 +46,7 @@ function execute(){
     var carY; 
     var questionInterval;
     var questionFlag = false;
-    var questionTime = 10000000;
+    var questionTime = 20000;
     var obstacle;
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
@@ -277,6 +277,19 @@ function execute(){
             checkAns(question.a,choiceArr[3],"#choice4",answerID);
         });
         
+        for (var i = question.choices.length; i < choiceArr.length; i++) {
+			switch (i) {
+				case 2:
+					$("#choice3").unbind();
+					break;
+				case 3:
+					$("#choice4").unbind();
+					break;
+				default:
+					break;
+			}
+		}
+        
         if (storedPowers[0].count != 0) {
 			storedPowers[0].decrement();
 			updateCurrPowers();
@@ -324,7 +337,7 @@ function execute(){
 			timeLimit += 10000;
 		}
 		
-        window.setTimeout(stopAsking, questionTime);
+        window.setTimeout(stopAsking, timeLimit);
         }
     }
     
