@@ -26,8 +26,7 @@ function execute(){
     );
 
     var width = window.innerWidth;
-    var windowHeight = window.innerHeight;
-    var height = 0.9*windowHeight + 20;
+    var height = window.innerHeight * 0.99999;
     var road;
     var road2; 
     var car; 
@@ -105,7 +104,6 @@ function execute(){
         score = 0;
         
         /* Canvas+DOM variables */
-        $('#headerDiv').height('' + 0.1*windowHeight + 'px');
         canvas = document.getElementById('gameCanvas');
         ctx = $('#gameCanvas')[0].getContext('2d');
         ctx.canvas.width = width; 
@@ -184,7 +182,7 @@ function execute(){
     }  
 
     function drawScore(){
-        $('#score').text('Score: '+score);
+        $('#score').text(score);
         score++;
     }
 
@@ -235,7 +233,7 @@ function execute(){
         else alert("Wrong!");
         
         $("#ques").remove();
-		//canvas.addEventListener('touchmove', setupEventListener, false);
+		canvas.addEventListener('touchmove', setupEventListener, false);
     }
 
 	function chooseLane() {

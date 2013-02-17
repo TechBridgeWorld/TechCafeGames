@@ -85,14 +85,6 @@ h1 {
     display:none;
 }
 
-#headerDiv{
-    position:absolute;
-    top:0px;
-    width:100%;
-    z-index: 2;
-    background-image: url(/img/race-assets/dark_fish_skin.png);
-}
-
 .lifePic{
     margin-top: 6%;
     margin-left: 6%;
@@ -111,7 +103,7 @@ h1 {
 
 #gameCanvas{
     position:absolute;
-    top:10%;
+    top:0%;
 }
 
 #screen {
@@ -125,14 +117,6 @@ h1 {
     background: white;
     
     position: relative;
-}
-
-img {
-    margin: 0;
-    padding: 0;
-    
-    width: 100%;
-    height: 100%;
 }
 
 table {
@@ -174,10 +158,20 @@ table{
 }
 
 #one {    
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    height: 100%;
     -webkit-animation: scrollone 0.2s infinite linear;
 }
 
 #two {
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    height: 100%;
     top: -260px;
     position: absolute;
     -webkit-animation: scrolltwo 0.2s infinite linear;
@@ -233,9 +227,40 @@ table{
     padding: 1px 3px;
 }
 
-/*#currPowers img{
-    margin-bottom: -15%;
+.currPowImg{
+    width:100%;
 }
-#currPowers img:last-child{
-    margin-bottom: 0;
-}*/
+
+@font-face
+{
+  font-family: Juicy; 
+  src: url('Fonts/monofonto.otf');
+}
+
+#gasIcon{
+  position: absolute;
+  top: 10px;
+  width: 14%;
+  left: 10px;
+  z-index: 2;
+}
+
+#gasBar{
+  position: absolute;
+  top: 15px;
+  width: 45%;
+  left: 25px;
+  z-index: 1;
+}
+
+#score{
+  font-family: Juicy;
+  text-shadow: black 0.1em 0.1em 0.1em;
+  font-size: 30px;
+  font-weight: bold;
+  color:white;
+  position:absolute;
+  top:-8px;
+  right:10px;
+  z-index: 3;
+}
