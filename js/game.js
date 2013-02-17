@@ -59,6 +59,7 @@ function execute(){
     var invincible = true;
     var endTime;
     var animationTime = 400;
+    var feedbackDelay = 2000; //time to deplay animation when showing question feedback
     
     var allPoints=[-10, 20, -20];
     var obstacleInterval;
@@ -193,25 +194,50 @@ function execute(){
         var c = Math.round((questionData.easy.length-1)*Math.random());
         var question = questionData.easy[c];
         var choiceArr =[];
+        var answerID;
         for(var i = 0; i < 4; i++) {
             if(question.choices[i] != undefined) choiceArr[i] = question.choices[i];
             else choiceArr[i] = "";
+            if(choiceArr[i].toString()===question.a.toString()){
+                idNum = i+1;
+                answerID = "#choice"+idNum;
+            }
         }
+
+
+        var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
         
-        $("body").append('<div id="ques"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>');
-        $("#ques").css("width",2*width/3);
-        $("#ques").css("height",3*height/4);
+        $("body").append($qTable);
+        $qTable.fadeIn(animationTime);
+        // $("#ques").css("width",2*width/3);
+        // $("#ques").css("height",3*height/4);
         // $("#ques").css("margin-top",-3*height/3);
-        $("#ques").css("margin-left",width/6);
+        // $("#ques").css("margin-left",width/6);
         
-        $("#choice1").bind("click", function(){checkAns(question.a,choiceArr[0],"#choice1");});
-        $("#choice1").live('touchstart', function(){checkAns(question.a,choiceArr[0],"#choice1");});
-        $("#choice2").bind("click", function(){checkAns(question.a,choiceArr[1]),"#choice2";});
-        $("#choice2").live('touchstart', function(){checkAns(question.a,choiceArr[1],"#choice2");});
-        $("#choice3").bind("click", function(){checkAns(question.a,choiceArr[2],"#choice3");});
-        $("#choice3").live('touchstart', function(){checkAns(question.a,choiceArr[2],"#choice3");});
-        $("#choice4").bind("click", function(){checkAns(question.a,choiceArr[3],"#choice4");});
-        $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3],"#choice4");});
+        $("#choice1").bind("click", function(){
+            checkAns(question.a,choiceArr[0],"#choice1",answerID);
+        });
+        $("#choice1").live('touchstart', function(){
+            checkAns(question.a,choiceArr[0],"#choice1",answerID);
+        });
+        $("#choice2").bind("click", function(){
+            checkAns(question.a,choiceArr[1],"#choice2",answerID);
+        });
+        $("#choice2").live('touchstart', function(){
+            checkAns(question.a,choiceArr[1],"#choice2",answerID);
+        });
+        $("#choice3").bind("click", function(){
+            checkAns(question.a,choiceArr[2],"#choice3",answerID);
+        });
+        $("#choice3").live('touchstart', function(){
+            checkAns(question.a,choiceArr[2],"#choice3",answerID);
+        });
+        $("#choice4").bind("click", function(){
+            checkAns(question.a,choiceArr[3],"#choice4",answerID);
+        });
+        $("#choice4").live('touchstart', function(){
+            checkAns(question.a,choiceArr[3],"#choice4",answerID);
+        });
         
         window.setTimeout(function(){$("#ques").remove();}, questionTime);
         questionFlag=false;
@@ -230,24 +256,37 @@ function execute(){
         function stopAsking(){
         if($("#ques").length > 0) {
             questionFlag=false;
-            $("#ques").remove();
+            $("#ques").fadeOut(animationTime, function(){$("#ques").remove()});
             canvas.addEventListener('touchmove', setupEventListener, false);
         }
     }
     
-    function checkAns(right, choice, td) {
+    function checkAns(right, choice, choiceTd, rightTd) {
+        console.log("right: " + right);
+        console.log("choice: " + choice);
+        console.log("choiceTd: " + choiceTd);
+        console.log("rightTd: " + rightTd);
         if(right===choice){
             // alert("Good job!");
-            console.log($(td));
-            $(td).append("<div class='qFeedback correct'></div>").show(animationTime);
+            // console.log($(rightTd));
+            var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
+            $(rightTd).append($feedback);
+            $feedback.fadeIn(animationTime);
         }
         else{
             // alert("Wrong!");
+            // console.log(choiceTd);
+            var $choiceFeedback = $("<div class='qFeedback wrong-choice' style='display:none'></div>");
+            var $rightFeedback = $("<div class='qFeedback wrong-right' style='display:none'></div>");
+            $(rightTd).append($rightFeedback);
+            $(choiceTd).append($choiceFeedback);
+            $choiceFeedback.fadeIn(animationTime);
+            $rightFeedback.fadeIn(animationTime);
         }
         
-        // $("#ques").remove();
+        // $("#ques").hide(animationTime, function(){$("#ques").remove()});
 		//canvas.addEventListener('touchmove', setupEventListener, false);
-       // stopAsking();
+        window.setTimeout(stopAsking, feedbackDelay);
     }
 
 	function chooseLane() {
