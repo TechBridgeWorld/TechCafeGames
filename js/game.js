@@ -60,6 +60,12 @@ function execute(){
     var animationTime = 400;
     var feedbackDelay = 2000; //time to deplay animation when showing question feedback
     
+    var barStart;
+    var barWidth;
+    var barHeight;
+    var barTop;
+    var barFrac=100;
+    
     var allPoints=[-10, 20, -20];
     var obstacleInterval;
     var roadImage = new Image();
@@ -184,10 +190,25 @@ function execute(){
         drawCar();
         if (questionFlag) drawQuestionBox();
         else {
+            updateBar();
             drawScore();
             drawObstacles();
             drawPowerUps();
         }
+    }
+
+    function updateBar(){
+        barStart = $("#gasIcon").width()/2-5;
+        if(barFrac>0) barFrac-=.1;
+        if(barFrac > 100) barFrac=100;
+        barWidth = (barFrac/100)*(.87*($("#gasBar").width()-barStart));
+        barHeight = $("#gasBar").height()*(3/5);
+        barTop = $("#gasBar").height()*(1/5)+15;
+        
+        $("#innerMeter").css("left", 25+barStart + "px");
+        $("#innerMeter").css("width", barWidth);
+        $("#innerMeter").css("height", barHeight);
+        $("#innerMeter").css("top", barTop);
     }
 
     function drawCar(){
@@ -314,6 +335,7 @@ function execute(){
         if(right===choice){
             // alert("Good job!");
             // console.log($(rightTd));
+            barFrac+=10;
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);
             $feedback.fadeIn(animationTime);
