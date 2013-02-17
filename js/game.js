@@ -46,7 +46,7 @@ function execute(){
     var carY; 
     var questionInterval;
     var questionFlag = false;
-    var questionTime = 30000; //30 seconds
+    var questionTime = 31000; //31 seconds
     var obstacle;
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
@@ -59,7 +59,9 @@ function execute(){
     var endTime;
     var animationTime = 400;
     var feedbackDelay = 2000; //time to deplay animation when showing question feedback
-    
+    var countdownInt; // countdown interval
+    var qTimeout; // timeout for question
+
     var barStart;
     var barWidth;
     var barHeight;
@@ -244,12 +246,18 @@ function execute(){
 
 
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
-        var $countDown = $('<div id="countdown"></div>');
+        var $countDown = $('<div id="countdown"><div id="countdown-inner"></div></div>');
 
         $qTable.append($countDown);
 
         $("body").append($qTable);
         $qTable.fadeIn(animationTime);
+
+        var cw = $('#countdown').width();
+        $('#countdown').css({
+            'height': cw + 'px'
+        });
+
         // $("#ques").css("width",2*width/3);
         // $("#ques").css("height",3*height/4);
         // $("#ques").css("margin-top",-3*height/3);
@@ -313,46 +321,76 @@ function execute(){
 					break;
 				}
 			}
-        //window.setTimeout(function(){$("#ques").remove();}, questionTime);
-        //questionFlag=false;
-        /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
-        ctx.textAlign = 'center';
-        ctx.fillText('question',width/2,height/4);
-        ctx.fillText('answer1', width/3.5,height/2);
-        ctx.fillText('answer2', width*0.7, height/2);
-        ctx.fillText('answer3', width/3.5, height*0.75);
-        ctx.fillText('answer4', width*0.7, height*0.75);
-        */
-        var timeLimit = questionTime;
-		
-		if (storedPowers[1].count > 0) {
-			storedPowers[1].decrement();
-			updateCurrPowers();
-			timeLimit += 10000;
-		}
-		
-        window.setTimeout(stopAsking, questionTime);
+            //window.setTimeout(function(){$("#ques").remove();}, questionTime);
+            //questionFlag=false;
+            /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
+            ctx.textAlign = 'center';
+            ctx.fillText('question',width/2,height/4);
+            ctx.fillText('answer1', width/3.5,height/2);
+            ctx.fillText('answer2', width*0.7, height/2);
+            ctx.fillText('answer3', width/3.5, height*0.75);
+            ctx.fillText('answer4', width*0.7, height*0.75);
+            */
+            var timeLimit = questionTime;
+    		
+    		if (storedPowers[1].count > 0) {
+    			storedPowers[1].decrement();
+    			updateCurrPowers();
+    			timeLimit += 10000;
+    		}
+
+            // set countdown
+
+            // console.log(timeLimit);
+            var sec=timeLimit/1000-1; // 1 second less to count down to 
+            // console.log(sec);
+            $('#countdown-inner').html(sec);
+
+            var countdownCounter = sec;
+
+            countdownInt = window.setInterval(function(){
+                // console.log(countdownCounter);
+                countdownCounter--;
+                updateCountdown(countdownCounter)},1000);
+            window.setTimeout(function(){
+                window.clearInterval(countdownInt)},timeLimit);
+    		
+            qTimeout = window.setTimeout(stopAsking, timeLimit);
         }
     }
+
+    function updateCountdown(sec){
+        $('#countdown-inner').html(sec);
+        if (sec<=10){
+            $('#countdown-inner').addClass('alert');
+        }
+    }
+
     
-        function stopAsking(){
+    function stopAsking(){
         if($("#ques").length > 0) {
             questionFlag=false;
             $("#ques").fadeOut(animationTime, function(){$("#ques").remove()});
             canvas.addEventListener('touchmove', setupEventListener, false);
         }
+        window.clearInterval(countdownInt);
+        $('#countdown-inner').removeClass('alert');
     }
     
     function meterUp(){
-        var animateInt = window.setInterval(function(){barFrac+=2; updateBar();},feedbackDelay/15);
-        window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay);
+        var animateInt = window.setInterval(function(){barFrac+=2; updateBar();},feedbackDelay/30);
+        window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay/3);
     }
     
     function checkAns(right, choice, choiceTd, rightTd) {
-        console.log("right: " + right);
-        console.log("choice: " + choice);
-        console.log("choiceTd: " + choiceTd);
-        console.log("rightTd: " + rightTd);
+        // console.log("right: " + right);
+        // console.log("choice: " + choice);
+        // console.log("choiceTd: " + choiceTd);
+        // console.log("rightTd: " + rightTd);
+
+        window.clearTimeout(qTimeout);
+
+        window.clearInterval(countdownInt);
         if(right===choice){
             // alert("Good job!");
             // console.log($(rightTd));

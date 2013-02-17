@@ -217,10 +217,43 @@ table {
   top: -5%;
   right: -5%;
   width: 20%;
-  height: 20%;
+/*  height: 20%;*/
   background: url('/img/race-assets/countdown-bg.png') no-repeat;
   background-size: 100%;
 }
+
+#countdown-inner{
+/*  width: 88%;
+  height: 88%;
+  position: relative;
+  top: 6%;
+  left: 6%;
+  background-color: rgba(255,0,0,0.3);
+  border-radius: 50%;
+  color: #444;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 110px;*/
+
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -25%;
+  margin-left: -24%;
+  color: #333;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+/*  padding-top: 5%;*/
+}
+
+#countdown-inner.alert{
+  color: #ff0000;
+}
+
 
 
 
@@ -333,7 +366,8 @@ table{
   font-weight: bold;
   color:white;
   position:absolute;
-  top:-8px;
+/*  top:-8px;*/
+  margin:0;
   right:10px;
   z-index: 3;
 }
