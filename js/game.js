@@ -47,10 +47,19 @@ function execute(){
     var carY; 
     var questionInterval;
     var questionFlag = false;
+    var questionTime = 10000;
     var obstacle;
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
     var timer;
+    
+    var allPowers=["gas", "crossout", "timeplus", "invincible"];
+    var powerUps=[];
+    var storedPowers=[];
+    var crossout = false;
+    var invincible = true;
+    var endTime;
+    
     var allPoints=[-10, 20, -20];
     var obstacleInterval;
     var roadImage = new Image();
@@ -75,6 +84,18 @@ function execute(){
     
     var manholeImage = new Image(); 
     manholeImage.src = "img/race-assets/obstacle-m.png";
+    
+    var gasimg = new Image(); 
+    gasimg.src = "img/race-assets/powerup-gas.png";
+    
+    var crossout = new Image(); 
+    crossout.src = "img/race-assets/powerup-eliminate.png";
+    
+    var timeplus = new Image(); 
+    timeplus.src = "img/race-assets/powerup-time.png";
+    
+    var invincible = new Image(); 
+    invincible.src = "img/race-assets/powerup-boost.png";
 
     function setup(){    
         
@@ -105,16 +126,7 @@ function execute(){
         canvas.addEventListener('touchmove', setupEventListener, false);
         
         interval = setInterval(draw, 50);
-
-        questionInterval = setInterval(function(){
-            questionFlag = true;
-            
-            window.clearInterval(obstacleInterval);
-            setTimeout(function(){
-                questionFlag = false;
-                canvas.addEventListener('touchmove', setupEventListener, false);
-            }, 10000);
-        }, 20000);
+           
     }
 
     function Obs(name, points, x, y) {
@@ -152,6 +164,7 @@ function execute(){
         else {
             drawScore();
             drawObstacles();
+            drawPowerUps();
         }
     }
 
@@ -212,20 +225,26 @@ function execute(){
     function checkAns(right, choice) {
         if(right===choice) alert("Good job!");
         else alert("Wrong!");
+        //questionFlag = false;
+		//canvas.addEventListener('touchmove', setupEventListener, false);
     }
 
-    function drawObstacles(){
-        timer++;
-        if (timer%150 === 0) {
-            var index = Math.floor(Math.random()*(allObstacles.length));
-            var x;
-            var rand = Math.floor(Math.random()*3);
+	function chooseLane() {
+		var rand = Math.floor(Math.random()*3);
             if (rand == 0)
                 x = width/4-carWidth/2; 
             else if (rand == 1)
                 x = width/2-carWidth/2; 
             else if (rand == 2)
                 x = width*0.70-carWidth/2;
+         return x
+    }
+
+    function drawObstacles(){
+        timer++;
+        if (timer%150 === 0) {
+            var index = Math.floor(Math.random()*(allObstacles.length));
+            var x = chooseLane();
             obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight));
         }   
             
@@ -261,6 +280,56 @@ function execute(){
             }
         }
     }
+    
+    function drawPowerUps() {
+		if (timer == endTime && invincible) {
+			invincible = false;
+			for (var i = 0; i < storedPowers.length; i++) {
+				if (storedPowers[i].name == "invincible")
+				storedPowers.splice(i, 1);
+			}
+		}
+		var interval = Math.floor(Math.random()*100);
+        if (timer%interval === 0) {
+            var index = Math.floor(Math.random()*(allPowers.length));
+            var x = chooseLane();
+            powerUps.push(new Obs(allPowers[index], 0, x, -obstacleHeight));
+        }
+        for(var i = 0; i < powerUps.length; i++) {
+			powerUps[i].update(carX, carY);
+			if (powerUps[i].eaten) {
+				if (powerUps[i].name == "gas") {
+					questionFlag = true;
+					window.clearInterval(obstacleInterval);
+					setTimeout(function(){
+						questionFlag = false;
+						canvas.addEventListener('touchmove', setupEventListener, false);
+					}, questionTime);
+					//popPowers();
+				}
+				/*else if (powerUps[i].name == "invincible")
+					invincible = true;
+					endTime = timer + 5000;
+					storedPowers.push(powerUps[i]); */
+				else
+					storedPowers.push(powerUps[i]);
+				powerUps.splice(i, 1);
+			}
+			else if(powerUps[i].y >= height) {
+            powerUps.splice(i,1);
+			}
+			else {
+				if(powerUps[i].name == "gas")
+					ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
+				if(powerUps[i].name == "crossout") 
+					ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);       
+				if(powerUps[i].name == "timeplus") 
+					ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
+				if(powerUps[i].name == "invincible") 
+					ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
+            }
+        }
+	}
 }
 
 
