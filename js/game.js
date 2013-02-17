@@ -187,6 +187,7 @@ function execute(){
     }
 
     function drawQuestionBox(){
+    if($("#ques").length == 0) {
         canvas.removeEventListener('touchmove', setupEventListener, false);
         
         var c = Math.round((questionData.easy.length-1)*Math.random());
@@ -216,24 +217,24 @@ function execute(){
         $("#choice4").bind("click", function(){checkAns(question.a,choiceArr[3]);});
         $("#choice4").live('touchstart', function(){checkAns(question.a,choiceArr[3]);});
         
-        window.setTimeout(function(){$("#ques").remove();}, 10000);
+        window.setTimeout(stopAsking, 10000);
         questionFlag=false;
-        /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
-        ctx.textAlign = 'center';
-        ctx.fillText('question',width/2,height/4);
-        ctx.fillText('answer1', width/3.5,height/2);
-        ctx.fillText('answer2', width*0.7, height/2);
-        ctx.fillText('answer3', width/3.5, height*0.75);
-        ctx.fillText('answer4', width*0.7, height*0.75);
-        */
+        }
+    }
+    
+        function stopAsking(){
+        if($("#ques").length > 0) {
+            questionFlag=false;
+            $("#ques").remove();
+            canvas.addEventListener('touchmove', setupEventListener, false);
+        }
     }
     
     function checkAns(right, choice) {
         if(right===choice) alert("Good job!");
         else alert("Wrong!");
         
-        $("#ques").remove();
-		canvas.addEventListener('touchmove', setupEventListener, false);
+       stopAsking();
     }
 
 	function chooseLane() {
