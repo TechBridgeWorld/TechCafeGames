@@ -51,12 +51,11 @@ function execute(){
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
     var timer;
-    
     var allPowers=["gas", "crossout", "timeplus", "invincible"];
     var powerUps=[];
     var storedPowers=[];
     var crossout = false;
-    var invincible = true;
+    var invincibleFlag = false;
     var endTime;
     var animationTime = 400;
     var feedbackDelay = 2000; //time to deplay animation when showing question feedback
@@ -125,6 +124,12 @@ function execute(){
 
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
+        powerUpSpawnTime = 50;
+        
+        /*storedPowers array */
+        storedPowers.push(new Power("crossout"));
+        storedPowers.push(new Power("timeplus"));
+        storedPowers.push(new Power("invincible"));
 
         canvas.addEventListener('touchmove', setupEventListener, false);
         
@@ -138,6 +143,13 @@ function execute(){
         $('#currTime .num').hide();
         $('#currEliminate .num').hide();
     }
+    
+    function Power(name) {
+		this.name = name;
+		this.count = 0;
+		this.increment = function() {this.count++;};
+		this.decrement = function() {this.count--;};
+	}
 
     function Obs(name, points, x, y) {
         this.name = name;
@@ -195,8 +207,13 @@ function execute(){
         var question = questionData.easy[c];
         var choiceArr =[];
         var answerID;
+        var ansIndex;
         for(var i = 0; i < 4; i++) {
-            if(question.choices[i] != undefined) choiceArr[i] = question.choices[i];
+            if(question.choices[i] != undefined) {
+				choiceArr[i] = question.choices[i];
+				if (question.choices[i] == question.a)
+					ansIndex = i;
+			}
             else choiceArr[i] = "";
             if(choiceArr[i].toString()===question.a.toString()){
                 idNum = i+1;
@@ -239,8 +256,36 @@ function execute(){
             checkAns(question.a,choiceArr[3],"#choice4",answerID);
         });
         
-        window.setTimeout(function(){$("#ques").remove();}, questionTime);
-        questionFlag=false;
+        if (storedPowers[0].count != 0) {
+			storedPowers[0].decrement();
+			var del = Math.floor(Math.random() * question.choices.length);
+			while (del == ansIndex) {
+				var del = Math.floor(Math.random() * question.choices.length);
+			}
+			switch (del)
+			{
+				case 0:
+					$("#choice1").css("text-decoration", "line-through");
+					$("#choice1").unbind();
+					break;
+				case 1:
+					$("#choice2").css("text-decoration",  "line-through");
+					$("#choice2").unbind();
+					break;
+				case 2:
+					$("#choice3").css("text-decoration",  "line-through");
+					$("#choice3").unbind();
+					break;
+				case 3:
+					$("#choice4").css("text-decoration",  "line-through");
+					$("#choice4").unbind();
+					break;
+				default:
+					break;
+				}
+			}
+        //window.setTimeout(function(){$("#ques").remove();}, questionTime);
+        //questionFlag=false;
         /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
         ctx.textAlign = 'center';
         ctx.fillText('question',width/2,height/4);
@@ -343,13 +388,13 @@ function execute(){
     
     function drawPowerUps() {
 		if (timer == endTime && invincible) {
-			invincible = false;
+			invincibleFlag = false;
 			for (var i = 0; i < storedPowers.length; i++) {
 				if (storedPowers[i].name == "invincible")
 				storedPowers.splice(i, 1);
 			}
 		}
-		var interval = Math.floor(Math.random()*50);
+		var interval = Math.floor(Math.random()*powerUpSpawnTime);
         if (timer%interval === 0) {
             var index = Math.floor(Math.random()*(allPowers.length));
             var x = chooseLane();
@@ -365,20 +410,26 @@ function execute(){
 						questionFlag = false;
 						canvas.addEventListener('touchmove', setupEventListener, false);
 					}, questionTime);
-					//popPowers();
 				}
-				/*else if (powerUps[i].name == "invincible")
-					invincible = true;
+				else if (powerUps[i].name == "invincible") {
+					invincibleFlag = true;
 					endTime = timer + 5000;
-					storedPowers.push(powerUps[i]); */
-				else{
-					storedPowers.push(powerUps[i]);
-                    updateCurrPowers();
-                }
+					storedPowers[2].increment();
+					updateCurrPowers();
+				}
+				else {
+					if (powerUps[i].name == "crossout") {
+						storedPowers[0].increment();
+					}
+					if (powerUps[i].name == "timeplus") {
+						storedPowers[1].increment();
+					}
+					updateCurrPowers();
+				}
 				powerUps.splice(i, 1);
 			}
 			else if(powerUps[i].y >= height) {
-            powerUps.splice(i,1);
+				powerUps.splice(i,1);
 			}
 			else {
 				if(powerUps[i].name == "gas")
@@ -397,22 +448,35 @@ function execute(){
     function updateCurrPowers(){
         // console.log(storedPowers);
 
+        // 0 = crossout
+        // 1 = timeplus
+        // 2 = invincible
+        var crossout = 0;
+        var timeplus = 1;
+        var invincible = 2;
+
         // count num of each powerup
-        var numTime = 0;
-        var numCrossOut = 0;
-        var numInvincible = 0;
-        for (var i=0; i<storedPowers.length; i++){
-            if (storedPowers[i].name == "timeplus"){
-                numTime++;
-            }
-            else if (storedPowers[i].name == "crossout"){
-                numCrossOut++;
-            }
-            else if (storedPowers[i].name == "invincible"){
-                numInvincible++;
-            }
-        }
+        // var numTime = 0;
+        // var numCrossOut = 0;
+        // var numInvincible = 0;
+        // for (var i=0; i<storedPowers.length; i++){
+        //     if (storedPowers[i].name == "timeplus"){
+        //         numTime++;
+        //     }
+        //     else if (storedPowers[i].name == "crossout"){
+        //         numCrossOut++;
+        //     }
+        //     else if (storedPowers[i].name == "invincible"){
+        //         numInvincible++;
+        //     }
+        // }
         // console.log("time = " + numTime + "; cross = " + numCrossOut + "; invincible = " + numInvincible);
+        
+
+        var numTime = storedPowers[timeplus].count;
+        var numCrossOut = storedPowers[crossout].count;
+        var numInvincible = storedPowers[invincible].count;
+
         if (numTime+numCrossOut+numInvincible>0){
             // console.log("has powers");
             $('#currPowers').show(animationTime);
