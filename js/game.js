@@ -26,8 +26,7 @@ function execute(){
     );
 
     var width = window.innerWidth;
-    var windowHeight = window.innerHeight;
-    var height = 0.9*windowHeight + 20;
+    var height = window.innerHeight * 0.99999;
     var road;
     var road2; 
     var car; 
@@ -105,7 +104,6 @@ function execute(){
         score = 0;
         
         /* Canvas+DOM variables */
-        $('#headerDiv').height('' + 0.1*windowHeight + 'px');
         canvas = document.getElementById('gameCanvas');
         ctx = $('#gameCanvas')[0].getContext('2d');
         ctx.canvas.width = width; 
@@ -184,11 +182,12 @@ function execute(){
     }  
 
     function drawScore(){
-        $('#score').text('Score: '+score);
+        $('#score').text(score);
         score++;
     }
 
     function drawQuestionBox(){
+    if($("#ques").length == 0) {
         canvas.removeEventListener('touchmove', setupEventListener, false);
         
         var c = Math.round((questionData.easy.length-1)*Math.random());
@@ -224,6 +223,16 @@ function execute(){
         ctx.fillText('answer3', width/3.5, height*0.75);
         ctx.fillText('answer4', width*0.7, height*0.75);
         */
+        window.setTimeout(stopAsking, questionTime);
+        }
+    }
+    
+        function stopAsking(){
+        if($("#ques").length > 0) {
+            questionFlag=false;
+            $("#ques").remove();
+            canvas.addEventListener('touchmove', setupEventListener, false);
+        }
     }
     
     function checkAns(right, choice, td) {
@@ -238,6 +247,7 @@ function execute(){
         
         // $("#ques").remove();
 		//canvas.addEventListener('touchmove', setupEventListener, false);
+       // stopAsking();
     }
 
 	function chooseLane() {
