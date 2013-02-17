@@ -59,6 +59,7 @@ function execute(){
     var crossout = false;
     var invincible = true;
     var endTime;
+    var animationTime = 400;
     
     var allPoints=[-10, 20, -20];
     var obstacleInterval;
@@ -123,10 +124,20 @@ function execute(){
         lane2X = width/2-carWidth/2; 
         lane3X = width*0.70-carWidth/2;
 
+        /* powerup variables */
+        powerUpWidth = 1.5*carWidth;
+
         canvas.addEventListener('touchmove', setupEventListener, false);
         
         interval = setInterval(draw, 50);
-           
+
+        // hide curr powerups
+        $('#currPowers').hide();
+        $('#currBoost').hide();
+        $('#currTime').hide();
+        $('#currEliminate').hide();
+        $('#currTime .num').hide();
+        $('#currEliminate .num').hide();
     }
 
     function Obs(name, points, x, y) {
@@ -311,8 +322,10 @@ function execute(){
 					invincible = true;
 					endTime = timer + 5000;
 					storedPowers.push(powerUps[i]); */
-				else
+				else{
 					storedPowers.push(powerUps[i]);
+                    updateCurrPowers();
+                }
 				powerUps.splice(i, 1);
 			}
 			else if(powerUps[i].y >= height) {
@@ -320,16 +333,77 @@ function execute(){
 			}
 			else {
 				if(powerUps[i].name == "gas")
-					ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
+					ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
 				if(powerUps[i].name == "crossout") 
-					ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);       
+					ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);       
 				if(powerUps[i].name == "timeplus") 
-					ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
+					ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
 				if(powerUps[i].name == "invincible") 
-					ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, carWidth, obstacleHeight);
+					ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
             }
         }
 	}
+
+    // update display of current active power-ups
+    function updateCurrPowers(){
+        // console.log(storedPowers);
+
+        // count num of each powerup
+        var numTime = 0;
+        var numCrossOut = 0;
+        var numInvincible = 0;
+        for (var i=0; i<storedPowers.length; i++){
+            if (storedPowers[i].name == "timeplus"){
+                numTime++;
+            }
+            else if (storedPowers[i].name == "crossout"){
+                numCrossOut++;
+            }
+            else if (storedPowers[i].name == "invincible"){
+                numInvincible++;
+            }
+        }
+        // console.log("time = " + numTime + "; cross = " + numCrossOut + "; invincible = " + numInvincible);
+        if (numTime+numCrossOut+numInvincible>0){
+            // console.log("has powers");
+            $('#currPowers').show(animationTime);
+        }
+
+        if (numInvincible > 0){
+            // console.log("has invincible");
+            $('#currBoost').show(animationTime);
+        }
+
+        if (numTime > 0){
+            $('#currTime').show(animationTime);
+            if (numTime>1){
+                $('#currTime .num').html("x"+numTime);
+                $('#currTime .num').show(animationTime);
+            }
+            else{
+                $('#currTime .num').hide(animationTime);
+            }
+        }
+        else{
+            $('#currTime').hide(animationTime);
+        }
+
+        if (numCrossOut > 0){
+            $('#currEliminate').show(animationTime);
+            if (numCrossOut>1){
+                $('#currEliminate .num').html("x"+numCrossOut);
+                $('#currEliminate .num').show(animationTime);
+            }
+            else{
+                $('#currEliminate .num').hide(animationTime);
+            }
+        }
+        else{
+            $('#currEliminate').hide(animationTime);
+        }
+
+
+    }
 }
 
 

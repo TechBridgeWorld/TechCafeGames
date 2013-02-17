@@ -206,3 +206,36 @@ table{
       -webkit-transform: translate3d(0,260px,0);
   }
 }
+
+/* curr powerups display */
+#currPowers{
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    width: 12%;
+    background-color: rgba(0,0,0,0.5);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#currPowers > div{
+    position: relative;
+}
+
+#currPowers .num{
+    position: absolute;
+    right: 0px;
+    bottom: 5px;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 5px;
+    padding: 1px 3px;
+}
+
+/*#currPowers img{
+    margin-bottom: -15%;
+}
+#currPowers img:last-child{
+    margin-bottom: 0;
+}*/
