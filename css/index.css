@@ -331,8 +331,64 @@ table{
 	background-image: linear-gradient(to top, #da9000, #fffc00);
 	
 	transform: skew(-25deg,0deg);
--ms-transform: skew(-25deg,0deg); /* IE 9 */
--webkit-transform: skew(-25deg,0deg); /* Safari and Chrome */
--o-transform: skew(-25deg,0deg); /* Opera */
--moz-transform: skew(-25deg,0deg); /* Firefox */
+    -ms-transform: skew(-25deg,0deg); /* IE 9 */
+    -webkit-transform: skew(-25deg,0deg); /* Safari and Chrome */
+    -o-transform: skew(-25deg,0deg); /* Opera */
+    -moz-transform: skew(-25deg,0deg); /* Firefox */
+}
+
+#start{
+    height:100%;
+    width:100%;
+    position:absolute;
+    top:0px;
+    z-index:10;
+    background-color:#fffc00;
+}
+
+.push {
+font-family: Juicy;
+display:block;
+width:200px;
+height:200px;
+border-radius:132px;
+border:4px double #ccc;
+font-size:30px;
+color:#666;
+line-height:200px;
+text-align:center;
+text-decoration:none;
+text-shadow:0 1px 0 #fff;
+background:#aaa
+}
+
+.stuff {
+    font-family: Juicy;
+    text-decoration:none;
+    text-shadow:0 1px 0 #fff;
+    display:block;
+    width:30%;
+    position: absolute;
+    height:50px;
+    background:#ddd;
+    border-radius:20px;
+    border:4px double #ccc;
+    font-size:120%;
+    color:#666;
+    line-height:50px;
+    text-align:center;
+    margin:20px;
+}
+
+#instructions {
+    left:10px;
+}
+
+#scores {
+    right:10px;
+}
+
+h1 {
+    font-family: Juicy;
+    font-size:500%;
 }

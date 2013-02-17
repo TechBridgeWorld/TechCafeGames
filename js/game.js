@@ -173,7 +173,12 @@ function execute(){
         }
     }
 
-    setup();
+    function startScreen(){
+        $(".push").bind("click", function(){$("#start").hide(); setup();});
+        $(".push").live("touch", function(){$("#start").hide(); setup();});
+    	$(".push").css("margin-left", width/2-105);
+    }
+    startScreen();
 
     function setupEventListener(event){
         event.preventDefault();   
