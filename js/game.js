@@ -148,6 +148,7 @@ function execute(){
         $('#currEliminate').hide();
         $('#currTime .num').hide();
         $('#currEliminate .num').hide();
+        
     }
     
     function Power(name) {
@@ -177,6 +178,7 @@ function execute(){
         $(".push").bind("click", function(){$("#start").hide(); setup();});
         $(".push").live("touch", function(){$("#start").hide(); setup();});
     	$(".push").css("margin-left", width/2-105);
+    	$("#end").hide();
     }
     startScreen();
 
@@ -205,6 +207,7 @@ function execute(){
     function updateBar(){
         barStart = $("#gasIcon").width()/2-5;
         if(barFrac>0) barFrac-=.1;
+        if(barFrac <= 0) endGame();
         if(barFrac > 100) barFrac=100;
         barWidth = (barFrac/100)*(.87*($("#gasBar").width()-barStart));
         barHeight = $("#gasBar").height()*(3/5);
@@ -214,6 +217,14 @@ function execute(){
         $("#innerMeter").css("width", barWidth);
         $("#innerMeter").css("height", barHeight);
         $("#innerMeter").css("top", barTop);
+    }
+    
+    function endGame(){
+        window.clearInterval(interval);
+        $("#end").show();
+        $("#end").append("<p>Score: "+score+"</p>");
+        $(".push").bind("click", function(){$("#end").hide(); setup();});
+        $(".push").live("touch", function(){$("#end").hide(); setup();});
     }
 
     function drawCar(){

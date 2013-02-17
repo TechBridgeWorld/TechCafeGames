@@ -337,7 +337,7 @@ table{
     -moz-transform: skew(-25deg,0deg); /* Firefox */
 }
 
-#start{
+#start, #end{
     height:100%;
     width:100%;
     position:absolute;
