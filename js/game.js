@@ -246,6 +246,8 @@ function execute(){
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
         var $countDown = $('<div id="countdown"></div>');
 
+        $qTable.append($countDown);
+
         $("body").append($qTable);
         $qTable.fadeIn(animationTime);
         // $("#ques").css("width",2*width/3);
@@ -333,7 +335,7 @@ function execute(){
     }
     
     function meterUp(){
-        var animateInt = window.setInterval(function(){barFrac+=1; updateBar();},feedbackDelay/10);
+        var animateInt = window.setInterval(function(){barFrac+=2; updateBar();},feedbackDelay/15);
         window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay);
     }
     

@@ -212,6 +212,20 @@ table {
     font-style: italic;
 }
 
+#countdown{
+  position: absolute;
+  top: -5%;
+  right: -5%;
+  width: 20%;
+  height: 20%;
+  background: url('/img/race-assets/countdown-bg.png') no-repeat;
+  background-size: 100%;
+}
+
+
+
+
+
 table{
 /*    border: 1px solid orange;*/
 }
