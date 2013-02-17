@@ -46,7 +46,7 @@ function execute(){
     var carY; 
     var questionInterval;
     var questionFlag = false;
-    var questionTime = 10000000;
+    var questionTime = 30000; //30 seconds
     var obstacle;
     var allObstacles=["cone", "coin", "manhole"];
     var obsArr=[];
@@ -223,7 +223,8 @@ function execute(){
 
 
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
-        
+        var $countDown = $('<div id="countdown"></div>');
+
         $("body").append($qTable);
         $qTable.fadeIn(animationTime);
         // $("#ques").css("width",2*width/3);
@@ -265,19 +266,23 @@ function execute(){
 			switch (del)
 			{
 				case 0:
-					$("#choice1").css("text-decoration", "line-through");
+                    $("#choice1").addClass("crossed");
+					// $("#choice1").css("text-decoration", "line-through");
 					$("#choice1").unbind();
 					break;
 				case 1:
-					$("#choice2").css("text-decoration",  "line-through");
+					// $("#choice2").css("text-decoration",  "line-through");
+                    $("#choice2").addClass("crossed");
 					$("#choice2").unbind();
 					break;
 				case 2:
-					$("#choice3").css("text-decoration",  "line-through");
+					// $("#choice3").css("text-decoration",  "line-through");
+                    $("#choice3").addClass("crossed");
 					$("#choice3").unbind();
 					break;
 				case 3:
-					$("#choice4").css("text-decoration",  "line-through");
+					// $("#choice4").css("text-decoration",  "line-through");
+                    $("#choice4").addClass("crossed");
 					$("#choice4").unbind();
 					break;
 				default:

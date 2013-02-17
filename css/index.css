@@ -156,10 +156,12 @@ table {
     color:white;
     height: 32%;
     text-align: left;
+    font-size: 16px;
 }
 
 #Q td{
     padding: 5%;
+    padding-right: 20%;
 }
 
 #popQ .qFeedback{
@@ -202,6 +204,12 @@ table {
 
 #choice4:active {
 /*    background-color:orange;*/
+}
+
+.crossed{
+    text-decoration: line-through;
+    color: #777;
+    font-style: italic;
 }
 
 table{
