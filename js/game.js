@@ -377,38 +377,38 @@ function execute(){
         // $("#ques").css("margin-top",-3*height/3);
         // $("#ques").css("margin-left",width/6);
         
-        $("#choice1").bind("click", function(){
+        $("#choice1").on("click", function(){
             checkAns(question.a,choiceArr[0],"#choice1",answerID);
         });
-        $("#choice1").live('touchstart', function(){
+        $("#choice1").on('touchstart', function(){
             checkAns(question.a,choiceArr[0],"#choice1",answerID);
         });
-        $("#choice2").bind("click", function(){
+        $("#choice2").on("click", function(){
             checkAns(question.a,choiceArr[1],"#choice2",answerID);
         });
-        $("#choice2").live('touchstart', function(){
+        $("#choice2").on('touchstart', function(){
             checkAns(question.a,choiceArr[1],"#choice2",answerID);
         });
-        $("#choice3").bind("click", function(){
+        $("#choice3").on("click", function(){
             checkAns(question.a,choiceArr[2],"#choice3",answerID);
         });
-        $("#choice3").live('touchstart', function(){
+        $("#choice3").on('touchstart', function(){
             checkAns(question.a,choiceArr[2],"#choice3",answerID);
         });
-        $("#choice4").bind("click", function(){
+        $("#choice4").on("click", function(){
             checkAns(question.a,choiceArr[3],"#choice4",answerID);
         });
-        $("#choice4").live('touchstart', function(){
+        $("#choice4").on('touchstart', function(){
             checkAns(question.a,choiceArr[3],"#choice4",answerID);
         });
         
         for (var i = question.choices.length; i < choiceArr.length; i++) {
 			switch (i) {
 				case 2:
-					$("#choice3").unbind();
+					$("#choice3").off();
 					break;
 				case 3:
-					$("#choice4").unbind();
+					$("#choice4").off();
 					break;
 				default:
 					break;
@@ -427,22 +427,22 @@ function execute(){
 				case 0:
                     $("#choice1").addClass("crossed");
 					// $("#choice1").css("text-decoration", "line-through");
-					$("#choice1").unbind();
+					$("#choice1").off();
 					break;
 				case 1:
 					// $("#choice2").css("text-decoration",  "line-through");
                     $("#choice2").addClass("crossed");
-					$("#choice2").unbind();
+					$("#choice2").off();
 					break;
 				case 2:
 					// $("#choice3").css("text-decoration",  "line-through");
                     $("#choice3").addClass("crossed");
-					$("#choice3").unbind();
+					$("#choice3").off();
 					break;
 				case 3:
 					// $("#choice4").css("text-decoration",  "line-through");
                     $("#choice4").addClass("crossed");
-					$("#choice4").unbind();
+					$("#choice4").off();
 					break;
 				default:
 					break;
@@ -549,6 +549,11 @@ function execute(){
             $choiceFeedback.fadeIn(animationTime);
             $rightFeedback.fadeIn(animationTime);
         }
+        
+        $("#choice1").off();
+		$("#choice2").off();
+		$("#choice3").off();
+		$("#choice4").off();
         
         // $("#ques").hide(animationTime, function(){$("#ques").remove()});
 		//canvas.addEventListener('touchmove', setupEventListener, false);
