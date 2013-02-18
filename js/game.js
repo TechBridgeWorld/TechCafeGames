@@ -230,6 +230,22 @@ function execute(){
         if(barFrac <= 0) endGame();
         if(barFrac > 100) barFrac=100;
         barWidth = (barFrac/100)*(.87*($("#gasBar").width()-barStart));
+
+        // change color when gas is low
+        if (barFrac<50){
+            $("#innerMeter").addClass("warning");
+        }
+        else{
+            $("#innerMeter").removeClass("warning");
+        }
+        if (barFrac<25){
+            $("#innerMeter").addClass("danger");
+            $("#innerMeter").removeClass("warning");
+        }
+        else{
+            $("#innerMeter").removeClass("danger");
+        }
+
         barHeight = $("#gasBar").height()*(3/5);
         barTop = $("#gasBar").height()*(1/5)+15;
         
@@ -297,12 +313,12 @@ function execute(){
         if (storedPowers[crossout].count>0){
             hasPowers = true;
             $powers.append('<div class="power eliminate"></div>');
-            console.log("has eliminate");
+            // console.log("has eliminate");
         }
         if (storedPowers[timeplus].count>0){
             hasPowers = true;
             $powers.append('<div class="power time"></div>');
-            console.log("has time");
+            // console.log("has time");
         }
         if (hasPowers === true){
             $qTable.append($powers);
