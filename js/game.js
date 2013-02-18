@@ -188,8 +188,8 @@ function execute(){
     }
 
     function startScreen(){
-        $(".push").bind("click", function(){$("#start").hide(); setup();});
-        $(".push").live("touch", function(){$("#start").hide(); setup();});
+        $(".push").bind("click", function(){$("#start").fadeOut(animationTime); setup();});
+        $(".push").live("touch", function(){$("#start").fadeOut(animationTime); setup();});
     	$("#end").hide();
     }
 
@@ -241,8 +241,8 @@ function execute(){
     
     function endGame(){
         window.clearInterval(interval);
-        $("#end").show();
-        $("#end").append("<p>Score: "+score+"</p>");
+        $("#end").fadeIn(animationTime);
+        $("#endScore").html("Score: "+score);
         $(".push").bind("click", function(){$("#end").hide(); setup();});
         $(".push").live("touch", function(){$("#end").hide(); setup();});
     }
