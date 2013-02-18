@@ -1,5 +1,6 @@
 // known issues //
 - speed of road & obstacles not really matching
+- gas meter doesn't start at full (visually)
 
 // debatale issues //
 - on phones, feedback highlight is too strong
