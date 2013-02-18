@@ -411,32 +411,115 @@ table{
   -moz-transform: skew(-25deg,0deg); /* Firefox */
 }
 
+
+
+/* ------------------ start & end screens ------------ */
+
 #start, #end{
     height:100%;
     width:100%;
     position:absolute;
     top:0px;
     z-index:10;
-    background-color:#fffc00;
+    background-color: rgba(0,0,0,.31);
+    -webkit-box-shadow: inset 0 0 1px rgba(255,255,255,0);
+    -moz-box-shadow: inset 0 0 1px rgba(255,255,255,0);
+    box-shadow: inset 0 0 1px rgba(255,255,255,0);
+    background-image: -webkit-linear-gradient(bottom, #0c0c0c, #636363);
+    background-image: -moz-linear-gradient(bottom, #0c0c0c, #636363);
+    background-image: -o-linear-gradient(bottom, #0c0c0c, #636363);
+    background-image: -ms-linear-gradient(bottom, #0c0c0c, #636363);
+    background-image: linear-gradient(to top, #0c0c0c, #636363);
 }
 
-.push {
-font-family: Juicy;
-display:block;
-width:200px;
-height:200px;
-border-radius:132px;
-border:4px double #ccc;
-font-size:30px;
-color:#666;
-line-height:200px;
-text-align:center;
-text-decoration:none;
-text-shadow:0 1px 0 #fff;
-background:#aaa
+.stripe{
+  position: absolute;
+  height: 10%;
+  width: 100%;
+  background: url('/img/race-assets/start-stripe.jpg') no-repeat;
+  background-size: 100%;
 }
 
-.stuff {
+#topStripe{
+  top: 0;
+}
+
+#bottomStripe{
+  bottom: 0;
+  background-position: bottom left;
+}
+
+#startTitle{
+  width: 100%;
+  height: 20%;
+  position: absolute;
+  top: 13%;
+  background: url('/img/race-assets/start-title.png') top center no-repeat;
+  background-size: 80%;
+}
+
+#startBtn{
+  width: 46%;
+  height: 50%;
+  position: absolute;
+  top: 30%;
+  left: 27%;
+  background: url('/img/race-assets/start-startbtn.png') no-repeat;
+  background-size: 100%;
+}
+#startBtn:hover, #startBtn:active{
+  background: url('/img/race-assets/start-startbtn-a.png') no-repeat;
+  background-size: 100%;
+}
+
+#startSmallBtns{
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  top: 72%;
+}
+
+.startScreenBtn{
+  float:left;
+  height: 100%;
+  width: 34%;
+  margin: 0 8%;
+}
+
+#instructionBtn{
+  background: url('/img/race-assets/start-instrbtn.png') top center no-repeat;
+  background-size: 100%;
+}
+#hiScoreBtn{
+  background: url('/img/race-assets/start-hiscorebtn.png') top center no-repeat;
+  background-size: 100%;
+}
+#instructionBtn:hover, #instructionBtn:active{
+  background: url('/img/race-assets/start-instrbtn-a.png') top center no-repeat;
+  background-size: 100%;
+}
+#hiScoreBtn:hover, #hiScoreBtn:active{
+  background: url('/img/race-assets/start-hiscorebtn-a.png') top center no-repeat;
+  background-size: 100%;
+}
+
+/*.push {
+  font-family: Juicy;
+  display:block;
+  width:200px;
+  height:200px;
+  border-radius:132px;
+  border:4px double #ccc;
+  font-size:30px;
+  color:#666;
+  line-height:200px;
+  text-align:center;
+  text-decoration:none;
+  text-shadow:0 1px 0 #fff;
+  background:#aaa
+}*/
+
+.startScreenBtns {
     font-family: Juicy;
     text-decoration:none;
     text-shadow:0 1px 0 #fff;

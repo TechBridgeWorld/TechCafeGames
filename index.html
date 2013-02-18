@@ -30,18 +30,22 @@
         </div>
         
         <div id="start">
-            <h1>Brain Race</h1>
-            <a href="#" class="push">Start</a>
-            
-            <a href="#" class="stuff" id="instructions">Instructions</a>
-            
-            <a href="#" class="stuff" id="scores">High Scores</a>
-            
+            <div id="topStripe" class="stripe"></div>
+            <div id="startTitle"></div>
+            <a href="#" class="push" id="startBtn"></a>
+            <div id="startSmallBtns">
+                <a href="#" class="startScreenBtn" id="instructionBtn"></a>
+                <a href="#" class="startScreenBtn" id="hiScoreBtn"></a>
+            </div>
+            <div id="bottomStripe" class="stripe"></div>
         </div>
         
         <div id="end">
-            <h1>Race Over!</h1>
-            <a href="#" class="push">Race Again</a>
+            <div id="topStripe" class="stripe"></div>
+            <div id="raceOver"></div>
+            <div id="endScore"></div>
+            <a href="#" class="push" id="againBtn"></a>
+            <div id="bottomStripe" class="stripe"></div>
         </div>
 
         <canvas id='gameCanvas'></canvas>
