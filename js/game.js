@@ -76,6 +76,10 @@ function execute(){
     var lane2X; 
     var lane3X;
     var difficulty="easy";
+
+
+    // images
+
     roadImage.src = "img/race-assets/track.png";
 
     var carImage = new Image(); 
@@ -110,6 +114,24 @@ function execute(){
     fire.src = 'img/race-assets/fire-sprite.png';
     
     var xClip;
+
+
+    // sounds
+
+    var bgm = new Audio("sounds/racing-bgm.mp3");
+    bgm.loop = true;
+    bgm.volume = 0.4;
+
+    var carSfx = new Audio("sounds/car-sfx.mp3");
+    carSfx.loop = true;
+
+    var coinSfx = new Audio("sounds/coin.wav");
+    var correctSfx = new Audio("sounds/correct.wav");
+    var errorSfx = new Audio("sounds/error.mp3");
+    var powerupSfx = new Audio("sounds/powerup.wav");
+    var boostSfx = new Audio("sounds/blast.wav");
+    var crashSfx = new Audio("sounds/crash.mp3");
+    var countdownSfx = new Audio("sounds/countdown.mp3");
     
     function setup(){    
         
@@ -189,17 +211,21 @@ function execute(){
 
     function startScreen(){
         $("#startGo").hide();
+
+        bgm.play();
+
         $(".push").bind("click", function(){
             $("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
             // $("#startGo").fadeOut(animationTime);
+            carSfx.play();
         });
         $(".push").live(
             "touch", function(){$("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
-
+            carSfx.play();
         });
     	$("#end").hide();
     }
@@ -464,16 +490,8 @@ function execute(){
         $('#countdown-inner').html(sec);
         if (sec<=10){
             $('#countdown-inner').addClass('alert');
-            //window.setTimeout(function(){$("#ques").remove();}, questionTime);
-            //questionFlag=false;
-            /*ctx.drawImage(questionBoxImage, 0.1*width, 0.1*height, 0.8*width, 0.8*height);
-            ctx.textAlign = 'center';
-            ctx.fillText('question',width/2,height/4);
-            ctx.fillText('answer1', width/3.5,height/2);
-            ctx.fillText('answer2', width*0.7, height/2);
-            ctx.fillText('answer3', width/3.5, height*0.75);
-            ctx.fillText('answer4', width*0.7, height*0.75);
-            */
+            countdownSfx.play();
+
             var timeLimit = questionTime;
     		
     		if (storedPowers[1].count > 0) {
@@ -514,6 +532,7 @@ function execute(){
         window.clearInterval(countdownInt);
 
         if(right===choice){
+            correctSfx.play();
             meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);
@@ -522,6 +541,7 @@ function execute(){
         else{
             // alert("Wrong!");
             // console.log(choiceTd);
+            errorSfx.play();
             var $choiceFeedback = $("<div class='qFeedback wrong-choice' style='display:none'></div>");
             var $rightFeedback = $("<div class='qFeedback wrong-right' style='display:none'></div>");
             $(rightTd).append($rightFeedback);
@@ -560,10 +580,12 @@ function execute(){
             if(obsArr[i].points >= 0) {
                 $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
                 $("#pts").css("color","green");
+                coinSfx.play();
             }
             else {
                 $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
                 $("#pts").css("color","red");
+                crashSfx.play();
             }
             $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
             $("#pts").css("margin-left",obsArr[i].x-25);
@@ -598,6 +620,7 @@ function execute(){
 			powerUps[i].update(carX, carY);
 			if (powerUps[i].eaten) {
 				if (powerUps[i].name == "gas") {
+                    powerupSfx.play();
 					questionFlag = true;
 					// window.clearInterval(obstacleInterval);
 					// setTimeout(function(){
@@ -606,6 +629,7 @@ function execute(){
 					// }, questionTime);
 				}
 				else if (powerUps[i].name == "invincible") {
+                    boostSfx.play();
 					invincibleFlag = true;
                     objectSpeed = 20;
                     endTime = timer + 50;
@@ -619,6 +643,7 @@ function execute(){
                     }, 3000);
 				}
 				else {
+                    powerupSfx.play();
 					if (powerUps[i].name == "crossout") {
 						storedPowers[0].increment();
 					}
