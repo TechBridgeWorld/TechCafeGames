@@ -26,6 +26,7 @@
 - run into question right after boost?
 - update img assets - obstacles, coin
 - obstacle & powerups shouldn't overlap
+- prevent default highlighting on start & end menu
 
 // finished to-do //
 - music

@@ -166,6 +166,7 @@ function execute(){
         
         /* Obstacle Variables */
         obstacleHeight = carHeight/2;
+        obstacleWidth = 1.5*carWidth;
         lane1X = width/4-carWidth/2;
         lane2X = width*.47-carWidth/2; 
         lane3X = width*0.70-carWidth/2;
