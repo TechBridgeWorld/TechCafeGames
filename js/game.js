@@ -280,10 +280,37 @@ function execute(){
         }
 
 
+        // add question div, countdown, and active powerups
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
         var $countDown = $('<div id="countdown"><div id="countdown-inner"></div></div>');
-
         $qTable.append($countDown);
+
+        // add active powerups
+        // 0 = crossout
+        // 1 = timeplus
+        // 2 = invincible
+
+        var $powers = $('<div id="qPowers"></div>');
+
+        var crossout = 0;
+        var timeplus = 1;
+        var hasPowers = false;
+        if (storedPowers[crossout].count>0){
+            hasPowers = true;
+            $powers.append('<div class="power eliminate"></div>');
+            console.log("has eliminate");
+        }
+        if (storedPowers[timeplus].count>0){
+            hasPowers = true;
+            $powers.append('<div class="power time"></div>');
+            console.log("has time");
+        }
+        if (hasPowers === true){
+            $qTable.append($powers);
+        }
+
+
+        
 
         $("body").append($qTable);
         $qTable.fadeIn(animationTime);

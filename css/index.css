@@ -127,7 +127,10 @@ h1 {
     height: 100%;
 }*/
 
-/* questions */
+
+
+
+/*----------------- questions -------------------*/
 
 
 table {
@@ -190,22 +193,6 @@ table {
 /*   background-color:yellow;*/
 }
 
-#choice1:active {
-/*    background-color:orange;*/
-}
-
-#choice2:active {
-/*    background-color:orange;*/
-}
-
-#choice3:active {
-/*    background-color:orange;*/
-}
-
-#choice4:active {
-/*    background-color:orange;*/
-}
-
 .crossed{
     text-decoration: line-through;
     color: #777;
@@ -252,6 +239,31 @@ table {
 
 #countdown-inner.alert{
   color: #ff0000;
+}
+
+#qPowers{
+  position: absolute;
+  top: 16%;
+  right: -5%;
+  width: 30%;
+  height: 15%;
+/*  background: rgba(0,255,0,0.5);
+*/}
+
+#qPowers .power{
+  display: inline-block;
+  float: right;
+  width: 40%;
+  height: 100%;
+}
+
+#qPowers .eliminate{
+  background: url('/img/race-assets/powerup-eliminate.png') no-repeat;
+  background-size: 100%;
+}
+#qPowers .time{
+  background: url('/img/race-assets/powerup-time.png') no-repeat;
+  background-size: 100%;
 }
 
 
@@ -307,7 +319,9 @@ table{
   }
 }
 
-/* curr powerups display */
+
+/*------------------- curr powerups display ----------------*/
+
 #currPowers{
     position: absolute;
     bottom: 20px;
@@ -336,6 +350,10 @@ table{
 .currPowImg{
     width:100%;
 }
+
+
+
+/*----------------- top bar -------------------*/
 
 @font-face
 {
@@ -448,4 +466,3 @@ h1 {
     font-family: Juicy;
     font-size:500%;
 }
->>>>>>> bea78b0c0a391efd371c8ffd2ad8120bc8f81b55
