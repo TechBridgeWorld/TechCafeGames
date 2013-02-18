@@ -451,8 +451,8 @@ function execute(){
                 // console.log(countdownCounter);
                 countdownCounter--;
                 updateCountdown(countdownCounter)},1000);
-            window.setTimeout(function(){
-                window.clearInterval(countdownInt)},timeLimit);
+            // window.setTimeout(function(){
+            //     window.clearInterval(countdownInt)},timeLimit);
     		
             qTimeout = window.setTimeout(stopAsking, timeLimit);
         }
@@ -480,7 +480,7 @@ function execute(){
     			timeLimit += 10000;
     		}
     		
-            window.setTimeout(stopAsking, timeLimit);
+            // window.setTimeout(stopAsking, timeLimit);
         }
     }
 
@@ -491,6 +491,7 @@ function execute(){
             $("#ques").fadeOut(animationTime, function(){$("#ques").remove()});
             canvas.addEventListener('touchmove', setupEventListener, false);
         }
+        window.clearTimeout(qTimeout);
         window.clearInterval(countdownInt);
         $('#countdown-inner').removeClass('alert');
     }
@@ -596,11 +597,11 @@ function execute(){
 			if (powerUps[i].eaten) {
 				if (powerUps[i].name == "gas") {
 					questionFlag = true;
-					window.clearInterval(obstacleInterval);
-					setTimeout(function(){
-						questionFlag = false;
-						canvas.addEventListener('touchmove', setupEventListener, false);
-					}, questionTime);
+					// window.clearInterval(obstacleInterval);
+					// setTimeout(function(){
+					// 	questionFlag = false;
+					// 	canvas.addEventListener('touchmove', setupEventListener, false);
+					// }, questionTime);
 				}
 				else if (powerUps[i].name == "invincible") {
 					invincibleFlag = true;
