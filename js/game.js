@@ -129,9 +129,18 @@ function execute(){
     var correctSfx = new Audio("sounds/correct.wav");
     var errorSfx = new Audio("sounds/error.mp3");
     var powerupSfx = new Audio("sounds/powerup.wav");
+    powerupSfx.volume = 0.5;
+    var questionSfx = new Audio("sounds/question.wav");
     var boostSfx = new Audio("sounds/blast.wav");
-    var crashSfx = new Audio("sounds/crash.mp3");
+    var crashSfx = new Audio("sounds/crash.wav");
     var countdownSfx = new Audio("sounds/countdown.mp3");
+
+    var alertSfx = new Audio("sounds/alert.wav");
+    alertSfx.loop = true;
+    alertSfx.volume = 0.3;
+
+    var nonBgmSounds = [carSfx, coinSfx, correctSfx, errorSfx, powerupSfx, 
+        questionSfx, boostSfx, crashSfx, countdownSfx, alertSfx];
     
     function setup(){    
         
@@ -275,12 +284,16 @@ function execute(){
         else{
             $("#innerMeter").removeClass("warning");
         }
+
         if (barFrac<25){
             $("#innerMeter").addClass("danger");
             $("#innerMeter").removeClass("warning");
+            alertSfx.play();
         }
         else{
             $("#innerMeter").removeClass("danger");
+            alertSfx.pause();
+            alertSfx.currentTime = 0;
         }
 
         barHeight = $("#gasBar").height()*(3/5);
@@ -293,6 +306,16 @@ function execute(){
     }
     
     function endGame(){
+        // stop all non-bgm music
+        for (var i=0; i<nonBgmSounds.length; i++){
+            nonBgmSounds[i].loop = false;
+            nonBgmSounds[i].pause();
+            nonBgmSounds[i].currentTime = 0;
+        }
+        // might need to set alert loop to true again?
+        carSfx.loop = true;
+
+
         window.clearInterval(interval);
         $("#end").slideDown(animationTime);
         $("#endScore").html("Score: "+score);
@@ -489,7 +512,6 @@ function execute(){
     function updateCountdown(sec){
         $('#countdown-inner').html(sec);
         if (sec===10){
-            countdownSfx.currentTime = 0;
             countdownSfx.play();
         }
         if (sec<=10){
@@ -534,8 +556,11 @@ function execute(){
 
         window.clearInterval(countdownInt);
 
+        // stop countdown sound
+        countdownSfx.pause();
+        countdownSfx.currentTime = 0;
+
         if(right===choice){
-            countdownSfx.pause();
             correctSfx.play();
             meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
@@ -629,7 +654,7 @@ function execute(){
 			powerUps[i].update(carX, carY);
 			if (powerUps[i].eaten) {
 				if (powerUps[i].name == "gas") {
-                    powerupSfx.play();
+                    questionSfx.play();
 					questionFlag = true;
 					// window.clearInterval(obstacleInterval);
 					// setTimeout(function(){
