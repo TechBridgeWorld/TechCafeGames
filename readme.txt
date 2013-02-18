@@ -1,8 +1,7 @@
 // known issues //
 - speed of road & obstacles not really matching
-- gas meter doesn't start at full (visually)
 
-// debatale issues //
+// unconfirmed issues //
 - on phones, feedback highlight is too strong
 - on phones, right answer gains too much gas (may be same issue as above)
 - on phones, can click on crossed-out answer
@@ -12,6 +11,7 @@
 - game continues after displaying game over screen (may be same issue as above)
 - when restarting, game resumes (in terms of on-screen objects)
 - after answering once, can still answer while waiting for question to disappear
+- gas meter doesn't start at full (visually)
 
 
 
@@ -25,9 +25,9 @@
 - stop gas from decreasing when in boost?
 - make obstacles unhittable when in boost
 - run into question right after boost?
-- update img assets - obstacles, coin
 - obstacle & powerups shouldn't overlap
 - prevent default highlighting on start & end menu
 
 // finished to-do //
 - music
+- update img assets - obstacles, coin

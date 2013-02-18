@@ -297,7 +297,7 @@ function execute(){
         else{
             $("#innerMeter").removeClass("danger");
             alertSfx.pause();
-            // alertSfx.currentTime = 0;
+            // alertSfx.currentTime = 0;  <- this line will break the game on phones only
         }
 
         barHeight = $("#gasBar").height()*(3/5);
@@ -314,7 +314,7 @@ function execute(){
         for (var i=0; i<nonBgmSounds.length; i++){
             nonBgmSounds[i].loop = false;
             nonBgmSounds[i].pause();
-            nonBgmSounds[i].currentTime = 0;
+            // nonBgmSounds[i].currentTime = 0;
         }
         // might need to set alert loop to true again?
         carSfx.loop = true;
@@ -563,7 +563,7 @@ function execute(){
 
         // stop countdown sound
         countdownSfx.pause();
-        countdownSfx.currentTime = 0;
+        // countdownSfx.currentTime = 0;
 
         if(right===choice){
             correctSfx.play();
