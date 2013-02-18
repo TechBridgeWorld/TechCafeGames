@@ -51,7 +51,7 @@ function execute(){
     var questionFlag = false;
     var questionTime = 31000; //31 seconds
     var obstacle;
-    var allObstacles=["cone", "coin", "manhole"];
+    var allObstacles=["obs", "coin"];
     var obsArr=[];
     var objectSpeed; 
     var timer;
@@ -72,7 +72,7 @@ function execute(){
     var barTop;
     var barFrac=100;
     
-    var allPoints=[-10, 20, -20];
+    var allPoints=[-20, 20];
     var obstacleInterval;
     var roadImage = new Image();
     var lane1X; 
@@ -92,14 +92,11 @@ function execute(){
     var questionBoxImage = new Image();
     questionBoxImage.src = "img/race-assets/question-bg.png";
 
-    var coneImage = new Image(); 
-    coneImage.src = "img/race-assets/obstacle-c.png";
+    var obsImage = new Image(); 
+    obsImage.src = "img/race-assets/obstacle-car.png";
     
     var coinImage = new Image(); 
     coinImage.src = "img/race-assets/coin.png";
-    
-    var manholeImage = new Image(); 
-    manholeImage.src = "img/race-assets/obstacle-m.png";
     
     var gasimg = new Image(); 
     gasimg.src = "img/race-assets/powerup-gas.png";
@@ -188,14 +185,17 @@ function execute(){
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
         powerUpSpawnTime = 50;
+        powerUps=[];
         
         /*storedPowers array */
+        storedPowers=[];
         storedPowers.push(new Power("crossout"));
         storedPowers.push(new Power("timeplus"));
         storedPowers.push(new Power("invincible"));
 
         canvas.addEventListener('touchmove', setupEventListener, false);
         
+        window.clearInterval(interval);
         interval = setInterval(draw, 50);
 
         // hide curr powerups
@@ -646,6 +646,9 @@ function execute(){
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
             obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight, carWidth, obstacleHeight));
+            if(allObstacles[index]=="coin") {
+                for(var i = 0; i < 3; i++) obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight+20*i, carWidth, obstacleHeight));
+            }
         }   
             
         for(var i = 0; i < obsArr.length; i++) {
@@ -659,6 +662,7 @@ function execute(){
                 }
             }
             else {
+                barFrac+=obsArr[i].points;
                 $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
                 $("#pts").css("color","red");
                 if (soundOn){
@@ -677,12 +681,10 @@ function execute(){
             obsArr.splice(i,1);
         }
         else {
-            if(obsArr[i].name == "cone") 
-                ctx.drawImage(coneImage, obsArr[i].x, obsArr[i].y, carWidth, obstacleHeight);       
+            if(obsArr[i].name == "obs") 
+                ctx.drawImage(obsImage, obsArr[i].x, obsArr[i].y, carWidth, obstacleHeight);       
             if(obsArr[i].name == "coin") 
                 ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, carWidth, obstacleHeight);
-            if(obsArr[i].name == "manhole") 
-                ctx.drawImage(manholeImage, obsArr[i].x, obsArr[i].y, carWidth, obstacleHeight);
             }
         }
     }
