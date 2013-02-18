@@ -1,5 +1,6 @@
 // known issues //
 - speed of road & obstacles not really matching
+- width of coins too narrow
 
 // unconfirmed issues //
 - on phones, feedback highlight is too strong
@@ -16,7 +17,7 @@
 
 
 // to-do //
-- instructions & tutorial
+- instructions & high score
 - talk about background behavior when answering question
 - change fire sprite for boost
 - decrease gas when hitting obstacle

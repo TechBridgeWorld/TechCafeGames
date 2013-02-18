@@ -25,6 +25,9 @@ function execute(){
             }
     );
 
+    // switch for sound
+    var soundOn = true;
+
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
     var road;
@@ -118,32 +121,39 @@ function execute(){
 
     // sounds
 
-    var bgm = new Audio("sounds/racing-bgm.mp3");
-    bgm.loop = true;
-    bgm.volume = 0.4;
+    if (soundOn){
+        var bgm = new Audio("sounds/racing-bgm.mp3");
+        bgm.loop = true;
+        bgm.volume = 0.4;
 
-    var carSfx = new Audio("sounds/car-sfx.mp3");
-    carSfx.loop = true;
+        var carSfx = new Audio("sounds/car-sfx.mp3");
+        carSfx.loop = true;
 
-    var coinSfx = new Audio("sounds/coin.wav");
-    var correctSfx = new Audio("sounds/correct.wav");
-    var errorSfx = new Audio("sounds/error.mp3");
-    var powerupSfx = new Audio("sounds/powerup.wav");
-    powerupSfx.volume = 0.5;
-    var questionSfx = new Audio("sounds/question.wav");
-    var boostSfx = new Audio("sounds/blast.wav");
-    boostSfx.volume = 0.6;
-    var crashSfx = new Audio("sounds/crash.wav");
-    var countdownSfx = new Audio("sounds/countdown.mp3");
+        var coinSfx = new Audio("sounds/coin.wav");
+        var correctSfx = new Audio("sounds/correct.wav");
+        var errorSfx = new Audio("sounds/error.mp3");
+        var powerupSfx = new Audio("sounds/powerup.wav");
+        powerupSfx.volume = 0.5;
+        var questionSfx = new Audio("sounds/question.wav");
+        var boostSfx = new Audio("sounds/blast.wav");
+        boostSfx.volume = 0.6;
+        var crashSfx = new Audio("sounds/crash.wav");
 
-    var alertSfx = new Audio("sounds/alert.wav");
-    alertSfx.loop = true;
-    alertSfx.volume = 0.3;
+        var countdownSfx = new Audio("sounds/countdown.mp3");
+        var countdownTick = new Audio("sounds/countdown-tick.wav");
+        countdownTick.loop = true;
+        var countdownBeep = new Audio("sounds/countdown-beep.wav");
 
-    var gameoverSfx = new Audio("sounds/gameover.wav");
+        var alertSfx = new Audio("sounds/alert.wav");
+        alertSfx.loop = true;
+        alertSfx.volume = 0.3;
 
-    var nonBgmSounds = [carSfx, coinSfx, correctSfx, errorSfx, powerupSfx, 
-        questionSfx, boostSfx, crashSfx, countdownSfx, alertSfx];
+        var gameoverSfx = new Audio("sounds/gameover.wav");
+
+        var nonBgmSounds = [carSfx, coinSfx, correctSfx, errorSfx, powerupSfx, 
+            questionSfx, boostSfx, crashSfx, countdownSfx, countdownTick, 
+            countdownBeep, alertSfx];
+    }
     
     function setup(){    
         
@@ -225,20 +235,26 @@ function execute(){
     function startScreen(){
         $("#startGo").hide();
 
-        bgm.play();
+        if (soundOn){
+            bgm.play();
+        }
 
         $(".push").bind("click", function(){
             $("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
             // $("#startGo").fadeOut(animationTime);
-            carSfx.play();
+            if (soundOn){
+                carSfx.play();
+            }
         });
         $(".push").live(
             "touch", function(){$("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
-            carSfx.play();
+            if (soundOn){
+                carSfx.play();
+            }
         });
         $("#end").hide();
     }
@@ -292,11 +308,15 @@ function execute(){
         if (barFrac<25){
             $("#innerMeter").addClass("danger");
             $("#innerMeter").removeClass("warning");
-            alertSfx.play();
+            if (soundOn){
+                alertSfx.play();
+            }
         }
         else{
             $("#innerMeter").removeClass("danger");
-            alertSfx.pause();
+            if (soundOn){
+                alertSfx.pause();
+            }
             // alertSfx.currentTime = 0;  <- this line will break the game on phones only
         }
 
@@ -310,16 +330,17 @@ function execute(){
     }
     
     function endGame(){
-        // stop all non-bgm music
-        for (var i=0; i<nonBgmSounds.length; i++){
-            nonBgmSounds[i].loop = false;
-            nonBgmSounds[i].pause();
-            // nonBgmSounds[i].currentTime = 0;
+        if (soundOn){
+            // stop all non-bgm music
+            for (var i=0; i<nonBgmSounds.length; i++){
+                nonBgmSounds[i].loop = false;
+                nonBgmSounds[i].pause();
+                // nonBgmSounds[i].currentTime = 0;
+            }
+            // might need to set alert loop to true again?
+            carSfx.loop = true;
+            gameoverSfx.play();
         }
-        // might need to set alert loop to true again?
-        carSfx.loop = true;
-        gameoverSfx.play();
-
 
         window.clearInterval(interval);
         $("#end").slideDown(animationTime);
@@ -516,8 +537,15 @@ function execute(){
 
     function updateCountdown(sec){
         $('#countdown-inner').html(sec);
-        if (sec===10){
-            countdownSfx.play();
+        if (soundOn){
+            if (sec===10){
+                // countdownSfx.play();
+                countdownTick.play();
+            }
+            if (sec===0){
+                countdownTick.pause();
+                countdownBeep.play();
+            }
         }
         if (sec<=10){
             $('#countdown-inner').addClass('alert');
@@ -562,11 +590,16 @@ function execute(){
         window.clearInterval(countdownInt);
 
         // stop countdown sound
-        countdownSfx.pause();
-        // countdownSfx.currentTime = 0;
+        // countdownSfx.pause();
+        if (soundOn){
+            countdownTick.pause();
+        }
+        // countdownSfx.currentTime = 0; <- breaks game for iphone cordova
 
         if(right===choice){
-            correctSfx.play();
+            if (soundOn){
+                correctSfx.play();
+            }
             meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);
@@ -575,10 +608,12 @@ function execute(){
         else{
             // alert("Wrong!");
             // console.log(choiceTd);
-            errorSfx.play();
+            if (soundOn){
+                errorSfx.play();
+            }
             var $choiceFeedback = $("<div class='qFeedback wrong-choice' style='display:none'></div>");
             var $rightFeedback = $("<div class='qFeedback wrong-right' style='display:none'></div>");
-            $(rightTd).append($rightFeedback);
+            $(rightTd).append($rightFeedback);  
             $(choiceTd).append($choiceFeedback);
             $choiceFeedback.fadeIn(animationTime);
             $rightFeedback.fadeIn(animationTime);
@@ -619,12 +654,16 @@ function execute(){
             if(obsArr[i].points >= 0) {
                 $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
                 $("#pts").css("color","green");
-                coinSfx.play();
+                if (soundOn){
+                    coinSfx.play();
+                }
             }
             else {
                 $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
                 $("#pts").css("color","red");
-                crashSfx.play();
+                if (soundOn){
+                    crashSfx.play();
+                }
             }
             $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
             $("#pts").css("margin-left",obsArr[i].x-25);
@@ -659,7 +698,9 @@ function execute(){
             powerUps[i].update(carX, carY);
             if (powerUps[i].eaten) {
                 if (powerUps[i].name == "gas") {
-                    questionSfx.play();
+                    if (soundOn){
+                        questionSfx.play();
+                    }
                     questionFlag = true;
                     // window.clearInterval(obstacleInterval);
                     // setTimeout(function(){
@@ -668,7 +709,9 @@ function execute(){
                     // }, questionTime);
                 }
                 else if (powerUps[i].name == "invincible") {
-                    boostSfx.play();
+                    if (soundOn){
+                        boostSfx.play();
+                    }
                     invincibleFlag = true;
                     objectSpeed = 20;
                     endTime = timer + 50;
@@ -682,7 +725,9 @@ function execute(){
                     }, 3000);
                 }
                 else {
-                    powerupSfx.play();
+                    if (soundOn){
+                        powerupSfx.play();
+                    }
                     if (powerUps[i].name == "crossout") {
                         storedPowers[0].increment();
                     }
