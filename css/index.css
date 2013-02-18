@@ -235,6 +235,7 @@ table {
 
 #countdown-inner.alert{
   color: #ff0000;
+  -webkit-animation: blinkTwo 0.3s infinite alternate; 
 }
 
 #qPowers{
@@ -418,10 +419,7 @@ table{
   background-image: -ms-linear-gradient(bottom, #d55602, #fdc875);
   background-image: linear-gradient(to top, #d55602, #fdc875);
 
-  -webkit-animation: blinkOne 0.8s infinite alternate;  
-/*  -webkit-animation-iteration-count: infinite;  
-  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
-  -webkit-animation-duration: 1s; */
+  -webkit-animation: blinkOne 0.8s infinite alternate; 
 }
 
 #innerMeter.danger{

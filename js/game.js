@@ -198,6 +198,8 @@ function execute(){
         $(".push").live(
             "touch", function(){$("#start").slideUp(animationTime); 
             setup();
+            $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
+
         });
     	$("#end").hide();
     }
