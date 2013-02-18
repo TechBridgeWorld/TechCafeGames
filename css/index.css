@@ -462,11 +462,18 @@ table{
     -webkit-box-shadow: inset 0 0 1px rgba(255,255,255,0);
     -moz-box-shadow: inset 0 0 1px rgba(255,255,255,0);
     box-shadow: inset 0 0 1px rgba(255,255,255,0);
-    background-image: -webkit-linear-gradient(bottom, #0c0c0c, #636363);
-    background-image: -moz-linear-gradient(bottom, #0c0c0c, #636363);
-    background-image: -o-linear-gradient(bottom, #0c0c0c, #636363);
-    background-image: -ms-linear-gradient(bottom, #0c0c0c, #636363);
-    background-image: linear-gradient(to top, #0c0c0c, #636363);
+    background-image: -webkit-linear-gradient(bottom, #0c0c0c, #999);
+    background-image: -moz-linear-gradient(bottom, #0c0c0c, #999);
+    background-image: -o-linear-gradient(bottom, #0c0c0c, #999);
+    background-image: -ms-linear-gradient(bottom, #0c0c0c, #999);
+    background-image: linear-gradient(to top, #0c0c0c, #999);
+}
+
+.textureOverlay{
+  width: 100%;
+  height: 100%;
+  background: url('/img/race-assets/carbon-bg.png');
+  background-size: 4%;
 }
 
 .stripe{
@@ -497,7 +504,7 @@ table{
 
 #startBtn{
   width: 46%;
-  height: 50%;
+  height: 40%;
   position: absolute;
   top: 30%;
   left: 27%;
@@ -512,7 +519,7 @@ table{
 #startSmallBtns{
   position: absolute;
   width: 100%;
-  height: 30%;
+  height: 15%;
   top: 72%;
 }
 
@@ -538,6 +545,18 @@ table{
 #hiScoreBtn:hover, #hiScoreBtn:active{
   background: url('/img/race-assets/start-hiscorebtn-a.png') top center no-repeat;
   background-size: 100%;
+}
+
+#startGo{
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  font-size: 1000%;
+  color: #fff;
+  font-family: Juicy;
+  font-weight: bold;
+  text-align: center;
+  z-index: 10;
 }
 
 #raceOver{
