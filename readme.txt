@@ -13,10 +13,13 @@
 
 
 // to-do //
-- music
 - instructions & tutorial
 - talk about background behavior when answering question
 - change fire sprite for boost
 - decrease gas when hitting obstacle
 - change obstacles to cars
 - change spawn rate of powerups, obstacles, coins, etc.
+- stop gas from decreasing when in a boost?
+
+// finished to-do //
+- music

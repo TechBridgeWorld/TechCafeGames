@@ -488,9 +488,12 @@ function execute(){
 
     function updateCountdown(sec){
         $('#countdown-inner').html(sec);
+        if (sec===10){
+            countdownSfx.currentTime = 0;
+            countdownSfx.play();
+        }
         if (sec<=10){
             $('#countdown-inner').addClass('alert');
-            countdownSfx.play();
 
             var timeLimit = questionTime;
     		
@@ -532,6 +535,7 @@ function execute(){
         window.clearInterval(countdownInt);
 
         if(right===choice){
+            countdownSfx.pause();
             correctSfx.play();
             meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
