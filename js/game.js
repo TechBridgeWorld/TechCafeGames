@@ -25,8 +25,9 @@ function execute(){
             }
     );
 
-    // switch for sound
+    // testing switches for sound and random answers
     var soundOn = true;
+    var randomChoiceFlag = true;
 
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
@@ -82,7 +83,6 @@ function execute(){
 
     var numRightQuestion;
     var numQuestions;
-    var randomChoiceFlag;
 
     // images
 
@@ -164,7 +164,6 @@ function execute(){
         barFrac=100;
         numRightQuestion=0;
         numQuestions=0;
-        randomChoiceFlag = false;
         
         /* Canvas+DOM variables */
         canvas = document.getElementById('gameCanvas');

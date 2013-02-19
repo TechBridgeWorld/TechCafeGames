@@ -22,6 +22,25 @@
 - mocks for tutorial
 
 
+=======================
+
+
+user test:
+
+Ying~U01:
+ 	- tries to swipe to switch lanes
+ 	- always has finger directly over car when playing
+ 	- accidentally answers question because finger is on screen to navigate
+ 		- suggests a confirm button for answering
+ 	- can't figure out what powerups do
+ 	- thinks some power-ups aren't useful
+ 		- suggests changing eliminate to second chance when answer wrong (<- great idea!)
+ 	- got frustrated when answering question during boost makes boost go away
+ 	- suggestion: show question for a few seconds (without countdown) before showing options
+ 	- feels game is too easy (obviously), gets repetitive, skill-based gaming should get harder (objects move faster, etc)
+ 	- wants option to mute bgm music / se separately
+
+
 
 =======================
 
