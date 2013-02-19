@@ -261,6 +261,7 @@ function execute(){
     }
 
     function startScreen(){
+        $("#end").hide();
         $("#startGo").hide();
 
         if (soundOn){
@@ -289,7 +290,7 @@ function execute(){
         $("#cancel").live("touch", function(){$("#entername").hide();});
         
         $("#send").bind("click", function(){console.log("hi"); sendScore($("#name").val(),numRightQuestion,numQuestions);});
-        $("#end").show();
+        
     }
 
     startScreen();
@@ -375,6 +376,7 @@ function execute(){
         }
 
         window.clearInterval(interval);
+        $("#againBtn").hide();
         $("#end").slideDown(animationTime);
         $("#endScore").html("Score: "+score);
         if (numQuestions == 1){
@@ -386,10 +388,20 @@ function execute(){
         $(".push").bind("click", function(){$("#end").hide(); setup();});
         $(".push").live("touch", function(){$("#end").hide(); setup();});
     
-        $("#cancel").bind("click", function(){$("#entername").hide();});
-        $("#cancel").live("touch", function(){$("#entername").hide();});
+        $("#cancel").bind("click", function(){
+            $("#entername").fadeOut(animationTime); 
+            $("#againBtn").fadeIn(animationTime);
+        });
+        $("#cancel").live("touch", function(){
+            $("#entername").fadeOut(animationTime); 
+            $("#againBtn").fadeIn(animationTime);
+        });
         
-        $("#send").bind("click", function(){sendScore($("#name").val(),numRightQuestion,numQuestions);});
+        $("#send").bind("click", function(){
+            sendScore($("#name").val(),numRightQuestion,numQuestions);
+            $("#entername").fadeOut(animationTime); 
+            $("#againBtn").fadeIn(animationTime);
+        });
     }
     
     function sendScore(name, numRight, numTotal) {

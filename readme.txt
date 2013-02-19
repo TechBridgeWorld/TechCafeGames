@@ -37,9 +37,9 @@ Ying~U01:
  		- suggests changing eliminate to second chance when answer wrong (<- great idea!)
  	- got frustrated when answering question during boost makes boost go away
  	- suggestion: show question for a few seconds (without countdown) before showing options
- 	- feels game is too easy (obviously), gets repetitive, skill-based gaming should get harder (objects move faster, etc)
+ 	- feels game is too easy (obviously), gets repetitive, skill-based gaming should get harder (objects move faster, etc) and ideally independent of english-based gaming
  	- wants option to mute bgm music / se separately
-
+ 	- wants pause button
 
 
 =======================
