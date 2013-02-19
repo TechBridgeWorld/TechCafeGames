@@ -82,6 +82,7 @@ function execute(){
 
     var numRightQuestion;
     var numQuestions;
+    var randomChoiceFlag;
 
     // images
 
@@ -163,6 +164,7 @@ function execute(){
         barFrac=100;
         numRightQuestion=0;
         numQuestions=0;
+        randomChoiceFlag = false;
         
         /* Canvas+DOM variables */
         canvas = document.getElementById('gameCanvas');
@@ -301,7 +303,7 @@ function execute(){
 
     function updateBar(){
         barStart = $("#gasIcon").width()/2-5;
-        if(barFrac>0) barFrac-=.1;
+        if(barFrac>0 && !invincibleFlag) barFrac-=.1;
         if(barFrac <= 0) endGame();
         if(barFrac > 100) barFrac=100;
         barWidth = (barFrac/100)*(.93*($("#gasBar").width()-barStart));
@@ -381,19 +383,29 @@ function execute(){
         var choiceArr =[];
         var answerID;
         var ansIndex;
+        
+        if (randomChoiceFlag) {
+        //scramble the answers
+			for(var i = 0; i < 4; i++) {
+				var index1 = Math.floor(Math.random() * question.choices.length);
+				var index2 = Math.floor(Math.random() * question.choices.length);
+				var temp = question.choices[index1];
+				question.choices[index1] = question.choices[index2];
+				question.choices[index2] = temp;
+			}
+		}
+		
         for(var i = 0; i < 4; i++) {
-            if(question.choices[i] != undefined) {
-                choiceArr[i] = question.choices[i];
-                if (question.choices[i] == question.a)
-                    ansIndex = i;
-            }
+            if(question.choices[i] != undefined) {		
+				choiceArr[i] = question.choices[i];
+			}
             else choiceArr[i] = "";
             if(choiceArr[i].toString()===question.a.toString()){
-                idNum = i+1;
+				ansIndex = i;
+                var idNum = i+1;
                 answerID = "#choice"+idNum;
             }
         }
-
 
         // test only: hide canvas
         // console.log($("#one"));
@@ -479,7 +491,11 @@ function execute(){
             while (del == ansIndex) {
                 var del = Math.floor(Math.random() * question.choices.length);
             }
-            switch (del)
+            del++;
+            var removeChoice = "#choice" + del;
+            $(removeChoice).addClass("crossed");
+            $(removeChoice).off();
+            /*switch (del)
             {
                 case 0:
                     $("#choice1").addClass("crossed");
@@ -503,7 +519,7 @@ function execute(){
                     break;
                 default:
                     break;
-                }
+                }*/
             }
             //window.setTimeout(function(){$("#ques").remove();}, questionTime);
             //questionFlag=false;
@@ -653,7 +669,7 @@ function execute(){
 
     function drawObstacles(){
         timer++;
-        if (timer%20 === 0) {
+        if (timer%27 === 0) {
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
             if(allObstacles[index]=="coin") {
@@ -695,7 +711,7 @@ function execute(){
 
                     $("body").append($crashFx);
                     $crashFx.css("display","none");
-                    console.log($("#explode"));
+                    // console.log($("#explode"));
 
                     $crashFx.css("margin-top",-(height-obsArr[i].y)-25);
                     $crashFx.css("margin-left",obsArr[i].x-25);
