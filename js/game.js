@@ -3,7 +3,7 @@ window.onload = execute();
 function execute(){
 
     // testing switches for sound and random answers
-    var soundOn = true;
+    var soundOn = false;
     var randomChoiceFlag = true;
 
     var questionData = {};
@@ -41,7 +41,6 @@ function execute(){
             if(data)
                 {   
                     questionData = data; 
-                    // console.log(questionData);
                 }
             },
         function onError(data){ 
@@ -51,30 +50,33 @@ function execute(){
     // important game variables
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
-    var car; 
-    var carX; 
     var interval;
     var ctx;
     var canvas;  
+
+    var carX; 
+    var carY; 
     var carWidth; 
     var carHeight;
-    var obstacleHeight; 
+
     var score;  
-    var carY; 
+
     var questionInterval;
     var questionFlag = false;
     var questionTime = 31000; //31 seconds
-    var obstacle;
+
+    var obstacleHeight; 
     var allObstacles=["obs", "coin"];
     var obsArr=[];
     var objectSpeed; 
     var timer;
+
     var allPowers=["gas", "crossout", "timeplus", "invincible"];
     var powerUps=[];
     var storedPowers=[];
-    var crossout = false;
     var invincibleFlag = false;
     var invincibleDuration;
+    var xClip;
     var animationTime = 400;
     var feedbackDelay = 2000; //time to deplay animation when showing question feedback
     var countdownInt; // countdown interval
@@ -88,8 +90,6 @@ function execute(){
     
     var allPoints=[-10, 20];
     var questionPoint = 100;
-    var obstacleInterval;
-    var roadImage = new Image();
     var lane1X; 
     var lane2X; 
     var lane3X;
@@ -99,8 +99,6 @@ function execute(){
     var numQuestions;
 
     // images
-
-    roadImage.src = "img/race-assets/track.png";
 
     var carImage = new Image(); 
     carImage.src = "img/race-assets/car.png";
@@ -128,8 +126,6 @@ function execute(){
 
     var fire = new Image(); 
     fire.src = 'img/race-assets/fire-sprite2.png';
-    var xClip;
-
 
     // sounds
 
@@ -430,10 +426,8 @@ function execute(){
         },
         '/postScore',
         function onSuccess(data){
-            // console.log(data);
         },
         function onError(data){
-            // console.log("fail");
         });
     }
 
@@ -866,9 +860,6 @@ function execute(){
 
     // update display of current active power-ups
     function updateCurrPowers(){
-        // 0 = crossout
-        // 1 = timeplus
-        // 2 = invincible
         var crossout = 0;
         var timeplus = 1;
         var invincible = 2;
@@ -923,7 +914,6 @@ function execute(){
         else{
             $('#currEliminate').hide(animationTime);
         }
-
     }
 }
 
