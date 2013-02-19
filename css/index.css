@@ -679,11 +679,10 @@ table{
 #explode{
   position: relative;
   width: 30%;
-  height: 300px;
+  height: 100px;
 /*  background: rgba(0,255,0,0.5);*/
   background: url('/img/race-assets/crash.png') no-repeat;
-  background-
-  background-size: 100%;
+  background-size: 100% auto;
   z-index: 100;
 }
 

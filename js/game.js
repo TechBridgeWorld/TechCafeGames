@@ -653,7 +653,7 @@ function execute(){
 
     function drawObstacles(){
         timer++;
-        if (timer%20 === 0) {
+        if (timer%27 === 0) {
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
             if(allObstacles[index]=="coin") {
@@ -695,7 +695,7 @@ function execute(){
 
                     $("body").append($crashFx);
                     $crashFx.css("display","none");
-                    console.log($("#explode"));
+                    // console.log($("#explode"));
 
                     $crashFx.css("margin-top",-(height-obsArr[i].y)-25);
                     $crashFx.css("margin-left",obsArr[i].x-25);
