@@ -80,7 +80,6 @@ function execute(){
     var lane3X;
     var difficulty="easy";
 
-
     // images
 
     roadImage.src = "img/race-assets/track.png";
@@ -111,7 +110,7 @@ function execute(){
     invincible.src = "img/race-assets/powerup-boost.png";
 
     var fire = new Image(); 
-    fire.src = 'img/race-assets/fire-sprite.png';
+    fire.src = 'img/race-assets/fire-sprite2.png';
     
     var xClip;
 
@@ -177,10 +176,11 @@ function execute(){
         /* Obstacle Variables */
         obstacleHeight = carHeight/2;
         obstacleWidth = 1.5*carWidth;
+        coinHeight = 1.6*carWidth;
         lane1X = width/4-carWidth/2;
         lane2X = width*.47-carWidth/2; 
         lane3X = width*0.70-carWidth/2;
-        objectSpeed = 10;
+        objectSpeed = 15;
 
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
@@ -227,8 +227,12 @@ function execute(){
 
     Obs.prototype.update = function(){
         this.y+=objectSpeed;
-        if(this.x > carX-this.width && this.x < carX+carWidth && this.y+obstacleHeight >= carY && this.y <= carY+carHeight) {
-            this.eaten=true;
+        if (invincibleFlag && this.name == 'obs') return;
+        else{
+            if (this.y <= carY - this.height) return;
+            else if(this.x > carX-this.width && this.x < carX+carWidth && this.y+obstacleHeight+25 >= carY && this.y <= carY+carHeight) {
+                this.eaten=true;
+            }
         }
     }
 
@@ -273,20 +277,20 @@ function execute(){
 
     function draw(){
         ctx.clearRect(0,0,width,height); 
-        drawCar();
         if (questionFlag) drawQuestionBox();
         else {
             if (invincibleFlag) drawFlames();
             updateBar();
             drawScore();
             drawObstacles();
+            drawCar();
             drawPowerUps();
         }
     }
 
     function drawFlames(){
-        ctx.drawImage(fire, xClip, 0, 256, 168, carX - carWidth, carY+carHeight*0.9, carWidth*3, carHeight);
-        xClip = (xClip + 256)%1536; 
+        ctx.drawImage(fire, xClip, 0, 200, 200, carX - carWidth, carY+carHeight*0.9, carWidth*3, carHeight);
+        xClip = (xClip + 200)%800; 
     }
 
 
@@ -335,7 +339,6 @@ function execute(){
             for (var i=0; i<nonBgmSounds.length; i++){
                 nonBgmSounds[i].loop = false;
                 nonBgmSounds[i].pause();
-                // nonBgmSounds[i].currentTime = 0;
             }
             // might need to set alert loop to true again?
             carSfx.loop = true;
@@ -388,16 +391,10 @@ function execute(){
         // console.log($("#gameCanvas"));
         // $("#gameCanvas").hide();
 
-
         // add question div, countdown, and active powerups
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
         var $countDown = $('<div id="countdown"><div id="countdown-inner"></div></div>');
         $qTable.append($countDown);
-
-        // add active powerups
-        // 0 = crossout
-        // 1 = timeplus
-        // 2 = invincible
 
         var $powers = $('<div id="qPowers"></div>');
 
@@ -418,9 +415,6 @@ function execute(){
             $qTable.append($powers);
         }
 
-
-        
-
         $("body").append($qTable);
         $qTable.fadeIn(animationTime);
 
@@ -429,11 +423,6 @@ function execute(){
             'height': cw + 'px'
         });
 
-        // $("#ques").css("width",2*width/3);
-        // $("#ques").css("height",3*height/4);
-        // $("#ques").css("margin-top",-3*height/3);
-        // $("#ques").css("margin-left",width/6);
-        
         $("#choice1").on("click", function(){
             checkAns(question.a,choiceArr[0],"#choice1",answerID);
         });
@@ -533,12 +522,9 @@ function execute(){
             var countdownCounter = sec;
 
             countdownInt = window.setInterval(function(){
-                // console.log(countdownCounter);
-                countdownCounter--;
-                updateCountdown(countdownCounter)},1000);
-            // window.setTimeout(function(){
-            //     window.clearInterval(countdownInt)},timeLimit);
-            
+
+            countdownCounter--;
+            updateCountdown(countdownCounter)},1000);
             qTimeout = window.setTimeout(stopAsking, timeLimit);
         }
     }
@@ -654,84 +640,74 @@ function execute(){
 
     function drawObstacles(){
         timer++;
-        if (timer%150 === 0) {
+        if (timer%20 === 0) {
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
-            obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight, carWidth, obstacleHeight));
             if(allObstacles[index]=="coin") {
-                for(var i = 0; i < 3; i++) obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight+20*i, carWidth, obstacleHeight));
+                obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -coinHeight, powerUpWidth, coinHeight));
+            }
+            else{
+                obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight, powerUpWidth, carHeight));
             }
         }   
-            
+
         for(var i = 0; i < obsArr.length; i++) {
-        obsArr[i].update(carX, carY);
-        if(obsArr[i].eaten) {
-            if(obsArr[i].points >= 0) {
-                // var $pts = $('<div id="pts" class="plus"><p>+'+obsArr[i].points+'</p></div>');
-                // $("#pts").removeClass("minus").addClass("plus");
-                // $("body").append($pts);
-                // $pts.fadeIn(animationTime);
-                // $pts.animate({
-                //     opacity: 0.4,
-                //     marginTop: "100px",
-                //   }, 1500 );
-
-                // $pts.fadeIn(animationTime).animate({
-                //     width: "70%",
-                //     opacity: 0.4,
-                //     marginTop: "50px"; 
-                //   }, 600 );
-
-                // window.setTimeout(function(){
-                //     $pts.fadeOut(animationTime);
-                //     $pts.remove();
-                // }, 1000);
-                
-                if (soundOn){
-                    coinSfx.play();
+            obsArr[i].update(carX, carY);
+            if(obsArr[i].eaten) {
+                if(obsArr[i].points >= 0) {
+                    $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
+                    $("#pts").css("color","green");
+                    if (soundOn){
+                        coinSfx.play();
+                    }
                 }
+                else {
+                    barFrac+=obsArr[i].points;
+                    // $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
+                    // $("#pts").removeClass("plus").addClass("minus");
+                    // var $pts = $('<div id="pts" class="minus"><p>'+obsArr[i].points+'</p></div>');
+                    // $("body").append($pts);
+                    // // $pts.fadeIn(animationTime);
+                    // $pts.fadeIn(animationTime);
+                    // $pts.animate({
+                    //     marginTop: "100px",
+                    //   }, 600);
+                    // window.setTimeout(function(){
+                    //     $pts.fadeOut(animationTime);
+                    //     // $pts.remove();
+                    // }, 5000);
+
+                    if (soundOn){
+                        crashSfx.play();
+                    }
+                }
+                // $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
+                // $("#pts").css("margin-left",obsArr[i].x-25);
+                // window.setTimeout(function(){$("#pts").remove();}, 1000);
+                obsArr.splice(i,1);
+            }
+            else if(obsArr[i].y >= height) {
+                obsArr.splice(i,1);
             }
             else {
-                barFrac+=obsArr[i].points;
-                // $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
-                // $("#pts").removeClass("plus").addClass("minus");
-                // var $pts = $('<div id="pts" class="minus"><p>'+obsArr[i].points+'</p></div>');
-                // $("body").append($pts);
-                // // $pts.fadeIn(animationTime);
-                // $pts.fadeIn(animationTime);
-                // $pts.animate({
-                //     marginTop: "100px",
-                //   }, 600);
-                // window.setTimeout(function(){
-                //     $pts.fadeOut(animationTime);
-                //     // $pts.remove();
-                // }, 5000);
-
-                if (soundOn){
-                    crashSfx.play();
+                if(obsArr[i].name == "obs") {
+                    if (invincibleFlag){ctx.globalAlpha = 0.2;}
+                    ctx.drawImage(obsImage, obsArr[i].x, obsArr[i].y, powerUpWidth, carHeight); 
+                    if (invincibleFlag){ctx.globalAlpha = 1;}
+                }     
+                if(obsArr[i].name == "coin"){
+                    ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, powerUpWidth, coinHeight);
                 }
-            }
-            // $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
-            // $("#pts").css("margin-left",obsArr[i].x-25);
-            // window.setTimeout(function(){$("#pts").remove();}, 1000);
-            obsArr.splice(i,1);
-        }
-        else if(obsArr[i].y >= height) {
-            obsArr.splice(i,1);
-        }
-        else {
-            if(obsArr[i].name == "obs") 
-                ctx.drawImage(obsImage, obsArr[i].x, obsArr[i].y, carWidth, obstacleHeight);       
-            if(obsArr[i].name == "coin") 
-                ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, carWidth, obstacleHeight);
             }
         }
     }
     
     function drawPowerUps() {
-        var interval = Math.floor(Math.random()*powerUpSpawnTime);
-        if (timer%interval === 0) {
-            var index = Math.floor(Math.random()*(allPowers.length));
+        if (timer%50 === 0) {
+            var index = Math.floor(Math.random()*(allPowers.length*2));
+            if (index>=allPowers.length){
+                index = 0;
+            }
             var x = chooseLane();
             powerUps.push(new Obs(allPowers[index], 0, x, -obstacleHeight, powerUpWidth, powerUpWidth));
         }
@@ -754,7 +730,7 @@ function execute(){
                         boostSfx.play();
                     }
                     invincibleFlag = true;
-                    objectSpeed = 20;
+                    objectSpeed = 40;
                     endTime = timer + 50;
                     storedPowers[2].increment();
                     updateCurrPowers();
@@ -763,7 +739,7 @@ function execute(){
                         storedPowers[2].decrement();
                         updateCurrPowers();
                         invincibleFlag = false;
-                    }, 3000);
+                    }, 5000);
                 }
                 else {
                     if (soundOn){
