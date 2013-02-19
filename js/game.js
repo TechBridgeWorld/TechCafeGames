@@ -1,6 +1,11 @@
 window.onload = execute();
 
 function execute(){
+
+    // testing switches for sound and random answers
+    var soundOn = true;
+    var randomChoiceFlag = true;
+
     var questionData = {};
     
     var ajaxRequest = function(url, fnSuccess, fnError){
@@ -43,10 +48,7 @@ function execute(){
             }
     );
 
-    // testing switches for sound and random answers
-    var soundOn = true;
-    var randomChoiceFlag = true;
-
+    // important game variables
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
     var road;
@@ -91,7 +93,8 @@ function execute(){
     var barTop;
     var barFrac=100;
     
-    var allPoints=[-10, 10];
+    var allPoints=[-10, 20];
+    var questionPoint = 100;
     var obstacleInterval;
     var roadImage = new Image();
     var lane1X; 
@@ -108,7 +111,6 @@ function execute(){
 
     var carImage = new Image(); 
     carImage.src = "img/race-assets/car.png";
-
 
     var questionBoxImage = new Image();
     questionBoxImage.src = "img/race-assets/question-bg.png";
@@ -133,7 +135,6 @@ function execute(){
 
     var fire = new Image(); 
     fire.src = 'img/race-assets/fire-sprite2.png';
-    
     var xClip;
 
 
@@ -211,7 +212,7 @@ function execute(){
         powerUpSpawnTime = 50;
         powerUps=[];
         
-        /*storedPowers array */
+        /*stored Power-ups array */
         storedPowers=[];
         storedPowers.push(new Power("crossout"));
         storedPowers.push(new Power("timeplus"));
@@ -232,6 +233,7 @@ function execute(){
         
     }
     
+    // power ups
     function Power(name) {
         this.name = name;
         this.count = 0;
@@ -239,6 +241,7 @@ function execute(){
         this.decrement = function() {this.count--;};
     }
 
+    // obstacles & coins
     function Obs(name, points, x, y, width, height) {
         this.name = name;
         this.points = points;
@@ -249,6 +252,7 @@ function execute(){
         this.eaten=false;
     }
 
+    // update location of obstacle & coin
     Obs.prototype.update = function(){
         this.y+=objectSpeed;
         if (invincibleFlag && this.name == 'obs') return;
@@ -260,25 +264,29 @@ function execute(){
         }
     }
 
+    // show start screen
     function startScreen(){
+        // hide end screen & "GO!"
         $("#end").hide();
         $("#startGo").hide();
 
+        // play music
         if (soundOn){
             bgm.play();
         }
 
+        // pressing start button
         $(".push").bind("click", function(){
             $("#start").slideUp(animationTime); 
             setup();
+            // show "GO!"
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
-            // $("#startGo").fadeOut(animationTime);
             if (soundOn){
                 carSfx.play();
             }
         });
-        $(".push").live(
-            "touch", function(){$("#start").slideUp(animationTime); 
+        $(".push").live("touch", function(){
+            $("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
             if (soundOn){
@@ -286,10 +294,13 @@ function execute(){
             }
         });
         
-                $("#cancel").bind("click", function(){$("#entername").hide();});
+        // pre-set 
+        $("#cancel").bind("click", function(){$("#entername").hide();});
         $("#cancel").live("touch", function(){$("#entername").hide();});
         
-        $("#send").bind("click", function(){console.log("hi"); sendScore($("#name").val(),numRightQuestion,numQuestions);});
+        $("#send").bind("click", function(){
+            sendScore($("#name").val(),numRightQuestion,numQuestions);
+        });
         
     }
 
@@ -377,6 +388,7 @@ function execute(){
 
         window.clearInterval(interval);
         $("#againBtn").hide();
+        $("#entername").show();
         $("#end").slideDown(animationTime);
         $("#endScore").html("Score: "+score);
         if (numQuestions == 1){
@@ -412,9 +424,12 @@ function execute(){
             numTotal: numTotal
         },
         '/postScore',
-        function onSuccess(data){console.log(data)},
-        function onError(data){console.log("fail")}
-        );
+        function onSuccess(data){
+            // console.log(data);
+        },
+        function onError(data){
+            // console.log("fail");
+        });
     }
 
     function drawCar(){
@@ -675,6 +690,8 @@ function execute(){
         // countdownSfx.currentTime = 0; <- breaks game for iphone cordova
 
         if(right===choice){
+            score+=questionPoint;
+            $("#score").html(score);
             if (soundOn){
                 correctSfx.play();
             }
@@ -738,6 +755,7 @@ function execute(){
                 if(obsArr[i].points >= 0) {
                     // $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
                     // $("#pts").css("color","green");
+                    score+=obsArr[i].points;
                     if (soundOn){
                         coinSfx.play();
                     }

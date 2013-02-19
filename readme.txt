@@ -8,8 +8,6 @@
 - run into question right after boost?
 - prevent default highlighting on start & end menu
 - increase score faster when in boost
-- coin should add to score
-- score increase when answer question right
 - don't hide objects during question
 
 // BIG to-dos //
@@ -19,7 +17,6 @@
 
 // non-code to-do //
 - mocks for teacher console
-- mocks for tutorial
 
 
 =======================
@@ -71,6 +68,9 @@ Ying~U01:
 - stop gas from decreasing when in boost?
 - obstacle & powerups shouldn't overlap
 - show # of right vs wrong
+- coin should add to score
+- score increase when answer question right
+- mocks for tutorial
 
 
 
