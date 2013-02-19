@@ -231,6 +231,7 @@ table {
   font-weight: bold;
   text-align: center;
 /*  padding-top: 5%;*/
+  -webkit-animation: none; 
 }
 
 #countdown-inner.alert{
@@ -279,6 +280,13 @@ table{
     width: 100%;
     height: 100%;
     -webkit-animation: scrollone 0.2s infinite linear;
+
+    /* testing */
+/*    -webkit-animation: scrollone 0.3s infinite linear;*/
+}
+
+#one.stop{
+  -webkit-animation: none;
 }
 
 #two {
@@ -287,9 +295,17 @@ table{
     
     width: 100%;
     height: 100%;
-    top: -260px;
     position: absolute;
+    top: -260px;
     -webkit-animation: scrolltwo 0.2s infinite linear;
+
+    /* testing */
+/*    top: -300px;
+    -webkit-animation: scrollone 0.3s infinite linear;*/
+}
+
+#two.stop{
+  -webkit-animation: none;
 }
 
 @-webkit-keyframes scrollone {
@@ -634,7 +650,49 @@ table{
     right:10px;
 }
 
+#pts{
+  margin-left: 10%;
+  font-size: 1000%;
+  font-weight: bold;
+  font-family: Juicy;
+  color: #fff;
+  position: relative;
+  z-index: 10;
+  font-size: 30;
+
+/*  -webkit-text-fill-color: white;  Will override color (regardless of order) 
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: green;*/
+}
+
+#pts.plus{
+  text-shadow:
+       3px 3px 0 green,
+     -1px -1px 0 green,  
+      1px -1px 0 green,
+      -1px 1px 0 green,
+       1px 1px 0 green;
+}
+#pts.minus{
+  text-shadow:
+       3px 3px 0 red,
+     -1px -1px 0 red,  
+      1px -1px 0 red,
+      -1px 1px 0 red,
+       1px 1px 0 red;
+}
+
 h1 {
     font-family: Juicy;
     font-size:500%;
+}
+
+
+
+/* test */
+#canvasCover{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
 }

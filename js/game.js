@@ -381,6 +381,14 @@ function execute(){
         }
 
 
+        // test only: hide canvas
+        // console.log($("#one"));
+        $("#one").addClass("stop");
+        $("#two").addClass("stop");
+        // console.log($("#gameCanvas"));
+        // $("#gameCanvas").hide();
+
+
         // add question div, countdown, and active powerups
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
         var $countDown = $('<div id="countdown"><div id="countdown-inner"></div></div>');
@@ -569,6 +577,10 @@ function execute(){
             $("#ques").fadeOut(animationTime, function(){$("#ques").remove()});
             canvas.addEventListener('touchmove', setupEventListener, false);
         }
+        // $("#gameCanvas").fadeIn(animationTime);
+        // test only: road keeps moving
+        $("#one").removeClass("stop");
+        $("#two").removeClass("stop");
         window.clearTimeout(qTimeout);
         window.clearInterval(countdownInt);
         $('#countdown-inner').removeClass('alert');
@@ -655,26 +667,53 @@ function execute(){
         obsArr[i].update(carX, carY);
         if(obsArr[i].eaten) {
             if(obsArr[i].points >= 0) {
-                $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
-                $("#pts").css("color","green");
+                // var $pts = $('<div id="pts" class="plus"><p>+'+obsArr[i].points+'</p></div>');
+                // $("#pts").removeClass("minus").addClass("plus");
+                // $("body").append($pts);
+                // $pts.fadeIn(animationTime);
+                // $pts.animate({
+                //     opacity: 0.4,
+                //     marginTop: "100px",
+                //   }, 1500 );
+
+                // $pts.fadeIn(animationTime).animate({
+                //     width: "70%",
+                //     opacity: 0.4,
+                //     marginTop: "50px"; 
+                //   }, 600 );
+
+                // window.setTimeout(function(){
+                //     $pts.fadeOut(animationTime);
+                //     $pts.remove();
+                // }, 1000);
+                
                 if (soundOn){
                     coinSfx.play();
                 }
             }
             else {
                 barFrac+=obsArr[i].points;
-                $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
-                $("#pts").css("color","red");
+                // $("body").append('<div id="pts"><p>'+obsArr[i].points+'</p></div>');
+                // $("#pts").removeClass("plus").addClass("minus");
+                // var $pts = $('<div id="pts" class="minus"><p>'+obsArr[i].points+'</p></div>');
+                // $("body").append($pts);
+                // // $pts.fadeIn(animationTime);
+                // $pts.fadeIn(animationTime);
+                // $pts.animate({
+                //     marginTop: "100px",
+                //   }, 600);
+                // window.setTimeout(function(){
+                //     $pts.fadeOut(animationTime);
+                //     // $pts.remove();
+                // }, 5000);
+
                 if (soundOn){
                     crashSfx.play();
                 }
             }
-            $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
-            $("#pts").css("margin-left",obsArr[i].x-25);
-            $("#pts").css("position","relative");
-            $("#pts").css("z-index",10);
-            $("#pts").css("font-size",30);
-            window.setTimeout(function(){$("#pts").remove();}, 1000);
+            // $("#pts").css("margin-top",-(height-obsArr[i].y)-25);
+            // $("#pts").css("margin-left",obsArr[i].x-25);
+            // window.setTimeout(function(){$("#pts").remove();}, 1000);
             obsArr.splice(i,1);
         }
         else if(obsArr[i].y >= height) {
