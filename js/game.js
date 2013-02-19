@@ -655,8 +655,8 @@ function execute(){
             obsArr[i].update(carX, carY);
             if(obsArr[i].eaten) {
                 if(obsArr[i].points >= 0) {
-                    $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
-                    $("#pts").css("color","green");
+                    // $("body").append('<div id="pts"><p>+'+obsArr[i].points+'</p></div>');
+                    // $("#pts").css("color","green");
                     if (soundOn){
                         coinSfx.play();
                     }
@@ -676,6 +676,20 @@ function execute(){
                     //     $pts.fadeOut(animationTime);
                     //     // $pts.remove();
                     // }, 5000);
+
+                    var $crashFx = $("<div id='explode'></div>");
+                    console.log("crash!");
+
+                    $("body").append($crashFx);
+                    $crashFx.css("display","none");
+                    console.log($("#explode"));
+
+                    $crashFx.css("margin-top",-(height-obsArr[i].y)-25);
+                    $crashFx.css("margin-left",obsArr[i].x-25);
+                    $crashFx.fadeIn(animationTime/2).fadeOut(animationTime/2);
+                    window.setTimeout(function(){
+                        $crashFx.remove();
+                    },1000);
 
                     if (soundOn){
                         crashSfx.play();
