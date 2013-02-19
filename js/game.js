@@ -301,7 +301,7 @@ function execute(){
 
     function updateBar(){
         barStart = $("#gasIcon").width()/2-5;
-        if(barFrac>0) barFrac-=.1;
+        if(barFrac>0 && !invincibleFlag) barFrac-=.1;
         if(barFrac <= 0) endGame();
         if(barFrac > 100) barFrac=100;
         barWidth = (barFrac/100)*(.93*($("#gasBar").width()-barStart));
