@@ -405,13 +405,14 @@ function execute(){
     }
     
     function sendScore(name, numRight, numTotal) {
-        var scoreObj = {"name":name,"numRight":numRight,"numTotal":numTotal};
-        var scoreJSON = JSON.stringify(scoreObj);
-        
         ajaxPost(
-        scoreJSON,
-        '/?',
-        function onSuccess(){console.log("success")},
+        {
+            name: name,
+            numRight: numRight, 
+            numTotal: numTotal
+        },
+        '/postScore',
+        function onSuccess(data){console.log(data)},
         function onError(data){console.log("fail")}
         );
     }
