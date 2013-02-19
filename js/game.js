@@ -72,13 +72,16 @@ function execute(){
     var barTop;
     var barFrac=100;
     
-    var allPoints=[-20, 20];
+    var allPoints=[-10, 10];
     var obstacleInterval;
     var roadImage = new Image();
     var lane1X; 
     var lane2X; 
     var lane3X;
     var difficulty="easy";
+
+    var numRightQuestion;
+    var numQuestions;
 
     // images
 
@@ -158,6 +161,8 @@ function execute(){
         score = 0;
         
         barFrac=100;
+        numRightQuestion=0;
+        numQuestions=0;
         
         /* Canvas+DOM variables */
         canvas = document.getElementById('gameCanvas');
@@ -348,6 +353,12 @@ function execute(){
         window.clearInterval(interval);
         $("#end").slideDown(animationTime);
         $("#endScore").html("Score: "+score);
+        if (numQuestions == 1){
+            $("#questionScore").html(numRightQuestion + " / " + numQuestions + " question correct");
+        }
+        else{
+            $("#questionScore").html(numRightQuestion + " / " + numQuestions + " questions correct");
+        }
         $(".push").bind("click", function(){$("#end").hide(); setup();});
         $(".push").live("touch", function(){$("#end").hide(); setup();});
     }
@@ -558,6 +569,7 @@ function execute(){
 
     
     function stopAsking(){
+        numQuestions++;
         if($("#ques").length > 0) {
             questionFlag=false;
             $("#ques").fadeOut(animationTime, function(){$("#ques").remove()});
@@ -598,6 +610,7 @@ function execute(){
             if (soundOn){
                 correctSfx.play();
             }
+            numRightQuestion++;
             meterUp();
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);

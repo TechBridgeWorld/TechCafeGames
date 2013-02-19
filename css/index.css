@@ -590,14 +590,25 @@ table{
   font-family: Juicy;
   text-align: center;
   color: #fff;
-  font-size: 240%;
+  font-size: 300%;
+}
+
+#questionScore{
+  position: absolute;
+  height: 20%;
+  width: 100%;
+  top: 43%;
+  font-family: Juicy;
+  text-align: center;
+  color: #fff;
+  font-size: 150%;
 }
 
 #againBtn{
   width: 46%;
   height: 50%;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 27%;
   background: url('/img/race-assets/end-againbtn.png') no-repeat;
   background-size: 100%;
@@ -669,10 +680,9 @@ table{
   position: relative;
   width: 30%;
   height: 300px;
-  
 /*  background: rgba(0,255,0,0.5);*/
   background: url('/img/race-assets/crash.png') no-repeat;
-  opacity: 0.6;
+  background-
   background-size: 100%;
   z-index: 100;
 }

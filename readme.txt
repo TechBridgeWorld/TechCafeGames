@@ -12,6 +12,10 @@
 - get rid of score decrement when hitting obstacle
 - show # of right vs wrong
 
+// non-code to-do //
+- mocks for teacher console
+- mocks for tutorial
+
 
 
 =======================
