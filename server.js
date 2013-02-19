@@ -7,6 +7,7 @@ app.use("/", express.static(__dirname + wwwDir));
 app.get("/", function(req, res) { res.render(wwwDir + "/index.html");});
 app.listen(8080);
 var xml2js = require('xml2js');
+var scoreData = []; 
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -68,4 +69,18 @@ app.get("/register", function(req,res){
 	});
 });
 
+app.post("/postScore", function(req, res){
+	console.log(req.body.name);
+	var scoreObj = {}; 
+	scoreObj.name = req.body.name;
+	scoreObj.numRight = req.body.numRight; 
+	scoreObj.numTotal = req.body.numTotal;
 
+	scoreData.push(scoreObj);
+
+	return res.send("Registered.");
+});
+
+app.get("/getscore", function(req, res){
+	res.send(scoreData);
+});
