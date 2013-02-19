@@ -672,6 +672,7 @@ table{
   
 /*  background: rgba(0,255,0,0.5);*/
   background: url('/img/race-assets/crash.png') no-repeat;
+  opacity: 0.6;
   background-size: 100%;
   z-index: 100;
 }

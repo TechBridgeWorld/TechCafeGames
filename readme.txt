@@ -39,3 +39,16 @@
 - change fire sprite for boost
 - change obstacles to cars
 - make obstacles unhittable & semi-transparent when in boost
+
+
+
+=====================
+
+
+
+// asset credits //
+
+grass texture: Patrick Hoesly
+
+music: garageband
+sound effects: various people from freesound.org

@@ -26,7 +26,7 @@ function execute(){
     );
 
     // switch for sound
-    var soundOn = true;
+    var soundOn = false;
 
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
@@ -678,7 +678,7 @@ function execute(){
                     // }, 5000);
 
                     var $crashFx = $("<div id='explode'></div>");
-                    console.log("crash!");
+                    // console.log("crash!");
 
                     $("body").append($crashFx);
                     $crashFx.css("display","none");
