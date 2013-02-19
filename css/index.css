@@ -708,6 +708,39 @@ h1 {
     font-size:500%;
 }
 
+#entername {
+  width: 52%;
+  height: 55%;
+  position: absolute;
+  top: 50%;
+  left: 24%;
+  background-color:#383838;
+  background-size: 4%;
+}
+
+#name {
+    position:absolute;
+    left:10%;
+    top:10%;
+    width:80%;
+    height:20%;
+}
+
+#send {
+    position:absolute;
+    bottom:50%;
+    left:10%;
+    width:35%;
+    height:10%;
+}
+
+#cancel {
+    position:absolute;
+    bottom:50%;
+    right:10%;
+    width:35%;
+    height:10%;
+}
 
 
 /* test */

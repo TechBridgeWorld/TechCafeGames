@@ -12,6 +12,24 @@ function execute(){
         });
     };
 
+   var ajaxPost = function(json, url, onSuccess, onError){
+    var data = new FormData();
+
+    for (var key in json){
+        data.append(key, json[key]);
+    }
+    
+        $.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: onSuccess,
+            error: onError});
+    }   
+
     ajaxRequest( 
         '/register', 
         function onSuccess(data){
@@ -266,7 +284,12 @@ function execute(){
                 carSfx.play();
             }
         });
-        $("#end").hide();
+        
+                $("#cancel").bind("click", function(){$("#entername").hide();});
+        $("#cancel").live("touch", function(){$("#entername").hide();});
+        
+        $("#send").bind("click", function(){console.log("hi"); sendScore($("#name").val(),numRightQuestion,numQuestions);});
+        $("#end").show();
     }
 
     startScreen();
@@ -362,6 +385,23 @@ function execute(){
         }
         $(".push").bind("click", function(){$("#end").hide(); setup();});
         $(".push").live("touch", function(){$("#end").hide(); setup();});
+    
+        $("#cancel").bind("click", function(){$("#entername").hide();});
+        $("#cancel").live("touch", function(){$("#entername").hide();});
+        
+        $("#send").bind("click", function(){sendScore($("#name").val(),numRightQuestion,numQuestions);});
+    }
+    
+    function sendScore(name, numRight, numTotal) {
+        var scoreObj = {"name":name,"numRight":numRight,"numTotal":numTotal};
+        var scoreJSON = JSON.stringify(scoreObj);
+        
+        ajaxPost(
+        scoreJSON,
+        '/?',
+        function onSuccess(){console.log("success")},
+        function onError(data){console.log("fail")}
+        );
     }
 
     function drawCar(){
