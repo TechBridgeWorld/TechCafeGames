@@ -26,7 +26,7 @@ function execute(){
     );
 
     // switch for sound
-    var soundOn = false;
+    var soundOn = true;
 
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;

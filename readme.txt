@@ -1,16 +1,21 @@
 // known issues //
 - when restarting, obstacles are still there
+- background doesn't freeze during question on androids
+- crash image doesn't show on iphones
 
 // to-do //
 - instructions & high score
-- change spawn rate of powerups, obstacles, coins, etc.
-- stop gas from decreasing when in boost?
 - run into question right after boost?
-- obstacle & powerups shouldn't overlap
 - prevent default highlighting on start & end menu
-- gas meter should animate when decrementing
-- get rid of score decrement when hitting obstacle
-- show # of right vs wrong
+- increase score faster when in boost
+- coin should add to score
+- score increase when answer question right
+- don't hide objects during question
+
+// BIG to-dos //
+- asset manager
+- canvas 
+
 
 // non-code to-do //
 - mocks for teacher console
@@ -43,6 +48,10 @@
 - change fire sprite for boost
 - change obstacles to cars
 - make obstacles unhittable & semi-transparent when in boost
+- change spawn rate of powerups, obstacles, coins, etc.
+- stop gas from decreasing when in boost?
+- obstacle & powerups shouldn't overlap
+- show # of right vs wrong
 
 
 
