@@ -1,13 +1,13 @@
 var express = require("express");
-var app = express();
 var wwwDir = "/";
 var http = require('http');
-app.use(express.bodyParser());
-app.use("/", express.static(__dirname + wwwDir));
-app.get("/", function(req, res) { res.render(wwwDir + "/index.html");});
-app.listen(8080);
 var xml2js = require('xml2js');
 var scoreData = []; 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
+var app = express();
+var Teacher = require('./Teacher.js');
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -17,6 +17,87 @@ function isEmpty(obj){
 	}
 	return true;
 }
+
+function init(){
+    configureExpress(app);
+
+	mongoose.connect('mongodb://localhost:27017');
+
+    var User = initPassportUser();
+
+	app.listen(8080);
+}
+
+init();
+
+function initPassportUser(){
+    var Teacher = require('./Teacher');
+
+    passport.use(new LocalStrategy(Teacher.authenticate()));
+
+    passport.serializeUser(Teacher.serializeUser());
+    passport.deserializeUser(Teacher.deserializeUser());
+
+    return Teacher;
+}
+
+function configureExpress(app){
+	app.configure(function(){
+		var Teacher = initPassportUser();
+		app.use(express.bodyParser());
+		app.use(express.methodOverride());
+		app.use(express.favicon());
+		app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
+        app.use(express.cookieParser('teacherportal'));
+		app.use(express.session({secret: 'teacherportal'}));
+		app.use(passport.initialize());
+		app.use(passport.session());
+		app.use("/", express.static(__dirname + wwwDir));
+		app.get("/", function(req, res) { res.render(wwwDir + "/index.html");});
+	});
+};
+
+app.post("/registerUser", function(req, res){
+	var username = req.body.username;
+
+    console.log("username from register: "+username);
+    console.log("request: "+req.body.username);
+	Teacher.findOne({username : username }, function(err, existingUser) {
+	    if (err){
+	        return res.send({'err': err});
+	    }
+	    if (existingUser) {
+	        console.log("user exists");
+	        return res.send('user exists');
+	    }
+
+    var teacher = new Teacher({ username : req.body.username, password: req.body.password});
+
+    console.log("creates a new one");	
+    teacher.registeredTimestamp = new Date();
+    	teacher.setPassword(req.body.password, function(err) {
+		    if (err) {
+		        return res.send({'err': err});
+		    }
+		    teacher.save(function(err) {
+			    if (err) {
+			        return res.send({'err': err});
+			    }
+			    return res.send('success');
+		    });	
+        });  
+    });
+});
+
+app.post('/loginUser', passport.authenticate('local'), function(req, res) {
+    req.user.lastUserAgent = req.headers['user-agent'];
+
+    req.user.lastIp = req.ip;
+    req.user.lastHost = req.host;
+    req.user.lastLoginTimestamp = new Date();
+    req.user.save();
+    return res.send('success');
+});
 
 app.get("/register", function(req,res){
 	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -77,6 +158,7 @@ app.post("/postScore", function(req, res){
 	scoreObj.numTotal = req.body.numTotal;
 
 	scoreData.push(scoreObj);
+	console.log(scoreData);
 
 	return res.send("Registered.");
 });

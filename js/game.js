@@ -285,9 +285,9 @@ function execute(){
         });
         
         // send name
-        $("#send").bind("click", function(){
-            sendScore($("#name").val(),numRightQuestion,numQuestions);
-        });
+        // $("#send").bind("click", function(){
+        //     sendScore($("#name").val(),numRightQuestion,numQuestions);
+        // });
         
     }
 
