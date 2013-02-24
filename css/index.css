@@ -797,3 +797,12 @@ h1 {
   height: 100%;
   background-color: #000;
 }
+
+#banner {
+    background-color:black;
+    height:25px;
+}
+
+.studentScore {
+    margin:10%;
+}

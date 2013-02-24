@@ -285,9 +285,9 @@ function execute(){
         });
         
         // send name
-        $("#send").bind("click", function(){
-            sendScore($("#name").val(),numRightQuestion,numQuestions);
-        });
+        // $("#send").bind("click", function(){
+        //     sendScore($("#name").val(),numRightQuestion,numQuestions);
+        // });
         
     }
 
@@ -379,12 +379,15 @@ function execute(){
         // stop updating canvas
         window.clearInterval(interval);
 
+        $("#end").show();
+
         // hide "play again" initially and show enter name
         $("#againBtn").hide();
-        $("#entername").show();
 
         // show end screen div
         $("#end").slideDown(animationTime);
+        //$("#entername").show();
+
         // show score
         $("#endScore").html("Score: "+score);
         if (numQuestions == 1){
