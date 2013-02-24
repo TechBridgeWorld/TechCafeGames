@@ -3,7 +3,7 @@ window.onload = execute();
 function execute(){
 
     // testing switches for sound and random answers
-    var soundOn = false;
+    var soundOn = true;
     var randomChoiceFlag = true;
 
     var questionData = {};
