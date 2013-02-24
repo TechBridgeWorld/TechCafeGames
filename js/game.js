@@ -52,7 +52,8 @@ function execute(){
     var height = window.innerHeight * 0.99999;
     var interval;
     var ctx;
-    var canvas;  
+    var canvas;
+    var buffer;
 
     var carX; 
     var carY; 
@@ -174,11 +175,17 @@ function execute(){
         numQuestions=0;
         
         /* Canvas+DOM variables */
+        buffer = document.createElement('canvas');
+        
         canvas = document.getElementById('gameCanvas');
-        ctx = $('#gameCanvas')[0].getContext('2d');
-        ctx.canvas.width = width; 
-        ctx.canvas.height = height;
-        ctx.clearRect(0,0,width,height); 
+        ctx_visible = canvas.getContext('2d');
+        ctx_visible.canvas.width = width; 
+        ctx_visible.canvas.height = height;
+        ctx_visible.clearRect(0,0,width,height);
+        buffer.width = canvas.width;
+        buffer.height = canvas.height;
+        
+        ctx = buffer.getContext('2d');
         
         /* Car variables */
         carWidth = 0.1*width; 
@@ -211,7 +218,7 @@ function execute(){
         canvas.addEventListener('touchmove', setupEventListener, false);
         
         window.clearInterval(interval);
-        interval = setInterval(draw, 50);
+        interval = setInterval(update, 50);
 
         // hide curr powerups
         $('#currPowers').hide();
@@ -305,18 +312,25 @@ function execute(){
     }
 
     // update canvas
-    function draw(){
+    function update(){
         ctx.clearRect(0,0,width,height); 
         if (questionFlag) drawQuestionBox();
         else {
             if (invincibleFlag) drawFlames();
             updateBar();
-            drawScore();
-            drawObstacles();
-            drawCar();
-            drawPowerUps();
+            updateObstacles();
+            updatePowerUps();
+            draw();
         }
+        ctx_visible.clearRect(0, 0, width, height);
+        ctx_visible.drawImage(buffer,0,0);
     }
+    
+    function draw() {
+		drawScore();
+        drawCar();
+        drawObjects();
+	}
 
     // draw flames behind car in boost mode
     function drawFlames(){
@@ -721,11 +735,11 @@ function execute(){
     }
 
     // draw obstacles & coins on road
-    function drawObstacles(){
+    function updateObstacles(){
         timer++;
 
         // draw an obstacle every 27*drawInterval ms
-        if (timer%27 === 0) {
+        if (timer%27 == 0) {
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
             if(allObstacles[index]=="coin") {
@@ -774,25 +788,13 @@ function execute(){
             else if(obsArr[i].y >= height) {
                 obsArr.splice(i,1);
             }
-            else {
-                // draw obstacle, transparent when in boost 
-                if(obsArr[i].name == "obs") {
-                    if (invincibleFlag){ctx.globalAlpha = 0.2;}
-                    ctx.drawImage(obsImage, obsArr[i].x, obsArr[i].y, powerUpWidth, carHeight); 
-                    if (invincibleFlag){ctx.globalAlpha = 1;}
-                }
-                // draw coin
-                if(obsArr[i].name == "coin"){
-                    ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, powerUpWidth, coinHeight);
-                }
-            }
         }
     }
     
-    // draw powerups on road
-    function drawPowerUps() {
+    // update power up information
+    function updatePowerUps() {
         // draw new one every 50*drawInterval ms
-        if (timer%50 === 0) {
+        if (timer%50 == 0) {
             var index = Math.floor(Math.random()*(allPowers.length*2));
             if (index>=allPowers.length){
                 index = 0;
@@ -847,19 +849,33 @@ function execute(){
             else if(powerUps[i].y >= height) {
                 powerUps.splice(i,1);
             }
-            // if not eaten, draw
-            else {
-                if(powerUps[i].name == "gas")
-                    ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
-                if(powerUps[i].name == "crossout") 
-                    ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);       
-                if(powerUps[i].name == "timeplus") 
-                    ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
-                if(powerUps[i].name == "invincible") 
-                    ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
-            }
         }
     }
+    
+    //draw obstacles and power ups
+    function drawObjects() {
+		for (var i = 0; i < powerUps.length; i++) {
+			if(powerUps[i].name == "gas")
+				ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
+			if(powerUps[i].name == "crossout") 
+				ctx.drawImage(crossout, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);       
+			if(powerUps[i].name == "timeplus") 
+				ctx.drawImage(timeplus, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
+			if(powerUps[i].name == "invincible") 
+				ctx.drawImage(invincible, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
+        }
+        for (var i = 0; i < obsArr.length; i++) {
+			if(obsArr[i].name == "obs") {
+                if (invincibleFlag){ctx.globalAlpha = 0.2;}
+				ctx.drawImage(obsImage, obsArr[i].x, obsArr[i].y, powerUpWidth, carHeight); 
+                if (invincibleFlag){ctx.globalAlpha = 1;}
+            }
+            // draw coin
+            if(obsArr[i].name == "coin"){
+                ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, powerUpWidth, coinHeight);
+		}
+	}
+}
 
     // update display of current active power-ups
     function updateCurrPowers(){
@@ -919,5 +935,3 @@ function execute(){
         }
     }
 }
-
-
