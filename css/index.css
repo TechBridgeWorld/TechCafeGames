@@ -466,7 +466,7 @@ table{
 
 /* ------------------ start & end screens ------------ */
 
-#start, #end{
+#start, #end, #instructions{
     height:100%;
     width:100%;
     position:absolute;
@@ -619,22 +619,6 @@ table{
   background-size: 100%;
 }
 
-/*.push {
-  font-family: Juicy;
-  display:block;
-  width:200px;
-  height:200px;
-  border-radius:132px;
-  border:4px double #ccc;
-  font-size:30px;
-  color:#666;
-  line-height:200px;
-  text-align:center;
-  text-decoration:none;
-  text-shadow:0 1px 0 #fff;
-  background:#aaa
-}*/
-
 .startScreenBtns {
     font-family: Juicy;
     text-decoration:none;
@@ -653,9 +637,85 @@ table{
     margin:20px;
 }
 
-#instructions {
-    left:10px;
+
+/* -------- Instructions page -------- */
+
+#instructions-howto, #instructions-powers{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 3%;
 }
+
+#instructions-howto{
+  background: url('../img/race-assets/instructions-howto.png') no-repeat top center;
+  display: none;
+  background-size: 80%;
+}
+#instructions-powers{
+  background: url('../img/race-assets/instructions-powers.png') no-repeat top center;
+  display: none;
+  background-size: 75%;
+  top: 3.5%;
+}
+
+#instructions-nav{
+  position: absolute;
+  height: 10%;
+  width: 100%;
+  bottom: 0;
+/*  background-color: red;*/
+}
+
+#instructions-nav .left, #instructions-nav .right{
+  position: absolute;
+  height: 100%;
+  width: 7%;
+  background-size: 100%;
+}
+
+#instructions-nav .left{
+  left: 35%;
+  background: url('../img/race-assets/instructions-arrowleft.png') no-repeat;
+}
+
+#instructions-nav .right{
+  left: 55%;
+  background: url('../img/race-assets/instructions-arrowright.png') no-repeat;
+}
+
+#instructions .finish{
+  position: absolute;
+  height: 100%;
+  width: 17%;
+  right: 7%;
+  background: url('../img/race-assets/instructions-finish.png') no-repeat;
+  background-size: 100%;
+}
+
+#instructions-howto .slide{
+  position: absolute;
+  height: 30%;
+  width: 13%;
+  bottom: 15%;
+  left: 35%;
+  background: url('../img/race-assets/instructions-slide.png') no-repeat bottom left;
+  background-size: 100%;
+  -webkit-animation: slide 2s infinite alternate;  
+}
+
+@-webkit-keyframes slide {  
+  from { left: 35%; }
+  to { left: 60%; }
+}
+
+#instructions-nav.page1 .left, #instructions-nav.page2 .right{
+  opacity: 0.3;
+}
+#instructions-nav.page1 .right, #instructions-nav.page2 .{
+  opacity: 0.3;
+}
+
 
 #scores {
     right:10px;
@@ -670,10 +730,6 @@ table{
   position: relative;
   z-index: 10;
   font-size: 30;
-
-/*  -webkit-text-fill-color: white;  Will override color (regardless of order) 
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: green;*/
 }
 
 #explode{

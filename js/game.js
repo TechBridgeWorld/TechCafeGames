@@ -259,6 +259,7 @@ function execute(){
         // hide end screen & "GO!"
         $("#end").hide();
         $("#startGo").hide();
+        $("#instructions").hide();
 
         // play music
         if (soundOn){
@@ -283,12 +284,90 @@ function execute(){
                 carSfx.play();
             }
         });
+
+        // pressing instructions button
+        $("#instructionBtn").bind("click", function(){
+            showInstructions();
+        });
+        $("#instructionBtn").live("touch", function(){
+            showInstructions();
+        });
         
         // send name
         // $("#send").bind("click", function(){
         //     sendScore($("#name").val(),numRightQuestion,numQuestions);
         // });
-        
+    }
+
+    // show instructions screen from home screen
+    function showInstructions(){
+        $("#instructions").slideDown(animationTime);
+        $("#instructions-powers").hide();
+        $("#instructions-howto").hide();
+        $("#instructions-howto").fadeIn(animationTime);
+        $("#instructions-nav").removeClass("page2");
+        $("#instructions-nav").addClass("page1");
+
+        // nav buttons
+        $("#instructions-nav .finish").bind("click", function(){
+            hideInstructions();
+        });
+        $("#instructions-nav .finish").live("touch", function(){
+            hideInstructions();
+        });
+
+        $("#instructions-nav .left").bind("click", function(){});
+        $("#instructions-nav .left").live("touch", function(){});
+
+        $("#instructions-nav .right").bind("click", function(){
+            instructionsPg2();
+        });
+        $("#instructions-nav .right").live("touch", function(){
+            instructionsPg2();
+        });
+    }
+
+    // switching to instruction page2
+    function instructionsPg2(){
+        $("#instructions-howto").fadeOut(animationTime);
+        $("#instructions-powers").fadeIn(animationTime);
+
+        $("#instructions-nav").removeClass("page1");
+        $("#instructions-nav").addClass("page2");
+
+        $("#instructions-nav .left").bind("click", function(){
+            instructionsPg1();
+        });
+        $("#instructions-nav .left").live("touch", function(){
+            instructionsPg1();
+        });
+
+        $("#instructions-nav .right").bind("click", function(){});
+        $("#instructions-nav .right").live("touch", function(){});
+    }
+
+    // switching to instruction page1
+    function instructionsPg1(){
+        $("#instructions-powers").fadeOut(animationTime);
+        $("#instructions-howto").fadeIn(animationTime);
+
+        $("#instructions-nav").removeClass("page2");
+        $("#instructions-nav").addClass("page1");
+
+        $("#instructions-nav .left").bind("click", function(){});
+        $("#instructions-nav .left").live("touch", function(){});
+
+        $("#instructions-nav .right").bind("click", function(){
+            instructionsPg2();
+        });
+        $("#instructions-nav .right").live("touch", function(){
+            instructionsPg2();
+        });
+    }
+
+    // hide instruction
+    function hideInstructions(){
+        $("#instructions").slideUp(animationTime);
     }
 
     // show start screen
