@@ -393,6 +393,8 @@ function execute(){
     function showHighscores(){
         $("#highscoresList").show();
         $("#highscores").slideDown(animationTime);
+        $("#highscoresList").html("");
+        // get top scores and add to list
         $.ajax({
           url: "/getScores",
           context: document.body,
