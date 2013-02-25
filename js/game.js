@@ -44,6 +44,8 @@ function execute(){
                 }
             },
         function onError(data){ 
+            alert("There was an error retrieving the question file");
+            fileFlag=false;
             }
     );
 
@@ -54,6 +56,7 @@ function execute(){
     var ctx;
     var canvas;
     var buffer;
+    var fileFlag = true;
 
     var carX; 
     var carY; 
@@ -276,6 +279,7 @@ function execute(){
             bgm.play();
         }
 
+        if(fileFlag) {
         // pressing start button
         $(".push").bind("click", function(){
             $("#start").slideUp(animationTime); 
@@ -294,6 +298,7 @@ function execute(){
                 carSfx.play();
             }
         });
+    }
 
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
@@ -409,7 +414,8 @@ function execute(){
               }
           },
           error: function showError (err) {
-              console.log(err);
+              alert("There was an error retreiving high scores");
+              //console.log(err);
           }
         });
 
