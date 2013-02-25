@@ -3,11 +3,12 @@ var wwwDir = "/";
 var http = require('http');
 var xml2js = require('xml2js');
 var scoreData = []; 
+var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var app = express();
-var Teacher = require('./Teacher.js');
+var Teacher = require('./models/Teacher.js');
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -31,7 +32,7 @@ function init(){
 init();
 
 function initPassportUser(){
-    var Teacher = require('./Teacher');
+    var Teacher = require('./models/Teacher');
 
     passport.use(new LocalStrategy(Teacher.authenticate()));
 
@@ -153,16 +154,52 @@ app.get("/register", function(req,res){
 app.post("/postScore", function(req, res){
 	console.log(req.body.name);
 	var scoreObj = {}; 
+	var questionObj = {};
+	questionObj.name = req.body.name;
+	questionObj.numRight = parseInt(req.body.numRight); 
+	questionObj.numTotal = parseInt(req.body.numTotal);
 	scoreObj.name = req.body.name;
-	scoreObj.numRight = req.body.numRight; 
-	scoreObj.numTotal = req.body.numTotal;
-
+	scoreObj.score = parseInt(req.body.score);
+	
+	questionStats.push(questionObj);
 	scoreData.push(scoreObj);
+
 	console.log(scoreData);
 
 	return res.send("Registered.");
 });
 
-app.get("/getscore", function(req, res){
-	res.send(scoreData);
+app.get("/getScores", function(req, res){
+	
+	var topFive = []; 
+
+	function compare(a,b) {
+	  if (a.score < b.score)
+	     return 1;
+	  if (a.score > b.score)
+	    return -1;
+	  return 0;
+	}
+
+	scoreData.sort(compare);
+
+	console.log('scoreData:');
+	console.dir(scoreData);
+
+	if (scoreData.length > 5){
+		topFive = scoreData.slice(0,5);
+	}
+	else{
+		topFive = scoreData; 
+	}
+
+	console.log('topFive:');
+	console.dir(topFive);
+
+	res.send(topFive);
+
 });
+
+app.get("/getQuestionStats", function(req,res){
+	res.send(questionStats);
+})
