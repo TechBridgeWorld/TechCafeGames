@@ -466,7 +466,7 @@ table{
 
 /* ------------------ start & end screens ------------ */
 
-#start, #end, #instructions{
+#start, #end, #instructions, #highscores{
     height:100%;
     width:100%;
     position:absolute;
@@ -676,7 +676,7 @@ table{
 }
 
 #instructions-nav .left{
-  left: 35%;
+  left: 38%;
   background: url('../img/race-assets/instructions-arrowleft.png') no-repeat;
 }
 
@@ -685,20 +685,11 @@ table{
   background: url('../img/race-assets/instructions-arrowright.png') no-repeat;
 }
 
-#instructions .finish{
-  position: absolute;
-  height: 100%;
-  width: 17%;
-  right: 7%;
-  background: url('../img/race-assets/instructions-finish.png') no-repeat;
-  background-size: 100%;
-}
-
 #instructions-howto .slide{
   position: absolute;
   height: 30%;
   width: 13%;
-  bottom: 15%;
+  bottom: 20%;
   left: 35%;
   background: url('../img/race-assets/instructions-slide.png') no-repeat bottom left;
   background-size: 100%;
@@ -713,9 +704,78 @@ table{
 #instructions-nav.page1 .left, #instructions-nav.page2 .right{
   opacity: 0.3;
 }
-#instructions-nav.page1 .right, #instructions-nav.page2 .{
-  opacity: 0.3;
+#instructions-nav.page1 .right, #instructions-nav.page2 .left{
+  opacity: 1;
 }
+
+#instructions .back, #highscores .back{
+  position: absolute;
+  height: 100%;
+  width: 17%;
+  left: 3%;
+  background: url('../img/race-assets/nav-back.png') no-repeat;
+  background-size: 100%;
+}
+
+
+/* ------- highscores ------- */
+
+#highscores{
+  color: #fff;
+}
+
+#highscores .title{
+  width: 100%;
+  height: 20%;
+  position: absolute;
+  top: 5%;
+  background: url('/img/race-assets/highscores.png') top center no-repeat;
+  background-size: 80%;
+}
+
+#highscoresList{
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  height: 60%;
+  top: 20%;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 5%;
+  overflow: hidden;
+  display: none;
+}
+
+#highscores .back{
+  position: absolute;
+  top: 90%;
+  left: 41.5%;
+}
+
+#highscores .none{
+  position: absolute;
+  top: 40%;
+  font-size: 200%;
+  width: 100%;
+  text-align: center;
+}
+
+#highscoresList .line{
+  padding: 5% 10%;
+  height: 7%;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 130%;
+  font-weight: bold;
+}
+#highscoresList .line:last-child{
+  border-bottom: none;
+}
+#highscoresList .line .name{
+  float: left;
+}
+#highscoresList .line .score{
+  float: right;
+}
+
 
 
 #scores {

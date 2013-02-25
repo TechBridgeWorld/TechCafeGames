@@ -269,6 +269,7 @@ function execute(){
         $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
+        $("#highscores").hide();
 
         // play music
         if (soundOn){
@@ -301,6 +302,14 @@ function execute(){
         $("#instructionBtn").live("touch", function(){
             showInstructions();
         });
+
+        // pressing high scores button
+        $("#hiScoreBtn").bind("click", function(){
+            showHighscores();
+        });
+        $("#hiScoreBtn").live("touch", function(){
+            showHighscores();
+        });
         
         // send name
         // $("#send").bind("click", function(){
@@ -319,10 +328,10 @@ function execute(){
         $("#instructions-nav").show();
 
         // nav buttons
-        $("#instructions-nav .finish").bind("click", function(){
+        $("#instructions-nav .back").bind("click", function(){
             hideInstructions();
         });
-        $("#instructions-nav .finish").live("touch", function(){
+        $("#instructions-nav .back").live("touch", function(){
             hideInstructions();
         });
 
@@ -378,6 +387,43 @@ function execute(){
     // hide instruction
     function hideInstructions(){
         $("#instructions").slideUp(animationTime);
+    }
+
+    // show instructions screen from home screen
+    function showHighscores(){
+        $("#highscoresList").show();
+        $("#highscores").slideDown(animationTime);
+        $.ajax({
+          url: "/getScores",
+          context: document.body,
+          success: function displayScores (list) {
+              if (list.length === 0){
+                $("#highscoresList").append("<div class='none'>No high scores yet.</div>");
+              }
+              else{
+                for (var i=0; i<6; i++){
+                    $("#highscoresList").append("<div class='line'><div class='name'>"+list[i].name+"</div><div class='score'>"+list[i].score+"</div></div>");
+                }
+              }
+          },
+          error: function showError (err) {
+              console.log(err);
+          }
+        });
+
+        // back button
+        $("#highscores .back").bind("click", function(){
+            hideHighscores();
+        });
+        $("#highscores .back").live("touch", function(){
+            hideHighscores();
+        });
+
+    }
+
+    // hide high scores screen
+    function hideHighscores(){
+        $("#highscores").slideUp(animationTime);
     }
 
     // show start screen
