@@ -605,17 +605,31 @@ table{
 }
 
 #againBtn{
-  width: 46%;
-  height: 50%;
+  width: 32%;
+  height: 30%;
   position: absolute;
   top: 55%;
-  left: 27%;
+  left: 34%;
   background: url('/img/race-assets/end-againbtn.png') no-repeat;
   background-size: 100%;
 }
 
 #againBtn:hover, #againBtn:active{
   background: url('/img/race-assets/end-againbtn-a.png') no-repeat;
+  background-size: 100%;
+}
+
+#homeBtn{
+  width: 24%;
+  height: 20%;
+  position: absolute;
+  top: 83%;
+  left: 38%;
+  background: url('/img/race-assets/homebtn.png') no-repeat;
+  background-size: 100%;
+}
+#homeBtn:hover, #homeBtn:active{
+  background: url('/img/race-assets/homebtn-a.png') no-repeat;
   background-size: 100%;
 }
 

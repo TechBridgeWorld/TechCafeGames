@@ -525,12 +525,21 @@ function execute(){
 
         $("#end").show();
 
+        // go back home
+        $("#homeBtn").bind("click", function(){
+            goHome();
+            console.log("home");
+        });
+        $("#homeBtn").live("touch", function(){
+            goHome();
+        });
+
         // hide "play again" initially and show enter name
         $("#againBtn").hide();
+        $("#homeBtn").hide();
 
         // show end screen div
         $("#end").slideDown(animationTime);
-        //$("#entername").show();
 
         // show score
         $("#endScore").html("Score: "+score);
@@ -541,6 +550,8 @@ function execute(){
             $("#questionScore").html(numRightQuestion + " / " + numQuestions + " questions correct");
         }
 
+        $("#entername").show();
+
         // bind action to race again button
         $(".push").bind("click", function(){$("#end").hide(); setup();});
         $(".push").live("touch", function(){$("#end").hide(); setup();});
@@ -549,10 +560,12 @@ function execute(){
         $("#cancel").bind("click", function(){
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
+            $("#homeBtn").fadeIn(animationTime);
         });
         $("#cancel").live("touch", function(){
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
+            $("#homeBtn").fadeIn(animationTime);
         });
         
         // send name button
@@ -560,7 +573,14 @@ function execute(){
             sendScore($("#name").val(),numRightQuestion,numQuestions,score);
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
+            $("#homeBtn").fadeIn(animationTime);
         });
+    }
+
+    // go back to home page from end page
+    function goHome(){
+        $("#start").show();
+        $("#end").slideUp(animationTime);
     }
     
     // send score to server
