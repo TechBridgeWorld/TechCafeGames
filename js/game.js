@@ -509,19 +509,20 @@ function execute(){
         
         // send name button
         $("#send").bind("click", function(){
-            sendScore($("#name").val(),numRightQuestion,numQuestions);
+            sendScore($("#name").val(),numRightQuestion,numQuestions,score);
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
         });
     }
     
     // send score to server
-    function sendScore(name, numRight, numTotal) {
+    function sendScore(name, numRight, numTotal,score) {
         ajaxPost(
         {
             name: name,
             numRight: numRight, 
-            numTotal: numTotal
+            numTotal: numTotal,
+            score:score
         },
         '/postScore',
         function onSuccess(data){
