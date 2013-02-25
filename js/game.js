@@ -401,7 +401,7 @@ function execute(){
                 $("#highscoresList").append("<div class='none'>No high scores yet.</div>");
               }
               else{
-                for (var i=0; i<6; i++){
+                for (var i=0; i<list.length; i++){
                     $("#highscoresList").append("<div class='line'><div class='name'>"+list[i].name+"</div><div class='score'>"+list[i].score+"</div></div>");
                 }
               }

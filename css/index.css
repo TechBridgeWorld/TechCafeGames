@@ -741,7 +741,7 @@ table{
   top: 20%;
   background-color: rgba(0,0,0,0.5);
   border-radius: 5%;
-  overflow: hidden;
+  overflow: scroll;
   display: none;
 }
 
