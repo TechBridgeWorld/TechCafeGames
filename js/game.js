@@ -134,9 +134,11 @@ function execute(){
         var bgm = new Audio("sounds/racing-bgm.mp3");
         bgm.loop = true;
         bgm.volume = 0.4;
+        bgm.load();
 
         var carSfx = new Audio("sounds/car-sfx.mp3");
         carSfx.loop = true;
+        carSfx.load();
 
         var coinSfx = new Audio("sounds/coin.wav");
         var correctSfx = new Audio("sounds/correct.wav");
@@ -314,6 +316,7 @@ function execute(){
         $("#instructions-howto").fadeIn(animationTime);
         $("#instructions-nav").removeClass("page2");
         $("#instructions-nav").addClass("page1");
+        $("#instructions-nav").show();
 
         // nav buttons
         $("#instructions-nav .finish").bind("click", function(){

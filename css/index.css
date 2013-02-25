@@ -664,6 +664,7 @@ table{
   height: 10%;
   width: 100%;
   bottom: 0;
+  display: none;
 /*  background-color: red;*/
 }
 
