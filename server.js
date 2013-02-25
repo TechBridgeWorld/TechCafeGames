@@ -171,7 +171,7 @@ app.post("/postScore", function(req, res){
 
 app.get("/getScores", function(req, res){
 	
-	var topFive = []; 
+	var topTen = []; 
 
 	function compare(a,b) {
 	  if (a.score < b.score)
@@ -186,17 +186,17 @@ app.get("/getScores", function(req, res){
 	console.log('scoreData:');
 	console.dir(scoreData);
 
-	if (scoreData.length > 5){
-		topFive = scoreData.slice(0,5);
+	if (scoreData.length >= 10){
+		topTen = scoreData.slice(0,10);
 	}
 	else{
-		topFive = scoreData; 
+		topTen = scoreData; 
 	}
 
-	console.log('topFive:');
-	console.dir(topFive);
+	console.log('topTen:');
+	console.dir(topTen);
 
-	res.send(topFive);
+	res.send(topTen);
 
 });
 
