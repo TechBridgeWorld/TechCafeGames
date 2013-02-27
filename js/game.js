@@ -639,6 +639,7 @@ function execute(){
 			}
 		}
 		
+		
         // get choices for question
         for(var i = 0; i < 4; i++) {
             if(question.choices[i] != undefined) {		
@@ -651,6 +652,17 @@ function execute(){
                 answerID = "#choice"+idNum;
             }
         }
+        //make sure answer is one of the first four choices
+        if (ansIndex > 3) {
+			var prevAnsIndex = ansIndex
+			ansIndex = Math.floor(Math.random() * question.choices.length);
+			var temp = choiceArr[prevAnsIndex];
+			choiceArr[prevAnsIndex] = choiceArr[ansIndex];
+			choiceArr[ansIndex] = temp;
+			var jsontemp = question.choices[prevAnsIndex];
+			question.choices[prevAnsIndex] = question.choices[ansIndex];
+			question.choices[ansIndex] = temp;
+		}
 
         // stop road from moving
         $("#one").addClass("stop");
