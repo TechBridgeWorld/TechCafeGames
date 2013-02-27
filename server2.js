@@ -1,7 +1,4 @@
 
-//app.use("/", express.static(__dirname + wwwDir));
-//app.get("/", function(req, res) { res.render(wwwDir + "/index.html");});
-
 var express = require("express");
 var wwwDir = "/";
 var http = require('http');
