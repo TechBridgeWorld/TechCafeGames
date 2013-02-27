@@ -9,6 +9,7 @@ var LocalStrategy = require('passport-local').Strategy;
 //var mongoose = require('mongoose');
 var app = express.createServer(express.logger());
 var Teacher = require('./models/Teacher.js');
+var port = process.env.PORT || 5000;
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -26,7 +27,7 @@ function init(){
 
     var User = initPassportUser();
 
-	app.listen(8080);
+	app.listen(port);
 }
 
 init();
