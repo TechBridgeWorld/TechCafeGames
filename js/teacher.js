@@ -148,20 +148,6 @@ function execute() {
                 }
         );   
 
-    //     ajaxRequest( 
-    //         '/getScores',
-    //         function onSuccess(data){
-    //             if(data)
-    //                 {   
-    //                     studentData = data; 
-    //                     for(var i = 0; i < studentData.length; i++) {
-    //                         $("#scores").append("<div id='"+studentData[i].name+"' class='studentScore'><h2>"+studentData[i].name+"</h2><h3>"+studentData[i].score+"</h3></br></div>");
-    //                     }
-    //                 }
-    //             },
-    //         function onError(data){ 
-    //             }
-    //     );   
     }
 
 }

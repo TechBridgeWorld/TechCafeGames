@@ -71,7 +71,7 @@ function execute(){
 
     var obstacleHeight; 
     var allObstacles=["obs", "coin"];
-    var obsArr=[];
+    var obsArr;
     var objectSpeed; 
     var timer;
 
@@ -207,6 +207,7 @@ function execute(){
         lane2X = width*.47-carWidth/2; 
         lane3X = width*0.70-carWidth/2;
         objectSpeed = 15;
+        obsArr = []; 
 
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
@@ -281,7 +282,7 @@ function execute(){
 
         if(fileFlag) {
         // pressing start button
-        $(".push").bind("click", function(){
+        $("#startBtn").bind("click", function(){
             $("#start").slideUp(animationTime); 
             setup();
             // show "GO!"
@@ -290,7 +291,7 @@ function execute(){
                 carSfx.play();
             }
         });
-        $(".push").live("touch", function(){
+        $(".startBtn").live("touch", function(){
             $("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
@@ -559,8 +560,8 @@ function execute(){
         $("#entername").show();
 
         // bind action to race again button
-        $(".push").bind("click", function(){$("#end").hide(); setup();});
-        $(".push").live("touch", function(){$("#end").hide(); setup();});
+        $("#againBtn").bind("click", function(){$("#end").hide(); setup();});
+        $("#againBtn").live("touch", function(){$("#end").hide(); setup();});
     
         // cancel send name button 
         $("#cancel").bind("click", function(){
