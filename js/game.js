@@ -3,10 +3,12 @@ window.onload = execute();
 function execute(){
 
     // testing switches for sound and random answers
-    var soundOn = true;
-    var randomChoiceFlag = true;
-
-    var questionData = {};
+    var soundOn = true;             // turns on game sounds
+    var randomChoiceFlag = true;    // randomize answers in question
+    var trackDataFlag = true;       // track all user data for testing purposes
+    var gameData = [];              // array to store tracking data
+    var eatenPowerFlag;             // false when user hasn't eaten any powers yet
+    
     
     var ajaxRequest = function(url, fnSuccess, fnError){
         $.ajax({
@@ -58,6 +60,8 @@ function execute(){
 
     // console.log(width);
     var interval;
+    var intervalTime = 50;  // 50 ms for screen refresh
+    var updateCounter;      // counts how many times update function is called
     var ctx;
     var canvas;
     var buffer;
@@ -87,9 +91,9 @@ function execute(){
     var invincibleDuration;
     var xClip;
     var animationTime = 400;
-    var feedbackDelay = 2000; //time to delay animation when showing question feedback
-    var countdownInt; // countdown interval
-    var qTimeout; // timeout for question
+    var feedbackDelay = 2000;   //time to delay animation when showing question feedback
+    var countdownInt;           // countdown interval
+    var qTimeout;               // timeout for question
 
     var barStart;
     var barWidth;
@@ -107,7 +111,7 @@ function execute(){
     var numRightQuestion;
     var numQuestions;
 
-    var maxNameLength = 25; // max # of chars to display in high score name
+    var maxNameLength = 25;     // max # of chars to display in high score name
 
     // images
 
@@ -179,7 +183,8 @@ function execute(){
     function setup(){    
         
         /* General variables */
-        timer = 0; 
+        timer = 0;
+        updateCounter = 0; 
         score = 0;
         
         barFrac=100;
@@ -231,7 +236,7 @@ function execute(){
         canvas.addEventListener('touchmove', setupEventListener, false);
         
         window.clearInterval(interval);
-        interval = setInterval(update, 50);
+        interval = setInterval(update, intervalTime);
 
         // hide curr powerups
         $('#currPowers').hide();
@@ -240,7 +245,46 @@ function execute(){
         $('#currEliminate').hide();
         $('#currTime .num').hide();
         $('#currEliminate .num').hide();
-        
+
+        // setup data tracking
+        var timestamp = new Date();
+        var year = timestamp.getFullYear();
+        var month = timestamp.getMonth() + 1
+        var day = timestamp.getDate();
+        var hours = timestamp.getHours()
+        var minutes = timestamp.getMinutes()
+        if (minutes < 10){
+            minutes = "0" + minutes;
+        }
+        timestamp = year + "/" + month + "/" + day + " " + hours + ":" + minutes;
+        gameData.push({
+            "gameLength":0,
+            "timestamp": timestamp,
+            "score":0,
+            "name":"",
+            "numTotalQuestions":0,
+            "numRightQuestions":0,
+            "numTimeoutQuestions":0,
+            "numObstaclesEaten":0,
+            "numObstaclesSpawned":0,
+            "numCoinsEaten":0,
+            "numCoinsSpawned":0,
+            "powersData":{
+                  "numPowersEaten":0,
+                  "numPowersSpawned":0,
+                  "numPowersMissedInitally":0,
+                  "numGasPowersEaten":0,
+                  "numGasPowersSpawned":0,
+                  "numBoostPowersEaten":0,
+                  "numBoostPowersSpawned":0,
+                  "numCrossoutPowersEaten":0,
+                  "numCrossoutPowersSpawned":0,
+                  "numTimePowersEaten":0,
+                  "numTimePowersSpawned":0,
+            },
+            "questionData":[]
+        });
+        eatenPowerFlag = false;     // used to track how many powers user misses before eating one
     }
     
     // power ups
@@ -467,6 +511,15 @@ function execute(){
 
     // update canvas
     function update(){
+        // track how long the game is (in seconds)
+        updateCounter++;
+        if (trackDataFlag){
+            if (updateCounter%(1000/intervalTime) === 0){
+                // console.log(gameData.gameLen)
+                gameData[gameData.length-1].gameLength++;
+            }
+        }
+
         ctx.clearRect(0,0,width,height); 
         if (questionFlag) drawQuestionBox();
         else {
@@ -534,6 +587,13 @@ function execute(){
 
     // when you lose
     function endGame(){
+        // when tracking data, update data
+        if (trackDataFlag){
+            gameData[gameData.length-1].score = score;
+            gameData[gameData.length-1].numTotalQuestions = numQuestions;
+            gameData[gameData.length-1].numRightQuestions = numRightQuestion;
+        }
+
         if (soundOn){
             // stop all non-bgm music
             for (var i=0; i<nonBgmSounds.length; i++){
@@ -552,7 +612,7 @@ function execute(){
         // go back home
         $("#homeBtn").bind("click", function(){
             goHome();
-            console.log("home");
+            // console.log("home");
         });
         $("#homeBtn").live("touch", function(){
             goHome();
@@ -581,19 +641,24 @@ function execute(){
         $("#againBtn").live("touch", function(){$("#end").hide(); setup();});
     
         // cancel send name button 
-        $("#cancel").bind("click", function(){
-            $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
-        });
-        $("#cancel").live("touch", function(){
-            $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
-        });
+        // $("#cancel").bind("click", function(){
+        //     $("#entername").fadeOut(animationTime); 
+        //     $("#againBtn").fadeIn(animationTime);
+        //     $("#homeBtn").fadeIn(animationTime);
+        // });
+        // $("#cancel").live("touch", function(){
+        //     $("#entername").fadeOut(animationTime); 
+        //     $("#againBtn").fadeIn(animationTime);
+        //     $("#homeBtn").fadeIn(animationTime);
+        // });
         
         // send name button
         $("#send").bind("click", function(){
+            if (trackDataFlag){
+                gameData[gameData.length-1].name = $("#name").val();
+                console.log(gameData);
+            }
+
             sendScore($("#name").val(),numRightQuestion,numQuestions,score);
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
@@ -638,6 +703,15 @@ function execute(){
     function drawQuestionBox(){
     if($("#ques").length == 0) {
         canvas.removeEventListener('touchmove', setupEventListener, false);
+
+        // track data
+        if (trackDataFlag){
+            gameData[gameData.length-1].questionData.push({
+                "answerTime":0,
+                "correctAnswer":false,
+                "answerPosition":0
+            });
+        }
         
         // randomly gets question
         var c = Math.round((questionData.easy.length-1)*Math.random());
@@ -656,7 +730,6 @@ function execute(){
 				question.choices[index2] = temp;
 			}
 		}
-		
 		
         // get choices for question
         for(var i = 0; i < 4; i++) {
@@ -803,6 +876,13 @@ function execute(){
         // set number
         $('#countdown-inner').html(sec);
 
+        // track data
+        if (trackDataFlag){
+            var thisQuestion = gameData[gameData.length-1].questionData[gameData[gameData.length-1].questionData.length-1];
+            thisQuestion.answerTime++;
+            console.log(thisQuestion.answerTime);
+        }
+
         // play countdown sound
         if (soundOn){
             if (sec===10){
@@ -811,6 +891,8 @@ function execute(){
             if (sec===0){
                 countdownTick.pause();
                 countdownBeep.play();
+                // add timeout data to tracking
+                gameData[gameData.length-1].numTimeoutQuestions++;
             }
         }
 
@@ -860,6 +942,11 @@ function execute(){
     
     // check if answer is correct after answering
     function checkAns(right, choice, choiceTd, rightTd) {
+        if (trackDataFlag){
+            var thisQuestion = gameData[gameData.length-1].questionData[gameData[gameData.length-1].questionData.length-1];
+            thisQuestion.answerPosition = choiceTd.charAt(choiceTd.length-1);
+        }
+
         // clear counters
         window.clearTimeout(qTimeout);
         window.clearInterval(countdownInt);
@@ -871,6 +958,11 @@ function execute(){
 
         // if answer is right...
         if(right===choice){
+            if (trackDataFlag){
+                var thisQuestion = gameData[gameData.length-1].questionData[gameData[gameData.length-1].questionData.length-1];
+                thisQuestion.correctAnswer = true;
+            }
+
             score+=questionPoint;       // add score
             $("#score").html(score);    // show score
             if (soundOn){               // play sound
@@ -930,9 +1022,15 @@ function execute(){
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
             if(allObstacles[index]=="coin") {
+                if (trackDataFlag){
+                    gameData[gameData.length-1].numCoinsSpawned++;
+                }
                 obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -coinHeight, powerUpWidth, coinHeight));
             }
             else{
+                if (trackDataFlag){
+                    gameData[gameData.length-1].numObstaclesSpawned++;
+                }
                 obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight, powerUpWidth, carHeight));
             }
         }   
@@ -948,9 +1046,15 @@ function execute(){
                     if (soundOn){
                         coinSfx.play();
                     }
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].numCoinsEaten++;
+                    }
                 }
                 // crashing negative objects (i.e. cars)
                 else {
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].numObstaclesEaten++;
+                    }
                     barFrac+=obsArr[i].points;  // decrease gas
 
                     // show crash effect
@@ -988,14 +1092,39 @@ function execute(){
             }
             var x = chooseLane();
             powerUps.push(new Obs(allPowers[index], 0, x, -obstacleHeight, powerUpWidth, powerUpWidth));
+            
+            // track data
+            if (trackDataFlag){
+                gameData[gameData.length-1].powersData.numPowersSpawned++;
+                if (powerUps[powerUps.length-1].name == "gas") {
+                    gameData[gameData.length-1].powersData.numGasPowersSpawned++;
+                }
+                else if (powerUps[powerUps.length-1].name == "invincible") {
+                    gameData[gameData.length-1].powersData.numBoostPowersSpawned++;
+                }
+                else if (powerUps[powerUps.length-1].name == "crossout") {
+                    gameData[gameData.length-1].powersData.numCrossoutPowersSpawned++;
+                }
+                else if (powerUps[powerUps.length-1].name == "timeplus") {
+                    gameData[gameData.length-1].powersData.numTimePowersSpawned++;
+                }
+            }
+
         }
         // update existing ones
         for(var i = 0; i < powerUps.length; i++) {
             powerUps[i].update(carX, carY);     // update location
             // detect collision
             if (powerUps[i].eaten) {
+                if (eatenPowerFlag === false){eatenPowerFlag = true};
+                if (trackDataFlag){
+                    gameData[gameData.length-1].powersData.numPowersEaten++;
+                }
                 // when eating gas powerup, play sound and show question
                 if (powerUps[i].name == "gas") {
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].powersData.numGasPowersEaten++;
+                    }
                     if (soundOn){
                         questionSfx.play();
                     }
@@ -1003,6 +1132,9 @@ function execute(){
                 }
                 // when eating boost powerup
                 else if (powerUps[i].name == "invincible") {
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].powersData.numBoostPowersEaten++;
+                    }
                     if (soundOn){           // play sound
                         boostSfx.play();
                     }
@@ -1023,9 +1155,15 @@ function execute(){
                         powerupSfx.play();
                     }
                     if (powerUps[i].name == "crossout") {
+                        if (trackDataFlag){
+                            gameData[gameData.length-1].powersData.numCrossoutPowersEaten++;
+                        }
                         storedPowers[0].increment();
                     }
                     if (powerUps[i].name == "timeplus") {
+                        if (trackDataFlag){
+                            gameData[gameData.length-1].powersData.numTimePowersEaten++;
+                        }
                         storedPowers[1].increment();
                     }
                     updateCurrPowers();
@@ -1035,6 +1173,13 @@ function execute(){
             // remove powerups off screen
             else if(powerUps[i].y >= height) {
                 powerUps.splice(i,1);
+
+                // track how many powers user misses before eating one
+                if (trackDataFlag){
+                    if (eatenPowerFlag === false){
+                        gameData[gameData.length-1].powersData.numPowersMissedInitally++;
+                    }
+                }
             }
         }
     }
