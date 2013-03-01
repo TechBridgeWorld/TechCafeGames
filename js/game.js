@@ -52,6 +52,11 @@ function execute(){
     // important game variables
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
+
+    // var width = 450;
+    // var height = 700;
+
+    // console.log(width);
     var interval;
     var ctx;
     var canvas;
@@ -71,7 +76,7 @@ function execute(){
 
     var obstacleHeight; 
     var allObstacles=["obs", "coin"];
-    var obsArr=[];
+    var obsArr;
     var objectSpeed; 
     var timer;
 
@@ -82,7 +87,7 @@ function execute(){
     var invincibleDuration;
     var xClip;
     var animationTime = 400;
-    var feedbackDelay = 2000; //time to deplay animation when showing question feedback
+    var feedbackDelay = 2000; //time to delay animation when showing question feedback
     var countdownInt; // countdown interval
     var qTimeout; // timeout for question
 
@@ -101,6 +106,8 @@ function execute(){
 
     var numRightQuestion;
     var numQuestions;
+
+    var maxNameLength = 25; // max # of chars to display in high score name
 
     // images
 
@@ -143,26 +150,26 @@ function execute(){
         carSfx.loop = true;
         carSfx.load();
 
-        var coinSfx = new Audio("sounds/coin.wav");
-        var correctSfx = new Audio("sounds/correct.wav");
+        var coinSfx = new Audio("sounds/coin.mp3");
+        var correctSfx = new Audio("sounds/correct.mp3");
         var errorSfx = new Audio("sounds/error.mp3");
-        var powerupSfx = new Audio("sounds/powerup.wav");
+        var powerupSfx = new Audio("sounds/powerup.mp3");
         powerupSfx.volume = 0.5;
-        var questionSfx = new Audio("sounds/question.wav");
-        var boostSfx = new Audio("sounds/blast.wav");
+        var questionSfx = new Audio("sounds/question.mp3");
+        var boostSfx = new Audio("sounds/blast.mp3");
         boostSfx.volume = 0.6;
-        var crashSfx = new Audio("sounds/crash.wav");
+        var crashSfx = new Audio("sounds/crash.mp3");
 
         var countdownSfx = new Audio("sounds/countdown.mp3");
-        var countdownTick = new Audio("sounds/countdown-tick.wav");
+        var countdownTick = new Audio("sounds/countdown-tick.mp3");
         countdownTick.loop = true;
-        var countdownBeep = new Audio("sounds/countdown-beep.wav");
+        var countdownBeep = new Audio("sounds/countdown-beep.mp3");
 
-        var alertSfx = new Audio("sounds/alert.wav");
+        var alertSfx = new Audio("sounds/alert.mp3");
         alertSfx.loop = true;
         alertSfx.volume = 0.3;
 
-        var gameoverSfx = new Audio("sounds/gameover.wav");
+        var gameoverSfx = new Audio("sounds/gameover.mp3");
 
         var nonBgmSounds = [carSfx, coinSfx, correctSfx, errorSfx, powerupSfx, 
             questionSfx, boostSfx, crashSfx, countdownSfx, countdownTick, 
@@ -207,6 +214,7 @@ function execute(){
         lane2X = width*.47-carWidth/2; 
         lane3X = width*0.70-carWidth/2;
         objectSpeed = 15;
+        obsArr = []; 
 
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
@@ -268,7 +276,8 @@ function execute(){
 
     // start screen actions
     function startScreen(){
-        // hide end screen & "GO!"
+        // hide all other screens
+        $("#screen").hide();
         $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
@@ -281,7 +290,8 @@ function execute(){
 
         if(fileFlag) {
         // pressing start button
-        $(".push").bind("click", function(){
+        $("#startBtn").bind("click", function(){
+            $("#screen").show();
             $("#start").slideUp(animationTime); 
             setup();
             // show "GO!"
@@ -290,7 +300,8 @@ function execute(){
                 carSfx.play();
             }
         });
-        $(".push").live("touch", function(){
+        $(".startBtn").live("touch", function(){
+            $("#screen").show();
             $("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
@@ -399,6 +410,8 @@ function execute(){
         $("#highscoresList").show();
         $("#highscores").slideDown(animationTime);
         $("#highscoresList").html("");
+
+
         // get top scores and add to list
         $.ajax({
           url: "/getScores",
@@ -409,7 +422,12 @@ function execute(){
               }
               else{
                 for (var i=0; i<list.length; i++){
-                    $("#highscoresList").append("<div class='line'><div class='name'>"+list[i].name+"</div><div class='score'>"+list[i].score+"</div></div>");
+                    // truncate name when it's too long
+                    var playerName = list[i].name;
+                    if (playerName.length > maxNameLength){
+                        playerName = playerName.substring(0, maxNameLength-4) + "...";
+                    }
+                    $("#highscoresList").append("<div class='line'><div class='name'>"+playerName+"</div><div class='score'>"+list[i].score+"</div></div>");
                 }
               }
           },
@@ -559,8 +577,8 @@ function execute(){
         $("#entername").show();
 
         // bind action to race again button
-        $(".push").bind("click", function(){$("#end").hide(); setup();});
-        $(".push").live("touch", function(){$("#end").hide(); setup();});
+        $("#againBtn").bind("click", function(){$("#end").hide(); setup();});
+        $("#againBtn").live("touch", function(){$("#end").hide(); setup();});
     
         // cancel send name button 
         $("#cancel").bind("click", function(){
@@ -639,6 +657,7 @@ function execute(){
 			}
 		}
 		
+		
         // get choices for question
         for(var i = 0; i < 4; i++) {
             if(question.choices[i] != undefined) {		
@@ -651,6 +670,17 @@ function execute(){
                 answerID = "#choice"+idNum;
             }
         }
+        //make sure answer is one of the first four choices
+        if (ansIndex > 3) {
+			var prevAnsIndex = ansIndex
+			ansIndex = Math.floor(Math.random() * question.choices.length);
+			var temp = choiceArr[prevAnsIndex];
+			choiceArr[prevAnsIndex] = choiceArr[ansIndex];
+			choiceArr[ansIndex] = temp;
+			var jsontemp = question.choices[prevAnsIndex];
+			question.choices[prevAnsIndex] = question.choices[ansIndex];
+			question.choices[ansIndex] = temp;
+		}
 
         // stop road from moving
         $("#one").addClass("stop");

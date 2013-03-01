@@ -61,20 +61,16 @@ function configureExpress(app){
 app.post("/registerUser", function(req, res){
 	var username = req.body.username;
 
-    console.log("username from register: "+username);
-    console.log("request: "+req.body.username);
 	Teacher.findOne({username : username }, function(err, existingUser) {
 	    if (err){
 	        return res.send({'err': err});
 	    }
 	    if (existingUser) {
-	        console.log("user exists");
 	        return res.send('user exists');
 	    }
 
     var teacher = new Teacher({ username : req.body.username, password: req.body.password});
 
-    console.log("creates a new one");	
     teacher.registeredTimestamp = new Date();
     	teacher.setPassword(req.body.password, function(err) {
 		    if (err) {
@@ -105,11 +101,8 @@ app.get("/register", function(req,res){
 	var xhr = new XMLHttpRequest();
 
 	xhr.onreadystatechange = function() {
-		console.log("State: " + this.readyState);
 		
 		if (this.readyState == 4) {
-			console.log("Complete.\nBody length: " + this.responseText.length);
-			console.log('Output:');
 			parser.parseString(this.responseText);
 		}
 	};
@@ -146,13 +139,11 @@ app.get("/register", function(req,res){
 		  		questionData['hard'].push(currentObj);
 		  	}
 	  }
-	  console.log(questionData);
 	  res.send(questionData);
 	});
 });
 
 app.post("/postScore", function(req, res){
-	console.log(req.body.name);
 	var scoreObj = {}; 
 	var questionObj = {};
 	questionObj.name = req.body.name;
@@ -163,8 +154,6 @@ app.post("/postScore", function(req, res){
 	
 	questionStats.push(questionObj);
 	scoreData.push(scoreObj);
-
-	console.log(scoreData);
 
 	return res.send("Registered.");
 });
@@ -183,18 +172,12 @@ app.get("/getScores", function(req, res){
 
 	scoreData.sort(compare);
 
-	console.log('scoreData:');
-	console.dir(scoreData);
-
 	if (scoreData.length >= 10){
 		topTen = scoreData.slice(0,10);
 	}
 	else{
 		topTen = scoreData; 
 	}
-
-	console.log('topTen:');
-	console.dir(topTen);
 
 	res.send(topTen);
 

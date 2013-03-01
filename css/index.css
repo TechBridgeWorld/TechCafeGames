@@ -23,18 +23,7 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;
+    background-color: #ccc;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
@@ -44,17 +33,6 @@ body {
     /*padding-top: 2%;*/
 }
 
-/* Portrait layout (default) */
-.app {
-
-}
-
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-       text-align: center;
-    }
-}
 
 h1 {
     font-size:24px;
@@ -65,31 +43,31 @@ h1 {
     text-align:center;
 }
 
-.event {
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
+#gameContainer{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
 }
 
-.event.listening {
-    background-color:#333333;
-    display:block;
+/* make game container narrow-shaped if on desktops, tablets, etc. */
+@media only screen 
+and (min-device-width: 450px){
+  #gameContainer{
+    width: 450px;
+    left: 50%;
+    margin-left: -225px;
+  }
+}
+@media only screen 
+and (min-device-height: 700px){
+  #gameContainer{
+    height: 700px;
+    top: 50%;
+    margin-top: -350px;
+  }
 }
 
-.event.received {
-    background-color:#4B946A;
-    display:none;
-}
-
-.lifePic{
-    margin-top: 6%;
-    margin-left: 6%;
-    width:2%;
-    height:20%;
-}
 
 
 #gameCanvas{
@@ -573,6 +551,12 @@ table{
   z-index: 10;
 }
 
+#gameCanvas{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 #raceOver{
   width: 100%;
   height: 20%;
@@ -691,12 +675,14 @@ table{
 
 #instructions-nav .left{
   left: 38%;
-  background: url('../img/race-assets/instructions-arrowleft.png') no-repeat;
+  background: url('../img/race-assets/instructions-arrowleft.png') top center no-repeat;
+  background-size: 100%;
 }
 
 #instructions-nav .right{
   left: 55%;
-  background: url('../img/race-assets/instructions-arrowright.png') no-repeat;
+  background: url('../img/race-assets/instructions-arrowright.png') top left no-repeat;
+  background-size: 100%;
 }
 
 #instructions-howto .slide{
@@ -774,7 +760,7 @@ table{
 }
 
 #highscoresList .line{
-  padding: 5% 10%;
+  padding: 5% 7%;
   height: 7%;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   font-size: 130%;
@@ -788,6 +774,19 @@ table{
 }
 #highscoresList .line .score{
   float: right;
+}
+
+/* change tutorial & highscore pages for longer phones */
+@media only screen 
+and (min-device-aspect-ratio : 16/10) {
+  #instructions-howto .slide{
+    bottom: 17%;
+  }
+  #instructions-howto{
+    background: url('../img/race-assets/instructions-howto.png') no-repeat top center;
+    display: none;
+    background-size: 90%;
+  }
 }
 
 
