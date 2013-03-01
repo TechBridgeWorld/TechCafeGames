@@ -52,6 +52,11 @@ function execute(){
     // important game variables
     var width = window.innerWidth;
     var height = window.innerHeight * 0.99999;
+
+    // var width = 450;
+    // var height = 700;
+
+    // console.log(width);
     var interval;
     var ctx;
     var canvas;
@@ -82,7 +87,7 @@ function execute(){
     var invincibleDuration;
     var xClip;
     var animationTime = 400;
-    var feedbackDelay = 2000; //time to deplay animation when showing question feedback
+    var feedbackDelay = 2000; //time to delay animation when showing question feedback
     var countdownInt; // countdown interval
     var qTimeout; // timeout for question
 
@@ -101,6 +106,8 @@ function execute(){
 
     var numRightQuestion;
     var numQuestions;
+
+    var maxNameLength = 25; // max # of chars to display in high score name
 
     // images
 
@@ -269,7 +276,8 @@ function execute(){
 
     // start screen actions
     function startScreen(){
-        // hide end screen & "GO!"
+        // hide all other screens
+        $("#screen").hide();
         $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
@@ -283,6 +291,7 @@ function execute(){
         if(fileFlag) {
         // pressing start button
         $("#startBtn").bind("click", function(){
+            $("#screen").show();
             $("#start").slideUp(animationTime); 
             setup();
             // show "GO!"
@@ -292,6 +301,7 @@ function execute(){
             }
         });
         $(".startBtn").live("touch", function(){
+            $("#screen").show();
             $("#start").slideUp(animationTime); 
             setup();
             $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
@@ -400,6 +410,8 @@ function execute(){
         $("#highscoresList").show();
         $("#highscores").slideDown(animationTime);
         $("#highscoresList").html("");
+
+
         // get top scores and add to list
         $.ajax({
           url: "/getScores",
@@ -410,7 +422,12 @@ function execute(){
               }
               else{
                 for (var i=0; i<list.length; i++){
-                    $("#highscoresList").append("<div class='line'><div class='name'>"+list[i].name+"</div><div class='score'>"+list[i].score+"</div></div>");
+                    // truncate name when it's too long
+                    var playerName = list[i].name;
+                    if (playerName.length > maxNameLength){
+                        playerName = playerName.substring(0, maxNameLength-4) + "...";
+                    }
+                    $("#highscoresList").append("<div class='line'><div class='name'>"+playerName+"</div><div class='score'>"+list[i].score+"</div></div>");
                 }
               }
           },

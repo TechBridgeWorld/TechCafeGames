@@ -1,22 +1,17 @@
 // known issues //
-- when restarting, obstacles are still there
 - background doesn't freeze during question on androids
 - crash image doesn't show on iphones
+- when entering name, user can scroll down to see moving road
+- screen rotation breaks game
+- every button with event listener get event binding stacked up every time you restart
+- long names break highscore formatting
 
 // to-do //
-- instructions & high score
 - run into question right after boost?
 - prevent default highlighting on start & end menu
 - increase score faster when in boost
 - don't hide objects during question
-
-// BIG to-dos //
-- asset manager
-- canvas 
-
-
-// non-code to-do //
-- mocks for teacher console
+- pause game button
 
 
 =======================
@@ -51,9 +46,9 @@ Ying~U01:
 - on phones, feedback highlight is too strong
 - on phones, right answer gains too much gas (may be same issue as above)
 - on phones, can click on crossed-out answer
-
-// sorta still need to consider //
+- when restarting, obstacles are still there
 - speed of road & obstacles not really matching
+- instructions & high score
 
 
 // finished to-do //
@@ -71,6 +66,8 @@ Ying~U01:
 - coin should add to score
 - score increase when answer question right
 - mocks for tutorial
+- asset manager
+- canvas buffering
 
 
 

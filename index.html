@@ -5,86 +5,88 @@
         <title>Brain Race</title>
     </head>
     <body>
-        <div id="screen">
-            <img id="one" src="img/race-assets/track.png" alt="Track">
-            <img id="two" src="img/race-assets/track.png" alt="Track">
-        </div>
-        <p id='score'>0</p>
-        <div id='headerDiv'>
-            <img id="gasIcon" src="img/race-assets/gasmeter-icon.png"></img> 
-            <img id="gasBar" src="img/race-assets/gasmeter-bar.png"></img>
-            <div id="innerMeter"></div>
-        </div>
-        <div id="currPowers">
-            <div id="currBoost">
-                <img class="currPowImg" src="img/race-assets/powerup-boost.png">
+<!--         <div id="gameContainer"> -->
+            <div id="screen">
+                <img id="one" src="img/race-assets/track.png" alt="Track">
+                <img id="two" src="img/race-assets/track.png" alt="Track">
             </div>
-            <div id="currTime">
-                <img class="currPowImg" src="img/race-assets/powerup-time.png">
-                <div class="num"></div>
+            <p id='score'>0</p>
+            <div id='headerDiv'>
+                <img id="gasIcon" src="img/race-assets/gasmeter-icon.png"></img> 
+                <img id="gasBar" src="img/race-assets/gasmeter-bar.png"></img>
+                <div id="innerMeter"></div>
             </div>
-            <div id="currEliminate">
-                <img class="currPowImg" src="img/race-assets/powerup-eliminate.png">
-                <div class="num"></div>
-            </div>
-        </div>
-        
-        <div id="start">
-            <div class="textureOverlay">
-                <div id="topStripe" class="stripe"></div>
-                <div id="startTitle"></div>
-                <a href="#" class="push" id="startBtn"></a>
-                <div id="startSmallBtns">
-                    <a href="#" class="startScreenBtn" id="instructionBtn"></a>
-                    <a href="#" class="startScreenBtn" id="hiScoreBtn"></a>
+            <div id="currPowers">
+                <div id="currBoost">
+                    <img class="currPowImg" src="img/race-assets/powerup-boost.png">
                 </div>
-                <div id="bottomStripe" class="stripe"></div>
+                <div id="currTime">
+                    <img class="currPowImg" src="img/race-assets/powerup-time.png">
+                    <div class="num"></div>
+                </div>
+                <div id="currEliminate">
+                    <img class="currPowImg" src="img/race-assets/powerup-eliminate.png">
+                    <div class="num"></div>
+                </div>
             </div>
-        </div>
+            
+            <div id="start">
+                <div class="textureOverlay">
+                    <div id="topStripe" class="stripe"></div>
+                    <div id="startTitle"></div>
+                    <a href="#" class="push" id="startBtn"></a>
+                    <div id="startSmallBtns">
+                        <a href="#" class="startScreenBtn" id="instructionBtn"></a>
+                        <a href="#" class="startScreenBtn" id="hiScoreBtn"></a>
+                    </div>
+                    <div id="bottomStripe" class="stripe"></div>
+                </div>
+            </div>
 
-        <div id="startGo">Go!</div>
-        
-        <div id="end">
-            <div class="textureOverlay">
-                <div id="topStripe" class="stripe"></div>
-                <div id="raceOver"></div>
-                <div id="endScore"></div>
-                <div id="questionScore"></div>
-                <a href="#" class="push" id="againBtn"></a>
-                <a href="#" id="homeBtn"></a>
-                <div id="entername">
-<!--                     <label class="nameLabel" for="name">Enter name</label> -->
-                    <input type="text" id="name" ></input></br>
-                    <input type="button" id="send" value="Send"></input>
-                    <input type="button" id="cancel" value="Cancel"></input>
+            <div id="startGo">Go!</div>
+            
+            <div id="end">
+                <div class="textureOverlay">
+                    <div id="topStripe" class="stripe"></div>
+                    <div id="raceOver"></div>
+                    <div id="endScore"></div>
+                    <div id="questionScore"></div>
+                    <a href="#" class="push" id="againBtn"></a>
+                    <a href="#" id="homeBtn"></a>
+                    <div id="entername">
+    <!--                     <label class="nameLabel" for="name">Enter name</label> -->
+                        <input type="text" id="name" ></input></br>
+                        <input type="button" id="send" value="Send"></input>
+                        <input type="button" id="cancel" value="Cancel"></input>
+                    </div>
+                    <div id="bottomStripe" class="stripe"></div>
                 </div>
-                <div id="bottomStripe" class="stripe"></div>
             </div>
-        </div>
 
-        <div id="instructions">
-            <div class="textureOverlay">
-                <div id="instructions-howto">
-                    <div class="slide"></div>
+            <div id="instructions">
+                <div class="textureOverlay">
+                    <div id="instructions-howto">
+                        <div class="slide"></div>
+                    </div>
+                    <div id="instructions-powers"></div>
+                    <div id="instructions-nav" class="page1">
+                        <div class="left"></div>
+                        <div class="right"></div>
+                        <div class="back"></div>
+                    </div>
                 </div>
-                <div id="instructions-powers"></div>
-                <div id="instructions-nav" class="page1">
-                    <div class="left"></div>
-                    <div class="right"></div>
+            </div>
+
+            <div id="highscores">
+                <div class="textureOverlay">
+                    <div class="title"></div>
+                    <div id="highscoresList"></div>
                     <div class="back"></div>
                 </div>
             </div>
-        </div>
 
-        <div id="highscores">
-            <div class="textureOverlay">
-                <div class="title"></div>
-                <div id="highscoresList"></div>
-                <div class="back"></div>
-            </div>
-        </div>
-
-        <canvas id='gameCanvas'></canvas>
+            <canvas id='gameCanvas'></canvas>
+<!--         </div> -->
 
         <!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> -->
         <script type="text/javascript" src="./js/jquery.min.js"></script>
