@@ -4,8 +4,8 @@
 - screen rotation breaks game
 - every button with event listener get event binding stacked up every time you restart
 - user can scroll down in instructions, highscores, and end screens
-- more than 4 answers can lead to not showing correct one
 - sound issues
+- some androids have flashing gas bar when restarting
 
 // to-do //
 - run into question right after boost?
@@ -32,6 +32,7 @@
 - instructions & high score
 - long names break highscore formatting
 - when entering name, user can scroll down to see moving road
+- more than 4 answers can lead to not showing correct one
 
 
 // finished to-do //

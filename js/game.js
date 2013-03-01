@@ -609,13 +609,12 @@ function execute(){
         // stop updating canvas
         window.clearInterval(interval);
 
-        $("#end").slideDown();
-        $("#screen").hide();
+        $("#end").slideDown(animationTime);
+        $("#screen").fadeOut(animationTime);
 
         // go back home
         $("#homeBtn").bind("click", function(){
             goHome();
-            // console.log("home");
         });
         $("#homeBtn").live("touch", function(){
             goHome();
