@@ -58,7 +58,6 @@ function execute(){
     // var width = 450;
     // var height = 700;
 
-    // console.log(width);
     var interval;
     var intervalTime = 50;  // 50 ms for screen refresh
     var updateCounter;      // counts how many times update function is called
@@ -296,7 +295,7 @@ function execute(){
         });
         eatenPowerFlag = false;     // used to track how many powers user misses before eating one
     }
-    
+
     // power ups
     function Power(name) {
         this.name = name;
@@ -329,6 +328,7 @@ function execute(){
     }
 
     // start screen actions
+    // ALL ONE TIME EVENT LISTENERS GO HERE
     function startScreen(){
         // hide all other screens
         $("#screen").hide();
@@ -343,18 +343,18 @@ function execute(){
         }
 
         if(fileFlag) {
-        // pressing start button
-        $("#startBtn").bind("click", function(){
-            $("#screen").show();
-            $("#start").slideUp(animationTime); 
-            setup();
-        });
-        $(".startBtn").live("touch", function(){
-            $("#screen").show();
-            $("#start").slideUp(animationTime); 
-            setup();
-        });
-    }
+            // pressing start button
+            $("#startBtn").bind("click", function(){
+                $("#screen").show();
+                $("#start").slideUp(animationTime); 
+                setup();
+            });
+            $(".startBtn").live("touch", function(){
+                $("#screen").show();
+                $("#start").slideUp(animationTime); 
+                setup();
+            });
+        }
 
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
@@ -372,10 +372,68 @@ function execute(){
             showHighscores();
         });
         
-        // send name
-        // $("#send").bind("click", function(){
-        //     sendScore($("#name").val(),numRightQuestion,numQuestions);
-        // });
+        //INSTRUCTION SCREEN EVENT LISTENERS:
+
+        // nav buttons
+        $("#instructions-nav .back").bind("click", function(){
+            hideInstructions();
+        });
+        $("#instructions-nav .back").live("touch", function(){
+            hideInstructions();
+        });
+
+        $("#instructions-nav .right").bind("click", function(){
+            instructionsPg2();
+        });
+        $("#instructions-nav .right").live("touch", function(){
+            instructionsPg2();
+        });
+
+        $("#instructions-nav .left").bind("click", function(){
+            instructionsPg1();
+        });
+
+        $("#instructions-nav .left").live("touch", function(){
+            instructionsPg1();
+        });
+
+        // HIGH SCORE PAGE EVENT LISTENERS: 
+
+        // back button
+        $("#highscores .back").bind("click", function(){
+            hideHighscores();
+        });
+        $("#highscores .back").live("touch", function(){
+            hideHighscores();
+        });
+
+
+        // END SCREEN EVENT LISTENERS: 
+
+        // send name button
+        $("#send").bind("click", function(){
+            if (trackDataFlag){
+                gameData[gameData.length-1].name = $("#name").val();
+                console.log(gameData);
+            }
+            sendScore($("#name").val(),numRightQuestion,numQuestions,score);
+            $("#entername").fadeOut(animationTime); 
+            $("#againBtn").fadeIn(animationTime);
+            $("#homeBtn").fadeIn(animationTime);
+        });
+        
+        // go back home
+        $("#homeBtn").bind("click", function(){
+            goHome();
+        });
+        $("#homeBtn").live("touch", function(){
+            goHome();
+        });
+
+        // bind action to race again button
+        $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
+        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});    
+
     }
 
     // show instructions screen from home screen
@@ -387,24 +445,6 @@ function execute(){
         $("#instructions-nav").removeClass("page2");
         $("#instructions-nav").addClass("page1");
         $("#instructions-nav").show();
-
-        // nav buttons
-        $("#instructions-nav .back").bind("click", function(){
-            hideInstructions();
-        });
-        $("#instructions-nav .back").live("touch", function(){
-            hideInstructions();
-        });
-
-        $("#instructions-nav .left").bind("click", function(){});
-        $("#instructions-nav .left").live("touch", function(){});
-
-        $("#instructions-nav .right").bind("click", function(){
-            instructionsPg2();
-        });
-        $("#instructions-nav .right").live("touch", function(){
-            instructionsPg2();
-        });
     }
 
     // switching to instruction page2
@@ -414,16 +454,6 @@ function execute(){
 
         $("#instructions-nav").removeClass("page1");
         $("#instructions-nav").addClass("page2");
-
-        $("#instructions-nav .left").bind("click", function(){
-            instructionsPg1();
-        });
-        $("#instructions-nav .left").live("touch", function(){
-            instructionsPg1();
-        });
-
-        $("#instructions-nav .right").bind("click", function(){});
-        $("#instructions-nav .right").live("touch", function(){});
     }
 
     // switching to instruction page1
@@ -433,16 +463,6 @@ function execute(){
 
         $("#instructions-nav").removeClass("page2");
         $("#instructions-nav").addClass("page1");
-
-        $("#instructions-nav .left").bind("click", function(){});
-        $("#instructions-nav .left").live("touch", function(){});
-
-        $("#instructions-nav .right").bind("click", function(){
-            instructionsPg2();
-        });
-        $("#instructions-nav .right").live("touch", function(){
-            instructionsPg2();
-        });
     }
 
     // hide instruction
@@ -455,7 +475,6 @@ function execute(){
         $("#highscoresList").show();
         $("#highscores").slideDown(animationTime);
         $("#highscoresList").html("");
-
 
         // get top scores and add to list
         $.ajax({
@@ -481,15 +500,6 @@ function execute(){
               //console.log(err);
           }
         });
-
-        // back button
-        $("#highscores .back").bind("click", function(){
-            hideHighscores();
-        });
-        $("#highscores .back").live("touch", function(){
-            hideHighscores();
-        });
-
     }
 
     // hide high scores screen
@@ -528,6 +538,7 @@ function execute(){
             updateBar();
             updateObstacles();
             updatePowerUps();
+            updateScore(); 
             draw();
         }
         ctx_visible.clearRect(0, 0, width, height);
@@ -544,6 +555,19 @@ function execute(){
     function drawFlames(){
         ctx.drawImage(fire, xClip, 0, 200, 200, carX - carWidth, carY+carHeight*0.9, carWidth*3, carHeight);
         xClip = (xClip + 200)%800; 
+    }
+
+    // Update Score
+    function updateScore(){
+        score++;
+        if (invincibleFlag){
+            score+=boostPointIncrease;
+        }
+    }
+
+     // Draw score
+    function drawScore(){
+        $('#score').text(score);
     }
 
     // update gas meter
@@ -612,14 +636,6 @@ function execute(){
         $("#end").slideDown(animationTime);
         $("#screen").fadeOut(animationTime);
 
-        // go back home
-        $("#homeBtn").bind("click", function(){
-            goHome();
-        });
-        $("#homeBtn").live("touch", function(){
-            goHome();
-        });
-
         // hide "play again" initially and show enter name
         $("#againBtn").hide();
         $("#homeBtn").hide();
@@ -638,34 +654,6 @@ function execute(){
 
         $("#entername").show();
 
-        // bind action to race again button
-        $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
-        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});
-    
-        // cancel send name button 
-        // $("#cancel").bind("click", function(){
-        //     $("#entername").fadeOut(animationTime); 
-        //     $("#againBtn").fadeIn(animationTime);
-        //     $("#homeBtn").fadeIn(animationTime);
-        // });
-        // $("#cancel").live("touch", function(){
-        //     $("#entername").fadeOut(animationTime); 
-        //     $("#againBtn").fadeIn(animationTime);
-        //     $("#homeBtn").fadeIn(animationTime);
-        // });
-        
-        // send name button
-        $("#send").bind("click", function(){
-            if (trackDataFlag){
-                gameData[gameData.length-1].name = $("#name").val();
-                console.log(gameData);
-            }
-
-            sendScore($("#name").val(),numRightQuestion,numQuestions,score);
-            $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
-        });
     }
 
     // go back to home page from end page
@@ -695,15 +683,7 @@ function execute(){
         ctx.drawImage(carImage, carX, carY, carWidth, carHeight);
     }  
 
-    // update score
-    function drawScore(){
-        score++;
-        if (invincibleFlag){
-            score+=boostPointIncrease;
-        }
-        $('#score').text(score);
-    }
-
+   
     // draw question
     function drawQuestionBox(){
     if($("#ques").length == 0) {
