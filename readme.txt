@@ -2,7 +2,6 @@
 - background doesn't freeze during question on some androids
 - crash image doesn't show on iphones
 - screen rotation breaks game
-- every button with event listener get event binding stacked up every time you restart
 - user can scroll down in instructions, highscores, and end screens
 - sound issues
 - some androids have flashing gas bar when restarting
@@ -19,6 +18,7 @@
 
 
 // fixed issues //
+- every button with event listener get event binding stacked up every time you restart
 - obstacles & scoring sometimes continue moving when answering question
 - game continues after displaying game over screen (may be same issue as above)
 - after answering once, can still answer while waiting for question to disappear
