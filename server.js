@@ -151,7 +151,8 @@ app.post("/postScore", function(req, res){
 	questionObj.numTotal = parseInt(req.body.numTotal);
 	scoreObj.name = req.body.name;
 	scoreObj.score = parseInt(req.body.score);
-	
+	scoreObj.score--;
+
 	questionStats.push(questionObj);
 	scoreData.push(scoreObj);
 
@@ -178,6 +179,8 @@ app.get("/getScores", function(req, res){
 	else{
 		topTen = scoreData; 
 	}
+
+
 
 	res.send(topTen);
 

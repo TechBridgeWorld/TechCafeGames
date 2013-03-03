@@ -3,10 +3,12 @@ window.onload = execute();
 function execute(){
 
     // testing switches for sound and random answers
-    var soundOn = true;
-    var randomChoiceFlag = true;
-
-    var questionData = {};
+    var soundOn = true;             // turns on game sounds
+    var randomChoiceFlag = true;    // randomize answers in question
+    var trackDataFlag = true;       // track all user data for testing purposes
+    var gameData = [];              // array to store tracking data
+    var eatenPowerFlag;             // false when user hasn't eaten any powers yet
+    
     
     var ajaxRequest = function(url, fnSuccess, fnError){
         $.ajax({
@@ -56,8 +58,9 @@ function execute(){
     // var width = 450;
     // var height = 700;
 
-    // console.log(width);
     var interval;
+    var intervalTime = 50;  // 50 ms for screen refresh
+    var updateCounter;      // counts how many times update function is called
     var ctx;
     var canvas;
     var buffer;
@@ -87,9 +90,9 @@ function execute(){
     var invincibleDuration;
     var xClip;
     var animationTime = 400;
-    var feedbackDelay = 2000; //time to delay animation when showing question feedback
-    var countdownInt; // countdown interval
-    var qTimeout; // timeout for question
+    var feedbackDelay = 2000;   //time to delay animation when showing question feedback
+    var countdownInt;           // countdown interval
+    var qTimeout;               // timeout for question
 
     var barStart;
     var barWidth;
@@ -98,7 +101,8 @@ function execute(){
     var barFrac=100;
     
     var allPoints=[-10, 20];
-    var questionPoint = 100;
+    var questionPoint = 200;
+    var boostPointIncrease = 5;
     var lane1X; 
     var lane2X; 
     var lane3X;
@@ -107,7 +111,7 @@ function execute(){
     var numRightQuestion;
     var numQuestions;
 
-    var maxNameLength = 25; // max # of chars to display in high score name
+    var maxNameLength = 25;     // max # of chars to display in high score name
 
     // images
 
@@ -179,7 +183,8 @@ function execute(){
     function setup(){    
         
         /* General variables */
-        timer = 0; 
+        timer = 0;
+        updateCounter = 0; 
         score = 0;
         
         barFrac=100;
@@ -231,7 +236,12 @@ function execute(){
         canvas.addEventListener('touchmove', setupEventListener, false);
         
         window.clearInterval(interval);
-        interval = setInterval(update, 50);
+        interval = setInterval(update, intervalTime);
+
+        // show game screen
+        $("#screen").show();
+        // show "GO!"
+        $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
 
         // hide curr powerups
         $('#currPowers').hide();
@@ -240,9 +250,52 @@ function execute(){
         $('#currEliminate').hide();
         $('#currTime .num').hide();
         $('#currEliminate .num').hide();
-        
+
+        if (soundOn){
+            carSfx.play();
+        }
+
+        // setup data tracking
+        var timestamp = new Date();
+        var year = timestamp.getFullYear();
+        var month = timestamp.getMonth() + 1
+        var day = timestamp.getDate();
+        var hours = timestamp.getHours()
+        var minutes = timestamp.getMinutes()
+        if (minutes < 10){
+            minutes = "0" + minutes;
+        }
+        timestamp = year + "/" + month + "/" + day + " " + hours + ":" + minutes;
+        gameData.push({
+            "gameLength":0,
+            "timestamp": timestamp,
+            "score":0,
+            "name":"",
+            "numTotalQuestions":0,
+            "numRightQuestions":0,
+            "numTimeoutQuestions":0,
+            "numObstaclesEaten":0,
+            "numObstaclesSpawned":0,
+            "numCoinsEaten":0,
+            "numCoinsSpawned":0,
+            "powersData":{
+                  "numPowersEaten":0,
+                  "numPowersSpawned":0,
+                  "numPowersMissedInitally":0,
+                  "numGasPowersEaten":0,
+                  "numGasPowersSpawned":0,
+                  "numBoostPowersEaten":0,
+                  "numBoostPowersSpawned":0,
+                  "numCrossoutPowersEaten":0,
+                  "numCrossoutPowersSpawned":0,
+                  "numTimePowersEaten":0,
+                  "numTimePowersSpawned":0,
+            },
+            "questionData":[]
+        });
+        eatenPowerFlag = false;     // used to track how many powers user misses before eating one
     }
-    
+
     // power ups
     function Power(name) {
         this.name = name;
@@ -275,6 +328,7 @@ function execute(){
     }
 
     // start screen actions
+    // ALL ONE TIME EVENT LISTENERS GO HERE
     function startScreen(){
         // hide all other screens
         $("#screen").hide();
@@ -289,27 +343,18 @@ function execute(){
         }
 
         if(fileFlag) {
-        // pressing start button
-        $("#startBtn").bind("click", function(){
-            $("#screen").show();
-            $("#start").slideUp(animationTime); 
-            setup();
-            // show "GO!"
-            $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
-            if (soundOn){
-                carSfx.play();
-            }
-        });
-        $(".startBtn").live("touch", function(){
-            $("#screen").show();
-            $("#start").slideUp(animationTime); 
-            setup();
-            $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
-            if (soundOn){
-                carSfx.play();
-            }
-        });
-    }
+            // pressing start button
+            $("#startBtn").bind("click", function(){
+                $("#screen").show();
+                $("#start").slideUp(animationTime); 
+                setup();
+            });
+            $(".startBtn").live("touch", function(){
+                $("#screen").show();
+                $("#start").slideUp(animationTime); 
+                setup();
+            });
+        }
 
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
@@ -327,10 +372,68 @@ function execute(){
             showHighscores();
         });
         
-        // send name
-        // $("#send").bind("click", function(){
-        //     sendScore($("#name").val(),numRightQuestion,numQuestions);
-        // });
+        //INSTRUCTION SCREEN EVENT LISTENERS:
+
+        // nav buttons
+        $("#instructions-nav .back").bind("click", function(){
+            hideInstructions();
+        });
+        $("#instructions-nav .back").live("touch", function(){
+            hideInstructions();
+        });
+
+        $("#instructions-nav .right").bind("click", function(){
+            instructionsPg2();
+        });
+        $("#instructions-nav .right").live("touch", function(){
+            instructionsPg2();
+        });
+
+        $("#instructions-nav .left").bind("click", function(){
+            instructionsPg1();
+        });
+
+        $("#instructions-nav .left").live("touch", function(){
+            instructionsPg1();
+        });
+
+        // HIGH SCORE PAGE EVENT LISTENERS: 
+
+        // back button
+        $("#highscores .back").bind("click", function(){
+            hideHighscores();
+        });
+        $("#highscores .back").live("touch", function(){
+            hideHighscores();
+        });
+
+
+        // END SCREEN EVENT LISTENERS: 
+
+        // send name button
+        $("#send").bind("click", function(){
+            if (trackDataFlag){
+                gameData[gameData.length-1].name = $("#name").val();
+                console.log(gameData);
+            }
+            sendScore($("#name").val(),numRightQuestion,numQuestions,score);
+            $("#entername").fadeOut(animationTime); 
+            $("#againBtn").fadeIn(animationTime);
+            $("#homeBtn").fadeIn(animationTime);
+        });
+        
+        // go back home
+        $("#homeBtn").bind("click", function(){
+            goHome();
+        });
+        $("#homeBtn").live("touch", function(){
+            goHome();
+        });
+
+        // bind action to race again button
+        $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
+        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});    
+
     }
 
     // show instructions screen from home screen
@@ -342,24 +445,6 @@ function execute(){
         $("#instructions-nav").removeClass("page2");
         $("#instructions-nav").addClass("page1");
         $("#instructions-nav").show();
-
-        // nav buttons
-        $("#instructions-nav .back").bind("click", function(){
-            hideInstructions();
-        });
-        $("#instructions-nav .back").live("touch", function(){
-            hideInstructions();
-        });
-
-        $("#instructions-nav .left").bind("click", function(){});
-        $("#instructions-nav .left").live("touch", function(){});
-
-        $("#instructions-nav .right").bind("click", function(){
-            instructionsPg2();
-        });
-        $("#instructions-nav .right").live("touch", function(){
-            instructionsPg2();
-        });
     }
 
     // switching to instruction page2
@@ -369,16 +454,6 @@ function execute(){
 
         $("#instructions-nav").removeClass("page1");
         $("#instructions-nav").addClass("page2");
-
-        $("#instructions-nav .left").bind("click", function(){
-            instructionsPg1();
-        });
-        $("#instructions-nav .left").live("touch", function(){
-            instructionsPg1();
-        });
-
-        $("#instructions-nav .right").bind("click", function(){});
-        $("#instructions-nav .right").live("touch", function(){});
     }
 
     // switching to instruction page1
@@ -388,16 +463,6 @@ function execute(){
 
         $("#instructions-nav").removeClass("page2");
         $("#instructions-nav").addClass("page1");
-
-        $("#instructions-nav .left").bind("click", function(){});
-        $("#instructions-nav .left").live("touch", function(){});
-
-        $("#instructions-nav .right").bind("click", function(){
-            instructionsPg2();
-        });
-        $("#instructions-nav .right").live("touch", function(){
-            instructionsPg2();
-        });
     }
 
     // hide instruction
@@ -410,7 +475,6 @@ function execute(){
         $("#highscoresList").show();
         $("#highscores").slideDown(animationTime);
         $("#highscoresList").html("");
-
 
         // get top scores and add to list
         $.ajax({
@@ -436,15 +500,6 @@ function execute(){
               //console.log(err);
           }
         });
-
-        // back button
-        $("#highscores .back").bind("click", function(){
-            hideHighscores();
-        });
-        $("#highscores .back").live("touch", function(){
-            hideHighscores();
-        });
-
     }
 
     // hide high scores screen
@@ -467,6 +522,15 @@ function execute(){
 
     // update canvas
     function update(){
+        // track how long the game is (in seconds)
+        updateCounter++;
+        if (trackDataFlag){
+            if (updateCounter%(1000/intervalTime) === 0){
+                // console.log(gameData.gameLen)
+                gameData[gameData.length-1].gameLength++;
+            }
+        }
+
         ctx.clearRect(0,0,width,height); 
         if (questionFlag) drawQuestionBox();
         else {
@@ -474,6 +538,7 @@ function execute(){
             updateBar();
             updateObstacles();
             updatePowerUps();
+            updateScore(); 
             draw();
         }
         ctx_visible.clearRect(0, 0, width, height);
@@ -490,6 +555,19 @@ function execute(){
     function drawFlames(){
         ctx.drawImage(fire, xClip, 0, 200, 200, carX - carWidth, carY+carHeight*0.9, carWidth*3, carHeight);
         xClip = (xClip + 200)%800; 
+    }
+
+    // Update Score
+    function updateScore(){
+        score++;
+        if (invincibleFlag){
+            score+=boostPointIncrease;
+        }
+    }
+
+     // Draw score
+    function drawScore(){
+        $('#score').text(score);
     }
 
     // update gas meter
@@ -534,6 +612,13 @@ function execute(){
 
     // when you lose
     function endGame(){
+        // when tracking data, update data
+        if (trackDataFlag){
+            gameData[gameData.length-1].score = score;
+            gameData[gameData.length-1].numTotalQuestions = numQuestions;
+            gameData[gameData.length-1].numRightQuestions = numRightQuestion;
+        }
+
         if (soundOn){
             // stop all non-bgm music
             for (var i=0; i<nonBgmSounds.length; i++){
@@ -541,22 +626,15 @@ function execute(){
                 nonBgmSounds[i].pause();
             }
             carSfx.loop = true;
+            countdownTick.loop = true;
             gameoverSfx.play(); // play "game over"
         }
 
         // stop updating canvas
         window.clearInterval(interval);
 
-        $("#end").show();
-
-        // go back home
-        $("#homeBtn").bind("click", function(){
-            goHome();
-            console.log("home");
-        });
-        $("#homeBtn").live("touch", function(){
-            goHome();
-        });
+        $("#end").slideDown(animationTime);
+        $("#screen").fadeOut(animationTime);
 
         // hide "play again" initially and show enter name
         $("#againBtn").hide();
@@ -576,29 +654,6 @@ function execute(){
 
         $("#entername").show();
 
-        // bind action to race again button
-        $("#againBtn").bind("click", function(){$("#end").hide(); setup();});
-        $("#againBtn").live("touch", function(){$("#end").hide(); setup();});
-    
-        // cancel send name button 
-        $("#cancel").bind("click", function(){
-            $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
-        });
-        $("#cancel").live("touch", function(){
-            $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
-        });
-        
-        // send name button
-        $("#send").bind("click", function(){
-            sendScore($("#name").val(),numRightQuestion,numQuestions,score);
-            $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
-        });
     }
 
     // go back to home page from end page
@@ -628,16 +683,20 @@ function execute(){
         ctx.drawImage(carImage, carX, carY, carWidth, carHeight);
     }  
 
-    // update score
-    function drawScore(){
-        $('#score').text(score);
-        score++;
-    }
-
+   
     // draw question
     function drawQuestionBox(){
     if($("#ques").length == 0) {
         canvas.removeEventListener('touchmove', setupEventListener, false);
+
+        // track data
+        if (trackDataFlag){
+            gameData[gameData.length-1].questionData.push({
+                "answerTime":0,
+                "correctAnswer":false,
+                "answerPosition":0
+            });
+        }
         
         // randomly gets question
         var c = Math.round((questionData.easy.length-1)*Math.random());
@@ -656,7 +715,6 @@ function execute(){
 				question.choices[index2] = temp;
 			}
 		}
-		
 		
         // get choices for question
         for(var i = 0; i < 4; i++) {
@@ -803,6 +861,12 @@ function execute(){
         // set number
         $('#countdown-inner').html(sec);
 
+        // track data
+        if (trackDataFlag){
+            var thisQuestion = gameData[gameData.length-1].questionData[gameData[gameData.length-1].questionData.length-1];
+            thisQuestion.answerTime++;
+        }
+
         // play countdown sound
         if (soundOn){
             if (sec===10){
@@ -811,6 +875,8 @@ function execute(){
             if (sec===0){
                 countdownTick.pause();
                 countdownBeep.play();
+                // add timeout data to tracking
+                gameData[gameData.length-1].numTimeoutQuestions++;
             }
         }
 
@@ -860,6 +926,11 @@ function execute(){
     
     // check if answer is correct after answering
     function checkAns(right, choice, choiceTd, rightTd) {
+        if (trackDataFlag){
+            var thisQuestion = gameData[gameData.length-1].questionData[gameData[gameData.length-1].questionData.length-1];
+            thisQuestion.answerPosition = choiceTd.charAt(choiceTd.length-1);
+        }
+
         // clear counters
         window.clearTimeout(qTimeout);
         window.clearInterval(countdownInt);
@@ -871,6 +942,11 @@ function execute(){
 
         // if answer is right...
         if(right===choice){
+            if (trackDataFlag){
+                var thisQuestion = gameData[gameData.length-1].questionData[gameData[gameData.length-1].questionData.length-1];
+                thisQuestion.correctAnswer = true;
+            }
+
             score+=questionPoint;       // add score
             $("#score").html(score);    // show score
             if (soundOn){               // play sound
@@ -930,9 +1006,15 @@ function execute(){
             var index = Math.floor(Math.random()*(allObstacles.length));
             var x = chooseLane();
             if(allObstacles[index]=="coin") {
+                if (trackDataFlag){
+                    gameData[gameData.length-1].numCoinsSpawned++;
+                }
                 obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -coinHeight, powerUpWidth, coinHeight));
             }
             else{
+                if (trackDataFlag){
+                    gameData[gameData.length-1].numObstaclesSpawned++;
+                }
                 obsArr.push(new Obs(allObstacles[index], allPoints[index], x, -obstacleHeight, powerUpWidth, carHeight));
             }
         }   
@@ -948,9 +1030,15 @@ function execute(){
                     if (soundOn){
                         coinSfx.play();
                     }
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].numCoinsEaten++;
+                    }
                 }
                 // crashing negative objects (i.e. cars)
                 else {
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].numObstaclesEaten++;
+                    }
                     barFrac+=obsArr[i].points;  // decrease gas
 
                     // show crash effect
@@ -988,14 +1076,39 @@ function execute(){
             }
             var x = chooseLane();
             powerUps.push(new Obs(allPowers[index], 0, x, -obstacleHeight, powerUpWidth, powerUpWidth));
+            
+            // track data
+            if (trackDataFlag){
+                gameData[gameData.length-1].powersData.numPowersSpawned++;
+                if (powerUps[powerUps.length-1].name == "gas") {
+                    gameData[gameData.length-1].powersData.numGasPowersSpawned++;
+                }
+                else if (powerUps[powerUps.length-1].name == "invincible") {
+                    gameData[gameData.length-1].powersData.numBoostPowersSpawned++;
+                }
+                else if (powerUps[powerUps.length-1].name == "crossout") {
+                    gameData[gameData.length-1].powersData.numCrossoutPowersSpawned++;
+                }
+                else if (powerUps[powerUps.length-1].name == "timeplus") {
+                    gameData[gameData.length-1].powersData.numTimePowersSpawned++;
+                }
+            }
+
         }
         // update existing ones
         for(var i = 0; i < powerUps.length; i++) {
             powerUps[i].update(carX, carY);     // update location
             // detect collision
             if (powerUps[i].eaten) {
+                if (eatenPowerFlag === false){eatenPowerFlag = true};
+                if (trackDataFlag){
+                    gameData[gameData.length-1].powersData.numPowersEaten++;
+                }
                 // when eating gas powerup, play sound and show question
                 if (powerUps[i].name == "gas") {
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].powersData.numGasPowersEaten++;
+                    }
                     if (soundOn){
                         questionSfx.play();
                     }
@@ -1003,6 +1116,9 @@ function execute(){
                 }
                 // when eating boost powerup
                 else if (powerUps[i].name == "invincible") {
+                    if (trackDataFlag){
+                        gameData[gameData.length-1].powersData.numBoostPowersEaten++;
+                    }
                     if (soundOn){           // play sound
                         boostSfx.play();
                     }
@@ -1023,9 +1139,15 @@ function execute(){
                         powerupSfx.play();
                     }
                     if (powerUps[i].name == "crossout") {
+                        if (trackDataFlag){
+                            gameData[gameData.length-1].powersData.numCrossoutPowersEaten++;
+                        }
                         storedPowers[0].increment();
                     }
                     if (powerUps[i].name == "timeplus") {
+                        if (trackDataFlag){
+                            gameData[gameData.length-1].powersData.numTimePowersEaten++;
+                        }
                         storedPowers[1].increment();
                     }
                     updateCurrPowers();
@@ -1035,6 +1157,13 @@ function execute(){
             // remove powerups off screen
             else if(powerUps[i].y >= height) {
                 powerUps.splice(i,1);
+
+                // track how many powers user misses before eating one
+                if (trackDataFlag){
+                    if (eatenPowerFlag === false){
+                        gameData[gameData.length-1].powersData.numPowersMissedInitally++;
+                    }
+                }
             }
         }
     }
@@ -1060,9 +1189,9 @@ function execute(){
             // draw coin
             if(obsArr[i].name == "coin"){
                 ctx.drawImage(coinImage, obsArr[i].x, obsArr[i].y, powerUpWidth, coinHeight);
-		}
-	}
-}
+    		}
+    	}
+    }
 
     // update display of current active power-ups
     function updateCurrPowers(){
