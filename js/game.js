@@ -3,7 +3,7 @@ window.onload = execute();
 function execute(){
 
     // testing switches for sound and random answers
-    var soundOn = true;             // turns on game sounds
+    var soundOn = false;             // turns on game sounds
     var randomChoiceFlag = true;    // randomize answers in question
     var trackDataFlag = true;       // track all user data for testing purposes
     var gameData = [];              // array to store tracking data
@@ -256,19 +256,19 @@ function execute(){
         }
 
         // setup data tracking
-        var timestamp = new Date();
-        var year = timestamp.getFullYear();
-        var month = timestamp.getMonth() + 1
-        var day = timestamp.getDate();
-        var hours = timestamp.getHours()
-        var minutes = timestamp.getMinutes()
-        if (minutes < 10){
-            minutes = "0" + minutes;
-        }
-        timestamp = year + "/" + month + "/" + day + " " + hours + ":" + minutes;
+        // var timestamp = new Date();
+        // var year = timestamp.getFullYear();
+        // var month = timestamp.getMonth() + 1
+        // var day = timestamp.getDate();
+        // var hours = timestamp.getHours()
+        // var minutes = timestamp.getMinutes()
+        // if (minutes < 10){
+        //     minutes = "0" + minutes;
+        // }
+        // timestamp = year + "/" + month + "/" + day + " " + hours + ":" + minutes;
         gameData.push({
             "gameLength":0,
-            "timestamp": timestamp,
+            "timestamp": new Date(),
             "score":0,
             "name":"",
             "numTotalQuestions":0,
@@ -279,17 +279,17 @@ function execute(){
             "numCoinsEaten":0,
             "numCoinsSpawned":0,
             "powersData":{
-                  "numPowersEaten":0,
-                  "numPowersSpawned":0,
-                  "numPowersMissedInitally":0,
-                  "numGasPowersEaten":0,
-                  "numGasPowersSpawned":0,
-                  "numBoostPowersEaten":0,
-                  "numBoostPowersSpawned":0,
-                  "numCrossoutPowersEaten":0,
-                  "numCrossoutPowersSpawned":0,
-                  "numTimePowersEaten":0,
-                  "numTimePowersSpawned":0,
+                "numPowersEaten":0,
+                "numPowersSpawned":0,
+                "numPowersMissedInitally":0,
+                "numGasPowersEaten":0,
+                "numGasPowersSpawned":0,
+                "numBoostPowersEaten":0,
+                "numBoostPowersSpawned":0,
+                "numCrossoutPowersEaten":0,
+                "numCrossoutPowersSpawned":0,
+                "numTimePowersEaten":0,
+                "numTimePowersSpawned":0,
             },
             "questionData":[]
         });
@@ -531,7 +531,8 @@ function execute(){
             }
         }
 
-        ctx.clearRect(0,0,width,height); 
+        ctx.clearRect(0,0,width,height);
+        draw(); 
         if (questionFlag) drawQuestionBox();
         else {
             if (invincibleFlag) drawFlames();
@@ -539,7 +540,6 @@ function execute(){
             updateObstacles();
             updatePowerUps();
             updateScore(); 
-            draw();
         }
         ctx_visible.clearRect(0, 0, width, height);
         ctx_visible.drawImage(buffer,0,0);
@@ -580,14 +580,17 @@ function execute(){
 
         // change color when gas is low, add warning sound when super low
         if (barFrac<50){
+            $("#innerMeter").removeClass("normal");
             $("#innerMeter").addClass("warning");
         }
         else{
             $("#innerMeter").removeClass("warning");
+            $("#innerMeter").addClass("normal");
         }
         if (barFrac<25){
-            $("#innerMeter").addClass("danger");
+            $("#innerMeter").removeClass("normal");
             $("#innerMeter").removeClass("warning");
+            $("#innerMeter").addClass("danger");
             if (soundOn){
                 alertSfx.play();
             }

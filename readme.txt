@@ -5,13 +5,13 @@
 - user can scroll down in instructions, highscores, and end screens
 - sound issues
 - some androids have flashing gas bar when restarting
+- on androids, gas meter still blinks after restarting with full bar
 
 // to-do //
 - run into question right after boost?
-- prevent default highlighting on start & end menu
-- don't hide objects during question
 - pause game button
 - detect randomly answering user
+- different difficulty levels
 
 
 =======================
@@ -53,6 +53,8 @@
 - asset manager
 - canvas buffering
 - increase score faster when in boost
+- don't hide objects during question
+- prevent default highlighting on start & end menu
 
 
 
