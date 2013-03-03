@@ -913,6 +913,56 @@ h1 {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+#portalTitle {
+    text-align: left;
+    color:#F8F8F8;
+    text-shadow: 2px 2px #707070;
+}
+
+#titleBar {
+background-image: linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
+background-image: -o-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
+background-image: -moz-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
+background-image: -webkit-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
+background-image: -ms-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
+
+background-image: -webkit-gradient(
+  linear,
+  left bottom,
+  left top,
+  color-stop(0.25, rgb(16,180,209)),
+  color-stop(0.74, rgb(125,242,250))
+);
+}
+
+#myClasses {
+  background-color: #686868;
+  width : 100%;
+  height:10%;
+  color:white;
+}
+
+#myClassText {
+  position:absolute;
+  top:0px;
+  font-size: 16px;
+}
+
+#teacherClasses {
+  position: absolute;
+  left:0;
+  width:18%;
+  height:100%;
+  background-color: #E8E8E8;
+}
+
+#teacherMain {
+  position: absolute;
+  right:0;
+  width:82%;
+  height:100%;
+  background-color: #F8F8F8 ;  
+}
 
 /* test */
 #canvasCover{
