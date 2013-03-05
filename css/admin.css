@@ -30,6 +30,10 @@ h2{
   margin-left: 8px;
 }
 
+#individual h4{
+  padding: 0px 10px;
+}
+
 #individual .title{
   background: #999;
   color: #fff;
