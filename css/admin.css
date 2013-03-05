@@ -1,0 +1,58 @@
+body{
+  background: #eee;
+}
+
+.container{
+  padding: 50px;
+}
+
+#trackingData{
+  display:none;
+}
+
+#average, #individual{
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+h2{
+  text-align: center;
+  background: #555;
+  color: #fff;
+  padding: 15px;
+}
+
+#average h4{
+  margin-top: 40px;
+  color: #999;
+  margin-left: 8px;
+}
+
+#individual .title{
+  background: #999;
+  color: #fff;
+  padding: 10px;
+}
+#individual .date{
+  float: right;
+  color: #ddd;
+}
+#individual .title:hover{
+  color: #999;
+}
+
+#individual .title:hover .date{
+  color: #bbb;
+}
+
+#individual table{
+  margin-bottom: 40px;
+}
+
+
+.table th{
+  text-align:right;
+}
+

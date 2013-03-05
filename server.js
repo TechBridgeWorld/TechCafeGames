@@ -7,8 +7,9 @@ var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var app = express();
+var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
+var Student = require('./models/Student.js');
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -57,6 +58,28 @@ function configureExpress(app){
 		app.get("/", function(req, res) { res.render(wwwDir + "/index.html");});
 	});
 };
+
+app.post('/loginAdmin', function(req,res){
+	var username = req.body.username;
+	var password = req.body.password;
+	if (!(username == 'admin' && password == 'tbwadmin')) {
+		res.send('Invalid credentials');
+	} 
+	else{
+		var data = ["Teacher Accounts:"];
+		Teacher.find(function(err,responseText){
+			data.push(responseText);
+			Student.find(function(err,responseText){
+				if (err) console.log(err);
+				console.log(data);
+				console.log(responseText);
+				data.push("Student Accounts:");
+				data.push(responseText);
+				res.send(data);
+			});
+		});
+	}
+});
 
 app.post("/registerUser", function(req, res){
 	var username = req.body.username;
@@ -143,6 +166,42 @@ app.get("/register", function(req,res){
 	});
 });
 
+app.post("/postGameData", function(req, res){
+	var currStudent = new Student({
+	gameLength : req.body.gameLength,
+	name : req.body.name,
+    numCoinsEaten: req.body.numCoinsEaten,
+    numCoinsSpawned: req.body.numCoinsSpawned,
+    numObstaclesEaten: req.body.numObstaclesEaten,
+    numObstaclesSpawned: req.body.numObstaclesSpawned,
+    numRightQuestions: req.body.numRightQuestions,
+    numTimeoutQuestions: req.body.numTimeoutQuestions,
+    numTotalQuestions: req.body.numTotalQuestions,
+    numBoostPowersEaten: req.body.numBoostPowersEaten,
+    numBoostPowersSpawned: req.body.numBoostPowersSpawned,
+    numCrossoutPowersEaten: req.body.numCrossoutPowersEaten,
+    numCrossoutPowersSpawned: req.body.numCrossoutPowersSpawned,
+    numGasPowersEaten: req.body.numGasPowersEaten,
+    numGasPowersSpawned: req.body.numPowersSpawned, 
+    numPowersEaten: req.body.numPowersEaten,
+    numPowersMissedInitially: req.body.numPowersMissedInitially,
+    numPowersSpawned: req.body.numPowersSpawned,
+    numTimePowersEaten: req.body.numTimePowersEaten,
+    numTimePowersSpawned: req.body.numTimePowersSpawned,
+    score: req.body.score,
+    timestamp: req.body.timestamp,
+    questionData: req.body.questionData,
+	}); 
+
+	currStudent.save(function(err){
+		 if (err) {
+	        return res.send({'err': err});
+	    }
+	    return res.send('success');
+	});
+});
+
+
 app.post("/postScore", function(req, res){
 	var scoreObj = {}; 
 	var questionObj = {};
@@ -180,12 +239,10 @@ app.get("/getScores", function(req, res){
 		topTen = scoreData; 
 	}
 
-
-
 	res.send(topTen);
 
 });
 
 app.get("/getQuestionStats", function(req,res){
 	res.send(questionStats);
-})
+});

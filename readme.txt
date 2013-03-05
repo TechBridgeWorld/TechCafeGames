@@ -7,6 +7,11 @@
 - some androids have flashing gas bar when restarting
 - on androids, gas meter still blinks after restarting with full bar
 
+analytics
+- login successful even with wrong credentials
+- questiondata array got converted to a string somewhere
+
+
 // to-do //
 - run into question right after boost?
 - pause game button

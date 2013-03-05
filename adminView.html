@@ -1,0 +1,121 @@
+<html>
+<head>
+	<title> Admin </title>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="./css/jPages.css" />
+	<link rel="stylesheet" type="text/css" href="./css/admin.css" />
+</head>
+<body>
+	<div class="container">
+		<div id="adminLoginForm">
+			<form id="loginForm">
+		        <div>
+		        	<input type="text" name="usernameLog" id="usernameLog" value="" placeholder="Username"/>
+		        </div>
+		        <div>
+		        	<input type="password" name="passwordLog" id="passwordLog" value="" placeholder="Password"/>
+		        </div>
+		    </form>
+			<button id="adminLogin" class="btn">Login</button>
+		</div>
+		<div id="trackingData">
+			<div id="average">
+				<h2>Average Data Across <span id="dataCount"></span> Sessions</h2>
+				
+				<!-- <table id="averageGeneral" class="table">
+					<tr>
+						<th>Game Length (seconds)</th>
+						<th>Score</th>
+						<th>% Obstacles Eaten</th>
+						<th>% Coins Eaten</th>
+					</tr>
+					<tr>
+						<td id="avgGameLength"></td>
+						<td id="avgScore"></td>
+						<td id="avgPercentObstaclesEaten"></td>
+						<td id="avgPercentCoinsEaten"></td>
+					</tr>
+				</table> -->
+				<table id="averageGeneral" class="table table-hover">
+					<tr>
+						<td colspan=6>
+							<h4>General Data</h4>
+						</td>
+					</tr>
+					<tr>
+						<th>Game Length</th>
+						<td id="avgGameLength"></td>
+						<th>Coins Eaten</th>
+						<td id="avgPercentCoinsEaten"></td>
+						<th>Obstacles Eaten</th>
+						<td id="avgPercentObstaclesEaten"></td>
+					</tr>
+					<tr>
+						<th>Score</th>
+						<td id="avgScore"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan=6>
+							<h4>Questions</h4>
+						</td>
+					</tr>
+					<tr>
+						<th>Total Questions</th>
+						<td id="avgTotalQuestions"></td>
+						<th>Right Questions</th>
+						<td id="avgRightQuestions"></td>
+						<th>Timeout Questions</th>
+						<td id="avgTimeoutQuestions"></td>
+					</tr>
+					<tr>
+						<th>Correct</th>
+						<td id="avgPercentCorrect"></td>
+						<th>Answer Time</th>
+						<td id="avgAnswerTime"></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan=6>
+							<h4>Power-Ups</h4>
+						</td>
+					</tr>
+					<tr>
+						<th>Powers Eaten</th>
+						<td id="avgPercentPowersEaten"></td>
+						<th>Powers Initially Missed</th>
+						<td id="avgPowersMissedInitially"></td>
+						<th>Gas Eaten</th>
+						<td id="avgPercentGasEaten"></td>
+					</tr>
+					<tr>
+						<th>Boost Eaten</th>
+						<td id="avgPercentBoostEaten"></td>
+						<th>Crossout Eaten</th>
+						<td id="avgPercentCrossoutEaten"></td>
+						<th>Time Eaten</th>
+						<td id="avgPercentTimeEaten"></td>
+					</tr>
+				</table>
+			</div>
+
+			<div id="individual">
+				<h2>Individual Data</h2>
+				<div class="holder"></div>
+					<div id="itemContainer">
+						
+					</div>
+				<div class="holder"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/jPages.js"></script>
+	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./js/admin.js"></script> 
+</body>
+</html>
