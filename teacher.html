@@ -6,12 +6,18 @@
     </head>
     <body>
         <div id="titleBar">
-            <h1 id="portalTitle"> &nbsp Teacher Portal</h1>
+            <h1 id="portalTitle">Teacher Portal</h1>
         </div>
         <div id="teacherClasses"> 
-            <div id="myClasses"><p id="myClassText">&nbsp My Classes</p></div>
+            <div id="myClasses"><p id="myClassText">&nbsp &nbsp My Classes</p></div>
         </div>
         <div id="teacherMain">
+            <button id="classReportHeaderButton" class="frontTab"><p id="classReportTitle">Class Report</p></button>
+            <button id="studentReportHeaderButton" class="backTab"><p id="studentReportTitle">Student Report</p></button>
+            <div id="report">
+                <div id="classGraph"></div>
+                <div id="studentGraph"></div>
+            </div>
         <button id="registerButton">Register</button>
         <button id="loginButton">Login</button>
         <form id="registerForm">
@@ -28,7 +34,8 @@
         <button id="submitLogin">Submit</button>
         </div>
         <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/teacher.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="./js/teacher.js"></script>
     </body>
     
 </html>
