@@ -3,18 +3,26 @@ body{
 }
 
 .container{
-  padding: 50px;
+  margin-top: 50px;
+}
+
+#wrongLogin{
+  display: none;
 }
 
 #trackingData{
   display:none;
 }
 
-#average, #individual{
+#average, #individual, #adminLoginForm{
   background: #fff;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 50px;
+}
+
+#adminLoginForm{
+  padding: 30px 40px;
 }
 
 h2{

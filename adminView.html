@@ -9,6 +9,7 @@
 	<div class="container">
 		<div id="adminLoginForm">
 			<h3>Game Data Analytics</h3>
+			<div id="wrongLogin" class="alert alert-error">Incorrect username or password. Please try again.</div>
 			<form id="loginForm">
 		        <div>
 		        	<input type="text" name="usernameLog" id="usernameLog" value="" placeholder="Username"/>
@@ -22,21 +23,6 @@
 		<div id="trackingData">
 			<div id="average">
 				<h2>Average Data Across <span id="dataCount"></span> Sessions</h2>
-				
-				<!-- <table id="averageGeneral" class="table">
-					<tr>
-						<th>Game Length (seconds)</th>
-						<th>Score</th>
-						<th>% Obstacles Eaten</th>
-						<th>% Coins Eaten</th>
-					</tr>
-					<tr>
-						<td id="avgGameLength"></td>
-						<td id="avgScore"></td>
-						<td id="avgPercentObstaclesEaten"></td>
-						<td id="avgPercentCoinsEaten"></td>
-					</tr>
-				</table> -->
 				<table id="averageGeneral" class="table table-hover">
 					<tr>
 						<td colspan=6>
