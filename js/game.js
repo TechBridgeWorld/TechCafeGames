@@ -684,6 +684,13 @@ function execute(){
 
     // send game statistics to server
     function sendGameData() {
+        // semicolon-delimited string of jsons because mongo doesn't like arrays
+        var stringifiedQuestionData = "";
+        for (var i=0; i<gameData.questionData.length; i++){
+            stringifiedQuestionData = stringifiedQuestionData + JSON.stringify(gameData.questionData[i]) + ";";
+        }
+        console.log(stringifiedQuestionData);
+
         ajaxPost(
         {
             gameLength: gameData.gameLength, 
@@ -708,7 +715,7 @@ function execute(){
             numTimePowersSpawned: gameData.powersData.numTimePowersSpawned,
             score: gameData.score, 
             timestamp: new Date(),
-            questionData: gameData.questionData
+            questionData: stringifiedQuestionData
         },
         '/postGameData',
         function onSuccess(data){

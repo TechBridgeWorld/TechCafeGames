@@ -47,7 +47,7 @@ function execute() {
                 '/loginAdmin',
                 function success(data){
                     $("#wrongLogin").fadeOut();
-                    
+
                     // temporary fix for wrong login
                     if (data!=="Invalid credentials"){
                         // successful login
@@ -58,7 +58,7 @@ function execute() {
                         var dataLength = trackingData.length;
                         console.log(trackingData);
 
-                        // calculate averages 
+                        // fill in averages 
 
                         // general data
                         var totalGameLength = 0;
@@ -115,37 +115,44 @@ function execute() {
                             totalTimeEaten+=trackingData[i].numTimePowersEaten;
                             totalTimeSpawned+=trackingData[i].numTimePowersSpawned;
 
-                            for (var j=0; j<trackingData[i].questionData.length; j++){
+                            // split questionData (semicolon-delimited)
+                            var questionData = trackingData[i].questionData[0];
+                            var questionArray = questionData.split(';');
+
+                            // loop over questions; length-1 because last item is always empty
+                            for (var j=0; j<questionArray.length-1; j++){
                                 totalAnswerCount++;
-                                // console.log(JSON.parse(trackingData[i].questionData[i]));
-                                // totalAnswerTime+=trackingData[i].questionData[i].
+                                totalAnswerTime+=JSON.parse(questionArray[j]).answerTime;
                             }
                         }
 
-
+                        // calculate averages
                         var avgScore = totalScore/dataLength;
                         var avgGameLength = totalGameLength/dataLength;
-                        var avgPercentObstaclesEaten = totalObstaclesEaten/totalObstaclesSpawned*100;
-                        var avgPercentCoinsEaten = totalCoinsEaten/totalCoinsSpawned*100;
+                        var avgPercentObstaclesEaten = totalObstaclesEaten/totalObstaclesSpawned*100 || 0;
+                        var avgPercentCoinsEaten = totalCoinsEaten/totalCoinsSpawned*100 || 0;
+                        var avgAnswerTime = totalAnswerTime/totalAnswerCount;
 
                         var avgTotalQuestions = totalTotalQuestions/dataLength;
                         var avgRightQuestions = totalRightQuestions/dataLength;
                         var avgTimeoutQuestions = totalTimeoutQuestions/dataLength;
-                        var avgPercentCorrect = avgRightQuestions/avgTotalQuestions*100;
+                        var avgPercentCorrect = avgRightQuestions/avgTotalQuestions*100 || 0;
 
-                        var avgPercentPowersEaten = totalPowersEaten/totalPowersSpawned*100;
+                        var avgPercentPowersEaten = totalPowersEaten/totalPowersSpawned*100 || 0;
                         var avgPowersMissedInitially = totalPowersMissedInitially/dataLength;
-                        var avgPercentGasEaten = totalGasEaten/totalGasSpawned*100;
-                        var avgPercentBoostEaten = totalBoostEaten/totalBoostSpawned*100;
-                        var avgPercentCrossoutEaten = totalCrossoutEaten/totalCrossoutSpawned*100;
-                        var avgPercentTimeEaten = totalTimeEaten/totalTimeSpawned*100;
+                        var avgPercentGasEaten = totalGasEaten/totalGasSpawned*100 || 0;
+                        var avgPercentBoostEaten = totalBoostEaten/totalBoostSpawned*100 || 0;
+                        var avgPercentCrossoutEaten = totalCrossoutEaten/totalCrossoutSpawned*100 || 0;
+                        var avgPercentTimeEaten = totalTimeEaten/totalTimeSpawned*100 || 0;
 
+                        // add data to DOM
                         $("#dataCount").html(dataLength);
 
                         $("#avgScore").html(roundNum(avgScore));
                         $("#avgGameLength").html(roundNum(avgGameLength)+"s");
                         $("#avgPercentObstaclesEaten").html(roundNum(avgPercentObstaclesEaten)+"%");
                         $("#avgPercentCoinsEaten").html(roundNum(avgPercentCoinsEaten)+"%");
+                        $("#avgAnswerTime").html(roundNum(avgAnswerTime)+"s");
 
                         $("#avgTotalQuestions").html(roundNum(avgTotalQuestions));
                         $("#avgRightQuestions").html(roundNum(avgRightQuestions));
@@ -160,18 +167,17 @@ function execute() {
                         $("#avgPercentTimeEaten").html(roundNum(avgPercentTimeEaten)+"%");
 
 
-                        // add individual data
-                        $individualContainer = $("#itemContainer");
+                        // fill in individual data
                         for (var i=0; i<trackingData.length; i++){
                             var thisSession = trackingData[i];
                             var $table = $('\
                                 <table class="table table-hover individualData"> \
-                                    <tr class="title"> \
+                                    <thead><tr class="title"> \
                                         <td colspan=6><h4> \
                                             <span class="name">'+thisSession.name+'</span> \
                                             <span class="date">'+thisSession.timestamp+'</span> \
                                         </h4></td> \
-                                    </tr> \
+                                    </tr></thead> \
                                     <tr> \
                                         <th>Game Length</th> \
                                         <td class="gameLength">'+thisSession.gameLength+'s</td> \
@@ -205,22 +211,48 @@ function execute() {
                                         <td id="avgPercentTimeEaten">'+thisSession.numTimePowersEaten+' / '+thisSession.numTimePowersSpawned+'</td> \
                                     </tr> \
                                 </table>');
-                            $individualContainer.append($table);
+
+                                // get question data from semicolon-delimited string
+                                var questionData = trackingData[i].questionData[0];
+                                var questionArray = questionData.split(';');
+                                console.log(questionArray);
+
+                                var $questions = $("<div class='specificQuestions'></div>");
+
+                                // loop over questions; length-1 because last item is always empty
+                                for (var j=0; j<questionArray.length-1; j++){
+                                    var question = JSON.parse(questionArray[j]);
+                                    var resultClass;
+                                    if (question.correctAnswer){
+                                        resultClass = "correct";
+                                    }
+                                    else{
+                                        resultClass = "incorrect";
+                                    }
+                                    var positionClass = "pos"+question.answerPosition;
+                                    var answerTime = question.answerTime;
+                                    $questions.append('<div class="question '+resultClass+' '+positionClass+'">'+answerTime+'s</div>');
+                                }
+                                $questions.append('<div class="clear"></div>');
+                                var $oneQuestion = $("<div></div>");
+
+                            $oneQuestion.append($table).append($questions);
+                            $("#individualContainer").append($oneQuestion);
                         }
 
                         // enable pagination with jPages
                         $("div.holder").jPages({
-                            containerID: "itemContainer",
+                            containerID: "individualContainer",
                             keyBrowse   : true
                         });
 
-
+                        // round numbers to 1 decimal
                         function roundNum(num){
                             return Math.round(num * 10) / 10;
                         }
                     }
                     else{
-                        //failed login
+                        // show error on failed login
                         $("#wrongLogin").fadeIn();
                     }
                     

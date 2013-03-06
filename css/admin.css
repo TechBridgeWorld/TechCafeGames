@@ -43,28 +43,68 @@ h2{
 }
 
 #individual .title{
-  background: #999;
-  color: #fff;
+  background: #ddd;
+  color: #666;
   padding: 10px;
 }
 #individual .date{
   float: right;
-  color: #ddd;
-}
-#individual .title:hover{
-  color: #999;
-}
-
-#individual .title:hover .date{
-  color: #bbb;
+  color: #aaa;
 }
 
 #individual table{
-  margin-bottom: 40px;
+  margin-bottom: 0;
 }
 
 
 .table th{
   text-align:right;
 }
+
+.clear{
+  clear:both;
+}
+.specificQuestions{
+  margin-bottom: 40px;
+  margin-top: 10px;
+  display: block !important;
+}
+.specificQuestions .question{
+  float:left;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  border: 1px solid #fff;
+  color: #666;
+}
+.specificQuestions .question.correct.pos1{
+  background: url('../img/analytics-assets/correct-one.png') no-repeat;
+}
+.specificQuestions .question.correct.pos2{
+  background: url('../img/analytics-assets/correct-two.png') no-repeat;
+}
+.specificQuestions .question.correct.pos3{
+  background: url('../img/analytics-assets/correct-three.png') no-repeat;
+}
+.specificQuestions .question.correct.pos4{
+  background: url('../img/analytics-assets/correct-four.png') no-repeat;
+}
+.specificQuestions .question.incorrect.pos1{
+  background: url('../img/analytics-assets/incorrect-one.png') no-repeat;
+}
+.specificQuestions .question.incorrect.pos2{
+  background: url('../img/analytics-assets/incorrect-two.png') no-repeat;
+}
+.specificQuestions .question.incorrect.pos3{
+  background: url('../img/analytics-assets/incorrect-three.png') no-repeat;
+}
+.specificQuestions .question.incorrect.pos4{
+  background: url('../img/analytics-assets/incorrect-four.png') no-repeat;
+}
+.specificQuestions .question.pos0{
+  background: #ddd;
+}
+
 

@@ -17,6 +17,7 @@ analytics
 - pause game button
 - detect randomly answering user
 - different difficulty levels
+- empty data view for admin
 
 
 =======================
