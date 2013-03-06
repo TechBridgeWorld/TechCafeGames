@@ -9,4 +9,3 @@ var Teacher = new mongoose.Schema({
 
 Teacher.plugin(passportLocalMongoose); //adds username, password to schema
 module.exports = mongoose.model('Teacher', Teacher);
-

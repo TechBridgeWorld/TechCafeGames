@@ -783,8 +783,6 @@ and (min-device-aspect-ratio : 16/10) {
   }
 }
 
-
-
 #scores {
     right:10px;
 }
@@ -914,9 +912,12 @@ h1 {
 }
 
 #portalTitle {
-    text-align: left;
+    text-align:left;
+    position:relative;
+    left:30px;
     color:#F8F8F8;
     text-shadow: 2px 2px #707070;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
 }
 
 #titleBar {
@@ -938,7 +939,7 @@ background-image: -webkit-gradient(
 #myClasses {
   background-color: #686868;
   width : 100%;
-  height:10%;
+  height:60px;
   color:white;
 }
 
@@ -946,6 +947,16 @@ background-image: -webkit-gradient(
   position:absolute;
   top:0px;
   font-size: 16px;
+}
+
+#classText {
+  position:absolute;
+  font-size: 14px;
+}
+
+#studentListText {
+  position:absolute;
+  font-size: 14px;
 }
 
 #teacherClasses {
@@ -956,12 +967,140 @@ background-image: -webkit-gradient(
   background-color: #E8E8E8;
 }
 
+.selectedClass {
+  position:relative;
+   height:60px;
+   width:100%;
+  background-color: #00C5CD;
+}
+
+.unselectedClass {
+  position:relative;
+   height:60px;
+   width:100%;
+background-image: linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
+background-image: -o-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
+background-image: -moz-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
+background-image: -webkit-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
+background-image: -ms-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
+
+background-image: -webkit-gradient(
+  linear,
+  left bottom,
+  left top,
+  color-stop(0.03, rgb(199,199,199)),
+  color-stop(0.7, rgb(235,235,235))
+);
+}
+
+.selectedStudent {
+   height:50px;
+   width:100%;
+  background-color: #00C5CD;
+}
+
+.unselectedStudent {
+   height:50px;
+   width:100%;
+  background-color: rgb(235,235,235);
+}
+
+#arrow {
+  position:absolute;
+  height:40px;
+  width:35px;
+  top:10px;
+  background-image: url("../img/arrow.png");
+  right:0px;
+  background-repeat: no-repeat;
+}
+
 #teacherMain {
   position: absolute;
   right:0;
   width:82%;
   height:100%;
   background-color: #F8F8F8 ;  
+}
+
+#classReportHeaderButton {
+  position:absolute;
+  left:5%;
+    width:15%;
+    -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   border:none;
+}
+
+#studentReportHeaderButton {
+  position:absolute;
+  left:20%;
+  width:20%;
+  -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   border:none;
+}
+
+.frontTab {
+  z-index:2;
+  top:6%;
+  height:10%;
+  background-color: rgb(16,180,209);
+}
+
+.backTab {
+  z-index:1;
+  top:8%;
+  height:8%;
+  background-color: #686868;
+}
+
+ #studentReportTitle {
+  font-size: 18px;
+  color:white;
+ }
+
+#classReportTitle {
+  font-size: 18px;
+  color:white;
+}
+
+#report {
+  position:absolute;
+  z-index:3;
+  left:5%;
+  top:15%;
+  width:90%;
+  height:80%;
+  background-color: white;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #E8E8E8;
+  border-top-color: rgb(16,180,209);
+  border-top-width: 10px;
+}
+
+#classGraph{
+  position:absolute;
+  right:0px;
+  width:100%;
+  height:100%;
+}
+
+#studentGraph {
+  position:absolute;
+  right:0px;
+  width:80%;
+  height:100%;
+}
+
+#studentList {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:20%;
 }
 
 /* test */

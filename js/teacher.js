@@ -1,9 +1,110 @@
 window.onload = execute();
 
+function StudentData(name, data){
+    this.name=name;
+    this.data=data;
+}
+
+function ClassData(name, students){
+    this.name=name;
+    this.students=students;
+}
+
 function execute() {
     var studentData = [];
     var students = [];
+    var classNumber = 0;
+    var classArray = [new ClassData("Monday Class",[new StudentData("Anakin Skywalker",[1,4,3,6,1]), new StudentData("Luke Skywalker",[2,2,1,0,3])]), new ClassData("Tuesday Class",[])];
+    var tab = "class";
+    var chart;
 
+function changeTabs(tabName){
+      $("#classReportHeaderButton").toggleClass("backTab frontTab");
+      $("#studentReportHeaderButton").toggleClass("backTab frontTab");
+      tab=tabName;
+      if(tabName=="student") {
+        $("#classGraph").fadeOut(100);
+        $("#studentGraph").fadeIn(100);
+        $("#studentList").fadeIn(100);
+      }
+      else {
+        $("#studentGraph").fadeOut(100);
+        $("#studentList").fadeOut(100);
+        $("#classGraph").fadeIn(100);
+        drawChart();
+      }
+}
+
+function changeClass(classId) {
+    if(classNumber+"" !== classId) {
+        classNumber=classId;
+      for(var i = 0; i < classArray.length; i++) {
+        if($("#"+i).attr("class")=="selectedClass") $("#"+i).toggleClass("selectedClass unselectedClass");
+      }
+    $("#"+classId).toggleClass("selectedClass unselectedClass");
+    chart.clearChart();
+    drawChart();
+    }
+}
+
+$("#classReportHeaderButton").on("touch",function(){changeTabs("class");});
+$("#classReportHeaderButton").on("click",function(){changeTabs("class");});
+
+$("#studentReportHeaderButton").on("touch",function(){changeTabs("student");});
+$("#studentReportHeaderButton").on("click",function(){changeTabs("student");});
+
+//Add buttons on left of screen
+    for(var i = 0; i < classArray.length; i++) {
+        if(i==0) $("#teacherClasses").append("<div id='0' class='selectedClass'><p id='classText'>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
+        else $("#teacherClasses").append("<div id='"+i+"' class='unselectedClass'><p id='classText''>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
+        $("#"+i).on("click", function(){changeClass(this.id)});
+        $("#"+i).on("touch", function(){changeClass(this.id);});
+    }
+
+//Add buttons on left of screen
+    for(var i = 0; i < classArray[classNumber].students.length; i++) {
+        if(i==0) $("#studentList").append("<div id='0' class='selectedStudent'><p id='studentListText'>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
+        else $("#studentList").append("<div id='"+i+"' class='unselectedStudent'><p id='studentListText''>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
+        $("#"+i).on("click", function(){changeClass(this.id)});
+        $("#"+i).on("touch", function(){changeClass(this.id);});
+    }
+
+      function drawChart() {
+        var googleDataArray = [["Day"],["Monday"],["Tuesday"],["Wednesday"],["Thursday"],["Friday"]];
+        for(var i = 0 ; i < googleDataArray.length; i++) {
+            for(var j = 0; j < classArray[classNumber].students.length; j++) {
+              if(i==0) googleDataArray[0].push(classArray[classNumber].students[j].name);
+              else googleDataArray[i].push(classArray[classNumber].students[j].data[i-1]);
+          }
+        }
+
+        var data = google.visualization.arrayToDataTable(googleDataArray);
+
+        var options = {
+          title: 'Student Performance',
+          lineWidth: 4,
+          hAxis: {title:"Day"},
+          vAxis: {title:"Percent"},
+          height: $("#classGraph").height(),
+          width: $("#classGraph").width(),
+          colors: ["#4a7baa", "#af514a", "#8fa655", "#7a6395", "#439cb1", "#d58a42", "#75aee6", "#f68880", "#bded49", "#c288d7"]
+        };
+
+        chart = new google.visualization.LineChart(document.getElementById('classGraph'));
+        chart.draw(data, options);
+        $("#studentGraph").fadeOut(0);
+        $("#studentList").fadeOut(0);
+      }
+
+function drawGraphs(){
+    //Draw line graph for class
+    google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+  }
+
+  drawGraphs();
+
+//Ajax stuff
     var ajaxRequest = function(url, fnSuccess, fnError){
         $.ajax({
             url: url,
