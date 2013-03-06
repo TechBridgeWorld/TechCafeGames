@@ -25,12 +25,14 @@ function changeTabs(tabName){
       if(tabName=="student") {
         $("#classGraph").fadeOut(100);
         $("#studentGraph").fadeIn(100);
+        $("#studentList").fadeIn(100);
       }
       else {
         $("#studentGraph").fadeOut(100);
+        $("#studentList").fadeOut(100);
         $("#classGraph").fadeIn(100);
+        drawChart();
       }
-      drawChart();
 }
 
 function changeClass(classId) {
@@ -56,7 +58,15 @@ $("#studentReportHeaderButton").on("click",function(){changeTabs("student");});
         if(i==0) $("#teacherClasses").append("<div id='0' class='selectedClass'><p id='classText'>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
         else $("#teacherClasses").append("<div id='"+i+"' class='unselectedClass'><p id='classText''>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
         $("#"+i).on("click", function(){changeClass(this.id)});
-        $("#"+i).on("touch", function(){changeClass(i);});
+        $("#"+i).on("touch", function(){changeClass(this.id);});
+    }
+
+//Add buttons on left of screen
+    for(var i = 0; i < classArray[classNumber].students.length; i++) {
+        if(i==0) $("#studentList").append("<div id='0' class='selectedStudent'><p id='studentListText'>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
+        else $("#studentList").append("<div id='"+i+"' class='unselectedStudent'><p id='studentListText''>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
+        $("#"+i).on("click", function(){changeClass(this.id)});
+        $("#"+i).on("touch", function(){changeClass(this.id);});
     }
 
       function drawChart() {
@@ -83,6 +93,7 @@ $("#studentReportHeaderButton").on("click",function(){changeTabs("student");});
         chart = new google.visualization.LineChart(document.getElementById('classGraph'));
         chart.draw(data, options);
         $("#studentGraph").fadeOut(0);
+        $("#studentList").fadeOut(0);
       }
 
 function drawGraphs(){

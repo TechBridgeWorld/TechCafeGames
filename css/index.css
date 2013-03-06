@@ -783,8 +783,6 @@ and (min-device-aspect-ratio : 16/10) {
   }
 }
 
-
-
 #scores {
     right:10px;
 }
@@ -914,9 +912,12 @@ h1 {
 }
 
 #portalTitle {
-    text-align: left;
+    text-align:left;
+    position:relative;
+    left:30px;
     color:#F8F8F8;
     text-shadow: 2px 2px #707070;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
 }
 
 #titleBar {
@@ -953,6 +954,11 @@ background-image: -webkit-gradient(
   font-size: 14px;
 }
 
+#studentListText {
+  position:absolute;
+  font-size: 14px;
+}
+
 #teacherClasses {
   position: absolute;
   left:0;
@@ -985,6 +991,18 @@ background-image: -webkit-gradient(
   color-stop(0.03, rgb(199,199,199)),
   color-stop(0.7, rgb(235,235,235))
 );
+}
+
+.selectedStudent {
+   height:50px;
+   width:100%;
+  background-color: #00C5CD;
+}
+
+.unselectedStudent {
+   height:50px;
+   width:100%;
+  background-color: rgb(235,235,235);
 }
 
 #arrow {
@@ -1064,9 +1082,25 @@ background-image: -webkit-gradient(
   border-top-width: 10px;
 }
 
-#classGraph, #studentGraph {
+#classGraph{
+  position:absolute;
+  right:0px;
   width:100%;
   height:100%;
+}
+
+#studentGraph {
+  position:absolute;
+  right:0px;
+  width:80%;
+  height:100%;
+}
+
+#studentList {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:20%;
 }
 
 /* test */
