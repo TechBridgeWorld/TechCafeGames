@@ -7,8 +7,9 @@
 		<h1>Enter URL for Content:</h1>
 	<form>
 	<input type="text" name="content" id="link" />
-	<button onclick="execute()">Submit</button>
 	</form> 
+	<button id='submit'>Submit</button>
+<script src = "js/jquery.min.js" type="text/javascript"></script>
 <script>
 
 	var ajaxPost = function(json, url, onSuccess, onError){
@@ -27,22 +28,41 @@
 	            type: 'POST',
 	            success: onSuccess,
 	            error: onError});
-	} 
-	
-	function execute(){
-		var xmlURL = document.getElementById("link").value;
-		ajaxPost({
-			url:xmlURL
-		},
-		'/updateXMLURL',
-		function(data){
-			alert(data);
-		},
-		function(err){
-			console.log(err);
-		});
 	}
- 
+
+	var ajaxRequest = function(url, fnSuccess, fnError){
+        $.ajax({
+            url: url,
+            data: 'GET',
+            success: fnSuccess,
+            error: fnError
+        });
+    }; 
+	
+    // ajaxRequest('/register', function(data){console.log(data);}, function(err){console.log(err);})
+
+    $('#submit').bind('click', execute);
+
+	function execute(){
+		var xmlURL = $('#link').val();
+		
+		console.log(xmlURL);
+
+		if (!(xmlURL=='')){
+			ajaxPost({
+				url:xmlURL
+			},
+			'/updateXML',
+			function(data){
+				console.log(data);
+			},
+			function(err){
+				console.log(err);
+			});
+		}
+	}
+
 </script>
+
 </body>
 </html>

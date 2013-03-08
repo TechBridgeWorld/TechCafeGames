@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
+var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml";  
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -119,6 +120,10 @@ app.post('/loginUser', passport.authenticate('local'), function(req, res) {
     return res.send('success');
 });
 
+app.post('/updateXML', function(req,res){
+	XMLURL = req.body.url;
+});
+
 app.get("/register", function(req,res){
 	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 	var xhr = new XMLHttpRequest();
@@ -130,7 +135,7 @@ app.get("/register", function(req,res){
 		}
 	};
 	var parser = new xml2js.Parser();
-	xhr.open("GET", 'http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml');
+	xhr.open("GET", XMLURL);
 	xhr.send();
 
 	parser.on('end', function(result) {
