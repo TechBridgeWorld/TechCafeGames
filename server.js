@@ -126,50 +126,55 @@ app.post('/updateXML', function(req,res){
 });
 
 app.get("/register", function(req,res){
-	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-	var xhr = new XMLHttpRequest();
+	try{
+		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+		var xhr = new XMLHttpRequest();
 
-	xhr.onreadystatechange = function() {
-		
-		if (this.readyState == 4) {
-			parser.parseString(this.responseText);
-		}
-	};
-	var parser = new xml2js.Parser();
-	xhr.open("GET", XMLURL);
-	xhr.send();
+		xhr.onreadystatechange = function() {
+			
+			if (this.readyState == 4) {
+				parser.parseString(this.responseText);
+			}
+		};
+		var parser = new xml2js.Parser();
+		xhr.open("GET", XMLURL);
+		xhr.send();
 
-	parser.on('end', function(result) {
-		var numqs = result.list.m2qslist[0].m2qs.length;
-		var questionData = {};
-		questionData['easy'] = [];
-		questionData['medium'] = [];
-		questionData['hard'] = [];
+		parser.on('end', function(result) {
+			var numqs = result.list.m2qslist[0].m2qs.length;
+			var questionData = {};
+			questionData['easy'] = [];
+			questionData['medium'] = [];
+			questionData['hard'] = [];
 
-	    for (var i = 0; i < numqs; i++)
-	    {	  
-	  		var currentObj = {};
-		  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
-		  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
-		  	currentObj['choices'] = []; 
-		  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
-		  	for (var j = 0; j < temp.length; j++){
-		  		if (!isEmpty(temp[j])){
-		  			currentObj['choices'].push(temp[j]);
-		  		}
-		  	}
-		  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
-		  		questionData['easy'].push(currentObj);
-		  	}
-		  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
-		  		questionData['medium'].push(currentObj);
-		  	}
-		  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
-		  		questionData['hard'].push(currentObj);
-		  	}
-	  }
-	  res.send(questionData);
-	});
+		    for (var i = 0; i < numqs; i++)
+		    {	  
+		  		var currentObj = {};
+			  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
+			  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
+			  	currentObj['choices'] = []; 
+			  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
+			  	for (var j = 0; j < temp.length; j++){
+			  		if (!isEmpty(temp[j])){
+			  			currentObj['choices'].push(temp[j]);
+			  		}
+			  	}
+			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
+			  		questionData['easy'].push(currentObj);
+			  	}
+			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
+			  		questionData['medium'].push(currentObj);
+			  	}
+			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
+			  		questionData['hard'].push(currentObj);
+			  	}
+		  }
+		  res.send(questionData);
+		});
+	}
+	catch(err){
+		console.log("Error parsing XML");
+	}
 });
 
 app.post("/postGameData", function(req, res){

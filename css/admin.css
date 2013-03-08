@@ -133,6 +133,6 @@ h2{
   margin-bottom: 30px;
 }
 
-#update-success, #update-error{
+#update-success, #update-error, #update-error-format{
   display: none;
 }
