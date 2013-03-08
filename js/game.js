@@ -919,10 +919,12 @@ function execute(){
                 countdownTick.play();
             }
             if (sec===0){
+                if (trackDataFlag){
+                    // add timeout data to tracking
+                    gameData.numTimeoutQuestions++;
+                }
                 countdownTick.pause();
                 countdownBeep.play();
-                // add timeout data to tracking
-                gameData.numTimeoutQuestions++;
             }
         }
 
