@@ -108,3 +108,31 @@ h2{
 }
 
 
+
+
+/* content upload */
+#contentForm{
+  margin-top: 50px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+#link{
+  width: 700px;
+}
+
+.hint{
+  color: #999;
+  font-weight: italic;
+  margin-bottom: 40px;
+}
+
+#submit{
+  margin-bottom: 30px;
+}
+
+#update-success, #update-error{
+  display: none;
+}

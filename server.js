@@ -122,6 +122,7 @@ app.post('/loginUser', passport.authenticate('local'), function(req, res) {
 
 app.post('/updateXML', function(req,res){
 	XMLURL = req.body.url;
+	return res.send('success');
 });
 
 app.get("/register", function(req,res){

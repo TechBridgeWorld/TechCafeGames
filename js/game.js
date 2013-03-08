@@ -919,10 +919,6 @@ function execute(){
                 countdownTick.play();
             }
             if (sec===0){
-                if (trackDataFlag){
-                    // add timeout data to tracking
-                    gameData.numTimeoutQuestions++;
-                }
                 countdownTick.pause();
                 countdownBeep.play();
             }
@@ -938,6 +934,12 @@ function execute(){
                 storedPowers[1].decrement();
                 updateCurrPowers();
                 timeLimit += 10000;
+            }
+        }
+        if (sec === 0){
+            if (trackDataFlag){
+                // add timeout data to tracking
+                gameData.numTimeoutQuestions++;
             }
         }
     }

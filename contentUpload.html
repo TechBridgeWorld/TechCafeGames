@@ -2,67 +2,99 @@
 <html>
     <head>
         <title>Content Upload</title>
+        <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="./css/jPages.css" />
+		<link rel="stylesheet" type="text/css" href="./css/admin.css" />
     </head>
     <body>
-		<h1>Enter URL for Content:</h1>
-	<form>
-	<input type="text" name="content" id="link" />
-	</form> 
-	<button id='submit'>Submit</button>
-<script src = "js/jquery.min.js" type="text/javascript"></script>
-<script>
+    	<div class="container">
+    		<div id="contentForm">
+				<h3>Enter URL of New Content XML file:</h3>
+				<form>
+					<input type="text" name="content" id="link" />
+					<div class="hint">Example: http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-ao16hdblr8cu65ns445pqbtqn2.xml</div>
+				</form> 
+				<button id='submit' class="btn">Submit</button>
+				<div id="update-success" class="alert alert-success">
+					<strong>Update success!</strong> Please restart the game for changes to take effect.
+				</div>
+				<div id="update-error" class="alert alert-error">
+					<strong>Uh-oh!</strong> Something went wrong. Please try submitting again.
+				</div>
+			</div>
+		</div>
 
-	var ajaxPost = function(json, url, onSuccess, onError){
-	    var data = new FormData();
+	<script src = "js/jquery.min.js" type="text/javascript"></script>
+	<script>
 
-	    for (var key in json){
-	        data.append(key, json[key]);
-	    }
-	    
+		var ajaxPost = function(json, url, onSuccess, onError){
+		    var data = new FormData();
+
+		    for (var key in json){
+		        data.append(key, json[key]);
+		    }
+		    
+		        $.ajax({
+		            url: url,
+		            data: data,
+		            cache: false,
+		            contentType: false,
+		            processData: false,
+		            type: 'POST',
+		            success: onSuccess,
+		            error: onError});
+		}
+
+		var ajaxRequest = function(url, fnSuccess, fnError){
 	        $.ajax({
 	            url: url,
-	            data: data,
-	            cache: false,
-	            contentType: false,
-	            processData: false,
-	            type: 'POST',
-	            success: onSuccess,
-	            error: onError});
-	}
-
-	var ajaxRequest = function(url, fnSuccess, fnError){
-        $.ajax({
-            url: url,
-            data: 'GET',
-            success: fnSuccess,
-            error: fnError
-        });
-    }; 
-	
-    // ajaxRequest('/register', function(data){console.log(data);}, function(err){console.log(err);})
-
-    $('#submit').bind('click', execute);
-
-	function execute(){
-		var xmlURL = $('#link').val();
+	            data: 'GET',
+	            success: fnSuccess,
+	            error: fnError
+	        });
+	    }; 
 		
-		console.log(xmlURL);
+	    // ajaxRequest('/register', function(data){console.log(data);}, function(err){console.log(err);})
 
-		if (!(xmlURL=='')){
-			ajaxPost({
-				url:xmlURL
-			},
-			'/updateXML',
-			function(data){
-				console.log(data);
-			},
-			function(err){
-				console.log(err);
-			});
+	    $('#submit').bind('click', execute);
+
+		function execute(){
+			var xmlURL = $('#link').val();
+
+			// error checking
+			if (xmlURL.substring(0,7)!=="http://"){
+				console.log(xmlURL.substring(0,7));
+				xmlURL = "http://"+xmlURL;
+			}
+			if (xmlURL.substring(xmlURL.length-4, xmlURL.length)!==".xml"){
+				console.log(xmlURL.substring(xmlURL.length-4, xmlURL.length));
+				$("#update-error").fadeIn();
+			}
+			else{
+				console.log(xmlURL);
+
+				if (!(xmlURL=='')){
+					ajaxPost({
+						url:xmlURL
+					},
+					'/updateXML',
+					function(data){
+						console.log(data);
+						$("#update-error").fadeOut();
+						$("#update-success").fadeIn();
+					},
+					function(err){
+						console.log(err);
+						$("#update-success").fadeOut();
+						$("#update-error").fadeIn();
+					});
+				}
+			}
+
+			
 		}
-	}
 
-</script>
+	</script>
 
 </body>
 </html>
