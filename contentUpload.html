@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Content Upload</title>
+    </head>
+    <body>
+		<h1>Enter URL for Content:</h1>
+	<form>
+	<input type="text" name="content" id="link" />
+	<button onclick="execute()">Submit</button>
+	</form> 
+<script>
+
+	var ajaxPost = function(json, url, onSuccess, onError){
+	    var data = new FormData();
+
+	    for (var key in json){
+	        data.append(key, json[key]);
+	    }
+	    
+	        $.ajax({
+	            url: url,
+	            data: data,
+	            cache: false,
+	            contentType: false,
+	            processData: false,
+	            type: 'POST',
+	            success: onSuccess,
+	            error: onError});
+	} 
+	
+	function execute(){
+		var xmlURL = document.getElementById("link").value;
+		ajaxPost({
+			url:xmlURL
+		},
+		'/updateXMLURL',
+		function(data){
+			alert(data);
+		},
+		function(err){
+			console.log(err);
+		});
+	}
+ 
+</script>
+</body>
+</html>
