@@ -956,7 +956,7 @@ background-image: -webkit-gradient(
 
 #studentListText {
   position:absolute;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 #teacherClasses {
@@ -1077,7 +1077,7 @@ background-image: -webkit-gradient(
   background-color: white;
   border-style: solid;
   border-width: 3px;
-  border-color: #E8E8E8;
+  border-color: #DCDCDC;
   border-top-color: rgb(16,180,209);
   border-top-width: 10px;
 }

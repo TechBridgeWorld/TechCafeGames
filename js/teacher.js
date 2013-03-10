@@ -14,6 +14,7 @@ function execute() {
     var studentData = [];
     var students = [];
     var classNumber = 0;
+    var studentNumber = 0;
     var classArray = [new ClassData("Monday Class",[new StudentData("Anakin Skywalker",[1,4,3,6,1]), new StudentData("Luke Skywalker",[2,2,1,0,3])]), new ClassData("Tuesday Class",[])];
     var tab = "class";
     var chart;
@@ -26,6 +27,7 @@ function changeTabs(tabName){
         $("#classGraph").fadeOut(100);
         $("#studentGraph").fadeIn(100);
         $("#studentList").fadeIn(100);
+        drawStudentChart();
       }
       else {
         $("#studentGraph").fadeOut(100);
@@ -39,11 +41,23 @@ function changeClass(classId) {
     if(classNumber+"" !== classId) {
         classNumber=classId;
       for(var i = 0; i < classArray.length; i++) {
-        if($("#"+i).attr("class")=="selectedClass") $("#"+i).toggleClass("selectedClass unselectedClass");
+        if($("#"+i+"class").attr("class")=="selectedClass") $("#"+i+"class").toggleClass("selectedClass unselectedClass");
       }
-    $("#"+classId).toggleClass("selectedClass unselectedClass");
+    $("#"+classId+"class").toggleClass("selectedClass unselectedClass");
     chart.clearChart();
     drawChart();
+    }
+}
+
+function changeStudent(studentId) {
+    if(studentNumber+"" !== studentId) {
+        studentNumber=studentId;
+      for(var i = 0; i < classArray[classNumber].students.length; i++) {
+        if($("#"+i+"student").attr("class")=="selectedStudent") $("#"+i+"student").toggleClass("selectedStudent unselectedStudent");
+      }
+    $("#"+studentId+"student").toggleClass("selectedStudent unselectedStudent");
+    chart.clearChart();
+    drawStudentChart();
     }
 }
 
@@ -55,18 +69,18 @@ $("#studentReportHeaderButton").on("click",function(){changeTabs("student");});
 
 //Add buttons on left of screen
     for(var i = 0; i < classArray.length; i++) {
-        if(i==0) $("#teacherClasses").append("<div id='0' class='selectedClass'><p id='classText'>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
-        else $("#teacherClasses").append("<div id='"+i+"' class='unselectedClass'><p id='classText''>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
-        $("#"+i).on("click", function(){changeClass(this.id)});
-        $("#"+i).on("touch", function(){changeClass(this.id);});
+        if(i==0) $("#teacherClasses").append("<div id='0class' class='selectedClass'><p id='classText'>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
+        else $("#teacherClasses").append("<div id='"+i+"class' class='unselectedClass'><p id='classText''>&nbsp &nbsp &nbsp"+classArray[i].name+"</p><div id='arrow'></div></div>");
+        $("#"+i+"class").on("click", function(){changeClass(parseInt(this.id.substring(0,this.id.length-5)));});
+        $("#"+i+"class").on("touch", function(){changeClass(parseInt(this.id.substring(0,this.id.length-5)));});
     }
 
 //Add buttons on left of screen
     for(var i = 0; i < classArray[classNumber].students.length; i++) {
-        if(i==0) $("#studentList").append("<div id='0' class='selectedStudent'><p id='studentListText'>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
-        else $("#studentList").append("<div id='"+i+"' class='unselectedStudent'><p id='studentListText''>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
-        $("#"+i).on("click", function(){changeClass(this.id)});
-        $("#"+i).on("touch", function(){changeClass(this.id);});
+        if(i==0) $("#studentList").append("<div id='0student' class='selectedStudent'><p id='studentListText'>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
+        else $("#studentList").append("<div id='"+i+"student' class='unselectedStudent'><p id='studentListText''>&nbsp &nbsp &nbsp"+classArray[classNumber].students[i].name+"</p></div>");
+        $("#"+i+"student").on("click", function(){changeStudent(parseInt(this.id.substring(0,this.id.length-7)));});
+        $("#"+i+"student").on("touch", function(){changeStudent(parseInt(this.id.substring(0,this.id.length-7)));});
     }
 
       function drawChart() {
@@ -103,6 +117,39 @@ function drawGraphs(){
   }
 
   drawGraphs();
+
+      function drawStudentChart() {
+        var googleDataArray = [["Day"],["Monday"],["Tuesday"],["Wednesday"],["Thursday"],["Friday"]];
+        for(var i = 0 ; i < googleDataArray.length; i++) {
+            if(classArray[classNumber].students.length>0){
+              if(i==0) googleDataArray[0].push(classArray[classNumber].students[studentNumber].name);
+              else googleDataArray[i].push(classArray[classNumber].students[studentNumber].data[i-1]);
+          }
+        }
+
+        var data = google.visualization.arrayToDataTable(googleDataArray);
+
+        var options = {
+          title: 'Student Overview',
+          lineWidth: 4,
+          hAxis: {title:"Day"},
+          vAxis: {title:"Percent"},
+          height: $("#studentGraph").height(),
+          width: $("#studentGraph").width(),
+          colors: ["#4a7baa", "#af514a", "#8fa655", "#7a6395", "#439cb1", "#d58a42", "#75aee6", "#f68880", "#bded49", "#c288d7"]
+        };
+
+        chart = new google.visualization.LineChart(document.getElementById('studentGraph'));
+        chart.draw(data, options);
+
+      }
+
+function drawStudentGraphs(){
+    //Draw line graph for class
+    google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+  }
+
 
 //Ajax stuff
     var ajaxRequest = function(url, fnSuccess, fnError){
