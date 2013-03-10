@@ -6,11 +6,12 @@ var scoreData = [];
 var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var mongoose = require('mongoose');
-var app = express.createServer();
+//var mongoose = require('mongoose');
+var app = express.createServer(express.logger());
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
 var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml";  
+var port = process.env.PORT || 5000;
 
 function isEmpty(obj){
 	for(var i in obj){
