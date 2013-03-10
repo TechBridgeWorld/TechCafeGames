@@ -11,7 +11,7 @@ var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
 var port = process.env.PORT || 5000;
-var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml";  
+var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-03e9dom8uo5vqganvgbm30knc7.xml";  
 
 function isEmpty(obj){
 	for(var i in obj){
