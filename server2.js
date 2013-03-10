@@ -9,6 +9,8 @@ var LocalStrategy = require('passport-local').Strategy;
 //var mongoose = require('mongoose');
 var app = express.createServer(express.logger());
 var Teacher = require('./models/Teacher.js');
+var Student = require('./models/Student.js');
+var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml";
 var port = process.env.PORT || 5000;
 
 function isEmpty(obj){
@@ -99,6 +101,11 @@ app.post('/loginUser', passport.authenticate('local'), function(req, res) {
     req.user.lastLoginTimestamp = new Date();
     req.user.save();
     return res.send('success');
+});
+
+app.post('/updateXML', function(req,res){
+	XMLURL = req.body.url;
+	return res.send('success');
 });
 
 app.get("/register", function(req,res){
