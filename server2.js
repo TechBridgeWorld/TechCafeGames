@@ -9,8 +9,6 @@ var LocalStrategy = require('passport-local').Strategy;
 //var mongoose = require('mongoose');
 var app = express.createServer(express.logger());
 var Teacher = require('./models/Teacher.js');
-var Student = require('./models/Student.js');
-var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml";  
 var port = process.env.PORT || 5000;
 
 function isEmpty(obj){
@@ -29,7 +27,7 @@ function init(){
 
     var User = initPassportUser();
 
-	app.listen(8080);
+	app.listen(port);
 }
 
 init();
@@ -61,41 +59,23 @@ function configureExpress(app){
 	});
 };
 
-app.post('/loginAdmin', function(req,res){
-	var username = req.body.username;
-	var password = req.body.password;
-	if (!(username == 'admin' && password == 'tbwadmin')) {
-		res.send('Invalid credentials');
-	} 
-	else{
-		var data = ["Teacher Accounts:"];
-		Teacher.find(function(err,responseText){
-			data.push(responseText);
-			Student.find(function(err,responseText){
-				if (err) console.log(err);
-				console.log(data);
-				console.log(responseText);
-				data.push("Student Accounts:");
-				data.push(responseText);
-				res.send(data);
-			});
-		});
-	}
-});
-
 app.post("/registerUser", function(req, res){
 	var username = req.body.username;
 
+    console.log("username from register: "+username);
+    console.log("request: "+req.body.username);
 	Teacher.findOne({username : username }, function(err, existingUser) {
 	    if (err){
 	        return res.send({'err': err});
 	    }
 	    if (existingUser) {
+	        console.log("user exists");
 	        return res.send('user exists');
 	    }
 
     var teacher = new Teacher({ username : req.body.username, password: req.body.password});
 
+    console.log("creates a new one");	
     teacher.registeredTimestamp = new Date();
     	teacher.setPassword(req.body.password, function(err) {
 		    if (err) {
@@ -121,100 +101,59 @@ app.post('/loginUser', passport.authenticate('local'), function(req, res) {
     return res.send('success');
 });
 
-app.post('/updateXML', function(req,res){
-	XMLURL = req.body.url;
-	return res.send('success');
-});
-
 app.get("/register", function(req,res){
-	try{
-		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-		var xhr = new XMLHttpRequest();
+	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+	var xhr = new XMLHttpRequest();
 
-		xhr.onreadystatechange = function() {
-			
-			if (this.readyState == 4) {
-				parser.parseString(this.responseText);
-			}
-		};
-		var parser = new xml2js.Parser();
-		xhr.open("GET", XMLURL);
-		xhr.send();
+	xhr.onreadystatechange = function() {
+		console.log("State: " + this.readyState);
+		
+		if (this.readyState == 4) {
+			console.log("Complete.\nBody length: " + this.responseText.length);
+			console.log('Output:');
+			parser.parseString(this.responseText);
+		}
+	};
+	var parser = new xml2js.Parser();
+	xhr.open("GET", 'http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml');
+	xhr.send();
 
-		parser.on('end', function(result) {
-			var numqs = result.list.m2qslist[0].m2qs.length;
-			var questionData = {};
-			questionData['easy'] = [];
-			questionData['medium'] = [];
-			questionData['hard'] = [];
+	parser.on('end', function(result) {
+		var numqs = result.list.m2qslist[0].m2qs.length;
+		var questionData = {};
+		questionData['easy'] = [];
+		questionData['medium'] = [];
+		questionData['hard'] = [];
 
-		    for (var i = 0; i < numqs; i++)
-		    {	  
-		  		var currentObj = {};
-			  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
-			  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
-			  	currentObj['choices'] = []; 
-			  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
-			  	for (var j = 0; j < temp.length; j++){
-			  		if (!isEmpty(temp[j])){
-			  			currentObj['choices'].push(temp[j]);
-			  		}
-			  	}
-			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
-			  		questionData['easy'].push(currentObj);
-			  	}
-			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
-			  		questionData['medium'].push(currentObj);
-			  	}
-			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
-			  		questionData['hard'].push(currentObj);
-			  	}
-		  }
-		  res.send(questionData);
-		});
-	}
-	catch(err){
-		console.log("Error parsing XML");
-	}
-});
-
-app.post("/postGameData", function(req, res){
-	var currStudent = new Student({
-	gameLength : req.body.gameLength,
-	name : req.body.name,
-    numCoinsEaten: req.body.numCoinsEaten,
-    numCoinsSpawned: req.body.numCoinsSpawned,
-    numObstaclesEaten: req.body.numObstaclesEaten,
-    numObstaclesSpawned: req.body.numObstaclesSpawned,
-    numRightQuestions: req.body.numRightQuestions,
-    numTimeoutQuestions: req.body.numTimeoutQuestions,
-    numTotalQuestions: req.body.numTotalQuestions,
-    numBoostPowersEaten: req.body.numBoostPowersEaten,
-    numBoostPowersSpawned: req.body.numBoostPowersSpawned,
-    numCrossoutPowersEaten: req.body.numCrossoutPowersEaten,
-    numCrossoutPowersSpawned: req.body.numCrossoutPowersSpawned,
-    numGasPowersEaten: req.body.numGasPowersEaten,
-    numGasPowersSpawned: req.body.numPowersSpawned, 
-    numPowersEaten: req.body.numPowersEaten,
-    numPowersMissedInitially: req.body.numPowersMissedInitially,
-    numPowersSpawned: req.body.numPowersSpawned,
-    numTimePowersEaten: req.body.numTimePowersEaten,
-    numTimePowersSpawned: req.body.numTimePowersSpawned,
-    score: req.body.score,
-    timestamp: req.body.timestamp,
-    questionData: req.body.questionData,
-	}); 
-
-	currStudent.save(function(err){
-		 if (err) {
-	        return res.send({'err': err});
-	    }
-	    return res.send('success');
+	    for (var i = 0; i < numqs; i++)
+	    {	  
+	  		var currentObj = {};
+		  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
+		  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
+		  	currentObj['choices'] = []; 
+		  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
+		  	for (var j = 0; j < temp.length; j++){
+		  		if (!isEmpty(temp[j])){
+		  			currentObj['choices'].push(temp[j]);
+		  		}
+		  	}
+		  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
+		  		questionData['easy'].push(currentObj);
+		  	}
+		  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
+		  		questionData['medium'].push(currentObj);
+		  	}
+		  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
+		  		questionData['hard'].push(currentObj);
+		  	}
+	  }
+	  console.log(questionData);
+	  res.send(questionData);
 	});
 });
 
-
 app.post("/postScore", function(req, res){
+	console.log(req.body.name);
 	var scoreObj = {}; 
 	var questionObj = {};
 	questionObj.name = req.body.name;
@@ -222,10 +161,11 @@ app.post("/postScore", function(req, res){
 	questionObj.numTotal = parseInt(req.body.numTotal);
 	scoreObj.name = req.body.name;
 	scoreObj.score = parseInt(req.body.score);
-	scoreObj.score--;
-
+	
 	questionStats.push(questionObj);
 	scoreData.push(scoreObj);
+
+	console.log(scoreData);
 
 	return res.send("Registered.");
 });
@@ -244,6 +184,9 @@ app.get("/getScores", function(req, res){
 
 	scoreData.sort(compare);
 
+	console.log('scoreData:');
+	console.dir(scoreData);
+
 	if (scoreData.length >= 10){
 		topTen = scoreData.slice(0,10);
 	}
@@ -251,10 +194,13 @@ app.get("/getScores", function(req, res){
 		topTen = scoreData; 
 	}
 
+	console.log('topTen:');
+	console.dir(topTen);
+
 	res.send(topTen);
 
 });
 
 app.get("/getQuestionStats", function(req,res){
 	res.send(questionStats);
-});
+})
