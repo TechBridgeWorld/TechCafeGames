@@ -6,7 +6,7 @@ var scoreData = [];
 var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
@@ -24,7 +24,7 @@ function isEmpty(obj){
 function init(){
     configureExpress(app);
 
-	mongoose.connect('mongodb://localhost:27017');
+	//mongoose.connect('mongodb://localhost:27017');
 
     var User = initPassportUser();
 
