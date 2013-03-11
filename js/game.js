@@ -762,29 +762,31 @@ function execute(){
 			}
 		}
 		
+        for(var i = 0; i < question.choices.length; i++) {
+			if(question.choices[i].toString()===question.a.toString()){
+				ansIndex = i;
+                var idNum = i+1;
+                answerID = "#choice"+idNum;
+            }
+		}
+		
+		//make sure answer is one of the first four choices
+        if (ansIndex > 3) {
+			var prevAnsIndex = ansIndex;
+			ansIndex = Math.floor(Math.random() * 4);
+			var idNum = ansIndex+1;
+            answerID = "#choice"+idNum;
+			question.choices[prevAnsIndex] = question.choices[ansIndex];
+			question.choices[ansIndex] = question.a;
+		}
+		
         // get choices for question
         for(var i = 0; i < 4; i++) {
             if(question.choices[i] != undefined) {		
 				choiceArr[i] = question.choices[i];
 			}
             else choiceArr[i] = "";
-            if(choiceArr[i].toString()===question.a.toString()){
-				ansIndex = i;
-                var idNum = i+1;
-                answerID = "#choice"+idNum;
-            }
         }
-        //make sure answer is one of the first four choices
-        if (ansIndex > 3) {
-			var prevAnsIndex = ansIndex
-			ansIndex = Math.floor(Math.random() * question.choices.length);
-			var temp = choiceArr[prevAnsIndex];
-			choiceArr[prevAnsIndex] = choiceArr[ansIndex];
-			choiceArr[ansIndex] = temp;
-			var jsontemp = question.choices[prevAnsIndex];
-			question.choices[prevAnsIndex] = question.choices[ansIndex];
-			question.choices[ansIndex] = temp;
-		}
 
         // stop road from moving
         $("#one").addClass("stop");
