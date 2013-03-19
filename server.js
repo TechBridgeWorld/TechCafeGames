@@ -9,9 +9,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 
 var mongoUri = process.env.MONGOLAB_URI || 
-  process.env.MONGOHQ_URL || 
   'mongodb://localhost/mydb'; 
-  
+
 var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
@@ -31,10 +30,10 @@ function init(){
     configureExpress(app);
 
 	mongo.Db.connect(mongoUri, function (err, db) {
-  db.collection('mydocs', function(er, collection) {
+  /*db.collection('mydocs', function(er, collection) {
     collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {
     });
-  });
+  });*/
 });
 
     var User = initPassportUser();
