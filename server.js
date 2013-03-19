@@ -7,6 +7,7 @@ var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
+var mongoose = require('mongoose');
 
 var mongoUri = process.env.MONGOLAB_URI || 
   'mongodb://localhost/mydb'; 
@@ -29,8 +30,7 @@ function isEmpty(obj){
 function init(){
     configureExpress(app);
 
-	mongo.Db.connect(mongoUri, function (err, db) {
-});
+	mongoose.connect(mongoUri);
 
     var User = initPassportUser();
 
