@@ -379,11 +379,11 @@ function execute(){
         });
 
         $("#resumeBtn").bind("click",function(){
-            resumeGame();
+            resumeGame(1000);   // resume game but add 1 second of delay
         })
 
         $("#endGameBtn").bind("click",function(){
-            $("#pauseScreen").fadeOut(animationTime);
+            resumeGame(animationTime);      // resume game with normal delay
             endGame();
         })
         
@@ -641,8 +641,8 @@ function execute(){
     }
 
     // resume game after pause
-    function resumeGame(){
-        $("#pauseScreen").fadeOut(1000);
+    function resumeGame(delay){
+        $("#pauseScreen").fadeOut(delay);
 
         var resumeDelayTimeout = window.setTimeout(function(){
             pauseFlag = false;
@@ -650,7 +650,7 @@ function execute(){
 
             // resume moving road
             unfreezeRoad();
-        }, 1000);
+        }, delay);
         
     }
     
