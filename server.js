@@ -170,35 +170,37 @@ app.get("/register", function(req,res){
 		xhr.send();
 
 		parser.on('end', function(result) {
-			var numqs = result.list.m2qslist[0].m2qs.length;
-			var questionData = {};
-			questionData['easy'] = [];
-			questionData['medium'] = [];
-			questionData['hard'] = [];
+			// if (result.list.m2qslist[0].m2qs){
+				var numqs = result.list.m2qslist[0].m2qs.length;
+				var questionData = {};
+				questionData['easy'] = [];
+				questionData['medium'] = [];
+				questionData['hard'] = [];
 
-		    for (var i = 0; i < numqs; i++)
-		    {	  
-		  		var currentObj = {};
-			  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
-			  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
-			  	currentObj['choices'] = []; 
-			  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
-			  	for (var j = 0; j < temp.length; j++){
-			  		if (!isEmpty(temp[j])){
-			  			currentObj['choices'].push(temp[j]);
-			  		}
-			  	}
-			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
-			  		questionData['easy'].push(currentObj);
-			  	}
-			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
-			  		questionData['medium'].push(currentObj);
-			  	}
-			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
-			  		questionData['hard'].push(currentObj);
-			  	}
-		  }
-		  res.send(questionData);
+			    for (var i = 0; i < numqs; i++)
+			    {	  
+			  		var currentObj = {};
+				  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
+				  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
+				  	currentObj['choices'] = []; 
+				  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
+				  	for (var j = 0; j < temp.length; j++){
+				  		if (!isEmpty(temp[j])){
+				  			currentObj['choices'].push(temp[j]);
+				  		}
+				  	}
+				  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
+				  		questionData['easy'].push(currentObj);
+				  	}
+				  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
+				  		questionData['medium'].push(currentObj);
+				  	}
+				  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
+				  		questionData['hard'].push(currentObj);
+				  	}
+			 	}
+			 res.send(questionData);
+		 	// }
 		});
 	}
 	catch(err){
