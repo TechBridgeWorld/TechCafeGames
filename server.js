@@ -2,7 +2,6 @@ var express = require("express");
 var wwwDir = "/";
 var http = require('http');
 var xml2js = require('xml2js');
-var scoreData = []; 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
@@ -22,7 +21,6 @@ Content.findOne({id : 0}, function(err, existingUser) {
         return res.send({'err': err});
     }
     if (existingUser) {
-    	console.log(existingUser);
         mainContent = existingUser;
 	}
 	else{
@@ -254,10 +252,6 @@ app.post("/postScore", function(req, res){
 	scoreObj.score = parseInt(req.body.score);
 	scoreObj.score--;
 
-	var scoreString = "" + req.body.name + "`" + req.body.score + "%"; 
-
-	// mainScore.scores.append
-
 	questionStats.push(questionObj);
 	scoreData.push(scoreObj);
 
@@ -266,25 +260,39 @@ app.post("/postScore", function(req, res){
 
 app.get("/getScores", function(req, res){
 	
-	var topTen = []; 
+	var scoreData = [];
 
-	function compare(a,b) {
-	  if (a.score < b.score)
-	     return 1;
-	  if (a.score > b.score)
-	    return -1;
-	  return 0;
-	}
+	Student.find(function(err,responseText){
+		if (err) console.log(err);
+		
+		for (var i = 0; i<responseText.length; i++){
+			var tempObj = {}; 
+			tempObj.name = responseText[i].name;
+			tempObj.score = responseText[i].score;
+			scoreData.push(tempObj);
+		}
 
-	scoreData.sort(compare);
+		var topTen = []; 
 
-	if (scoreData.length >= 10){
-		topTen = scoreData.slice(0,10);
-	}
-	else{
-		topTen = scoreData; 
-	}
+		function compare(a,b) {
+		  if (a.score < b.score)
+		     return 1;
+		  if (a.score > b.score)
+		    return -1;
+		  return 0;
+		}
 
-	res.send(topTen);
+		scoreData.sort(compare);
+
+		if (scoreData.length >= 10){
+			topTen = scoreData.slice(0,10);
+		}
+		else{
+			topTen = scoreData; 
+		}
+
+		res.send(topTen);
+
+	});	
 
 });
