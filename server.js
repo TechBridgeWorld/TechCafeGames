@@ -243,18 +243,6 @@ app.post("/postGameData", function(req, res){
 
 
 app.post("/postScore", function(req, res){
-	var scoreObj = {}; 
-	var questionObj = {};
-	questionObj.name = req.body.name;
-	questionObj.numRight = parseInt(req.body.numRight); 
-	questionObj.numTotal = parseInt(req.body.numTotal);
-	scoreObj.name = req.body.name;
-	scoreObj.score = parseInt(req.body.score);
-	scoreObj.score--;
-
-	questionStats.push(questionObj);
-	scoreData.push(scoreObj);
-
 	return res.send("Registered.");
 });
 
