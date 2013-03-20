@@ -3,7 +3,6 @@ var wwwDir = "/";
 var http = require('http');
 var xml2js = require('xml2js');
 var scoreData = []; 
-var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
@@ -15,10 +14,30 @@ var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
 var Content = require('./models/Content.js');
-var mainContent = new Content({
-	id: 0,
-	url: "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-03e9dom8uo5vqganvgbm30knc7.xml"
+var Score = require('./models/Score.js');
+
+var mainContent; 
+Content.findOne({id : 0}, function(err, existingUser) {
+    if (err){
+        return res.send({'err': err});
+    }
+    if (existingUser) {
+    	console.log(existingUser);
+        mainContent = existingUser;
+	}
+	else{
+		mainContent = new Content({
+			id: 0,
+			url: "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-03e9dom8uo5vqganvgbm30knc7.xml"
+		});			
+	}
 });
+
+var mainScore = new Content({
+	id: 0, 
+	scores: []
+});
+
 var port = process.env.PORT || 8080;
 
 function isEmpty(obj){
@@ -235,6 +254,10 @@ app.post("/postScore", function(req, res){
 	scoreObj.score = parseInt(req.body.score);
 	scoreObj.score--;
 
+	var scoreString = "" + req.body.name + "`" + req.body.score + "%"; 
+
+	// mainScore.scores.append
+
 	questionStats.push(questionObj);
 	scoreData.push(scoreObj);
 
@@ -264,8 +287,4 @@ app.get("/getScores", function(req, res){
 
 	res.send(topTen);
 
-});
-
-app.get("/getQuestionStats", function(req,res){
-	res.send(questionStats);
 });
