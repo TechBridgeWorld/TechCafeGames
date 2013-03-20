@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.phonegap.brain-race"
+        version   = "2.2.0">
+    <name>Brain Race</name>
+
+    <description>
+        Educational racing game. 
+    </description>
+
+    <author href="" email="teamonyx239@gmail.com">
+        Team Onyx
+    </author>
+
+    <preference name="phonegap-version" value="2.3.0" />
+    <preference name="orientation"      value="portrait" />
+    <preference name="target-device"    value="universal" />
+    <preference name="fullscreen"       value="true" />
+
+</widget>

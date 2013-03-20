@@ -7,10 +7,19 @@ var questionStats = [];
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+
+var mongoUri = process.env.MONGOLAB_URI || 
+  'mongodb://localhost:27017'; 
+
 var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
-var XMLURL = "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-eau2rqip4l5inmroldp32ln755.xml";  
+var Content = require('./models/Content.js');
+var mainContent = new Content({
+	id: 0,
+	url: "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-03e9dom8uo5vqganvgbm30knc7.xml"
+});
+var port = process.env.PORT || 8080;
 
 function isEmpty(obj){
 	for(var i in obj){
@@ -24,11 +33,11 @@ function isEmpty(obj){
 function init(){
     configureExpress(app);
 
-	mongoose.connect('mongodb://localhost:27017');
+	mongoose.connect(mongoUri);
 
     var User = initPassportUser();
 
-	app.listen(8080);
+	app.listen(port);
 }
 
 init();
@@ -121,7 +130,10 @@ app.post('/loginUser', passport.authenticate('local'), function(req, res) {
 });
 
 app.post('/updateXML', function(req,res){
-	XMLURL = req.body.url;
+	mainContent.url = req.body.url;
+	mainContent.save(function(err){
+		if (err) console.log('error!!!');
+	})
 	return res.send('success');
 });
 
@@ -137,7 +149,7 @@ app.get("/register", function(req,res){
 			}
 		};
 		var parser = new xml2js.Parser();
-		xhr.open("GET", XMLURL);
+		xhr.open("GET", mainContent.url);
 		xhr.send();
 
 		parser.on('end', function(result) {
