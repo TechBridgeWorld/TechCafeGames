@@ -946,17 +946,17 @@ background-image: -webkit-gradient(
 #myClassText {
   position:absolute;
   top:0px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 #classText {
   position:absolute;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 #studentListText {
   position:absolute;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #teacherClasses {
