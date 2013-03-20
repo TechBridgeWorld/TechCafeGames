@@ -75,6 +75,7 @@ function execute(){
 
     var questionInterval;
     var questionFlag = false;
+    var pauseFlag = false;
     var questionTime = 31000; //31 seconds
 
     var obstacleHeight; 
@@ -371,6 +372,20 @@ function execute(){
         $("#hiScoreBtn").live("touch", function(){
             showHighscores();
         });
+
+        // PAUSE BUTTON & SCREEN EVENT LISTENER
+        $("#pauseBtn").bind("click",function(){
+            pauseGame();
+        });
+
+        $("#resumeBtn").bind("click",function(){
+            resumeGame();
+        })
+
+        $("#endGameBtn").bind("click",function(){
+            $("#pauseScreen").fadeOut(animationTime);
+            endGame();
+        })
         
         //INSTRUCTION SCREEN EVENT LISTENERS:
 
@@ -535,6 +550,7 @@ function execute(){
         ctx.clearRect(0,0,width,height);
         draw(); 
         if (questionFlag) drawQuestionBox();
+        else if (pauseFlag) {}
         else {
             if (invincibleFlag) drawFlames();
             updateBar();
@@ -577,7 +593,7 @@ function execute(){
         if(barFrac>0 && !invincibleFlag) barFrac-=.1;
         if(barFrac <= 0) endGame();
         if(barFrac > 100) barFrac=100;
-        barWidth = (barFrac/100)*(.93*($("#gasBar").width()-barStart));
+        barWidth = (barFrac/100)*(.93*($("#gasBar").width()-barStart+12));
 
         // change color when gas is low, add warning sound when super low
         if (barFrac<50){
@@ -607,12 +623,46 @@ function execute(){
         barHeight = $("#gasBar").height()*(3/5);
         barTop = $("#gasBar").height()*(1/5)+15;
         
-        $("#innerMeter").css("left", 25+barStart + "px");
+        $("#innerMeter").css("left", 22+barStart + "px");
         $("#innerMeter").css("width", barWidth);
         $("#innerMeter").css("height", barHeight);
         $("#innerMeter").css("top", barTop);
     }
+
+    // pause game
+    function pauseGame(){
+        pauseFlag = true;
+        canvas.removeEventListener('touchmove', setupEventListener, false);
+
+        // stop road from moving
+        freezeRoad();
+
+        $("#pauseScreen").fadeIn(animationTime);
+    }
+
+    // resume game after pause
+    function resumeGame(){
+        $("#pauseScreen").fadeOut(1000);
+
+        var resumeDelayTimeout = window.setTimeout(function(){
+            pauseFlag = false;
+            canvas.addEventListener('touchmove', setupEventListener, false);
+
+            // resume moving road
+            unfreezeRoad();
+        }, 1000);
+        
+    }
     
+    function freezeRoad(){
+        $("#one").addClass("stop");
+        $("#two").addClass("stop");
+    }
+
+    function unfreezeRoad(){
+        $("#one").removeClass("stop");
+        $("#two").removeClass("stop");
+    }
 
     // when you lose
     function endGame(){
@@ -735,6 +785,10 @@ function execute(){
     if($("#ques").length == 0) {
         canvas.removeEventListener('touchmove', setupEventListener, false);
 
+        // stop road from moving
+        $("#one").addClass("stop");
+        $("#two").addClass("stop");
+
         // track data
         if (trackDataFlag){
             gameData.questionData.push({
@@ -786,9 +840,10 @@ function execute(){
 			question.choices[ansIndex] = temp;
 		}
 
-        // stop road from moving
-        $("#one").addClass("stop");
-        $("#two").addClass("stop");
+        
+
+        // fade out background
+        $("#backgroundFader").fadeIn();
 
         // add question div
         var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
@@ -947,6 +1002,9 @@ function execute(){
     
     // remove question
     function stopAsking(){
+        // fade in background
+        $("#backgroundFader").fadeOut();
+
         numQuestions++; // keep track of number of questions
 
         // fade out question screen if question is up
