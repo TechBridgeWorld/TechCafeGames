@@ -42,7 +42,7 @@ function execute(){
         function onSuccess(data){
             if(data)
                 {   
-                    questionData = data; 
+                    questionData = data.easy.concat(data.medium,data.hard); 
                 }
             },
         function onError(data){ 
@@ -802,8 +802,8 @@ function execute(){
         }
         
         // randomly gets question
-        var c = Math.round((questionData.easy.length-1)*Math.random());
-        var question = questionData.easy[c];
+        var c = Math.round((questionData.length-1)*Math.random());
+        var question = questionData[c];
         var choiceArr =[];
         var answerID;
         var ansIndex;
