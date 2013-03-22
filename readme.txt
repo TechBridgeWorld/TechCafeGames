@@ -1,3 +1,32 @@
+PRIORITY LIST
+
+CURRENTLY DEPLOYED VERSION: brainrace.herokuapp.com
+* Don't update this until needed, high scores/data could be lost *
+
+- Server stops when given xml file that doesn't have Multiple Choice Questions 
+	- ^^Easy fix, but game crashes when it gets empty question data from server 
+
+- Game only handles easy questions
+
+- Second car still shows up every so often 
+(could be a clear->update->draw issue for slower phones?)
+
+
+SANDBOX: gentle-shore-9072.herokuapp.com
+
+- Create and integrate system for multiple classrooms	
+
+- Images/audio for questions (audio in general is sketchy)
+
+
+
+
+
+
+
+
+
+
 // known issues //
 - background doesn't freeze during question on some androids
 - crash image doesn't show on iphones
@@ -14,10 +43,10 @@ analytics
 
 // to-do //
 - run into question right after boost?
-- pause game button
 - detect randomly answering user
 - different difficulty levels
 - empty data view for admin
+- music
 
 
 =======================
@@ -42,7 +71,7 @@ analytics
 
 
 // finished to-do //
-- music
+- pause game button
 - update img assets - obstacles, coin
 - decrease gas when hitting obstacle
 - talk about background behavior when answering question
