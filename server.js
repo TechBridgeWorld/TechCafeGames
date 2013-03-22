@@ -13,6 +13,7 @@ var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
 var Content = require('./models/Content.js');
+var QuestionSets = require('./models/QuestionSets.js');
 var Score = require('./models/Score.js');
 
 var mainContent; 
