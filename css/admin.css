@@ -111,15 +111,42 @@ h2{
 
 
 /* content upload */
+
+/*  V2 */
+#contentUpload.container{
+  width: 1200px;
+}
+
 #contentForm{
   margin-top: 50px;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 50px;
+  /*  V2 */
+  float:left;
 }
 
-#link{
+/*  V2 */
+#existingList{
+  margin-top: 50px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  width: 380px;
+  float:right;
+}
+
+#existingList th{
+  text-align:left;
+}
+
+#existingList tr:hover{
+  cursor: pointer;
+}
+
+#link, #contentName{
   width: 700px;
 }
 
@@ -131,6 +158,7 @@ h2{
 
 #submit{
   margin-bottom: 30px;
+  float: right;
 }
 
 #update-success, #update-error, #update-error-format{
