@@ -432,7 +432,6 @@ function execute(){
                 console.log(gameData);
             }
             sendScore($("#name").val(),numRightQuestion,numQuestions,score);
-            sendGameData();
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
             $("#homeBtn").fadeIn(animationTime);
@@ -671,6 +670,8 @@ function execute(){
             gameData.score = score;
             gameData.numTotalQuestions = numQuestions;
             gameData.numRightQuestions = numRightQuestion;
+
+            sendGameData();
         }
 
         if (soundOn){
@@ -691,8 +692,9 @@ function execute(){
         $("#screen").fadeOut(animationTime);
 
         // hide "play again" initially and show enter name
-        $("#againBtn").hide();
-        $("#homeBtn").hide();
+        // TEMP: show play again button right away
+        // $("#againBtn").hide();
+        // $("#homeBtn").hide();
 
         // show end screen div
         $("#end").slideDown(animationTime);
@@ -706,7 +708,8 @@ function execute(){
             $("#questionScore").html(numRightQuestion + " / " + numQuestions + " questions correct");
         }
 
-        $("#entername").show();
+        // TEMP: don't ask for name
+        $("#entername").hide();
 
     }
 
@@ -744,7 +747,7 @@ function execute(){
         ajaxPost(
         {
             gameLength: gameData.gameLength, 
-            name: gameData.name, 
+            name: gameData.name || "[anonymous]", 
             numCoinsEaten: gameData.numCoinsEaten, 
             numCoinsSpawned: gameData.numCoinsSpawned, 
             numObstaclesEaten: gameData.numObstaclesEaten, 
