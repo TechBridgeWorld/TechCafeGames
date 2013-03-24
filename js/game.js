@@ -8,7 +8,7 @@ function execute(){
     var trackDataFlag = true;       // track all user data for testing purposes
     var gameData = {};              // array to store tracking data
     var eatenPowerFlag;             // false when user hasn't eaten any powers yet
-    
+    var questionSets;
     
     var ajaxRequest = function(url, fnSuccess, fnError){
         $.ajax({
@@ -43,10 +43,11 @@ function execute(){
             if(data)
                 {   
                     // console.log(data);
-                    // console.log(JSON.parse(data[0].data));
-                    var dataObj = JSON.parse(data[0].data);
-                    console.log(dataObj);
-                    questionData = dataObj.easy; 
+                    // console.log(JSON.parse(data[0].data).easy);
+                    // var dataObj = JSON.parse(data);
+                    // console.log(dataObj);
+                    questionSets = JSON.parse(data[0].data);
+                    console.log(questionSets);
                 }
             },
         function onError(data){ 
@@ -358,10 +359,29 @@ function execute(){
         }
 
         // choosing level
-        $(".levelBtn").bind("click", function(){
+        $("#basicBeginnerBtn").bind("click", function(){
+            questionData = questionSets.easy;
+            // console.log(questionData);
             startGame();
         });
-        $(".levelBtn").live("touch", function(){
+        $("#basicBeginnerBtn").live("touch", function(){
+            questionData = questionSets.easy;
+            startGame();
+        });
+        $("#beginnerBtn").bind("click", function(){
+            questionData = questionSets.medium;
+            startGame();
+        });
+        $("#beginnerBtn").live("touch", function(){
+            questionData = questionSets.medium;
+            startGame();
+        });
+        $("#intermediateBtn").bind("click", function(){
+            questionData = questionSets.hard;
+            startGame();
+        });
+        $("#intermediateBtn").live("touch", function(){
+            questionData = questionSets.hard;
             startGame();
         });
 

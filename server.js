@@ -215,6 +215,7 @@ app.post('/updateXML', function(req,res){
 
 app.get("/register", function(req,res){
 	QuestionSet.find(function(err,responseText){
+		console.log(responseText);
 		res.send(responseText);
 	});
 });
