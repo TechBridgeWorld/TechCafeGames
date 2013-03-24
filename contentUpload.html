@@ -61,7 +61,7 @@
 					<strong>Uh-oh!</strong> Something went wrong. Please try submitting again.
 				</div>
 				<div id="update-error-format" class="alert alert-error">
-					<strong>Uh-oh!</strong> The format of the file that you entered seems incorrect. Please check that you have copied the correct link.
+					<strong>Uh-oh!</strong> Incorrect file format. Please check that you have copied the correct link.
 				</div>
 			</div>
 
@@ -119,6 +119,16 @@
 			</div>
 		</div>
 
+		<div class="modal hide fade" id="questionSetViewer">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Modal header</h3>
+			</div>
+			<div class="modal-body">
+				<p>One fine body…</p>
+			</div>
+		</div>
+
 	<script src = "js/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 	<script>
@@ -158,9 +168,20 @@
     			num = this.innerHTML;
 			});
 
-			ajaxRequest('/register', function(data){console.log(data); for(var i = 0; i < data.length; i++) {
-				$("#existingTable").append("<tr class='existingFile'><td>"+(i+1)+"</td><td>"+data[i].name+"</td><td>23 March 2013</td></tr>");}}, function(err){console.log(err);})
-			$(".existingFile").on("click",function(){});
+			ajaxRequest('/register', function(data){
+				console.log(data); 
+				for(var i = 0; i < data.length; i++) {
+					$("#existingTable").append("<tr class='existingFile'><td class='index'>"+(i+1)+"</td><td>"+data[i].name+"</td><td>23 March 2013</td></tr>");
+					$("#existingTable .existingFile").last().on("click",function(){
+						var index = $(this).find('.index').html();
+						index--;
+						console.log(data[index]);
+						$('#questionSetViewer').modal('show')
+					});
+				}}, function(err){console.log(err);})
+				
+
+			
 
     	}
 		

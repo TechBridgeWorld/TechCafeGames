@@ -158,11 +158,11 @@ h2{
 
 #submit{
   margin-bottom: 30px;
+  line-height: 30px;
   float: right;
 }
 
 #update-success, #update-error, #update-error-format{
   display: none;
-  clear: both;
-  width: 650px;
+  width: 550px;
 }

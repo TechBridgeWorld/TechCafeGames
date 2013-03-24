@@ -8,7 +8,7 @@ function execute(){
     var trackDataFlag = true;       // track all user data for testing purposes
     var gameData = {};              // array to store tracking data
     var eatenPowerFlag;             // false when user hasn't eaten any powers yet
-    
+    var questionSets;
     
     var ajaxRequest = function(url, fnSuccess, fnError){
         $.ajax({
@@ -42,11 +42,11 @@ function execute(){
         function onSuccess(data){
             if(data)
                 {   
-                    console.log(data);
-                    // console.log(JSON.parse(data[0].data));
-                    var dataObj = JSON.parse(data[0].data);
+                    // console.log(data);
+                    // console.log(JSON.parse(data[0].data).easy);
+                    // var dataObj = JSON.parse(data);
                     // console.log(dataObj);
-                    questionData = dataObj.easy; 
+                    console.log(data);
                 }
             },
         function onError(data){ 
@@ -350,16 +350,39 @@ function execute(){
         if(fileFlag) {
             // pressing start button
             $("#startBtn").bind("click", function(){
-                $("#screen").show();
-                $("#start").slideUp(animationTime); 
-                setup();
+                showLevels();
             });
             $(".startBtn").live("touch", function(){
-                $("#screen").show();
-                $("#start").slideUp(animationTime); 
-                setup();
+                showLevels();
             });
         }
+
+        // choosing level
+        $("#basicBeginnerBtn").bind("click", function(){
+            questionData = questionSets.easy;
+            // console.log(questionData);
+            startGame();
+        });
+        $("#basicBeginnerBtn").live("touch", function(){
+            questionData = questionSets.easy;
+            startGame();
+        });
+        $("#beginnerBtn").bind("click", function(){
+            questionData = questionSets.medium;
+            startGame();
+        });
+        $("#beginnerBtn").live("touch", function(){
+            questionData = questionSets.medium;
+            startGame();
+        });
+        $("#intermediateBtn").bind("click", function(){
+            questionData = questionSets.hard;
+            startGame();
+        });
+        $("#intermediateBtn").live("touch", function(){
+            questionData = questionSets.hard;
+            startGame();
+        });
 
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
@@ -453,6 +476,17 @@ function execute(){
         $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
         $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});    
 
+    }
+
+    function showLevels(){
+        $("#chooseLevelScreen").show();
+        $("#start").slideUp(animationTime);  
+    }
+
+    function startGame(){
+        $("#screen").show();
+        $("#chooseLevelScreen").slideUp(animationTime); 
+        setup();
     }
 
     // show instructions screen from home screen

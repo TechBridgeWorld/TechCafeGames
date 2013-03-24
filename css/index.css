@@ -456,7 +456,7 @@ table{
 
 /* ------------------ start & end screens ------------ */
 
-#start, #end, #instructions, #highscores{
+#start, #end, #instructions, #highscores, #chooseLevelScreen{
     height:100%;
     width:100%;
     position:absolute;
@@ -471,6 +471,10 @@ table{
     background-image: -o-linear-gradient(bottom, #0c0c0c, #999);
     background-image: -ms-linear-gradient(bottom, #0c0c0c, #999);
     background-image: linear-gradient(to top, #0c0c0c, #999);
+}
+
+#start{
+  z-index:20;
 }
 
 .textureOverlay{
@@ -645,6 +649,46 @@ table{
     line-height:50px;
     text-align:center;
     margin:20px;
+}
+
+/* -------- Choose Level Screen -------- */
+
+#chooseLevelScreen{
+  display: none;
+  z-index:10;
+}
+
+#chooseLevelTitle{
+  width: 100%;
+  height: 18%;
+  position: relative;
+  top: 13%;
+  background: url('/img/race-assets/choose-level-title.png') top center no-repeat;
+  background-size: 80%;
+}
+
+.levelBtn{
+  width: 80%;
+  left: 10%;
+  height: 13%;
+  position: relative;
+  top: 13%;
+  margin-bottom: 8%;
+}
+
+#basicBeginnerBtn{
+  background: url('/img/race-assets/choose-level-basic.png') top center no-repeat;
+  background-size: 100%;
+}
+
+#beginnerBtn{
+  background: url('/img/race-assets/choose-level-beginner.png') top center no-repeat;
+  background-size: 100%;
+}
+
+#intermediateBtn{
+  background: url('/img/race-assets/choose-level-intermediate.png') top center no-repeat;
+  background-size: 100%;
 }
 
 
