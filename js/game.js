@@ -46,8 +46,10 @@ function execute(){
                     // console.log(JSON.parse(data[0].data).easy);
                     // var dataObj = JSON.parse(data);
                     // console.log(dataObj);
-                    questionSets = JSON.parse(data[0].data);
-                    console.log(questionSets);
+                    console.log(data);
+
+                    // questionSets = JSON.parse(data[0].data);
+                    // console.log(questionSets);
                 }
             },
         function onError(data){ 
