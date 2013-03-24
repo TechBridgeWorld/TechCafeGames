@@ -46,7 +46,14 @@ function execute(){
                     // console.log(JSON.parse(data[0].data).easy);
                     // var dataObj = JSON.parse(data);
                     // console.log(dataObj);
-                    console.log(data);
+                    var dataCopy = [];
+                    for(var i = 0; i < 3; i++){
+                        if(data[i].name==="Basic Beginner") dataCopy[0] = data[i];
+                        else if(data[i].name==="Beginner") dataCopy[1] = data[i];
+                        else if(data[i].name==="Intermediate") dataCopy[2] = data[i];
+                    }
+                    questionSets = dataCopy;
+                    console.log(dataCopy);
                 }
             },
         function onError(data){ 
@@ -359,31 +366,30 @@ function execute(){
 
         // choosing level
         $("#basicBeginnerBtn").bind("click", function(){
-            questionData = questionSets.easy;
-            // console.log(questionData);
+            questionData = parser(questionSets[0].data);
+            console.log(questionData);
             startGame();
         });
         $("#basicBeginnerBtn").live("touch", function(){
-            questionData = questionSets.easy;
+            questionData = parser(questionSets[0].data);
             startGame();
         });
         $("#beginnerBtn").bind("click", function(){
-            questionData = questionSets.medium;
+            questionData = parser(questionSets[1].data);
             startGame();
         });
         $("#beginnerBtn").live("touch", function(){
-            questionData = questionSets.medium;
+            questionData = parser(questionSets[1].data);
             startGame();
         });
         $("#intermediateBtn").bind("click", function(){
-            questionData = questionSets.hard;
+            questionData = parser(questionSets[2].data);
             startGame();
         });
         $("#intermediateBtn").live("touch", function(){
-            questionData = questionSets.hard;
+            questionData = parser(questionSets[2].data);
             startGame();
         });
-
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
             showInstructions();
@@ -476,6 +482,13 @@ function execute(){
         $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
         $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});    
 
+    }
+
+    function parser(JSONdata){
+        for(var i = 0; i < JSONdata.length; i++){
+            JSONdata[i]=JSON.parse(JSONdata[i]);
+        }
+        return JSONdata;
     }
 
     function showLevels(){
