@@ -504,8 +504,9 @@ function execute(){
 
     // show instructions screen from home screen
     function showInstructions(){
-        $("#start").fadeOut(animationTime);
-        $("#instructions").slideDown(animationTime);
+        $("#instructions").show();
+        $("#start").slideUp(animationTime);
+        //$("#instructions").slideDown(animationTime);
         $("#instructions-powers").hide();
         $("#instructions-howto").hide();
         $("#instructions-howto").fadeIn(animationTime);
@@ -534,15 +535,15 @@ function execute(){
 
     // hide instruction
     function hideInstructions(){
-        $("#instructions").slideUp(animationTime);
-        $("#start").fadeIn(animationTime);
+        $("#start").slideDown(animationTime);
+        window.setTimeout(function(){$("#instructions").hide();},animationTime);
     }
 
     // show instructions screen from home screen
     function showHighscores(){
-        $("#start").fadeOut(animationTime);
+        $("#highscores").show();
         $("#highscoresList").show();
-        $("#highscores").slideDown(animationTime);
+        $("#start").slideUp(animationTime);
         $("#highscoresList").html("");
 
         // get top scores and add to list
@@ -573,8 +574,8 @@ function execute(){
 
     // hide high scores screen
     function hideHighscores(){
-        $("#start").fadeIn(animationTime);
-        $("#highscores").slideUp(animationTime);
+        $("#start").slideDown(animationTime);
+        window.setTimeout(function(){$("#highscores").hide();},animationTime);
     }
 
     // show start screen
