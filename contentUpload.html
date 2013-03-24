@@ -69,11 +69,11 @@
 				<h3>Existing Question Sets</h3>
 				<table class="table table-hover" id="existingTable">
 					<thead>
-						<tr>
+<!-- 						<tr>
 							<th>#</th>
 							<th>Name</th>
 							<th>Date Added</th>
-						</tr>
+						</tr> -->
 					</thead>
 					<!-- <tr onclick="window.open('http://www.google.com');">
 						<td>1</td>
@@ -122,10 +122,10 @@
 		<div class="modal hide fade" id="questionSetViewer">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Modal header</h3>
+				<h3 id="questionSetName">Modal header</h3>
 			</div>
 			<div class="modal-body">
-				<p>One fine body…</p>
+				
 			</div>
 		</div>
 
@@ -168,19 +168,67 @@
 			});
 
 			ajaxRequest('/register', function(data){
-				console.log(data); 
+				// console.log(data); 
+				var basicData;
+				var beginnerData;
+				var intermediateData;
 				for(var i = 0; i < data.length; i++) {
-					$("#existingTable").append("<tr class='existingFile'><td class='index'>"+(i+1)+"</td><td>"+data[i].name+"</td><td>23 March 2013</td></tr>");
-					$("#existingTable .existingFile").last().on("click",function(){
-						var index = $(this).find('.index').html();
-						index--;
-						console.log(data[index]);
-						$('#questionSetViewer').modal('show')
-					});
-				}}, function(err){console.log(err);})
-				
+					$("#existingTable").append("<tr class='existingFile'><td>"+data[i].name+"</td></tr>");
+					if (data[i].name === "Basic Beginner"){
+						basicData = data[i].data;
+						$("#existingTable .existingFile").last().attr('id', 'basic');
+					}
+					else if (data[i].name === "Beginner"){
+						beginnerData = data[i].data;
+						$("#existingTable .existingFile").last().attr('id', 'beginner');
+					}
+					else if (data[i].name === "Intermediate"){
+						intermediateData = data[i].data;
+						$("#existingTable .existingFile").last().attr('id', 'intermediate');
+					}
+				}
+				$(".existingFile").on("click",function(){
+					var level = $(this).attr('id');
+					var questionSet;
+					if (level === "basic"){
+						questionSet = basicData;
+						$("#questionSetName").html("Basic Beginner Question Set");
+					}
+					else if (level === "beginner"){
+						questionSet = beginnerData;
+						$("#questionSetName").html("Beginner Question Set");
+					}
+					else if (level === "intermediate"){
+						questionSet = intermediateData;
+						$("#questionSetName").html("Intermediate Question Set");
+					}
 
-			
+					// populate questions
+					$("#questionSetViewer .modal-body").html('');
+					for (var i=0; i<questionSet.length; i++){
+						var questionData = JSON.parse(questionSet[i]);
+						var index = i+1;
+						var $question = $('\
+							<table class="question table table-bordered">\
+								<tr>\
+									<td class="index" rowspan=2>'+index+'</td>\
+									<td class="question" colspan=8>'+questionData.q+'</td>\
+								</tr>\
+								<tr class="answers">\
+								</tr>\
+							</table>');
+						for (var j=0; j<questionData.choices.length; j++){
+							$question.find(".answers").append('<td>'+questionData.choices[j]+'</td>')
+							if (questionData.choices[j] === questionData.a){
+								$question.find(".answers td").last().addClass("correct")
+							}
+						}
+						$("#questionSetViewer .modal-body").append($question);
+					};
+					
+					$('#questionSetViewer').modal('show');
+				});
+			}, function(err){console.log(err);})
 
     	}
 		

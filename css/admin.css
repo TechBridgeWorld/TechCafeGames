@@ -138,6 +138,12 @@ h2{
   float:right;
 }
 
+#existingList td{
+  height: 30px;
+  font-size: 20px;
+  vertical-align:middle;
+}
+
 #existingList th{
   text-align:left;
 }
@@ -165,4 +171,25 @@ h2{
 #update-success, #update-error, #update-error-format{
   display: none;
   width: 550px;
+}
+
+
+/*Question Set Viewer*/
+
+table.question td.index{
+  vertical-align:middle;
+  width: 50px;
+  font-size: 50px;
+  text-align: center;
+  font-weight: bold;
+  color: #999;
+}
+
+.modal-body{
+  padding: 20px;
+}
+
+.answers td.correct{
+  color: #33cc00;
+  font-weight: bold;
 }
