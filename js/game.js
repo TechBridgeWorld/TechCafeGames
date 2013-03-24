@@ -346,16 +346,20 @@ function execute(){
         if(fileFlag) {
             // pressing start button
             $("#startBtn").bind("click", function(){
-                $("#screen").show();
-                $("#start").slideUp(animationTime); 
-                setup();
+                showLevels();
             });
             $(".startBtn").live("touch", function(){
-                $("#screen").show();
-                $("#start").slideUp(animationTime); 
-                setup();
+                showLevels();
             });
         }
+
+        // choosing level
+        $(".levelBtn").bind("click", function(){
+            startGame();
+        });
+        $(".levelBtn").live("touch", function(){
+            startGame();
+        });
 
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
@@ -449,6 +453,17 @@ function execute(){
         $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
         $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});    
 
+    }
+
+    function showLevels(){
+        $("#chooseLevelScreen").show();
+        $("#start").slideUp(animationTime);  
+    }
+
+    function startGame(){
+        $("#screen").show();
+        $("#chooseLevelScreen").slideUp(animationTime); 
+        setup();
     }
 
     // show instructions screen from home screen
