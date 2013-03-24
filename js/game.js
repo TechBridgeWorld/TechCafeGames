@@ -42,7 +42,11 @@ function execute(){
         function onSuccess(data){
             if(data)
                 {   
-                    questionData = data.easy.concat(data.medium,data.hard); 
+                    // console.log(data);
+                    // console.log(JSON.parse(data[0].data));
+                    var dataObj = JSON.parse(data[0].data);
+                    console.log(dataObj);
+                    questionData = dataObj.easy; 
                 }
             },
         function onError(data){ 
