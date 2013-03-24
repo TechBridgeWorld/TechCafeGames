@@ -42,10 +42,10 @@ function execute(){
         function onSuccess(data){
             if(data)
                 {   
-                    // console.log(data);
+                    console.log(data);
                     // console.log(JSON.parse(data[0].data));
                     var dataObj = JSON.parse(data[0].data);
-                    console.log(dataObj);
+                    // console.log(dataObj);
                     questionData = dataObj.easy; 
                 }
             },
