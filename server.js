@@ -202,6 +202,7 @@ app.post('/updateXML', function(req,res){
 				serial: mainContent.count,
 				data: qData
 			});
+			QuestionSet.findOne({name:req.body.name}).remove();
 			newContent.save(function(err){
 				if (err) console.log('Error!');
 			});
