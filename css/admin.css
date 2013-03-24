@@ -138,10 +138,29 @@ h2{
   float:right;
 }
 
+.control-group{
+  margin-top: 30px;
+}
+
+#existingList table{
+  border-spacing: 0 20px;
+  border-collapse: separate;
+}
+
 #existingList td{
   height: 30px;
   font-size: 20px;
+  padding: 10px 20px;
   vertical-align:middle;
+}
+
+#existingList td:hover{
+  background: #888;
+  color: #fff;
+}
+
+#existingList h3{
+  margin-bottom: -20px;
 }
 
 #existingList th{
@@ -150,6 +169,13 @@ h2{
 
 #existingList tr:hover{
   cursor: pointer;
+}
+
+.existingFile td{
+  border-top: none;
+  border-radius: 10px;
+  background: #eee;
+  margin-bottom: 20px;
 }
 
 #link, #contentName{
@@ -163,7 +189,6 @@ h2{
 }
 
 #submit{
-  margin-bottom: 30px;
   line-height: 30px;
   float: right;
 }
@@ -182,7 +207,7 @@ table.question td.index{
   font-size: 50px;
   text-align: center;
   font-weight: bold;
-  color: #999;
+  color: #aaa;
 }
 
 .modal-body{
