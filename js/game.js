@@ -93,6 +93,7 @@ function execute(){
     var allObstacles=["obs", "coin"];
     var obsArr;
     var objectSpeed; 
+    var obsCarTransparency;
     var timer;
 
     var allPowers=["gas", "crossout", "timeplus", "invincible"];
@@ -100,6 +101,7 @@ function execute(){
     var storedPowers=[];
     var invincibleFlag = false;
     var invincibleDuration;
+    var flameTransparency;
     var xClip;
     var animationTime = 400;
     var feedbackDelay = 2000;   //time to delay animation when showing question feedback
@@ -238,6 +240,8 @@ function execute(){
         powerUpSpawnTime = 50;
         powerUps=[];
         invincibleDuration = 5000;
+        flameTransparency = 1;
+        obsCarTransparency = 1;
         
         /*stored Power-ups array */
         storedPowers=[];
@@ -607,7 +611,7 @@ function execute(){
         if (questionFlag) drawQuestionBox();
         else if (pauseFlag) {}
         else {
-            if (invincibleFlag) drawFlames();
+            if (invincibleFlag) drawFlames(flameTransparency);
             updateBar();
             updateObstacles();
             updatePowerUps();
@@ -620,12 +624,14 @@ function execute(){
     function draw() {
 		drawScore();
         drawCar();
-        drawObjects();
+        drawObjects(obsCarTransparency);
 	}
 
     // draw flames behind car in boost mode
-    function drawFlames(){
+    function drawFlames(transparency){
+		ctx.globalAlpha = transparency;
         ctx.drawImage(fire, xClip, 0, 200, 200, carX - carWidth, carY+carHeight*0.9, carWidth*3, carHeight);
+        ctx.globalAlpha = 1;
         xClip = (xClip + 200)%800; 
     }
 
@@ -1238,7 +1244,7 @@ function execute(){
     // update power up information
     function updatePowerUps() {
         // draw new one every 50*drawInterval ms
-        if (timer%50 == 0) {
+        if (timer%50 == 0 && timer%27 > 4 && timer%27 < 23) {
             var index = Math.floor(Math.random()*(allPowers.length*2));
             if (index>=allPowers.length){
                 index = 0;
@@ -1284,7 +1290,7 @@ function execute(){
                     questionFlag = true;
                 }
                 // when eating boost powerup
-                else if (powerUps[i].name == "invincible") {
+                else if (powerUps[i].name == "invincible" && invincibleFlag == false) {
                     if (trackDataFlag){
                         gameData.powersData.numBoostPowersEaten++;
                     }
@@ -1295,11 +1301,24 @@ function execute(){
                     objectSpeed = 40;       // change speed of objects on road
                     storedPowers[2].increment();            // add to active power
                     updateCurrPowers();                     // show
+                    obsCarTransparency = 0.2;
+                    setTimeout(function() {                 // set duration
+                        objectSpeed = 20;
+                        flameTransparency = 0.7;
+                        obsCarTransparency = 0.4;
+                    }, invincibleDuration-1000);
+                    setTimeout(function() {                 // set duration
+                        objectSpeed = 15;
+                        flameTransparency = 0.4;
+                        obsCarTransparency = 0.7;
+                    }, invincibleDuration-500);
                     setTimeout(function() {                 // set duration
                         objectSpeed = 10;
                         storedPowers[2].decrement();
                         updateCurrPowers();
                         invincibleFlag = false;
+                        flameTransparency = 1;
+                        obsCarTransparency = 1;
                     }, invincibleDuration);
                 }
                 // other powerups
@@ -1338,7 +1357,7 @@ function execute(){
     }
     
     //draw obstacles and power ups
-    function drawObjects() {
+    function drawObjects(obsCarTransparency) {
 		for (var i = 0; i < powerUps.length; i++) {
 			if(powerUps[i].name == "gas")
 				ctx.drawImage(gasimg, powerUps[i].x, powerUps[i].y, powerUpWidth, powerUpWidth);
@@ -1351,7 +1370,7 @@ function execute(){
         }
         for (var i = 0; i < obsArr.length; i++) {
 			if(obsArr[i].name == "obs") {
-                if (invincibleFlag){ctx.globalAlpha = 0.2;}
+                if (invincibleFlag){ctx.globalAlpha = obsCarTransparency;}
 				ctx.drawImage(obsImage, obsArr[i].x, obsArr[i].y, powerUpWidth, carHeight); 
                 if (invincibleFlag){ctx.globalAlpha = 1;}
             }
