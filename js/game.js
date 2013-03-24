@@ -504,6 +504,7 @@ function execute(){
 
     // show instructions screen from home screen
     function showInstructions(){
+        $("#start").fadeOut(animationTime);
         $("#instructions").slideDown(animationTime);
         $("#instructions-powers").hide();
         $("#instructions-howto").hide();
@@ -534,10 +535,12 @@ function execute(){
     // hide instruction
     function hideInstructions(){
         $("#instructions").slideUp(animationTime);
+        $("#start").fadeIn(animationTime);
     }
 
     // show instructions screen from home screen
     function showHighscores(){
+        $("#start").fadeOut(animationTime);
         $("#highscoresList").show();
         $("#highscores").slideDown(animationTime);
         $("#highscoresList").html("");
@@ -570,6 +573,7 @@ function execute(){
 
     // hide high scores screen
     function hideHighscores(){
+        $("#start").fadeIn(animationTime);
         $("#highscores").slideUp(animationTime);
     }
 
