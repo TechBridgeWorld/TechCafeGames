@@ -61,12 +61,12 @@
 					<strong>Uh-oh!</strong> Something went wrong. Please try submitting again.
 				</div>
 				<div id="update-error-format" class="alert alert-error">
-					<strong>Uh-oh!</strong> Incorrect file format. Please check that you have copied the correct link.
+					<strong>Uh-oh!</strong> Incorrect file format. Please check that you have the correct link and that the file has multiple-choice questions.
 				</div>
 			</div>
 
 			<div id="existingList">
-				<h3>Existing Question Sets</h3>
+				<h3>View Existing Question Sets</h3>
 				<table class="table table-hover" id="existingTable">
 					<thead>
 <!-- 						<tr>
@@ -240,15 +240,15 @@
 		function execute(){
 			var xmlURL = $('#link').val();
 			var contentName = num;
-			console.log(num);
+			// console.log(num);
+
 
 			// error checking
+			// add http:// if none exists
 			if (xmlURL.substring(0,7)!=="http://"){
-				console.log(xmlURL.substring(0,7));
 				xmlURL = "http://"+xmlURL;
 			}
-			if (xmlURL.substring(xmlURL.length-4, xmlURL.length)!==".xml"){
-				console.log(xmlURL.substring(xmlURL.length-4, xmlURL.length));
+			if (xmlURL.substring(xmlURL.length-4, xmlURL.length)!==".xml" || xmlURL.substring(0,58)!="http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/"){
 				$("#update-error").hide();
 				$("#update-success").hide();
 				$("#update-error-format").hide();
@@ -265,10 +265,18 @@
 					'/updateXML',
 					function(data){
 						console.log(data);
-						$("#update-error").hide();
-						$("#update-error-format").hide();
-						$("#update-success").hide();
-						$("#update-success").fadeIn();
+						if (data == "Invalid"){
+							$("#update-success").hide();
+							$("#update-error").hide();
+							$("#update-error-format").fadeIn();
+						}
+						else{
+							$("#update-error").hide();
+							$("#update-error-format").hide();
+							$("#update-success").hide();
+							$("#update-success").fadeIn();
+						}
+						
 					},
 					function(err){
 						console.log(err);
