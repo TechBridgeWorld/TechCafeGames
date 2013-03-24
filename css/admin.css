@@ -163,4 +163,6 @@ h2{
 
 #update-success, #update-error, #update-error-format{
   display: none;
+  clear: both;
+  width: 650px;
 }

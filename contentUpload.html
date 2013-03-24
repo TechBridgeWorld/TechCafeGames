@@ -35,9 +35,17 @@
     		<div id="contentForm">
 				<h3>Upload New Question Set</h3>
 				<form>
-					<div class="control-group">
+					<!-- <div class="control-group">
 						<label>Name</label>
 						<input type="text" name="contentName" id="contentName" />
+					</div> -->
+					<div class = "control-group">
+						<label>Difficulty</label>
+						<div class="btn-group" data-toggle="buttons-radio" id="difficulty">
+  							<button type="button" class="btn btn-primary" id="basic">Basic Beginner</button>
+  							<button type="button" class="btn btn-primary" id="beginner">Beginner</button>
+  							<button type="button" class="btn btn-primary" id="intermediate">Intermediate</button>
+						</div>
 					</div>
 					<div class="control-group">
 						<label>URL of XML file</label>
@@ -59,7 +67,7 @@
 
 			<div id="existingList">
 				<h3>Existing Question Sets</h3>
-				<table class="table table-hover">
+				<table class="table table-hover" id="existingTable">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -67,7 +75,7 @@
 							<th>Date Added</th>
 						</tr>
 					</thead>
-					<tr onclick="window.open('http://www.google.com');">
+					<!-- <tr onclick="window.open('http://www.google.com');">
 						<td>1</td>
 						<td>Monday noon</td>
 						<td>22 March 2013</td>
@@ -106,15 +114,15 @@
 						<td>8</td>
 						<td>Monday 5pm v2</td>
 						<td>23 March 2013</td>
-					</tr>
+					</tr> -->
 				</table>
 			</div>
 		</div>
 
-
-
 	<script src = "js/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 	<script>
+		var num = null;
 
 		var ajaxPost = function(json, url, onSuccess, onError){
 		    var data = new FormData();
@@ -142,6 +150,18 @@
 	            error: fnError
 	        });
 	    }; 
+
+	    window.onload = function(){
+        	$('.nav-tabs').button();
+			$(".btn-group > button.btn").on("click", function(){
+    			num = this.innerHTML;
+			});
+
+			ajaxRequest('/register', function(data){console.log(data); for(var i = 0; i < data.length; i++) {
+				$("#existingTable").append("<tr class='existingFile'><td>"+(i+1)+"</td><td>"+data[i].name+"</td><td>23 March 2013</td></tr>");}}, function(err){console.log(err);})
+			$(".existingFile").on("click",function(){});
+
+    	}
 		
 	    // ajaxRequest('/register', function(data){console.log(data);}, function(err){console.log(err);})
 
@@ -149,7 +169,8 @@
 
 		function execute(){
 			var xmlURL = $('#link').val();
-			var contentName = $('#contentName').val();
+			var contentName = num;
+			console.log(num);
 
 			// error checking
 			if (xmlURL.substring(0,7)!=="http://"){
