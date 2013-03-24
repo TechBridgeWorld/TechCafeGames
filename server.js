@@ -13,7 +13,7 @@ var app = express.createServer();
 var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
 var Content = require('./models/Content.js');
-var QuestionSets = require('./models/QuestionSets.js');
+var QuestionSet = require('./models/QuestionSet.js');
 var Score = require('./models/Score.js');
 
 var mainContent; 
@@ -27,7 +27,8 @@ Content.findOne({id : 0}, function(err, existingUser) {
 	else{
 		mainContent = new Content({
 			id: 0,
-			url: "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-03e9dom8uo5vqganvgbm30knc7.xml"
+			url: "http://server2.tbw.ri.cmu.edu/CafeTeach/SilviaPessoa/data/qs-03e9dom8uo5vqganvgbm30knc7.xml",
+			count: 0
 		});			
 	}
 });
@@ -99,9 +100,9 @@ app.post('/loginAdmin', function(req,res){
 			data.push(responseText);
 			Student.find(function(err,responseText){
 				if (err) console.log(err);
+				data.push("Student Accounts:");
 				console.log(data);
 				console.log(responseText);
-				data.push("Student Accounts:");
 				data.push(responseText);
 				res.send(data);
 			});
@@ -148,14 +149,6 @@ app.post('/loginUser', passport.authenticate('local'), function(req, res) {
 });
 
 app.post('/updateXML', function(req,res){
-	mainContent.url = req.body.url;
-	mainContent.save(function(err){
-		if (err) console.log('error!!!');
-	})
-	return res.send('success');
-});
-
-app.get("/register", function(req,res){
 	try{
 		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 		var xhr = new XMLHttpRequest();
@@ -167,46 +160,63 @@ app.get("/register", function(req,res){
 			}
 		};
 		var parser = new xml2js.Parser();
-		xhr.open("GET", mainContent.url);
+		xhr.open("GET", req.body.url);
 		xhr.send();
 
 		parser.on('end', function(result) {
 			// if (result.list.m2qslist[0].m2qs){
-				var numqs = result.list.m2qslist[0].m2qs.length;
-				var questionData = {};
-				questionData['easy'] = [];
-				questionData['medium'] = [];
-				questionData['hard'] = [];
+			var numqs = result.list.m2qslist[0].m2qs.length;
+			var questionData = {};
+			questionData['easy'] = [];
+			questionData['medium'] = [];
+			questionData['hard'] = [];
 
-			    for (var i = 0; i < numqs; i++)
-			    {	  
-			  		var currentObj = {};
-				  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
-				  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
-				  	currentObj['choices'] = []; 
-				  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
-				  	for (var j = 0; j < temp.length; j++){
-				  		if (!isEmpty(temp[j])){
-				  			currentObj['choices'].push(temp[j]);
-				  		}
-				  	}
-				  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
-				  		questionData['easy'].push(currentObj);
-				  	}
-				  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
-				  		questionData['medium'].push(currentObj);
-				  	}
-				  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
-				  		questionData['hard'].push(currentObj);
-				  	}
-			 	}
-			 res.send(questionData);
-		 	// }
+		    for (var i = 0; i < numqs; i++)
+		    {	  
+		  		var currentObj = {};
+			  	currentObj['q'] = result.list.m2qslist[0].m2qs[i]["m2-qs"][0];
+			  	currentObj['a'] = result.list.m2qslist[0].m2qs[i]["m2-ans"][0];
+			  	currentObj['choices'] = []; 
+			  	var temp = result.list.m2qslist[0].m2qs[i]["m2-opt"];
+			  	for (var j = 0; j < temp.length; j++){
+			  		if (!isEmpty(temp[j])){
+			  			currentObj['choices'].push(temp[j]);
+			  		}
+			  	}
+			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
+			  		questionData['easy'].push(currentObj);
+			  	}
+			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
+			  		questionData['medium'].push(currentObj);
+			  	}
+			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
+			  		questionData['hard'].push(currentObj);
+			  	}
+		 	}
+		 	mainContent.count = mainContent.count + 1; 
+		 	mainContent.save(); 
+		 	console.log(req.body.url);
+		 	var qData = JSON.stringify(questionData);
+			var newContent = new QuestionSet({
+				name: req.body.name,
+				serial: mainContent.count,
+				data: qData
+			});
+			newContent.save(function(err){
+				if (err) console.log('Error!');
+			});
+			return res.send('success');
 		});
 	}
 	catch(err){
 		console.log("Error parsing XML");
 	}
+});
+
+app.get("/register", function(req,res){
+	QuestionSet.find(function(err,responseText){
+		res.send(responseText);
+	});
 });
 
 app.post("/postGameData", function(req, res){
