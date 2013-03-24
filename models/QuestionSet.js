@@ -5,8 +5,8 @@ var passportLocalMongoose = require('passport-local-mongoose');
 
 var QuestionSet = new mongoose.Schema({
 	name:String,
-	serial:Number,
-	data:String
+	dataAdded:String,
+	data:Array
 });
 
 module.exports = mongoose.model('QuestionSet', QuestionSet);

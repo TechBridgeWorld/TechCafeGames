@@ -33,6 +33,59 @@ Content.findOne({id : 0}, function(err, existingUser) {
 	}
 });
 
+QuestionSet.findOne({name:"Basic Beginner"}, function(err,responseText){
+	if (err){
+        return res.send({'err': err});
+    }
+    if (!responseText) {
+    	var qObj = {"q":"Have you uploaded a content set?","a":"No","choices":["Yes","No","What?"]};
+    	var qArr = [];
+    	qArr.push(JSON.stringify(qObj));
+		var newContent = new QuestionSet({
+			name: "Basic Beginner",
+			data: qArr,
+			dateAdded: new Date()
+		});			
+		newContent.save();
+	}
+});
+
+QuestionSet.findOne({name:"Beginner"}, function(err,responseText){
+	if (err){
+        return res.send({'err': err});
+    }
+    if (!responseText) {
+    	var qObj = {"q":"Have you uploaded a content set?","a":"No","choices":["Yes","No","What?"]};
+    	var qArr = [];
+    	qArr.push(JSON.stringify(qObj));
+		var date = new Date();
+		var newContent = new QuestionSet({
+			name: "Beginner",
+			data: qArr,
+			dateAdded: date
+		});	
+		newContent.save(); 			
+	}
+});
+
+QuestionSet.findOne({name:"Intermediate"}, function(err,responseText){
+	if (err){
+        return res.send({'err': err});
+    }
+    if (!responseText) {
+    	var qObj = {"q":"Have you uploaded a content set?","a":"No","choices":["Yes","No","What?"]};
+    	var qArr = [];
+    	qArr.push(JSON.stringify(qObj));
+    	qArr.push(JSON.stringify(qObj));
+		var newContent = new QuestionSet({
+			name: "Intermediate",
+			data: qArr,
+			dateAdded: new Date()
+		});		
+		newContent.save();	
+	}
+});
+
 var mainScore = new Content({
 	id: 0, 
 	scores: []
@@ -166,11 +219,8 @@ app.post('/updateXML', function(req,res){
 		parser.on('end', function(result) {
 			// if (result.list.m2qslist[0].m2qs){
 			var numqs = result.list.m2qslist[0].m2qs.length;
-			var questionData = {};
-			questionData['easy'] = [];
-			questionData['medium'] = [];
-			questionData['hard'] = [];
-
+			var questionData = [];
+			
 		    for (var i = 0; i < numqs; i++)
 		    {	  
 		  		var currentObj = {};
@@ -184,25 +234,26 @@ app.post('/updateXML', function(req,res){
 			  		}
 			  	}
 			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "easy"){
-			  		questionData['easy'].push(currentObj);
+			  		questionData.push(JSON.stringify(currentObj));
 			  	}
 			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "medium"){
-			  		questionData['medium'].push(currentObj);
+			  		questionData.push(JSON.stringify(currentObj));
 			  	}
 			  	if (result.list.m2qslist[0].m2qs[i]["m2-level"][0] == "hard"){
-			  		questionData['hard'].push(currentObj);
+			  		questionData.push(JSON.stringify(currentObj));
 			  	}
 		 	}
 		 	mainContent.count = mainContent.count + 1; 
 		 	mainContent.save(); 
 		 	console.log(req.body.url);
-		 	var qData = JSON.stringify(questionData);
+		 	console.log(questionData);
+		 	// var qData = JSON.stringify(questionData);
 			var newContent = new QuestionSet({
 				name: req.body.name,
-				serial: mainContent.count,
-				data: qData
+				dateAdded: new Date(),
+				data: questionData
 			});
-			QuestionSet.findOne({name:req.body.name}).remove();
+			QuestionSet.findOne({name:req.body.name}).remove(); 
 			newContent.save(function(err){
 				if (err) console.log('Error!');
 			});

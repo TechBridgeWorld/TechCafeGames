@@ -47,9 +47,6 @@ function execute(){
                     // var dataObj = JSON.parse(data);
                     // console.log(dataObj);
                     console.log(data);
-
-                    // questionSets = JSON.parse(data[0].data);
-                    // console.log(questionSets);
                 }
             },
         function onError(data){ 
