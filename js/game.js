@@ -258,6 +258,7 @@ function execute(){
         $("#screen").show();
         // show "GO!"
         $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
+        $("#sendScoreSuccess").hide();
 
         // hide curr powerups
         $('#currPowers').hide();
@@ -502,6 +503,7 @@ function execute(){
 
     function startGame(){
         $("#screen").show();
+        // $("#sendScoreSuccess").hide();
         $("#chooseLevelScreen").slideUp(animationTime); 
         setup();
     }
@@ -790,6 +792,7 @@ function execute(){
         },
         '/postScore',
         function onSuccess(data){
+            $("#sendScoreSuccess").fadeIn(animationTime);
         },
         function onError(data){
         });
