@@ -348,7 +348,7 @@ function execute(){
     function startScreen(){
         // hide all other screens
         $("#screen").hide();
-        // $("#end").hide();
+        $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
         $("#highscores").hide();
