@@ -15,6 +15,7 @@ var Teacher = require('./models/Teacher.js');
 var Student = require('./models/Student.js');
 var Content = require('./models/Content.js');
 var QuestionSet = require('./models/QuestionSet.js');
+var Score = require('./models/Score.js');
 var mainContent; 
 
 function isEmpty(obj){
