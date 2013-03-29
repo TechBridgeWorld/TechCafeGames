@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var Score = new mongoose.Schema({
-	id:Number,
-	scores:String
+	name:String,
+	score:Number
 });
 
 module.exports = mongoose.model('Score', Score);
