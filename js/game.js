@@ -348,7 +348,7 @@ function execute(){
     function startScreen(){
         // hide all other screens
         $("#screen").hide();
-        $("#end").hide();
+        // $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
         $("#highscores").hide();
@@ -464,11 +464,11 @@ function execute(){
 
         // send name button
         $("#send").bind("click", function(){
-            if (trackDataFlag){
-                gameData.name = $("#name").val();
-                console.log(gameData);
-            }
-            sendScore($("#name").val(),numRightQuestion,numQuestions,score);
+            // if (trackDataFlag){
+            //     gameData.name = $("#name").val();
+            //     console.log(gameData);
+            // }
+            sendScore($("#name").val(),score);
             $("#entername").fadeOut(animationTime); 
             $("#againBtn").fadeIn(animationTime);
             $("#homeBtn").fadeIn(animationTime);
@@ -771,7 +771,7 @@ function execute(){
         }
 
         // TEMP: don't ask for name
-        $("#entername").hide();
+        $("#entername").show();
 
     }
 
@@ -782,12 +782,10 @@ function execute(){
     }
     
     // send score to server
-    function sendScore(name, numRight, numTotal,score) {
+    function sendScore(name, score) {
         ajaxPost(
         {
             name: name,
-            numRight: numRight, 
-            numTotal: numTotal,
             score:score
         },
         '/postScore',

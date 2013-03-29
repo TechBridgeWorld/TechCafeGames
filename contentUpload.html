@@ -174,6 +174,7 @@
 				var beginnerData;
 				var intermediateData;
 				for(var i = 0; i < data.length; i++) {
+					console.log(data[i]);
 					$("#existingTable").append("<tr class='existingFile'><td>"+data[i].name+"</td></tr>");
 					if (data[i].name === "Basic Beginner"){
 						basicData = data[i].data;
