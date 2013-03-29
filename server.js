@@ -317,14 +317,24 @@ app.post("/postGameData", function(req, res){
 
 
 app.post("/postScore", function(req, res){
-	return res.send("Registered.");
+	var newScore = new Score({
+		name:req.body.name,
+		score:req.body.score
+	}); 
+
+	newScore.save(function(err){
+		 if (err) {
+	        return res.send({'err': err});
+	    }
+	    return res.send('success');
+	});
 });
 
 app.get("/getScores", function(req, res){
 	
 	var scoreData = [];
 
-	Student.find(function(err,responseText){
+	Score.find(function(err,responseText){
 		if (err) console.log(err);
 		
 		for (var i = 0; i<responseText.length; i++){
