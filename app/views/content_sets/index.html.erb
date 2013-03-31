@@ -1,0 +1,25 @@
+<h1>Listing content_sets</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @content_sets.each do |content_set| %>
+  <tr>
+    <td><%= content_set.name %></td>
+    <td><%= content_set.date %></td>
+    <td><%= link_to 'Show', content_set %></td>
+    <td><%= link_to 'Edit', edit_content_set_path(content_set) %></td>
+    <td><%= link_to 'Destroy', content_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Content set', new_content_set_path %>
