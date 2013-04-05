@@ -1,6 +1,10 @@
+<% if logged in? %>
 <h1>Editing answer</h1>
 
 <%= render 'form' %>
 
 <%= link_to 'Show', @answer %> |
 <%= link_to 'Back', answers_path %>
+<%else %>
+<%= link_to 'Log In', login_path %>
+<% end %>

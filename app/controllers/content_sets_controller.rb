@@ -1,4 +1,7 @@
 class ContentSetsController < ApplicationController
+
+before_filter :login_required
+
   # GET /content_sets
   # GET /content_sets.json
   def index

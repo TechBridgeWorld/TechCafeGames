@@ -22,7 +22,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
+gem 'nifty-generators', '>= 0.4.0'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -37,3 +37,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+gem "mocha", :group => :test
+gem "bcrypt-ruby", :require => "bcrypt"

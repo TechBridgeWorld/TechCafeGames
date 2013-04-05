@@ -1,4 +1,7 @@
 class AnswersController < ApplicationController
+
+before_filter :login_required
+
   # GET /answers
   # GET /answers.json
   def index
