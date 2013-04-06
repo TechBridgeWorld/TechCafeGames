@@ -84,6 +84,7 @@ function execute(){
 
     var score;  
 
+	var level;
     var questionInterval;
     var questionFlag = false;
     var pauseFlag = false;
@@ -225,6 +226,7 @@ function execute(){
         numRightQuestion=0;
         numQuestions=0;
         
+<<<<<<< HEAD
 //***********
 soundManager.setup({
   // where to find flash audio SWFs, as needed
@@ -304,6 +306,9 @@ soundManager.setup({
 });
 
 //***********
+=======
+        questionData = parser(questionSets[level].data);
+>>>>>>> ffbdd8ff2f34df15a2540756594e51e013a88a5b
 
         /* Canvas+DOM variables */
         buffer = document.createElement('canvas');
@@ -471,28 +476,28 @@ soundManager.setup({
 
         // choosing level
         $("#basicBeginnerBtn").bind("click", function(){
-            questionData = parser(questionSets[0].data);
+			level = 0;
             console.log(questionData);
             startGame();
         });
         $("#basicBeginnerBtn").live("touch", function(){
-            questionData = parser(questionSets[0].data);
+			level = 0;
             startGame();
         });
         $("#beginnerBtn").bind("click", function(){
-            questionData = parser(questionSets[1].data);
+            level = 1;
             startGame();
         });
         $("#beginnerBtn").live("touch", function(){
-            questionData = parser(questionSets[1].data);
+            level = 1;
             startGame();
         });
         $("#intermediateBtn").bind("click", function(){
-            questionData = parser(questionSets[2].data);
+            level = 2;
             startGame();
         });
         $("#intermediateBtn").live("touch", function(){
-            questionData = parser(questionSets[2].data);
+            level = 2;
             startGame();
         });
         // pressing instructions button
@@ -513,15 +518,15 @@ soundManager.setup({
 
         // PAUSE BUTTON & SCREEN EVENT LISTENER
         $("#pauseBtn").bind("click",function(){
-            pauseGame();
+            pauseGame("pause");
         });
 
         $("#resumeBtn").bind("click",function(){
-            resumeGame(1000);   // resume game but add 1 second of delay
+            resumeGame(1000, "pause");   // resume game but add 1 second of delay
         })
 
         $("#endGameBtn").bind("click",function(){
-            resumeGame(animationTime);      // resume game with normal delay
+            resumeGame(animationTime, "pause");      // resume game with normal delay
             endGame();
         })
         
@@ -798,20 +803,29 @@ soundManager.setup({
     }
 
     // pause game
-    function pauseGame(){
+    function pauseGame(type){
         pauseFlag = true;
         canvas.removeEventListener('touchmove', setupEventListener, false);
 
         // stop road from moving
         freezeRoad();
-
-        $("#pauseScreen").fadeIn(animationTime);
+		if (type === "pause") {
+			$("#pauseScreen").fadeIn(animationTime);
+		}
+		else if (type === "questions completed") {
+			$("#questionsCompleteScreen").fadeIn(animationTime);
+		}
     }
 
     // resume game after pause
-    function resumeGame(delay){
-        $("#pauseScreen").fadeOut(delay);
-
+    function resumeGame(type, delay){
+		if (type === "pause") {
+			$("#pauseScreen").fadeOut(delay);
+		}
+		else if (type === "questions completed") {
+			$("#questionsCompleteScreen").fadeOut(delay);
+		}
+		
         var resumeDelayTimeout = window.setTimeout(function(){
             pauseFlag = false;
             canvas.addEventListener('touchmove', setupEventListener, false);
@@ -1055,28 +1069,28 @@ soundManager.setup({
 
         // bind actions when choosing answer
         $("#choice1").on("click", function(){
-            checkAns(question.a,choiceArr[0],"#choice1",answerID);
+            checkAns(question.a,choiceArr[0],"#choice1",answerID,c);
         });
         $("#choice1").on('touchstart', function(){
-            checkAns(question.a,choiceArr[0],"#choice1",answerID);
+            checkAns(question.a,choiceArr[0],"#choice1",answerID,c);
         });
         $("#choice2").on("click", function(){
-            checkAns(question.a,choiceArr[1],"#choice2",answerID);
+            checkAns(question.a,choiceArr[1],"#choice2",answerID,c);
         });
         $("#choice2").on('touchstart', function(){
-            checkAns(question.a,choiceArr[1],"#choice2",answerID);
+            checkAns(question.a,choiceArr[1],"#choice2",answerID,c);
         });
         $("#choice3").on("click", function(){
-            checkAns(question.a,choiceArr[2],"#choice3",answerID);
+            checkAns(question.a,choiceArr[2],"#choice3",answerID,c);
         });
         $("#choice3").on('touchstart', function(){
-            checkAns(question.a,choiceArr[2],"#choice3",answerID);
+            checkAns(question.a,choiceArr[2],"#choice3",answerID,c);
         });
         $("#choice4").on("click", function(){
-            checkAns(question.a,choiceArr[3],"#choice4",answerID);
+            checkAns(question.a,choiceArr[3],"#choice4",answerID,c);
         });
         $("#choice4").on('touchstart', function(){
-            checkAns(question.a,choiceArr[3],"#choice4",answerID);
+            checkAns(question.a,choiceArr[3],"#choice4",answerID,c);
         });
         
         // disable clicks for empty answer
@@ -1208,7 +1222,7 @@ soundManager.setup({
     }
     
     // check if answer is correct after answering
-    function checkAns(right, choice, choiceTd, rightTd) {
+    function checkAns(right, choice, choiceTd, rightTd, questionNum) {
         if (trackDataFlag){
             var thisQuestion = gameData.questionData[gameData.questionData.length-1];
             thisQuestion.answerPosition = choiceTd.charAt(choiceTd.length-1);
@@ -1242,6 +1256,12 @@ soundManager.setup({
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
             $(rightTd).append($feedback);
             $feedback.fadeIn(animationTime);
+            
+            //remove question from the questionData set
+			questionData.splice(questionNum, 1);
+			if (questionData.length == 0) {
+				pauseGame("questions completed");
+			}
         }
         else{
             // play error sound
