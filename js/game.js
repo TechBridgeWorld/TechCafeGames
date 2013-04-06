@@ -125,6 +125,24 @@ function execute(){
     var numRightQuestion;
     var numQuestions;
 
+    var bgMusic;
+    var carSfx;
+    var coinSfx;
+    var correctSfx;
+    var errorSfx;
+    var powerupSfx;
+    var questionSfx;
+    var boostSfx;
+    var crashSfx;
+    var countdownSfx;
+    var countdownTick;
+    var countdownBeep;
+    var alertSfx;
+    var gameoverSfx;
+    var loopSound;
+    var bgMusicPosition = 0;
+
+
     var maxNameLength = 25;     // max # of chars to display in high score name
 
     // images
@@ -158,7 +176,9 @@ function execute(){
 
     // sounds
 
-    if (soundOn){
+    var soundOn=true;
+
+    if (/*soundOn*/ false){
         var bgm = new Audio("sounds/racing-bgm.mp3");
         bgm.loop = true;
         bgm.volume = 0.4;
@@ -205,6 +225,86 @@ function execute(){
         numRightQuestion=0;
         numQuestions=0;
         
+//***********
+soundManager.setup({
+  // where to find flash audio SWFs, as needed
+  url: './swf',
+  // optional: prefer HTML5 over Flash for MP3/MP4
+  // preferFlash: false,
+  onready: function() {
+  bgMusic = soundManager.createSound({
+  id: 'bgMusic',
+  url: './sounds/racing-bgm.mp3'
+  });
+  carSfx = soundManager.createSound({
+  id: 'carSfx',
+  url: './sounds/car-sfx.mp3'
+  });
+  coinSfx = soundManager.createSound({
+  id: 'coinSfx',
+  url: './sounds/coin.mp3'
+  });
+  correctSfx = soundManager.createSound({
+  id: 'correctSfx',
+  url: 'sounds/correct.mp3'
+  });
+  errorSfx = soundManager.createSound({
+  id: 'errorSfx',
+  url: 'sounds/error.mp3'
+  });
+  powerupSfx = soundManager.createSound({
+  id: 'powerupSfx',
+  url: 'sounds/powerup.mp3'
+  });
+  questionSfx = soundManager.createSound({
+  id: 'questionSfx',
+  url: 'sounds/question.mp3'
+  });
+  boostSfx = soundManager.createSound({
+  id: 'boostSfx',
+  url: 'sounds/blast.mp3'
+  });
+  crashSfx = soundManager.createSound({
+  id: 'crashSfx',
+  url: 'sounds/crash.mp3'
+  });
+  countdownSfx = soundManager.createSound({
+  id: 'countdownSfx',
+  url: 'sounds/countdown.mp3'
+  });
+  countdownTick = soundManager.createSound({
+  id: 'countdownTick',
+  url: 'sounds/countdown-tick.mp3'
+  });
+  countdownBeep = soundManager.createSound({
+  id: 'countdownBeep',
+  url: 'sounds/countdown-beep.mp3'
+  });
+  alertSfx = soundManager.createSound({
+  id: 'alertSfx',
+  url: 'sounds/alert.mp3'
+  });
+  gameoverSfx = soundManager.createSound({
+  id: 'gameoverSfx',
+  url: 'sounds/gameover.mp3'
+  });
+    loopSound=function(sound) {
+        coinSfx.load();
+  sound.play({
+    position: bgMusicPosition,
+    onfinish: function() {
+      loopSound(sound);
+    }
+  },
+  {volume:30});
+}
+    //loopSound(bgMusic);
+    //loopSound(carSfx);
+  }
+});
+
+//***********
+
         /* Canvas+DOM variables */
         buffer = document.createElement('canvas');
         
@@ -268,7 +368,7 @@ function execute(){
         $('#currTime .num').hide();
         $('#currEliminate .num').hide();
 
-        if (soundOn){
+        if (/*soundOn*/ false){
             carSfx.play();
         }
 
@@ -355,7 +455,7 @@ function execute(){
         $("#highscores").hide();
 
         // play music
-        if (soundOn){
+        if (/*soundOn*/ false){
             bgm.play();
         }
 
@@ -667,18 +767,23 @@ function execute(){
             $("#innerMeter").removeClass("warning");
             $("#innerMeter").addClass("normal");
         }
-        if (barFrac<25){
+        if (barFrac > 0 && barFrac<25){
             $("#innerMeter").removeClass("normal");
             $("#innerMeter").removeClass("warning");
             $("#innerMeter").addClass("danger");
             if (soundOn){
-                alertSfx.play();
+                if(alertSfx != undefined && alertSfx.playState == 0)
+                  loopSound(alertSfx);
             }
+        }
+        else if(barFrac <= 0){
+             alertSfx.stop();
         }
         else{
             $("#innerMeter").removeClass("danger");
             if (soundOn){
-                alertSfx.pause();
+                if(alertSfx != undefined && alertSfx.playState == 1)
+                   alertSfx.stop();
             }
         }
 
@@ -739,13 +844,15 @@ function execute(){
         }
 
         if (soundOn){
-            // stop all non-bgm music
+            soundManager.stopAll();
+            alertSfx.stop();
+            /*// stop all non-bgm music
             for (var i=0; i<nonBgmSounds.length; i++){
                 nonBgmSounds[i].loop = false;
                 nonBgmSounds[i].pause();
             }
             carSfx.loop = true;
-            countdownTick.loop = true;
+            countdownTick.loop = true;*/
             gameoverSfx.play(); // play "game over"
         }
 
@@ -1039,10 +1146,10 @@ function execute(){
         // play countdown sound
         if (soundOn){
             if (sec===10){
-                countdownTick.play();
+                loopSound(countdownTick);
             }
             if (sec===0){
-                countdownTick.pause();
+                countdownTick.stop();
                 countdownBeep.play();
             }
         }
@@ -1125,7 +1232,7 @@ function execute(){
 
             score+=questionPoint;       // add score
             $("#score").html(score);    // show score
-            if (soundOn){               // play sound
+            if (/*soundOn*/ true){               // play sound
                 correctSfx.play();
             }
             numRightQuestion++;         // keep track of right questions
@@ -1138,7 +1245,7 @@ function execute(){
         }
         else{
             // play error sound
-            if (soundOn){
+            if (/*soundOn*/ true){
                 errorSfx.play();
             }
 
@@ -1203,7 +1310,8 @@ function execute(){
                 // add points and play sound for positive objects (i.e. coins)
                 if(obsArr[i].points >= 0) {
                     score+=obsArr[i].points;
-                    if (soundOn){
+                    if (/*soundOn*/ true){
+                        bgMusic.load();
                         coinSfx.play();
                     }
                     if (trackDataFlag){
