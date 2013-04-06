@@ -1,7 +1,7 @@
 <%= form_for(@question) do |f| %>
   <% if @question.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+      <h4><%= pluralize(@question.errors.count, "error") %> in submitting question:</h4>
 
       <ul>
       <% @question.errors.full_messages.each do |msg| %>
@@ -11,19 +11,55 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :question %><br />
-    <%= f.text_field :question %>
+  <div class="control-group">
+    <%= f.label :question, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_area :question, :rows => 3, :class=> 'input-xxlarge' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :category %><br />
-    <%= f.text_field :category %>
+
+  <div class="control-group inline">
+    <%= f.label :category, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_field :category %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :difficulty %><br />
-    <%= f.number_field :difficulty %>
+
+  <div class="control-group inline">
+    <%= f.label :difficulty, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.select :difficulty, options_for_select([["Easy", 0], ["Medium", 1], ["Hard", 2]]) %>
+    </div>
   </div>
+
+  <table>
+    <tr>
+      <td>Answer Choice</td>
+      <td>Correct</td>
+    </tr>
+    <%= f.fields_for :answers, @answer do |answer_form|%>
+      <tr>
+        <td>
+            <div class="control-group inline">
+              <div class="controls">
+                <%= answer_form.text_field :answer, :class => 'input-xlarge' %>
+              </div>
+            </div>
+        </td>
+        <td>
+            <div class="control-group inline">
+              <div class="controls">
+                <%= answer_form.check_box :correct %>
+              </div>
+            </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+ 
+
   <div class="actions">
-    <%= f.submit %>
+    <%= button_tag "Submit Question", :class => "btn btn-primary", :type => "submit" %>
+    <%= link_to 'Cancel', questions_path, :class=>'btn' %>
   </div>
 <% end %>

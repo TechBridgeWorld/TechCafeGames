@@ -17,6 +17,11 @@
 
 <p>
   <b>Choices:</b>
+  
+  <% for answer in @question.answers %>
+    <p><%=h answer.answer %></p>
+  <% end %>
+
   <% @question.answers.each do |answer| %>
 	<p><%= "Answer: #{answer.answer}, Correct: #{answer.correct}" %></p>
   <% end %>	  

@@ -1,15 +1,27 @@
 <% title "Log in" %>
 
-<p>Don't have an account? <%= link_to "Sign up!", signup_path %></p>
+<br/><br/>
 
-<%= form_tag sessions_path do %>
-  <p>
-    <%= label_tag :login, "Username or Email Address" %><br />
-    <%= text_field_tag :login, params[:login] %>
-  </p>
-  <p>
-    <%= label_tag :password %><br />
-    <%= password_field_tag :password %>
-  </p>
-  <p><%= submit_tag "Log in" %></p>
+<%= form_tag sessions_path, :class => 'form-horizontal' do %>
+	<div class="control-group">
+	    <%= label_tag :login, "Username / Email", :class=>'control-label' %>
+	    <div class="controls">
+	    	<%= text_field_tag :login, params[:login]%>
+	    </div>
+  	</div>
+  	<div class="control-group">
+	    <%= label_tag :password, "Password", :class=>'control-label' %>
+	    <div class="controls">
+	    	<%= password_field_tag :password %>
+	    </div>
+  	</div>
+  	<div class="control-group">
+	    <div class="controls">
+	      	<%= button_tag "Log In", :class => "btn btn-primary", :type => "submit" %><br/><br/>
+	      	<label>Don't have an account? <%= link_to "Sign up!", signup_path %></label>
+	    </div>
+  </div>
+  	
+  	
+
 <% end %>

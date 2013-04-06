@@ -24,7 +24,7 @@ a {
   background-color: #FFF;
   padding: 20px 40px;
   border: solid 1px black;
-  margin-top: 20px;
+  margin: 20px 0px;
 }
 
 #flash_notice, #flash_error, #flash_alert {

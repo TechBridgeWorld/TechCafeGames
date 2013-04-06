@@ -1,27 +1,67 @@
-<h1>Listing questions</h1>
+<div class="action-bar">
+  <div class="left">
+    <h1>All Questions</h1>
+  </div>
+  <div class="right">
+   <%= link_to 'Add New Question', new_question_path, :class => 'btn btn-primary' %>
+  </div>
+</div>
 
-<table>
-  <tr>
-    <th>Question</th>
-    <th>Category</th>
-    <th>Difficulty</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<% if @questions.length>=1 %>
 
-<% @questions.each do |question| %>
-  <tr>
-    <td><%= question.question %></td>
-    <td><%= question.category %></td>
-    <td><%= question.difficulty %></td>
-    <td><%= link_to 'Show', question %></td>
-    <td><%= link_to 'Edit', edit_question_path(question) %></td>
-    <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Category</th>
+      <th>Difficulty</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <% @questions.each do |question| %>
+    <tr>
+      <td>
+        <%= question.question %>
+        <table class="border-free-table">
+          <tr>
+            <% question.answers.each do |answer| %>
+              <% if answer.answer != "" %>
+                <td>
+                  <% if answer.correct %>
+                    <div class="answer-label correct">
+                      <%= answer.answer %>
+                    </div>
+                  <% else %>
+                    <div class="answer-label">
+                      <%= answer.answer %>
+                    </div>
+                  <% end %>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+      <td><%= question.category %></td>
+      <td>
+        <% if question.difficulty == 0 %>
+          Easy
+        <% elsif question.difficulty == 1 %>
+          Medium
+        <% elsif question.difficulty == 2 %>
+          Hard
+        <% end %>
+      </td>
+      <td><%= link_to(image_tag('edit.png'), edit_question_path(question), :class=>'action-btn') %></td>
+      <td>
+        <%= link_to(image_tag('delete.png'), question, :class=>"action-btn",  method: :delete, data: { confirm: 'Are you sure you want to delete this question?' }) %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <h4>No questions created yet.</h4>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Question', new_question_path %>

@@ -1,25 +1,33 @@
-<h1>Listing content_sets</h1>
+<div class="action-bar">
+  <div class="left">
+    <h1>All Content Sets</h1>
+  </div>
+  <div class="right">
+   <%= link_to 'Add New Content Set', new_content_set_path, :class => 'btn btn-primary' %>
+  </div>
+</div>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Date</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<% if @content_sets.length>=1 %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
 
-<% @content_sets.each do |content_set| %>
-  <tr>
-    <td><%= content_set.name %></td>
-    <td><%= content_set.date %></td>
-    <td><%= link_to 'Show', content_set %></td>
-    <td><%= link_to 'Edit', edit_content_set_path(content_set) %></td>
-    <td><%= link_to 'Destroy', content_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+  <% @content_sets.each do |content_set| %>
+    <tr>
+      <td><%= content_set.name %></td>
+      <td><%= content_set.date %></td>
+      <td><%= link_to 'Show', content_set %></td>
+      <td><%= link_to 'Edit', edit_content_set_path(content_set) %></td>
+      <td><%= link_to 'Destroy', content_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </table>
+
+<% else %>
+  <h4>No content sets created yet.</h4>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Content set', new_content_set_path %>

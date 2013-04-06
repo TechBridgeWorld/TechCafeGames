@@ -65,6 +65,7 @@ GEM
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.7.2)
+    nested_form (0.1.0)
     nifty-generators (0.4.6)
     pg (0.15.0)
     polyglot (0.3.3)
@@ -123,6 +124,7 @@ DEPENDENCIES
   debugger
   jquery-rails
   mocha
+  nested_form
   nifty-generators (>= 0.4.0)
   pg
   rails (= 3.2.13)

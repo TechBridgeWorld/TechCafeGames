@@ -27,6 +27,10 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
 
+    4.times do
+      answer = @question.answers.build
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @question }
@@ -45,7 +49,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        format.html { redirect_to questions_path, notice: 'Question was successfully created.' }
         format.json { render json: @question, status: :created, location: @question }
       else
         format.html { render action: "new" }
@@ -61,7 +65,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.update_attributes(params[:question])
-        format.html { redirect_to @question, notice: 'Question was successfully updated.' }
+        format.html { redirect_to questions_path, notice: 'Question was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
