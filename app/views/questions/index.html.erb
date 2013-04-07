@@ -12,6 +12,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th></th>
       <th>Question</th>
       <th>Category</th>
       <th>Difficulty</th>
@@ -21,8 +22,11 @@
     </tr>
   </thead>
 
-  <% @questions.each do |question| %>
+  <% @questions.all.each do |question| %>
     <tr>
+      <td>
+        <div class="number-id"><%= question.id %></div>
+      </td>
       <td>
         <%= question.question %>
         <table class="border-free-table">

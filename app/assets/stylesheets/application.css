@@ -110,7 +110,20 @@ a {
   opacity: 0.7;
   cursor: pointer;
 }
+.action-btn.form img{
+  margin-top: -15px;
+  margin-left: 10px;
+}
 
+.number-id{
+  background: #777;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 5px;
+}
 
 /* ----- FORMS ----- */
 

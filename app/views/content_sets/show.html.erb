@@ -10,6 +10,10 @@
   <%= @content_set.date %>
 </p>
 
+<% @content_set.questions.each do |question| %>
+	<%= question.question %>
+<% end %>
+
 
 <%= link_to 'Edit', edit_content_set_path(@content_set) %> |
 <%= link_to 'Back', content_sets_path %>

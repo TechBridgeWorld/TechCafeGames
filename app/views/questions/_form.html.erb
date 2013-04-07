@@ -36,9 +36,10 @@
     <tr>
       <td>Answer Choice</td>
       <td>Correct</td>
+      <td></td>
     </tr>
     <%= f.fields_for :answers, @answer do |answer_form|%>
-      <tr>
+      <tr class="fields">
         <td>
             <div class="control-group inline">
               <div class="controls">
@@ -49,14 +50,13 @@
         <td>
             <div class="control-group inline">
               <div class="controls">
-                <%= answer_form.check_box :correct %>
+                <%= answer_form.check_box :correct%>
               </div>
             </div>
         </td>
       </tr>
     <% end %>
   </table>
- 
 
   <div class="actions">
     <%= button_tag "Submit Question", :class => "btn btn-primary", :type => "submit" %>

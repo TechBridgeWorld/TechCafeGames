@@ -4,9 +4,12 @@ class Question < ActiveRecord::Base
   has_many :question_contents
   has_many :content_sets, :through => :question_contents
 
-  accepts_nested_attributes_for :answers
+  accepts_nested_attributes_for :answers, :reject_if => lambda{|answer| answer[:answer].blank?}
 
   # Validations
   validates_presence_of :question
+
+  # Scope
+  scope :all, order(:id)
 
 end

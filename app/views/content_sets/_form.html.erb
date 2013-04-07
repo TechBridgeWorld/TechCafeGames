@@ -16,8 +16,17 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :date %><br />
-    <%= f.date_select :date %>
+    <%= f.hidden_field :date, :value => Time.new %>
+  </div>
+  <div class="field">
+    <ul>
+      <% @questions.each do |question| %>
+        <li>
+          <%= check_box_tag "content_set[question_ids][]", question.id, @content_set.questions.include?(question) %>
+          <%= question.question %>
+        </li>
+      <% end %>
+    </ul>
   </div>
   <div class="actions">
     <%= f.submit %>
