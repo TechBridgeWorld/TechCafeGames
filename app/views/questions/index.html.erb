@@ -12,16 +12,16 @@
 <table class="table">
   <thead>
     <tr>
-      <th></th>
-      <th>Question</th>
-      <th>Category</th>
-      <th>Difficulty</th>
+      <th><%= link_to "#", :sort => "id" %></th>
+      <th><%= link_to "Question", :sort => "Question"%></th>
+      <th><%= link_to "Category", :sort => "Category"%></th>
+      <th><%= link_to "Difficulty", :sort => "Difficulty" %></th>
       <th></th>
       <th></th>
     </tr>
   </thead>
 
-  <% @questions.all.each do |question| %>
+  <% @questions.byid.each do |question| %>
     <tr>
       <td>
         <div class="number-id"><%= question.id %></div>

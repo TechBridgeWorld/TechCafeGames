@@ -24,15 +24,15 @@
   <thead>
     <tr>
       <th></th>
-      <th></th>
-      <th>Question</th>
-      <th>Category</th>
-      <th>Difficulty</th>
+      <th><%= link_to "#", :sort => "id" %></th>
+      <th><%= link_to "Question", :sort => "Question"%></th>
+      <th><%= link_to "Category", :sort => "Category"%></th>
+      <th><%= link_to "Difficulty", :sort => "Difficulty" %></th>
     </tr>
   </thead>
 
   <% if @questions %>
-  <% @questions.all.each do |question| %>
+  <% @questions.byid.each do |question| %>
     <tr>
       <td>
         <%= check_box_tag "content_set[question_ids][]", question.id, @content_set.questions.include?(question) %>

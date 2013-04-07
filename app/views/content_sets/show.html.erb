@@ -10,7 +10,8 @@
 
 <table class="table">
 	<tr>
-		<td><strong>Last Updated:</strong> <%= @content_set.date %></td>
+		<td><strong>Last Updated:</strong> <%= @content_set.updated_at.strftime("%Y-%m-%d %r") %></td>
+		<td><strong>Created:</strong> <%= @content_set.created_at.strftime("%Y-%m-%d %r") %></td>
 		<td><strong>Questions:</strong> <%= @content_set.questions.count %></td>
 	</tr>
 </table>
@@ -22,7 +23,7 @@
 <table class="table">
 	<thead>
 		<tr>
-		  <th></th>
+		  <th>#</th>
 		  <th>Question</th>
 		  <th>Category</th>
 		  <th>Difficulty</th>

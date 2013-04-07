@@ -20,3 +20,9 @@ STATEMENT:              SELECT a.attname, format_type(a.atttypid, a.atttypmod),
 	               AND a.attnum > 0 AND NOT a.attisdropped
 	             ORDER BY a.attnum
 	
+ERROR:  syntax error at end of input at character 50
+STATEMENT:  SELECT "questions".* FROM "questions"  ORDER BY #
+ERROR:  syntax error at end of input at character 50
+STATEMENT:  SELECT "questions".* FROM "questions"  ORDER BY #
+ERROR:  syntax error at end of input at character 50
+STATEMENT:  SELECT "questions".* FROM "questions"  ORDER BY #

@@ -13,7 +13,7 @@
       <th></th>
       <th>Name</th>
       <th>Questions</th>
-      <th>Date Updated</th>
+      <th>Last Updated</th>
       <th></th>
       <th></th>
     </tr>
@@ -23,7 +23,7 @@
       <td><div class="number-id"><%= content_set.id %></div></td>
       <td><%= link_to content_set.name, content_set %></td>
       <td><%= content_set.questions.count %></td>
-      <td><%= content_set.date %></td>
+      <td><%= content_set.updated_at.strftime("%Y-%m-%d %r") %></td>
       <td>
         <%= link_to(image_tag('edit.png'), edit_content_set_path(content_set), :class=>'action-btn') %>
       </td>

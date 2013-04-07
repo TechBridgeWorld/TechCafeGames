@@ -11,5 +11,6 @@ class Question < ActiveRecord::Base
 
   # Scope
   scope :all, order(:id)
+  scope :byid, order(:id)
 
 end

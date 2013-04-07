@@ -5,7 +5,7 @@ before_filter :login_required
   # GET /content_sets
   # GET /content_sets.json
   def index
-    @content_sets = ContentSet.all
+    @content_sets = ContentSet.order(params[:sort])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,7 +28,7 @@ before_filter :login_required
   # GET /content_sets/new.json
   def new
     @content_set = ContentSet.new
-    @questions = Question.all
+    @questions = Question.order(params[:sort])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,7 +39,7 @@ before_filter :login_required
   # GET /content_sets/1/edit
   def edit
     @content_set = ContentSet.find(params[:id])
-    @questions = Question.all
+    @questions = Question.order(params[:sort])
   end
 
   # POST /content_sets
