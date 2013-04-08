@@ -8,10 +8,6 @@ a img {
   border: none;
 }
 
-a {
-  color: #0000FF;
-}
-
 .clear {
   clear: both;
   height: 0;
@@ -122,7 +118,7 @@ a {
   width: 30px;
   line-height: 30px;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 15px;
 }
 
 /* ----- FORMS ----- */

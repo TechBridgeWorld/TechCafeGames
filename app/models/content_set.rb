@@ -8,5 +8,10 @@ class ContentSet < ActiveRecord::Base
     {:name => name, :questions => questions}
   end
 
+  # Validations
+  validates_presence_of :name
+
+  # Scope
+  scope :all, order(:id)
 end
 

@@ -1,19 +1,81 @@
-<p id="notice"><%= notice %></p>
+<div class="action-bar">
+	<div class="left">
+		<h2>Content Set #<%= @content_set.id %>: <%= @content_set.name %></h2>
+		
+	</div>
+	<div class="right">
+		<%= link_to(image_tag('edit.png'), edit_content_set_path(@content_set), :class=>'action-btn') %>
+	</div>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @content_set.name %>
-</p>
+<table class="table">
+	<tr>
+		<td><strong>Last Updated:</strong> <%= @content_set.updated_at.strftime("%Y-%m-%d %r") %></td>
+		<td><strong>Created:</strong> <%= @content_set.created_at.strftime("%Y-%m-%d %r") %></td>
+		<td><strong>Questions:</strong> <%= @content_set.questions.count %></td>
+	</tr>
+</table>
 
-<p>
-  <b>Date:</b>
-  <%= @content_set.date %>
-</p>
 
-<% @content_set.questions.each do |question| %>
-	<%= question.question %>
+<br/><br/>
+
+<% if @content_set.questions.count>=1 %>
+<table class="table">
+	<thead>
+		<tr>
+		  <th>#</th>
+		  <th>Question</th>
+		  <th>Category</th>
+		  <th>Difficulty</th>
+		</tr>
+	</thead>
+		<% @content_set.questions.each do |question| %>
+		<tr>
+		  <td>
+		    <div class="number-id"><%= question.id %></div>
+		  </td>
+		  <td>
+		    <%= question.question %>
+		    <table class="border-free-table">
+		      <tr>
+		        <% question.answers.each do |answer| %>
+		          <% if answer.answer != "" %>
+		            <td>
+		              <% if answer.correct %>
+		                <div class="answer-label correct">
+		                  <%= answer.answer %>
+		                </div>
+		              <% else %>
+		                <div class="answer-label">
+		                  <%= answer.answer %>
+		                </div>
+		              <% end %>
+		            </td>
+		          <% end %>
+		        <% end %>
+		      </tr>
+		    </table>
+		  </td>
+		  <td><%= question.category %></td>
+		  <td>
+		    <% if question.difficulty == 0 %>
+		      Easy
+		    <% elsif question.difficulty == 1 %>
+		      Medium
+		    <% elsif question.difficulty == 2 %>
+		      Hard
+		    <% end %>
+		  </td>
+		</tr>
+		<% end %>
+</table>
+<% else %>
+	<h4>No questions in this set yet.</h4>
 <% end %>
 
+<div class="action-bar">
+	<div class="left">
+		<%= link_to 'Back', content_sets_path, :class=>'btn' %>
+	</div>
+</div>
 
-<%= link_to 'Edit', edit_content_set_path(@content_set) %> |
-<%= link_to 'Back', content_sets_path %>
