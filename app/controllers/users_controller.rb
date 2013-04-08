@@ -1,8 +1,28 @@
 class UsersController < ApplicationController
   before_filter :login_required, :except => [:new, :create]
 
+  # GET /questions
+  # GET /questions.json
+  def index
+    @users = User.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @users.to_json(:only => :username, :include_content_sets => params[:include_content_sets]) }
+    end
+  end
+
   def new
     @user = User.new
+  end
+
+  def show
+    @user = User.find_by_username(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @user.to_json(:only => :username, :include_content_sets => params[:include_content_sets]) }
+    end
   end
 
   def create

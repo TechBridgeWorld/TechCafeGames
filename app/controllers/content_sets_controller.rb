@@ -47,6 +47,8 @@ before_filter :login_required
   def create
     @content_set = ContentSet.new(params[:content_set])
 
+    @content_set.user = current_user
+
     respond_to do |format|
       if @content_set.save
         format.html { redirect_to @content_set, notice: 'Content set was successfully created.' }
