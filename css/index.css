@@ -676,17 +676,26 @@ table{
   margin-bottom: 8%;
 }
 
-#basicBeginnerBtn{
+.levelBtn2{
+  width: 70%;
+  left: 15%;
+  height: 13%;
+  position: relative;
+  top: 5%;
+  margin-bottom: 5%;
+}
+
+#basicBeginnerBtn, #basicBeginnerBtn2{
   background: url('/img/race-assets/choose-level-basic.png') top center no-repeat;
   background-size: 100%;
 }
 
-#beginnerBtn{
+#beginnerBtn, #beginnerBtn2{
   background: url('/img/race-assets/choose-level-beginner.png') top center no-repeat;
   background-size: 100%;
 }
 
-#intermediateBtn{
+#intermediateBtn, #intermediateBtn2{
   background: url('/img/race-assets/choose-level-intermediate.png') top center no-repeat;
   background-size: 100%;
 }
@@ -724,6 +733,16 @@ table{
   left: 35%;
 }
 
+#endGameBtn2{
+  background: url('/img/race-assets/endgame-button.png') top center no-repeat;
+  background-size: 100%;
+  width: 30%;
+  height: 10%;
+  position: absolute;
+  top: 87%;
+  left: 35%;
+}
+
 /* -------- Rewards screen -------- */
 
 #questionsCompleteScreen{
@@ -733,7 +752,6 @@ table{
   background-color: rgba(0,0,0,0.7);
   top: 0;
   z-index: 100;
-  display: none;
 }
 
 /* -------- Instructions page -------- */
@@ -934,6 +952,34 @@ and (min-device-aspect-ratio : 16/10) {
 h1 {
     font-family: Juicy;
     font-size:500%;
+}
+
+#completedTitleDiv {
+  position:relative;
+  left:5%;
+  height:30%;
+  background-image:url("/img/race-assets/you_won_banner.png");
+  background-size:90% 100%;
+  background-repeat:no-repeat;
+}
+
+#completedTitle{
+  position:absolute;
+  bottom:20%;
+  left:28%;
+  font-size:200%;
+  color:white;
+  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+}
+
+#questionNumberTitle{
+  position:absolute;
+  top:22%;
+  left:16%;
+  font-size:100%;
+  color:white;
+  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+  text-align: center;
 }
 
 #entername {

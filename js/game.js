@@ -226,7 +226,6 @@ function execute(){
         numRightQuestion=0;
         numQuestions=0;
         
-<<<<<<< HEAD
 //***********
 soundManager.setup({
   // where to find flash audio SWFs, as needed
@@ -306,9 +305,9 @@ soundManager.setup({
 });
 
 //***********
-=======
+
         questionData = parser(questionSets[level].data);
->>>>>>> ffbdd8ff2f34df15a2540756594e51e013a88a5b
+        console.log(questionSets);
 
         /* Canvas+DOM variables */
         buffer = document.createElement('canvas');
@@ -356,7 +355,8 @@ soundManager.setup({
 
         canvas.addEventListener('touchmove', setupEventListener, false);
         
-        window.clearInterval(interval);
+        if(interval != undefined)
+          window.clearInterval(interval);
         interval = setInterval(update, intervalTime);
 
         // show game screen
@@ -458,6 +458,7 @@ soundManager.setup({
         $("#startGo").hide();
         $("#instructions").hide();
         $("#highscores").hide();
+        $("#questionsCompleteScreen").hide();
 
         // play music
         if (/*soundOn*/ false){
@@ -477,7 +478,6 @@ soundManager.setup({
         // choosing level
         $("#basicBeginnerBtn").bind("click", function(){
 			level = 0;
-            console.log(questionData);
             startGame();
         });
         $("#basicBeginnerBtn").live("touch", function(){
@@ -595,10 +595,11 @@ soundManager.setup({
     }
 
     function parser(JSONdata){
+        var newData=new Array(JSONdata.length);
         for(var i = 0; i < JSONdata.length; i++){
-            JSONdata[i]=JSON.parse(JSONdata[i]);
+            newData[i]=JSON.parse(JSONdata[i]);
         }
-        return JSONdata;
+        return newData;
     }
 
     function showLevels(){
@@ -813,18 +814,55 @@ soundManager.setup({
 			$("#pauseScreen").fadeIn(animationTime);
 		}
 		else if (type === "questions completed") {
+            $("#completedTitle").html("Score: "+score);
+            $("#questionNumberTitle").html("You've completed all "+numQuestions+" questions in this level! </br> Choose a new level to continue playing");
 			$("#questionsCompleteScreen").fadeIn(animationTime);
-		}
+            window.clearInterval(interval);
+            window.setTimeout(bindButtons, animationTime);
+        }
+    }
+
+    function bindButtons() {
+            // choosing level
+            pauseFlag=false;
+        $("#basicBeginnerBtn2").bind("click", function(){
+            level = 0;
+            setup();
+            $("#questionsCompleteScreen").fadeOut(animationTime);
+        });
+        $("#basicBeginnerBtn2").live("touch", function(){
+            level = 0;
+            setup();
+            $("#questionsCompleteScreen").fadeOut(animationTime);
+        });
+        $("#beginnerBtn2").bind("click", function(){
+            level = 1;
+            setup();
+            $("#questionsCompleteScreen").fadeOut(animationTime);
+        });
+        $("#beginnerBtn2").live("touch", function(){
+            level = 1;
+            setup();
+            $("#questionsCompleteScreen").fadeOut(animationTime);
+        });
+        $("#intermediateBtn2").bind("click", function(){
+            level = 2;
+            setup();
+            $("#questionsCompleteScreen").fadeOut(animationTime);
+        });
+        $("#intermediateBtn2").live("touch", function(){
+            level = 2;
+            setup();
+            $("#questionsCompleteScreen").fadeOut(animationTime);
+        });
+
+        $("#endGameBtn2").bind("click", function(){$("#questionsCompleteScreen").fadeOut(animationTime); endGame();});
+        $("#endGameBtn2").live("touch", function(){$("#questionsCompleteScreen").fadeOut(animationTime); endGame();});
     }
 
     // resume game after pause
     function resumeGame(type, delay){
-		if (type === "pause") {
 			$("#pauseScreen").fadeOut(delay);
-		}
-		else if (type === "questions completed") {
-			$("#questionsCompleteScreen").fadeOut(delay);
-		}
 		
         var resumeDelayTimeout = window.setTimeout(function(){
             pauseFlag = false;
@@ -1260,6 +1298,7 @@ soundManager.setup({
             //remove question from the questionData set
 			questionData.splice(questionNum, 1);
 			if (questionData.length == 0) {
+                stopAsking();
 				pauseGame("questions completed");
 			}
         }
