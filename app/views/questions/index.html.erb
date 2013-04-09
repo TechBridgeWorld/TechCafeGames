@@ -9,7 +9,7 @@
 
 <% if @questions.length>=1 %>
 
-<table class="table">
+<table class="table paginated">
   <thead>
     <tr>
       <th><%= link_to "#", :sort => "id" %></th>
@@ -22,7 +22,7 @@
   </thead>
 
   <% @questions.byid.each do |question| %>
-    <tr>
+    <tr class="item">
       <td>
         <div class="number-id"><%= question.id %></div>
       </td>
