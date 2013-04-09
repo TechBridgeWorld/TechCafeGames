@@ -1,5 +1,8 @@
 class QuestionsController < ApplicationController
-  before_filter :login_required
+  skip_before_filter :login_required, :only => [:new, :create] 
+
+  # before_filter :login_required
+
   # GET /questions
   # GET /questions.json
   def index

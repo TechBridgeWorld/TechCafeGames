@@ -1,16 +1,19 @@
 class ContentSetsController < ApplicationController
 
-before_filter :login_required
+  skip_before_filter :login_required, :only => [:new, :create] 
+
+# before_filter :login_required
 
   # GET /content_sets
   # GET /content_sets.json
   def index
     @content_sets = ContentSet.order(params[:sort])
-
+    
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @content_sets }
+      format.json { render json: ContentSet.list.to_json }
     end
+
   end
 
   # GET /content_sets/1
@@ -46,6 +49,8 @@ before_filter :login_required
   # POST /content_sets.json
   def create
     @content_set = ContentSet.new(params[:content_set])
+
+    @content_set.user = current_user
 
     respond_to do |format|
       if @content_set.save

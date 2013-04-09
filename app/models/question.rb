@@ -6,6 +6,10 @@ class Question < ActiveRecord::Base
 
   accepts_nested_attributes_for :answers, :reject_if => lambda{|answer| answer[:answer].blank?}
 
+  def as_json(options={})
+    {:question => question, :answers => answers, :category => category, :difficulty => difficulty}
+  end
+
   # Validations
   validates_presence_of :question
 
