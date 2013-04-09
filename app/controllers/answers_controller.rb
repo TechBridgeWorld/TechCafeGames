@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
+  skip_before_filter :login_required, :only => [:new, :create] 
 
-before_filter :login_required
+# before_filter :login_required
 
   # GET /answers
   # GET /answers.json

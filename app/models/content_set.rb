@@ -8,10 +8,17 @@ class ContentSet < ActiveRecord::Base
     {:name => name, :questions => questions}
   end
 
+  def self.list
+    result = {}
+    all.each do |content_set|
+      result[content_set.name] = content_set.questions
+    end
+    result
+  end
+
   # Validations
   validates_presence_of :name
 
   # Scope
   scope :all, order(:id)
 end
-
