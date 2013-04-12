@@ -7,7 +7,7 @@ class ContentSetsController < ApplicationController
   # GET /content_sets
   # GET /content_sets.json
   def index
-    @content_sets = ContentSet.order(params[:sort])
+    @content_sets = current_user.content_sets.all
     
     respond_to do |format|
       format.html # index.html.erb
