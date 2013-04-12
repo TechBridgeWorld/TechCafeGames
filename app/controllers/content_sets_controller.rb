@@ -30,7 +30,7 @@ class ContentSetsController < ApplicationController
   # GET /content_sets/new
   # GET /content_sets/new.json
   def new
-    @content_set = ContentSet.new
+    @content_set = ContentSet.new(:active => true)
     @questions = Question.order(params[:sort])
 
     respond_to do |format|

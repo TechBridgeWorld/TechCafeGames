@@ -12,6 +12,7 @@
     <tr>
       <th></th>
       <th>Name</th>
+      <th>Active</th>
       <th>Questions</th>
       <th>Last Updated</th>
       <th></th>
@@ -22,6 +23,17 @@
     <tr>
       <td><div class="number-id"><%= content_set.id %></div></td>
       <td><%= link_to content_set.name, content_set %></td>
+      <td>
+        <% if content_set.active %>
+          <div class="active-label active">
+            ACTIVE
+          </div>
+        <% else %>
+          <div class="active-label">
+            INACTIVE
+          </div>
+        <% end %>
+      </td>
       <td><%= content_set.questions.count %></td>
       <td><%= content_set.updated_at.strftime("%Y-%m-%d %r") %></td>
       <td>
