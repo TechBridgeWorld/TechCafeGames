@@ -12,9 +12,18 @@ TeacherPortal::Application.routes.draw do
 
   resources :sessions
 
-  resources :users
+  resources :users do
+    collection do
+        get 'teacher_list'
+        get 'teacher_content'
+    end
+  end
 
-  resources :content_sets
+  resources :content_sets do 
+    collection do
+        get 'get_content_sets'
+    end
+  end 
 
   resources :answers
 

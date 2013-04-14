@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
 
   def as_json(options)
     results = {:username => username}
-    if (options[:include_content_sets])
+    if (options[:include_content_sets] == "true")
       results.merge!({:content_sets => content_sets})
     end
     super(options).merge(results)

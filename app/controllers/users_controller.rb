@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   # before_filter :login_required, :except => [:new, :create]
-  skip_before_filter :login_required, :only => [:new, :create] 
 
   load_and_authorize_resource
 
+  skip_authorize_resource :only => [:teacher_list,:teacher_content]
 
   # GET /questions
   # GET /questions.json
@@ -12,21 +12,34 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @users.to_json(:only => :username, :include_content_sets => params[:include_content_sets]) }
     end
   end
+
+  def teacher_list
+    @users = User.all
+    respond_to do |format|
+      format.json { render json: @users.to_json(:only => :username, :include_content_sets => params[:include_content_sets]) }
+    end 
+  end 
 
   def new
     @user = User.new
     @users = User.all
   end
 
+  def teacher_content
+    @user = ::User.find_by_username(params[:name])
+
+    respond_to do |format|
+      format.json { render json: @user.to_json(:only => :username, :include_content_sets => params[:include_content_sets]) }
+    end 
+  end 
+
   def show
     @user = User.find_by_id(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @user.to_json(:only => :username, :include_content_sets => params[:include_content_sets]) }
     end
   end
 
