@@ -1,0 +1,95 @@
+<div class="action-bar">
+	<div class="left">
+		<h2>User: <%= @user.username %></h2>
+	</div>
+	<div class="right">
+		<% if current_user && (current_user.is_admin? || current_user.id == @user.id) %>
+			<%= link_to(image_tag('edit.png'), edit_user_path(@user), :class=>'action-btn') %>
+        <% end %>
+	</div>
+</div>
+
+<table class="table">
+	<tr>
+		<td>
+			<% if @user.is_admin? %>
+	          <div class="role-label admin">
+	            ADMIN
+	          </div>
+	        <% elsif @user.is_teacher? %>
+	          <div class="role-label teacher">
+	            TEACHER
+	          </div>
+	        <% end %>
+		</td>
+		<td>
+			<strong>Email: </strong>
+			<%= @user.email %>
+		</td>
+		<td>
+			<strong>Owned Content Sets: </strong>
+			<%= @user.content_sets.count %>
+		</td>
+	</tr>
+</table>
+
+<br/><br/>
+<h3><%= @user.username %>'s Content Sets</h3>
+
+<% if @user.content_sets.count>=1 %>
+  <table class="table">
+    <tr>
+      <th></th>
+      <th>Active</th>
+      <th>Name</th>
+      <th>Questions</th>
+      <th>Last Updated</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @user.content_sets.each do |content_set| %>
+    <tr>
+      <td><div class="number-id"><%= content_set.id %></div></td>
+      <td>
+        <% if content_set.active %>
+          <a href="#" rel="tooltip" title="Active content sets will show in games">
+            <div class="active-label active">
+              ACTIVE
+            </div>
+          </a>
+        <% else %>
+          <a href="#" rel="tooltip" title="Inactive content sets won't show in games">
+            <div class="active-label">
+              INACTIVE
+            </div>
+          </a>
+        <% end %>
+      </td>
+      <td><%= link_to content_set.name, content_set %></td>
+      <td><%= content_set.questions.count %></td>
+      <td><%= content_set.updated_at.strftime("%Y-%m-%d %r") %></td>
+      <td>
+        <%= link_to(image_tag('edit.png'), edit_content_set_path(content_set), :class=>'action-btn') %>
+      </td>
+      <td>
+        <%= link_to(image_tag('delete.png'), content_set, :class=>"action-btn",  method: :delete, data: { confirm: 'Are you sure you want to delete this content set?' }) %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<% else %>
+	<h4>No content sets yet</h4>
+<% end %>
+
+
+<% if current_user.is_admin? %>
+	<br/><br/>
+	<div class="action-bar">
+		<div class="left">
+			<%= link_to 'Back', users_path, :class=>'btn' %>
+		</div>
+	</div>
+<% end %>
+
