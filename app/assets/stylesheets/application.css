@@ -81,6 +81,9 @@ a:hover{
   margin: 0;
 }
 
+
+
+
 .cleared{
   clear:both;
 }
@@ -88,6 +91,49 @@ a:hover{
 .border-free-table td, th {
     border: 0 !important;    
 }
+
+
+
+.home-left{
+  float: left;
+  width: 50%;
+}
+.home-right{
+  float: right;
+  width: 50%;
+}
+.home-left img, .home-right img{
+  width: 50%;
+  margin-left: 20%;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+.home-left p, .home-right p{
+  color: #666;
+  margin: 0 50px;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 120%;
+  font-weight: 100;
+}
+.home.actions{
+  display: inline-block;
+  width: 202px;
+  position: relative;
+  left: 50%;
+  margin-left: -120px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+.home.actions .login{
+  margin-right: 10px;
+}
+
+
+
+
+
 
 .action-bar{
   overflow: auto;
@@ -132,7 +178,7 @@ a:hover{
 } 
 
 .answer-label{
-  background: #eee;
+  background: #ddd;
   border-radius: 10px;
   padding: 10px;
   width: 120px;
@@ -159,6 +205,10 @@ a:hover{
 }
 .active-label.active{
   background: #77ca5a;
+  color: #fff;
+}
+.active-label.active a{
+  color: #fff;
 }
 
 .role-label.admin{
@@ -178,6 +228,9 @@ td.active{
 
 table.category{
   width: 300px;
+}
+.table td{
+  vertical-align: middle !important;
 }
 
 /* ----- FORM ERROR ----- */

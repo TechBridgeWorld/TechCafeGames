@@ -3,6 +3,10 @@ delete.png: delete.png
 delete/index.png: delete.png
 edit.png: edit.png
 edit/index.png: edit.png
+game-icon.png: game-icon.png
+game-icon/index.png: game-icon.png
+question-icon.png: question-icon.png
+question-icon/index.png: question-icon.png
 rails.png: rails.png
 rails/index.png: rails.png
 application.js: application.js

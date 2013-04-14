@@ -12,9 +12,9 @@
 </div>
 
 <% if @content_sets.length>=1 %>
-  <table class="table">
+  <table class="table table-hover">
     <tr>
-      <th></th>
+      <th>ID</th>
       <th>Active</th>
       <th>Name</th>
       <% if current_user.is_admin? %>
@@ -31,17 +31,16 @@
       <td><div class="number-id"><%= content_set.id %></div></td>
       <td>
         <% if content_set.active %>
-          <a href="#" rel="tooltip" title="Active content sets will show in games">
+          <%= link_to content_set, :rel => "tooltip", :title => "Active content sets will show in games" do%>
             <div class="active-label active">
               ACTIVE
-            </div>
-          </a>
+          <% end %>
         <% else %>
-          <a href="#" rel="tooltip" title="Inactive content sets won't show in games">
+          <%= link_to content_set, :rel => "tooltip", :title => "Inactive content sets won't show in games" do%>
             <div class="active-label">
               INACTIVE
             </div>
-          </a>
+          <% end %>
         <% end %>
       </td>
       <td><%= link_to content_set.name, content_set %></td>

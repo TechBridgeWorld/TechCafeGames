@@ -10,7 +10,7 @@ class ContentSet < ActiveRecord::Base
 
   def self.list
     result = {}
-    all.each do |content_set|
+    active.each do |content_set|
       result[content_set.name] = content_set.questions
     end
     result

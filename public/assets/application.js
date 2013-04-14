@@ -775,6 +775,10 @@
 
 
 }).call(this);
+(function() {
+
+
+}).call(this);
  /**
  * jQuery jPages v0.7
  * Client side pagination with jQuery

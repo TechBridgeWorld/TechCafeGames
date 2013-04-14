@@ -1,5 +1,11 @@
 <div class="action-bar">
 	<div class="left">
+		<%= link_to 'Back', content_sets_path, :class=>'btn' %>
+	</div>
+</div>
+
+<div class="action-bar">
+	<div class="left">
 		<h2>Content Set #<%= @content_set.id %>: <%= @content_set.name %></h2>
 	</div>
 	<div class="right">
@@ -100,10 +106,4 @@
 <% else %>
 	<h4>No questions in this set yet.</h4>
 <% end %>
-
-<div class="action-bar">
-	<div class="left">
-		<%= link_to 'Back', content_sets_path, :class=>'btn' %>
-	</div>
-</div>
 

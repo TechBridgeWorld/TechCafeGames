@@ -14,7 +14,7 @@
   <body>
     <div class="navbar navbar-inverse">
       <div class="navbar-inner">
-        <a class="brand" href="#">Teacher Portal</a>
+        <%= link_to "Teacher Portal", root_path, :class => "brand" %>
         <ul class="nav">
           <li>
             <%= link_to "Questions", questions_path %>
@@ -31,28 +31,19 @@
             </li>
           <% end %>
         </ul>
-        <ul class="nav pull-right">
+        <div class="nav pull-right">
             <% if current_user %>
-              <li>
-                <%= link_to "User: " + current_user.username, edit_user_path(current_user) %>
-              </li>
-              <li>
-                <% if current_user.is_admin? %>
-                  <a>ADMIN ACCOUNT</a>
-                <% elsif current_user.is_teacher? %>
-                  <a>TEACHER ACCOUNT</a>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to "Logout", logout_path %>
-              </li>
+              <% if current_user.is_admin? %>
+                <% @account = " [ ADMIN ACCOUNT ]" %>
+              <% elsif current_user.is_teacher? %>
+                <% @account = " [ TEACHER ACCOUNT ]" %>
+              <% end %>
+                <%= link_to current_user.username + @account, edit_user_path(current_user), :class => "btn btn-info" %>
+                <%= link_to "Logout", logout_path, :class => "btn btn-warning" %>
             <% else %>
-              <li>
-                <%= link_to "Login", login_path %>
-              </li>
+                <%= link_to "Login", login_path, :class => "btn btn-primary" %>
             <% end %>
-          </li>
-        </ul>
+        </div>
       </div>
     </div>
     <div class="container">

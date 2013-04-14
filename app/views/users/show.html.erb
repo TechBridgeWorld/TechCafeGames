@@ -1,3 +1,11 @@
+<% if current_user.is_admin? %>
+	<div class="action-bar">
+		<div class="left">
+			<%= link_to 'Back', users_path, :class=>'btn' %>
+		</div>
+	</div>
+<% end %>
+
 <div class="action-bar">
 	<div class="left">
 		<h2>User: <%= @user.username %></h2>
@@ -39,7 +47,7 @@
 <% if @user.content_sets.count>=1 %>
   <table class="table">
     <tr>
-      <th></th>
+      <th>ID</th>
       <th>Active</th>
       <th>Name</th>
       <th>Questions</th>
@@ -81,15 +89,5 @@
 
 <% else %>
 	<h4>No content sets yet</h4>
-<% end %>
-
-
-<% if current_user.is_admin? %>
-	<br/><br/>
-	<div class="action-bar">
-		<div class="left">
-			<%= link_to 'Back', users_path, :class=>'btn' %>
-		</div>
-	</div>
 <% end %>
 

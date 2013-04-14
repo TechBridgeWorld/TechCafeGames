@@ -9,10 +9,10 @@
 
 <% if @questions.length>=1 %>
 
-<table class="table paginated">
+<table class="table paginated table-hover">
   <thead>
     <tr>
-      <th><%= link_to "#", :sort => "id" %></th>
+      <th><%= link_to "ID", :sort => "id" %></th>
       <th><%= link_to "Question", :sort => "Question"%></th>
       <th><%= link_to "Category", :sort => "Category"%></th>
       <th><%= link_to "Difficulty", :sort => "Difficulty" %></th>
