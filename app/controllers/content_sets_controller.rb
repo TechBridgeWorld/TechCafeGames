@@ -1,26 +1,33 @@
 class ContentSetsController < ApplicationController
 
-  skip_before_filter :login_required, :only => [:new, :create] 
-
+  # skip_before_filter :login_required, :only => [:new, :create] 
+  
   load_and_authorize_resource
+  
+  skip_authorize_resource :only => [:get_content_sets]
 
-# before_filter :login_required
+  # before_filter :login_required
 
   # GET /content_sets
   # GET /content_sets.json
   def index
-    if current_user.is_admin?
+    
+    if current_user && current_user.is_admin?
       @content_sets = ContentSet.all
-    else
+    elsif current_user
       @content_sets = current_user.content_sets.all
     end
     
     respond_to do |format|
       format.html # index.html.erb
+    end
+  end
+
+  def get_content_sets
+    respond_to do |format|
       format.json { render json: ContentSet.list.to_json }
     end
-
-  end
+  end 
 
   # GET /content_sets/1
   # GET /content_sets/1.json
