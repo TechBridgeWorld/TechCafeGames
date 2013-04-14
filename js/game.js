@@ -37,7 +37,7 @@ function execute(){
             error: onError});
     }   
 
-    ajaxRequest( 
+    /*ajaxRequest( 
         '/register', 
         function onSuccess(data){
             if(data)
@@ -60,7 +60,7 @@ function execute(){
             alert("There was an error retrieving the question file");
             fileFlag=false;
             }
-    );
+    );*/
 
     // important game variables
     var width = window.innerWidth;
@@ -125,6 +125,7 @@ function execute(){
 
     var numRightQuestion;
     var numQuestions;
+    var totalNumQuestions;
 
     var bgMusic;
     var carSfx;
@@ -225,6 +226,8 @@ function execute(){
         barFrac=100;
         numRightQuestion=0;
         numQuestions=0;
+
+        pauseFlag=false;
         
 //***********
 soundManager.setup({
@@ -306,8 +309,7 @@ soundManager.setup({
 
 //***********
 
-        questionData = parser(questionSets[level].data);
-        console.log(questionSets);
+        numTotalQuestions = questionData.length;
 
         /* Canvas+DOM variables */
         buffer = document.createElement('canvas');
@@ -449,9 +451,29 @@ soundManager.setup({
         }
     }
 
+function getContent(username) {
+    $(".levelBtn").remove();
+    ajaxPost({tid:username}, "/getContent", function(data){
+            console.log(data);
+            data=data.content_sets;
+            for(var i = 0; i < data.length; i++){
+                console.log("c: "+data[i].name);
+                $("#chooseLevelButtons").append('<div id="'+i+'" class="levelBtn"\><h2>'+data[i].name+'</h2></div>');
+                $("#"+i).bind("click", function(){
+                    console.log("clicked");
+                  questionData = data[(parseInt(this.id))].questions;
+                  console.log(questionData);
+                  startGame();
+                });
+            }
+        }, 
+        function(err){});
+}
+
     // start screen actions
     // ALL ONE TIME EVENT LISTENERS GO HERE
     function startScreen(){
+        var teachers = [];
         // hide all other screens
         $("#screen").hide();
         $("#end").hide();
@@ -463,6 +485,24 @@ soundManager.setup({
         // play music
         if (/*soundOn*/ false){
             bgm.play();
+        }
+
+        ajaxRequest("/getTeachers", function(data){
+            console.log(data);
+            for(var i = 0; i < data.length; i++){
+                console.log("t: "+data[i].username);
+                $("#chooseLevelButtons").append('<div id="'+data[i].username+'" class="levelBtn"><h2>'+data[i].username+'</h2></div>');
+                $("#"+data[i].username).bind("click", function(){
+                    getContent(this.id);
+                });
+            }
+        }, 
+        function(err){});
+
+        for(var i = 0; i < teachers.length; i++) {
+            console.log("t: "+teachers[i]);
+            $("#chooseLevelScreen").append('<div id="'+teachers[i]+'" class="levelBtn"><h2>+'+teachers[i]+'+</h2></div>');
+
         }
 
         if(fileFlag) {
@@ -816,7 +856,7 @@ soundManager.setup({
 		else if (type === "questions completed") {
             $("#completedTitle").html("Score: "+score);
             $("#questionNumberTitle").html("You've completed all "+numQuestions+" questions in this level! </br> Choose a new level to continue playing");
-			$("#questionsCompleteScreen").fadeIn(animationTime);
+			$("#questionsCompleteScreen").fadeIn(3*animationTime);
             window.clearInterval(interval);
             window.setTimeout(bindButtons, animationTime);
         }
@@ -824,40 +864,65 @@ soundManager.setup({
 
     function bindButtons() {
             // choosing level
-            pauseFlag=false;
         $("#basicBeginnerBtn2").bind("click", function(){
             level = 0;
             setup();
+            removeEvents();
             $("#questionsCompleteScreen").fadeOut(animationTime);
         });
         $("#basicBeginnerBtn2").live("touch", function(){
             level = 0;
             setup();
+            removeEvents();
             $("#questionsCompleteScreen").fadeOut(animationTime);
         });
         $("#beginnerBtn2").bind("click", function(){
             level = 1;
             setup();
+            removeEvents();
             $("#questionsCompleteScreen").fadeOut(animationTime);
         });
         $("#beginnerBtn2").live("touch", function(){
             level = 1;
             setup();
+            removeEvents();
             $("#questionsCompleteScreen").fadeOut(animationTime);
         });
         $("#intermediateBtn2").bind("click", function(){
             level = 2;
             setup();
+            removeEvents();
             $("#questionsCompleteScreen").fadeOut(animationTime);
         });
         $("#intermediateBtn2").live("touch", function(){
             level = 2;
             setup();
+            removeEvents();
             $("#questionsCompleteScreen").fadeOut(animationTime);
         });
 
-        $("#endGameBtn2").bind("click", function(){$("#questionsCompleteScreen").fadeOut(animationTime); endGame();});
-        $("#endGameBtn2").live("touch", function(){$("#questionsCompleteScreen").fadeOut(animationTime); endGame();});
+        $("#endGameBtn2").bind("click", function(){
+            $("#questionsCompleteScreen").fadeOut(animationTime); 
+            removeEvents();
+            endGame();
+        });
+        $("#endGameBtn2").live("touch", function(){
+            $("#questionsCompleteScreen").fadeOut(animationTime); 
+            removeEvents();
+            endGame();
+        });
+
+    }
+
+    function removeEvents(){
+        $("#basicBeginnerBtn2").off("click");
+        $("#basicBeginnerBtn2").off("touch");
+        $("#beginnerBtn2").off("click");
+        $("#beginnerBtn2").off("touch");
+        $("#intermediateBtn2").off("click");
+        $("#intermediateBtn2").off("touch");
+        $("#endGameBtn2").off("click");
+        $("#endGameBtn2").off("touch");
     }
 
     // resume game after pause
@@ -1033,36 +1098,36 @@ soundManager.setup({
         if (randomChoiceFlag) {
         //scramble the answers
 			for(var i = 0; i < 4; i++) {
-				var index1 = Math.floor(Math.random() * question.choices.length);
-				var index2 = Math.floor(Math.random() * question.choices.length);
-				var temp = question.choices[index1];
-				question.choices[index1] = question.choices[index2];
-				question.choices[index2] = temp;
+				var index1 = Math.floor(Math.random() * question.answers.length);
+				var index2 = Math.floor(Math.random() * question.answers.length);
+				var temp = question.answers[index1];
+				question.answers[index1] = question.answers[index2];
+				question.answers[index2] = temp;
 			}
 		}
 		
-        for(var i = 0; i < question.choices.length; i++) {
-			if(question.choices[i].toString()===question.a.toString()){
+        for(var i = 0; i < question.answers.length; i++) {
+			if(question.answers[i].correct){
 				ansIndex = i;
                 var idNum = i+1;
                 answerID = "#choice"+idNum;
             }
 		}
 		
-		//make sure answer is one of the first four choices
+		//make sure answer is one of the first four answers
         if (ansIndex > 3) {
 			var prevAnsIndex = ansIndex;
 			ansIndex = Math.floor(Math.random() * 4);
 			var idNum = ansIndex+1;
             answerID = "#choice"+idNum;
-			question.choices[prevAnsIndex] = question.choices[ansIndex];
-			question.choices[ansIndex] = question.a;
+			question.answers[prevAnsIndex] = question.answers[ansIndex];
+			question.answers[ansIndex] = question.a;
 		}
 		
-        // get choices for question
+        // get answers for question
         for(var i = 0; i < 4; i++) {
-            if(question.choices[i] != undefined) {		
-				choiceArr[i] = question.choices[i];
+            if(question.answers[i] != undefined) {		
+				choiceArr[i] = question.answers[i].answer;
 			}
             else choiceArr[i] = "";
         }
@@ -1073,7 +1138,7 @@ soundManager.setup({
         $("#backgroundFader").fadeIn();
 
         // add question div
-        var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.q+'</td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
+        var $qTable = $('<div id="ques" style="display:none"><table id="popQ"><tr id="Q"><td colspan=2>'+question.question+'</td></tr><tr><td colspan=2 id="progressBar"><div id="progressBarInner"></div><a>'+numRightQuestion+'/'+numTotalQuestions+' complete</a></td></tr><tr><td id="choice1">'+choiceArr[0]+'</td><td id="choice2">'+choiceArr[1]+'</td></tr><tr><td id="choice3">'+choiceArr[2]+'</td><td id="choice4">'+choiceArr[3]+'</td></tr></table></div>')
         var $countDown = $('<div id="countdown"><div id="countdown-inner"></div></div>');
         $qTable.append($countDown);
 
@@ -1098,6 +1163,8 @@ soundManager.setup({
         // show question div
         $("body").append($qTable);
         $qTable.fadeIn(animationTime);
+        var progressLength = (($('#progressBar').width())*numRightQuestion)/numTotalQuestions;
+        $('#progressBarInner').width(progressLength);
 
         // show timer countdown
         var cw = $('#countdown').width();
@@ -1107,32 +1174,32 @@ soundManager.setup({
 
         // bind actions when choosing answer
         $("#choice1").on("click", function(){
-            checkAns(question.a,choiceArr[0],"#choice1",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[0],"#choice1",answerID,c);
         });
         $("#choice1").on('touchstart', function(){
-            checkAns(question.a,choiceArr[0],"#choice1",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[0],"#choice1",answerID,c);
         });
         $("#choice2").on("click", function(){
-            checkAns(question.a,choiceArr[1],"#choice2",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[1],"#choice2",answerID,c);
         });
         $("#choice2").on('touchstart', function(){
-            checkAns(question.a,choiceArr[1],"#choice2",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[1],"#choice2",answerID,c);
         });
         $("#choice3").on("click", function(){
-            checkAns(question.a,choiceArr[2],"#choice3",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[2],"#choice3",answerID,c);
         });
         $("#choice3").on('touchstart', function(){
-            checkAns(question.a,choiceArr[2],"#choice3",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[2],"#choice3",answerID,c);
         });
         $("#choice4").on("click", function(){
-            checkAns(question.a,choiceArr[3],"#choice4",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[3],"#choice4",answerID,c);
         });
         $("#choice4").on('touchstart', function(){
-            checkAns(question.a,choiceArr[3],"#choice4",answerID,c);
+            checkAns(question.answers[ansIndex].answer,choiceArr[3],"#choice4",answerID,c);
         });
         
         // disable clicks for empty answer
-        for (var i = question.choices.length; i < choiceArr.length; i++) {
+        for (var i = question.answers.length; i < choiceArr.length; i++) {
             switch (i) {
                 case 2:
                     $("#choice3").off();
@@ -1149,9 +1216,9 @@ soundManager.setup({
         if (storedPowers[0].count != 0) {
             storedPowers[0].decrement();
             updateCurrPowers();
-            var del = Math.floor(Math.random() * question.choices.length);
+            var del = Math.floor(Math.random() * question.answers.length);
             while (del == ansIndex) {
-                var del = Math.floor(Math.random() * question.choices.length);
+                var del = Math.floor(Math.random() * question.answers.length);
             }
             del++;
             var removeChoice = "#choice" + del;

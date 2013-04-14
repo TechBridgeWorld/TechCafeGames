@@ -135,7 +135,7 @@ table {
 
 #Q {
     color:white;
-    height: 32%;
+    height: 30%;
     text-align: left;
     font-size: 16px;
 }
@@ -143,6 +143,50 @@ table {
 #Q td{
     padding: 5%;
     padding-right: 20%;
+}
+
+#progressBar {
+  height:7%;
+  position:relative;
+  color:white;
+  background-image: linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+background-image: -o-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+background-image: -moz-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+background-image: -webkit-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+background-image: -ms-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+
+background-image: -webkit-gradient(
+  linear,
+  left bottom,
+  left top,
+  color-stop(0.38, rgb(100,101,102)),
+  color-stop(0.69, rgb(66,66,66))
+);
+}
+
+#progressBarInner {
+  background-image: linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+background-image: -o-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+background-image: -moz-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+background-image: -webkit-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+background-image: -ms-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+
+background-image: -webkit-gradient(
+  linear,
+  left bottom,
+  left top,
+  color-stop(0.13, rgb(103,160,62)),
+  color-stop(0.57, rgb(134,192,93))
+);
+  height:100%;
+}
+
+#progressBar a {
+  position:absolute;
+  top:0px;
+  right:2px;
+  padding:4px;
+  font-size: 12px;
 }
 
 #popQ td{
@@ -658,6 +702,14 @@ table{
   z-index:10;
 }
 
+#chooseLevelButtons{
+  z-index:10;
+  position:absolute;
+  left:10%;
+  height:70%;
+  width:80%;
+}
+
 #chooseLevelTitle{
   width: 100%;
   height: 18%;
@@ -668,12 +720,14 @@ table{
 }
 
 .levelBtn{
-  width: 80%;
+  width: 100%;
   left: 10%;
   height: 13%;
-  position: relative;
-  top: 13%;
+  /*position:absolute;
+  top:0px;*/
+  margin-top:13%;
   margin-bottom: 8%;
+  background-color:yellow;
 }
 
 .levelBtn2{
