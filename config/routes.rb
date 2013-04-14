@@ -1,4 +1,5 @@
 TeacherPortal::Application.routes.draw do
+
   match 'user/edit' => 'users#edit', :as => :edit_current_user
 
   match 'signup' => 'users#new', :as => :signup
@@ -13,11 +14,13 @@ TeacherPortal::Application.routes.draw do
 
   resources :content_sets
 
-
   resources :answers
 
-
   resources :questions
+
+  resources :categories
+
+  resources :roles
 
 
   # The priority is based upon order of creation:

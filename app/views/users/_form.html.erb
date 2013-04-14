@@ -1,20 +1,47 @@
 <%= form_for @user do |f| %>
   <%= f.error_messages %>
-  <p>
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
-  </p>
-  <p>
-    <%= f.label :email, "Email Address" %><br />
-    <%= f.text_field :email %>
-  </p>
-  <p>
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </p>
-  <p>
-    <%= f.label :password_confirmation, "Confirm Password" %><br />
-    <%= f.password_field :password_confirmation %>
-  </p>
-  <p><%= f.submit (@user.new_record? ? "Sign up" : "Update") %></p>
+
+  <div class="control-group">
+    <%= f.label :username, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_field :username %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :email, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_field :email %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :password, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.password_field :password %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :password_confirmation, "Confirm Password", :class=>'control-label' %>
+    <div class="controls">
+       <%= f.password_field :password_confirmation %>
+    </div>
+  </div>
+
+  <% if current_user && current_user.is_admin? %>
+    <div class="control-group">
+      <%= f.label :role, "Role", :class=>'control-label' %>
+      <div class="controls">
+        <%= f.select(:role, User::ROLES) %>
+      </div>
+    </div>
+  <% else %>
+    <%= f.hidden_field :role, :value => "teacher" %>
+  <% end %>
+
+  <div class="actions">
+    <%= button_tag "Submit", :class => "btn btn-primary", :type => "submit" %>
+    <% if current_user && current_user.is_admin? %>
+      <%= link_to 'Cancel', users_path, :class=>'btn' %>
+    <% end %>
+  </div>
+  
 <% end %>

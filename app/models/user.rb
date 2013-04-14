@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   # new columns need to be added here to be writable through mass assignment
-  attr_accessible :username, :email, :password, :password_confirmation
+  attr_accessible :username, :email, :password, :password_confirmation, :role
 
   attr_accessor :password
   before_save :prepare_password
@@ -14,6 +14,26 @@ class User < ActiveRecord::Base
   validates_presence_of :password, :on => :create
   validates_confirmation_of :password
   validates_length_of :password, :minimum => 4, :allow_blank => true
+
+  # Roles!!
+
+  ROLES = [['Admin', :admin],['Teacher', :teacher]]
+  
+   def role?(authorized_role)
+     return false if role.nil?
+     role.downcase.to_sym == authorized_role
+   end
+
+   def is_admin?
+     role == "admin"
+   end
+
+   def is_teacher?
+     role == "teacher"
+   end
+
+
+
 
   def as_json(options)
     results = {:username => username}

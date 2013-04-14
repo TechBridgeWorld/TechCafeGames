@@ -1,8 +1,9 @@
 class Question < ActiveRecord::Base
-  attr_accessible :category, :difficulty, :question, :answers_attributes
+  attr_accessible :category, :difficulty, :question, :answers_attributes, :category_id
   has_many :answers, :dependent => :destroy
   has_many :question_contents
   has_many :content_sets, :through => :question_contents
+  belongs_to :category
 
   accepts_nested_attributes_for :answers, :reject_if => lambda{|answer| answer[:answer].blank?}
 

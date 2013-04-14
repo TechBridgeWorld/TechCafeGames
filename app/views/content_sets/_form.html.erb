@@ -20,9 +20,17 @@
             <%= f.text_field :name, :class=> 'input-xxlarge' %>
           </td>
           <td class="active">
-            <%= f.label :active %>
-            <%= f.check_box :active %>
+            <a href="#" rel="tooltip" title="Only active content sets will show in games">
+              <%= f.label :active %>
+              <%= f.check_box :active %>
+            </a>
           </td>
+          <% if current_user && current_user.is_admin? %>
+            <td class="active">
+              <%= f.label :user_id, "Belongs To" %>
+              <%= f.collection_select :user_id, User.all, :id, :username%>
+            </td>
+          <% end %>
         </tr>
       </table>
     </div>
@@ -72,7 +80,7 @@
           </tr>
         </table>
       </td>
-      <td><%= question.category %></td>
+      <td><%= question.category.name %></td>
       <td>
         <% if question.difficulty == 0 %>
           Easy

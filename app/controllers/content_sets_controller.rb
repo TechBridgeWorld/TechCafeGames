@@ -2,12 +2,18 @@ class ContentSetsController < ApplicationController
 
   skip_before_filter :login_required, :only => [:new, :create] 
 
+  load_and_authorize_resource
+
 # before_filter :login_required
 
   # GET /content_sets
   # GET /content_sets.json
   def index
-    @content_sets = current_user.content_sets.all
+    if current_user.is_admin?
+      @content_sets = ContentSet.all
+    else
+      @content_sets = current_user.content_sets.all
+    end
     
     respond_to do |format|
       format.html # index.html.erb

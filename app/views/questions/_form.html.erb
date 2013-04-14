@@ -21,7 +21,7 @@
   <div class="control-group inline">
     <%= f.label :category, :class=>'control-label' %>
     <div class="controls">
-       <%= f.text_field :category %>
+      <%= f.collection_select :category_id, Category.all, :id, :name%>
     </div>
   </div>
 

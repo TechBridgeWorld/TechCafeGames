@@ -26,3 +26,7 @@ function add_fields(link, association, content) {
   $(link).parent().before(content.replace(regexp, new_id));
 }
 
+
+$(function () {
+    $("[rel='tooltip']").tooltip();
+});

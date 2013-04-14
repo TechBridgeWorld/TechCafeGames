@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   skip_before_filter :login_required, :only => [:new, :create] 
 
+  load_and_authorize_resource
+
   # before_filter :login_required
 
   # GET /questions

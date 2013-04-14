@@ -7,6 +7,9 @@ body {
 a img {
   border: none;
 }
+a:hover{
+  text-decoration: none;
+}
 
 .clear {
   clear: both;
@@ -139,7 +142,7 @@ a img {
   background: #CEFCCC;
 }
 
-.active-label{
+.active-label, .role-label{
   font-size: 11px;
   line-height: 20px;
   font-weight: bold;
@@ -158,6 +161,13 @@ a img {
   background: #77ca5a;
 }
 
+.role-label.admin{
+  background: #2b76bc;
+}
+.role-label.teacher{
+  background: #c98020;
+}
+
 h1{
   margin-bottom: 20px;
 }
@@ -166,6 +176,9 @@ td.active{
   padding-left: 30px;
 }
 
+table.category{
+  width: 300px;
+}
 
 /* ----- FORM ERROR ----- */
 

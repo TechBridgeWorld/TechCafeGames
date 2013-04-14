@@ -1,6 +1,10 @@
 <div class="action-bar">
   <div class="left">
-    <h1>My Content Sets</h1>
+    <% if current_user.is_admin? %>
+      <h1>All Content Sets</h1>
+    <% else %>
+      <h1>My Content Sets</h1>
+    <% end %>
   </div>
   <div class="right">
    <%= link_to 'Add New Content Set', new_content_set_path, :class => 'btn btn-primary' %>
@@ -11,8 +15,11 @@
   <table class="table">
     <tr>
       <th></th>
-      <th>Name</th>
       <th>Active</th>
+      <th>Name</th>
+      <% if current_user.is_admin? %>
+        <th>Belongs To</th>
+      <% end %>
       <th>Questions</th>
       <th>Last Updated</th>
       <th></th>
@@ -22,18 +29,29 @@
   <% @content_sets.each do |content_set| %>
     <tr>
       <td><div class="number-id"><%= content_set.id %></div></td>
-      <td><%= link_to content_set.name, content_set %></td>
       <td>
         <% if content_set.active %>
-          <div class="active-label active">
-            ACTIVE
-          </div>
+          <a href="#" rel="tooltip" title="Active content sets will show in games">
+            <div class="active-label active">
+              ACTIVE
+            </div>
+          </a>
         <% else %>
-          <div class="active-label">
-            INACTIVE
-          </div>
+          <a href="#" rel="tooltip" title="Inactive content sets won't show in games">
+            <div class="active-label">
+              INACTIVE
+            </div>
+          </a>
         <% end %>
       </td>
+      <td><%= link_to content_set.name, content_set %></td>
+      <% if current_user.is_admin? %>
+        <td>
+          <% if content_set.user %>
+            <%= content_set.user.username %>
+          <% end %>
+        </td>
+      <% end %>
       <td><%= content_set.questions.count %></td>
       <td><%= content_set.updated_at.strftime("%Y-%m-%d %r") %></td>
       <td>

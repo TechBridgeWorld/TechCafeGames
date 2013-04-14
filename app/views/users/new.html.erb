@@ -1,5 +1,7 @@
-<% title "Sign up" %>
-
-<p>Already have an account? <%= link_to "Log in", login_path %>.</p>
+<% if current_user && current_user.is_admin? %>
+	<% title "Create New Account" %>
+<% else %>
+	<% title "Sign up" %>
+<% end %>
 
 <%= render 'form' %>

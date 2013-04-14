@@ -5,6 +5,7 @@
     <%= stylesheet_link_tag "bootstrap" %>
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "bootstrap" %>
     <%= javascript_include_tag "application" %>
     
     <%= csrf_meta_tag %>
@@ -21,11 +22,26 @@
           <li>
             <%= link_to "Content Sets", content_sets_path %>
           </li>
+          <% if current_user && current_user.is_admin? %>
+            <li>
+              <%= link_to "Question Categories", categories_path %>
+            </li>
+            <li>
+              <%= link_to "Accounts", users_path %>
+            </li>
+          <% end %>
         </ul>
         <ul class="nav pull-right">
             <% if current_user %>
               <li>
-                <a>User: <%= current_user.username %></a>
+                <%= link_to "User: " + current_user.username, edit_user_path(current_user) %>
+              </li>
+              <li>
+                <% if current_user.is_admin? %>
+                  <a>ADMIN ACCOUNT</a>
+                <% elsif current_user.is_teacher? %>
+                  <a>TEACHER ACCOUNT</a>
+                <% end %>
               </li>
               <li>
                 <%= link_to "Logout", logout_path %>

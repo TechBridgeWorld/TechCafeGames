@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   # before_filter :login_required, :except => [:new, :create]
   skip_before_filter :login_required, :only => [:new, :create] 
 
+  load_and_authorize_resource
+
 
   # GET /questions
   # GET /questions.json
@@ -30,8 +32,12 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      session[:user_id] = @user.id
-      redirect_to root_url, :notice => "Thank you for signing up! You are now logged in."
+      if (current_user && current_user.is_admin?)
+        redirect_to users_path, :notice => "New user created."
+      else
+        session[:user_id] = @user.id
+        redirect_to content_sets_path, :notice => "Thank you for signing up! You are now logged in."
+      end
     else
       render :action => 'new'
     end
