@@ -33,6 +33,8 @@
         <%= f.select(:role, User::ROLES) %>
       </div>
     </div>
+  <% elsif @users.count==0 %>
+    <%= f.hidden_field :role, :value => "admin" %>
   <% else %>
     <%= f.hidden_field :role, :value => "teacher" %>
   <% end %>
