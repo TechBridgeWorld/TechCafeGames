@@ -64,10 +64,14 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = current_user
+    @user = User.find_by_id(params[:id])
     @users = User.all
     if @user.update_attributes(params[:user])
-      redirect_to root_url, :notice => "Your profile has been updated."
+      if (current_user && current_user.is_admin?)
+        redirect_to users_path, :notice => "User updated."
+      else
+        redirect_to root_url, :notice => "Your profile has been updated."
+      end
     else
       render :action => 'edit'
     end

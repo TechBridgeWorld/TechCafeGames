@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_length_of :password, :minimum => 4, :allow_blank => true
 
+  # Scope
+  scope :all, order(:id)
+  scope :byid, order(:id)
+
   # Roles!!
 
   ROLES = [['Admin', :admin],['Teacher', :teacher]]

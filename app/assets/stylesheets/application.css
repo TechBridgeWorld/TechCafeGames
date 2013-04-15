@@ -78,7 +78,7 @@ a:hover{
 }
 
 .error_messages ul {
-  margin: 0;
+  margin-left: 40px;
 }
 
 
@@ -237,6 +237,9 @@ table.category{
 }
 .table td{
   vertical-align: middle !important;
+}
+.border-free-table td{
+  vertical-align: top !important;
 }
 
 /* ----- FORM ERROR ----- */
