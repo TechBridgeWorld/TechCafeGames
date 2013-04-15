@@ -56,7 +56,7 @@
       <th></th>
     </tr>
 
-  <% @user.content_sets.each do |content_set| %>
+  <% @user.content_sets.byid.each do |content_set| %>
     <tr>
       <td><div class="number-id"><%= content_set.id %></div></td>
       <td>

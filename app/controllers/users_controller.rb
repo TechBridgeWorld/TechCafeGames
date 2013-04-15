@@ -45,6 +45,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    @users = User.all
     if @user.save
       if (current_user && current_user.is_admin?)
         redirect_to users_path, :notice => "New user created."
@@ -58,11 +59,13 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = current_user
+    @user = User.find_by_id(params[:id])
+    @users = User.all
   end
 
   def update
     @user = current_user
+    @users = User.all
     if @user.update_attributes(params[:user])
       redirect_to root_url, :notice => "Your profile has been updated."
     else

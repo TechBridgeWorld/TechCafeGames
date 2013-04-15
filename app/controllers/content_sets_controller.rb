@@ -13,9 +13,9 @@ class ContentSetsController < ApplicationController
   def index
     
     if current_user && current_user.is_admin?
-      @content_sets = ContentSet.all
+      @content_sets = ContentSet.byid
     elsif current_user
-      @content_sets = current_user.content_sets.all
+      @content_sets = current_user.content_sets.byid
     end
     
     respond_to do |format|

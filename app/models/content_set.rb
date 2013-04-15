@@ -21,5 +21,6 @@ class ContentSet < ActiveRecord::Base
 
   # Scope
   scope :all, order(:id)
+  scope :byid, order(:id)
   scope :active, where(active: true)
 end

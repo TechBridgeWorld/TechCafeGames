@@ -29,7 +29,7 @@ a:hover{
 .container{
   background-color: #fff;
   border-radius: 10px;
-  margin-top: 40px;
+  margin-top: 70px;
   margin-bottom: 40px;
   padding: 20px 30px;
 }
@@ -131,6 +131,12 @@ a:hover{
 }
 
 
+.navbar-inner{
+  padding: 0 80px !important;
+}
+.navbar-inner .brand{
+  font-weight: 700;
+}
 
 
 
