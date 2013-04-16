@@ -1,6 +1,8 @@
 CATLib Documentation
+====================
 
-Installation: 
+Installation:
+------------- 
 Download CATlib.js, and put it under your-app/node_modules/CATlib
 
 Usage: 
