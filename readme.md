@@ -1,28 +1,26 @@
 CATLib
 ======
 
-###Installation:
+Installation:
+-------------
 
 Put CATLib.js under your-app/node_modules/CATlib
 
-###Usage: 
+Usage: 
+------
 
 	var catlib = require('./node_modules/CATlib/CATlib.');
 	
 	catlib.getTeacherList(function(data){
-	
-	//use data
-	
+		//use data
 	});
 	
 	catlib.getContentByTeacher('TeacherUsername', function(data){
-	
-	//use data
-	
+		//use data
 	});
 
 API: 
-====
+----
 
 ###getTeacherList(function):
 Returns a list of JSON objects containing all teachers in the database
