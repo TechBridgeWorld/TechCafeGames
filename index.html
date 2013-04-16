@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test 1, 2, 3</title>
+    </head>
+    <body>
+
+
+        <!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> -->
+        <script type="text/javascript" src="./jquery.min.js"></script>
+        <!-- // <script type="text/javascript" src="./cordova.js"></script> -->
+        <!-- // <script type="text/javascript" src="./cordova.android.js"></script> -->
+        <!-- <script src="phonegap.js"></script> -->
+        <script type="text/javascript">
+            var ajaxRequest = function(url, fnSuccess, fnError){
+                    $.ajax({
+                        url: url,
+                        data: 'GET',
+                        success: fnSuccess,
+                        error: fnError
+                    });
+                };
+
+            ajaxRequest('/test', function(data){console.log(data);}, function(err){});
+
+        </script>
+    </body>
+</html>
