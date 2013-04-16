@@ -1323,8 +1323,11 @@ function getContent(username) {
     
     // increase gas meter when answer correctly
     function meterUp(){
+        var progressIncrease=($('#progressBar').width()/numTotalQuestions)/10;
         var animateInt = window.setInterval(function(){barFrac+=2; updateBar();},feedbackDelay/30);
         window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay/3);
+        var animateProgress=window.setInterval(function(){$('#progressBar').css("width","+="+progressIncrease);},feedbackDelay/30);
+        window.setTimeout(function(){window.clearInterval(animateProgress);},feedbackDelay/3);
     }
     
     // check if answer is correct after answering
