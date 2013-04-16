@@ -1,8 +1,8 @@
-CATLib Documentation
-====================
+CATLib
+======
 
-Installation:
-------------- 
+###Installation:
+
 Download CATlib.js, and put it under your-app/node_modules/CATlib
 
 Usage: 
@@ -14,24 +14,24 @@ catlib.getContentByTeacher('TeacherUsername', function(data){
 	console.log(data);
 })
 
-API: 
+###API: 
 
-getTeacherList(function):
+*getTeacherList(function):*
 Returns a list of JSON objects containing all teachers in the database
 
-Data Format: 
+*Data Format:*
 [{username:Teacher1}, {username:Teacher2},...]
 
-getContentSetList(function) : 
+*getContentSetList(function):* 
 Returns JSON object containing all content sets in the database
 
-Data Format: 
+*Data Format:*
 {ContentSet1: Questions, ContentSet2: Questions, ...}
 
-getContentByTeacher(teacherID, function) : 
+*getContentByTeacher(teacherID, function) : *
 Returns JSON object containing all content sets for a given teacher ID
 
-Data Format: 
+*Data Format: *
 {
 username: 'username', 
 content_sets: 
