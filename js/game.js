@@ -456,6 +456,7 @@ function getContent(username) {
     ajaxPost({tid:username}, "/getContent", function(data){
             console.log(data);
             data=data.content_sets;
+            $("#choosePageTitle").removeClass("chooseTeacherTitle").addClass("chooseContentSetTitle");
             for(var i = 0; i < data.length; i++){
                 console.log("c: "+data[i].name);
                 $("#chooseLevelButtons").append('<div id="'+i+'" class="levelBtn"\><h2>'+data[i].name+'</h2></div>');

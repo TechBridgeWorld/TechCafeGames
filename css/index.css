@@ -706,28 +706,40 @@ table{
   z-index:10;
   position:absolute;
   left:10%;
-  height:70%;
+  top: 25%;
+  height:65%;
   width:80%;
+  overflow: scroll;
+  padding: 0;
 }
 
-#chooseLevelTitle{
+.chooseTeacherTitle{
   width: 100%;
   height: 18%;
   position: relative;
   top: 13%;
-  background: url('/img/race-assets/choose-level-title.png') top center no-repeat;
+  background: url('/img/race-assets/choose-teacher.png') top center no-repeat;
+  background-size: 80%;
+}
+.chooseContentSetTitle{
+  width: 100%;
+  height: 18%;
+  position: relative;
+  top: 13%;
+  background: url('/img/race-assets/choose-content-set.png') top center no-repeat;
   background-size: 80%;
 }
 
 .levelBtn{
-  width: 100%;
+  width: 90%;
   left: 10%;
-  height: 13%;
+  padding: 1% 5%;
   /*position:absolute;
   top:0px;*/
-  margin-top:13%;
-  margin-bottom: 8%;
-  background-color:yellow;
+  margin-bottom: 5%;
+  background: rgba(0,0,0,0.5);
+  border-radius:10px;
+  color: #fff;
 }
 
 .levelBtn2{
