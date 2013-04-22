@@ -792,11 +792,23 @@ table{
 #endGameBtn{
   background: url('/img/race-assets/endgame-button.png') top center no-repeat;
   background-size: 100%;
+  color:white;
+  size:30px;
   width: 30%;
   height: 10%;
   position: absolute;
   top: 80%;
   left: 35%;
+}
+
+#startOverBtn {
+  background-color: red;
+  background-size: 100%;
+  width: 56%;
+  height: 20%;
+  position: absolute;
+  top: 40%;
+  left: 22%;
 }
 
 #endGameBtn2{
@@ -817,7 +829,7 @@ table{
   width: 100%;
   background-color: rgba(0,0,0,0.7);
   top: 0;
-  z-index: 100;
+  z-index: 500;
 }
 
 /* -------- Instructions page -------- */

@@ -215,7 +215,7 @@ function execute(){
             questionSfx, boostSfx, crashSfx, countdownSfx, countdownTick, 
             countdownBeep, alertSfx];
     }
-    
+
     function setup(){    
         
         /* General variables */
@@ -464,6 +464,7 @@ function getContent(username) {
                     console.log("clicked");
                   questionData = data[(parseInt(this.id))].questions;
                   console.log(questionData);
+                  $(".levelBtn").remove();
                   startGame();
                 });
             }
@@ -482,6 +483,7 @@ function getContent(username) {
         $("#instructions").hide();
         $("#highscores").hide();
         $("#questionsCompleteScreen").hide();
+        $("#chooseLevelScreen").show();
 
         // play music
         if (/*soundOn*/ false){
@@ -864,44 +866,6 @@ function getContent(username) {
     }
 
     function bindButtons() {
-            // choosing level
-        $("#basicBeginnerBtn2").bind("click", function(){
-            level = 0;
-            setup();
-            removeEvents();
-            $("#questionsCompleteScreen").fadeOut(animationTime);
-        });
-        $("#basicBeginnerBtn2").live("touch", function(){
-            level = 0;
-            setup();
-            removeEvents();
-            $("#questionsCompleteScreen").fadeOut(animationTime);
-        });
-        $("#beginnerBtn2").bind("click", function(){
-            level = 1;
-            setup();
-            removeEvents();
-            $("#questionsCompleteScreen").fadeOut(animationTime);
-        });
-        $("#beginnerBtn2").live("touch", function(){
-            level = 1;
-            setup();
-            removeEvents();
-            $("#questionsCompleteScreen").fadeOut(animationTime);
-        });
-        $("#intermediateBtn2").bind("click", function(){
-            level = 2;
-            setup();
-            removeEvents();
-            $("#questionsCompleteScreen").fadeOut(animationTime);
-        });
-        $("#intermediateBtn2").live("touch", function(){
-            level = 2;
-            setup();
-            removeEvents();
-            $("#questionsCompleteScreen").fadeOut(animationTime);
-        });
-
         $("#endGameBtn2").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
@@ -912,18 +876,24 @@ function getContent(username) {
             removeEvents();
             endGame();
         });
+        $("#startOverBtn").bind("click", function(){
+            $("#questionsCompleteScreen").fadeOut(animationTime); 
+            removeEvents();
+            startScreen();
+        });
+        $("#startOverBtn").live("touch", function(){
+            $("#questionsCompleteScreen").fadeOut(animationTime); 
+            removeEvents();
+            startScreen();
+        });
 
     }
 
     function removeEvents(){
-        $("#basicBeginnerBtn2").off("click");
-        $("#basicBeginnerBtn2").off("touch");
-        $("#beginnerBtn2").off("click");
-        $("#beginnerBtn2").off("touch");
-        $("#intermediateBtn2").off("click");
-        $("#intermediateBtn2").off("touch");
         $("#endGameBtn2").off("click");
         $("#endGameBtn2").off("touch");
+        $("#startOverBtn").off("click");
+        $("#startOverBtn").off("touch");
     }
 
     // resume game after pause
@@ -1326,7 +1296,7 @@ function getContent(username) {
         var progressIncrease=($('#progressBar').width()/numTotalQuestions)/10;
         var animateInt = window.setInterval(function(){barFrac+=2; updateBar();},feedbackDelay/30);
         window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay/3);
-        var animateProgress=window.setInterval(function(){$('#progressBar').css("width","+="+progressIncrease);},feedbackDelay/30);
+        var animateProgress=window.setInterval(function(){$('#progressBarInner').css("width","+="+progressIncrease);},feedbackDelay/30);
         window.setTimeout(function(){window.clearInterval(animateProgress);},feedbackDelay/3);
     }
     
