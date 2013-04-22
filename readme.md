@@ -1,21 +1,21 @@
-CATLib
-======
+TechCafe Content API
+====================
 
 Installation:
 -------------
 
-Put CATLib.js under your-app/node_modules/CATlib
+Put the folder *Node_TechCafe* under *your-app/node_modules*
 
 Usage: 
 ------
 
-	var catlib = require('./node_modules/CATlib/CATlib.');
+	var techcafe = require('./node_modules/Node_TechCafe/node_techcafe');
 	
-	catlib.getTeacherList(function(data){
+	techcafe.getTeacherList(function(data){
 		//use data
 	});
 	
-	catlib.getContentByTeacher('TeacherUsername', function(data){
+	techcafe.getContentByTeacher('TeacherUsername', function(data){
 		//use data
 	});
 
