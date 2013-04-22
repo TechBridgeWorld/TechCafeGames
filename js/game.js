@@ -626,9 +626,11 @@ function getContent(username) {
         // go back home
         $("#homeBtn").bind("click", function(){
             goHome();
+            startScreen();
         });
         $("#homeBtn").live("touch", function(){
             goHome();
+            startScreen();
         });
 
         // bind action to race again button
@@ -869,12 +871,14 @@ function getContent(username) {
         $("#endGameBtn2").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
-            endGame();
+            goHome();
+            startScreen();
         });
         $("#endGameBtn2").live("touch", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
-            endGame();
+            goHome();
+            startScreen();
         });
         $("#startOverBtn").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
