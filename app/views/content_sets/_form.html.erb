@@ -19,11 +19,11 @@
             <%= f.label :name, "Content Set Name", :class=>'control-label' %>
             <%= f.text_field :name, :class=> 'input-xxlarge' %>
           </td>
-          <td class="active">
+          <td class="active"> <!--
             <a href="#" rel="tooltip" title="Only active content sets will show in games">
               <%= f.label :active %>
               <%= f.check_box :active %>
-            </a>
+            </a> -->
           </td>
           <% if current_user && current_user.is_admin? %>
             <td class="active">
