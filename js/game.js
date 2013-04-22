@@ -454,16 +454,16 @@ soundManager.setup({
 function getContent(username) {
     $(".levelBtn").remove();
     ajaxPost({tid:username}, "/getContent", function(data){
-            console.log(data);
+            // console.log(data);
             data=data.content_sets;
             $("#choosePageTitle").removeClass("chooseTeacherTitle").addClass("chooseContentSetTitle");
             for(var i = 0; i < data.length; i++){
-                console.log("c: "+data[i].name);
+                // console.log("c: "+data[i].name);
                 $("#chooseLevelButtons").append('<div id="'+i+'" class="levelBtn"\><h2>'+data[i].name+'</h2></div>');
                 $("#"+i).bind("click", function(){
-                    console.log("clicked");
+                    // console.log("clicked");
                   questionData = data[(parseInt(this.id))].questions;
-                  console.log(questionData);
+                  // console.log(questionData);
                   $(".levelBtn").remove();
                   startGame();
                 });
@@ -491,9 +491,9 @@ function getContent(username) {
         }
 
         ajaxRequest("/getTeachers", function(data){
-            console.log(data);
+            // console.log(data);
             for(var i = 0; i < data.length; i++){
-                console.log("t: "+data[i].username);
+                // console.log("t: "+data[i].username);
                 $("#chooseLevelButtons").append('<div id="'+data[i].username+'" class="levelBtn"><h2>'+data[i].username+'</h2></div>');
                 $("#"+data[i].username).bind("click", function(){
                     getContent(this.id);
@@ -503,7 +503,7 @@ function getContent(username) {
         function(err){});
 
         for(var i = 0; i < teachers.length; i++) {
-            console.log("t: "+teachers[i]);
+            // console.log("t: "+teachers[i]);
             $("#chooseLevelScreen").append('<div id="'+teachers[i]+'" class="levelBtn"><h2>+'+teachers[i]+'+</h2></div>');
 
         }
@@ -1004,7 +1004,7 @@ function getContent(username) {
         for (var i=0; i<gameData.questionData.length; i++){
             stringifiedQuestionData = stringifiedQuestionData + JSON.stringify(gameData.questionData[i]) + ";";
         }
-        console.log(stringifiedQuestionData);
+        // console.log(stringifiedQuestionData);
 
         ajaxPost(
         {
