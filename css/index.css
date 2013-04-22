@@ -658,6 +658,16 @@ table{
   background-size: 100%;
 }
 
+#startOverBtn{
+  width: 32%;
+  height: 23%;
+  position: absolute;
+  top: 40%;
+  left: 34%;
+  background: url('/img/race-assets/end-againbtn.png') no-repeat;
+  background-size: 100%;
+}
+
 #againBtn:hover, #againBtn:active{
   background: url('/img/race-assets/end-againbtn-a.png') no-repeat;
   background-size: 100%;
@@ -801,15 +811,7 @@ table{
   left: 35%;
 }
 
-#startOverBtn {
-  background-color: red;
-  background-size: 100%;
-  width: 56%;
-  height: 20%;
-  position: absolute;
-  top: 40%;
-  left: 22%;
-}
+
 
 #endGameBtn2{
   background: url('/img/race-assets/endgame-button.png') top center no-repeat;
