@@ -5,7 +5,7 @@ var xml2js = require('xml2js');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var catlib = require("./node_modules/CATlib/CATlib");
+var teacherportal = require("./node_modules/node_techcafe/node_techcafe");
 var mongoUri = process.env.MONGOLAB_URI || 
   'mongodb://localhost:27017'; 
 var port = process.env.PORT || 8080;
@@ -282,13 +282,13 @@ app.get("/register", function(req,res){
 });
 
 app.get("/getTeachers", function(req, res) {
-	catlib.getTeacherList(function(data){
+	teacherportal.getTeacherList(function(data){
 		res.send(data);
 	});	
 });
 
 app.post("/getContent", function(req, res) {
-	catlib.getContentByTeacher(req.body.tid, function(data){
+	teacherportal.getContentByTeacher(req.body.tid, function(data){
 		res.send(data);
 	});	
 });

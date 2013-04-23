@@ -144,6 +144,8 @@ function execute(){
     var loopSound;
     var bgMusicPosition = 0;
 
+    var init=false;
+
 
     var maxNameLength = 25;     // max # of chars to display in high score name
 
@@ -459,7 +461,7 @@ function getContent(username) {
             $("#choosePageTitle").removeClass("chooseTeacherTitle").addClass("chooseContentSetTitle");
             for(var i = 0; i < data.length; i++){
                 // console.log("c: "+data[i].name);
-                $("#chooseLevelButtons").append('<div id="'+i+'" class="levelBtn"\><h2>'+data[i].name+'</h2></div>');
+                $("#chooseLevelButtons").append('<div id="'+i+'" class="levelBtn"><h2>'+data[i].name+'</h2></div>');
                 $("#"+i).bind("click", function(){
                     // console.log("clicked");
                   questionData = data[(parseInt(this.id))].questions;
@@ -508,6 +510,8 @@ function getContent(username) {
 
         }
 
+        if(init==false) {
+            init=true;
         if(fileFlag) {
             // pressing start button
             $("#startBtn").bind("click", function(){
@@ -517,32 +521,6 @@ function getContent(username) {
                 showLevels();
             });
         }
-
-        // choosing level
-        $("#basicBeginnerBtn").bind("click", function(){
-			level = 0;
-            startGame();
-        });
-        $("#basicBeginnerBtn").live("touch", function(){
-			level = 0;
-            startGame();
-        });
-        $("#beginnerBtn").bind("click", function(){
-            level = 1;
-            startGame();
-        });
-        $("#beginnerBtn").live("touch", function(){
-            level = 1;
-            startGame();
-        });
-        $("#intermediateBtn").bind("click", function(){
-            level = 2;
-            startGame();
-        });
-        $("#intermediateBtn").live("touch", function(){
-            level = 2;
-            startGame();
-        });
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
             showInstructions();
@@ -635,7 +613,8 @@ function getContent(username) {
 
         // bind action to race again button
         $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
-        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});    
+        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});  
+        }  
 
     }
 
@@ -860,7 +839,7 @@ function getContent(username) {
 		}
 		else if (type === "questions completed") {
             $("#completedTitle").html("Score: "+score);
-            $("#questionNumberTitle").html("You've completed all "+numQuestions+" questions in this level! </br> Choose a new level to continue playing");
+            $("#questionNumberTitle").html("You've completed all "+numTotalQuestions+" questions in this level! </br> Choose a new level to continue playing");
 			$("#questionsCompleteScreen").fadeIn(3*animationTime);
             window.clearInterval(interval);
             window.setTimeout(bindButtons, animationTime);
