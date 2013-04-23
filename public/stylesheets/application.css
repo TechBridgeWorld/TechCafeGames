@@ -1,3 +1,5 @@
+/* CSS */
+
 body {
   background-color: #eee;
   font-family: Helvetica, Arial, Verdana;
@@ -94,11 +96,6 @@ a:hover{
 
 
 
-
-h1.index{
-  text-align: center;
-}
-
 .home-left{
   float: left;
   width: 50%;
@@ -109,23 +106,18 @@ h1.index{
 }
 .home-left img, .home-right img{
   width: 50%;
-  margin-left: 25%;
-  margin-bottom: 10px;
+  margin-left: 20%;
+  margin-bottom: 30px;
   margin-top: 20px;
 }
 .home-left p, .home-right p{
   color: #666;
   margin: 0 50px;
-  position: relative;
-  left: 10px;
   padding: 15px;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 120%;
   font-weight: 100;
-}
-.home-left p{
-  left: 30px;
 }
 .home.actions{
   display: inline-block;
@@ -134,7 +126,7 @@ h1.index{
   left: 50%;
   margin-left: -120px;
   margin-top: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 .home.actions .login{
   margin-right: 10px;
@@ -241,9 +233,6 @@ h1{
 td.active{
   padding-left: 30px;
 }
-/*td.action{
-  padding: 0;
-}*/
 
 table.category{
   width: 300px;

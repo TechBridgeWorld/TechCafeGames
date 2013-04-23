@@ -36,6 +36,11 @@ module TeacherPortal
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
+    config.assets.initialize_on_precompile = false
+    config.assets.manifest = Rails.root.join("public/assets")
+    config.assets.compile = true
+    config.assets.precompile += %w[bootstrap-alerts.js bootstrap.css jquery.js bootstrap.js]
+
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
