@@ -23,18 +23,18 @@ class User < ActiveRecord::Base
 
   ROLES = [['Admin', :admin],['Teacher', :teacher]]
   
-   def role?(authorized_role)
-     return false if role.nil?
-     role.downcase.to_sym == authorized_role
-   end
+  def role?(authorized_role)
+    return false if role.nil?
+    role.downcase.to_sym == authorized_role
+  end
 
-   def is_admin?
-     role == "admin"
-   end
+  def is_admin?
+    role == "admin"
+  end
 
-   def is_teacher?
-     role == "teacher"
-   end
+  def is_teacher?
+    role == "teacher"
+  end
 
 
 
@@ -42,10 +42,14 @@ class User < ActiveRecord::Base
   def as_json(options)
     results = {:username => username}
     if (options[:include_content_sets] == "true")
-      results.merge!({:content_sets => content_sets})
+      results.merge!({:content_sets => content_sets.active})
     end
     super(options).merge(results)
   end
+
+  # def active_content_sets
+  #   return user.content_sets.active
+  # end
 
   # login can be either username or email address
   def self.authenticate(login, pass)

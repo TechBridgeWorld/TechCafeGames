@@ -12,6 +12,7 @@ class ContentSet < ActiveRecord::Base
     result = {}
     active.each do |content_set|
       result[content_set.name] = content_set.questions
+      puts "-----------" + content_set.active
     end
     result
   end
