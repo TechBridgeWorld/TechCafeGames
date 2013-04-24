@@ -625,8 +625,14 @@ function getContent(username) {
         });
 
         // bind action to race again button
-        $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
-        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});  
+        $("#againBtn").bind("click", function(){
+            startScreen(); 
+            $("#end").slideUp();
+        });
+        $("#againBtn").live("touch", function(){
+            startScreen(); 
+            $("#end").slideUp();
+        });  
         }  
 
     }
@@ -863,14 +869,16 @@ function getContent(username) {
         $("#endGameBtn2").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
-            goHome();
-            startScreen();
+            endGame();
+            //goHome();
+            //startScreen();
         });
         $("#endGameBtn2").live("touch", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
-            goHome();
-            startScreen();
+            endGame();
+            //goHome();
+            //startScreen();
         });
         $("#startOverBtn").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
