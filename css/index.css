@@ -1059,7 +1059,7 @@ h1 {
 #completedTitle{
   position:absolute;
   bottom:20%;
-  left:28%;
+  left:29%;
   font-size:200%;
   color:white;
   font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
@@ -1068,7 +1068,7 @@ h1 {
 #questionNumberTitle{
   position:absolute;
   top:22%;
-  left:16%;
+  left:24%;
   font-size:100%;
   color:white;
   font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;

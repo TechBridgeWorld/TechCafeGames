@@ -858,7 +858,7 @@ function getContent(username) {
 		}
 		else if (type === "questions completed") {
             $("#completedTitle").html("Score: "+score);
-            $("#questionNumberTitle").html("You've completed all "+numTotalQuestions+" questions in this level! </br> Choose a new level to continue playing");
+            $("#questionNumberTitle").html("You've completed all "+numTotalQuestions+" </br> questions in this level! </br> Choose a new level to continue playing");
 			$("#questionsCompleteScreen").fadeIn(3*animationTime);
             window.clearInterval(interval);
             window.setTimeout(bindButtons, animationTime);
