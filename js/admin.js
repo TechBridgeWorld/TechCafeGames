@@ -54,7 +54,7 @@ function execute() {
                         $("#adminLoginForm").slideUp();
                         $("#trackingData").slideDown();
 
-                        var trackingData = data[3];
+                        var trackingData = data[1];
                         var dataLength = trackingData.length;
                         console.log(trackingData);
 
