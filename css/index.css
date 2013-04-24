@@ -727,11 +727,11 @@ table{
   position:absolute;
   bottom:10%;
   height:9%;
-  width:17%;
+  width:19%;
   left:10%;
   z-index:10;
   background:url("../img/race-assets/nav-back.png") top center no-repeat;
-  background-size: 100% 100%;
+  background-size: 100%;
   display:none;
 }
 
