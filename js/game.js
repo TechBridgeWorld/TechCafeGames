@@ -467,10 +467,11 @@ function getContent(username) {
                   questionData = data[(parseInt(this.id))].questions;
                   // console.log(questionData);
                   $(".levelBtn").remove();
+                  $("#backToTeachers").css("display","none");
                   startGame();
                 });
             }
-            $("backToTeacher").show();
+            $("#backToTeachers").css("display","inline");
         }, 
         function(err){});
 }
@@ -493,6 +494,7 @@ function getContent(username) {
             bgm.play();
         }
 
+        $(".levelBtn").remove();
         ajaxRequest("/getTeachers", function(data){
             // console.log(data);
             for(var i = 0; i < data.length; i++){
@@ -585,6 +587,16 @@ function getContent(username) {
         });
         $("#highscores .back").live("touch", function(){
             hideHighscores();
+        });
+
+        $("#backToTeachers").bind("click", function(){
+            $("#backToTeachers").css("display","none");
+            startScreen();
+        });
+
+        $("#backToTeachers").live("touch", function(){
+            $("#backToTeachers").css("display","none");
+            startScreen();
         });
 
 

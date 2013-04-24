@@ -731,6 +731,7 @@ table{
   left:10%;
   z-index:10;
   background:url("../img/race-assets/nav-back.png") top center no-repeat;
+  background-size: 100% 100%;
   display:none;
 }
 
@@ -843,6 +844,7 @@ table{
   background-color: rgba(0,0,0,0.7);
   top: 0;
   z-index: 500;
+  display:none;
 }
 
 /* -------- Instructions page -------- */
