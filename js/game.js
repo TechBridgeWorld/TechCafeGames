@@ -467,10 +467,11 @@ function getContent(username) {
                   questionData = data[(parseInt(this.id))].questions;
                   // console.log(questionData);
                   $(".levelBtn").remove();
+                  $("#backToTeachers").css("display","none");
                   startGame();
                 });
             }
-            $("backToTeacher").show();
+            $("#backToTeachers").css("display","inline");
         }, 
         function(err){});
 }
@@ -493,6 +494,7 @@ function getContent(username) {
             bgm.play();
         }
 
+        $(".levelBtn").remove();
         ajaxRequest("/getTeachers", function(data){
             // console.log(data);
             for(var i = 0; i < data.length; i++){
@@ -587,6 +589,16 @@ function getContent(username) {
             hideHighscores();
         });
 
+        $("#backToTeachers").bind("click", function(){
+            $("#backToTeachers").css("display","none");
+            startScreen();
+        });
+
+        $("#backToTeachers").live("touch", function(){
+            $("#backToTeachers").css("display","none");
+            startScreen();
+        });
+
 
         // END SCREEN EVENT LISTENERS: 
 
@@ -613,8 +625,14 @@ function getContent(username) {
         });
 
         // bind action to race again button
-        $("#againBtn").bind("click", function(){setup(); $("#end").slideUp();});
-        $("#againBtn").live("touch", function(){setup(); $("#end").slideUp();});  
+        $("#againBtn").bind("click", function(){
+            startScreen(); 
+            $("#end").slideUp();
+        });
+        $("#againBtn").live("touch", function(){
+            startScreen(); 
+            $("#end").slideUp();
+        });  
         }  
 
     }
@@ -840,7 +858,7 @@ function getContent(username) {
 		}
 		else if (type === "questions completed") {
             $("#completedTitle").html("Score: "+score);
-            $("#questionNumberTitle").html("You've completed all "+numTotalQuestions+" questions in this level! </br> Choose a new level to continue playing");
+            $("#questionNumberTitle").html("You've completed all "+numTotalQuestions+" </br> questions in this level! </br> Choose a new level to continue playing");
 			$("#questionsCompleteScreen").fadeIn(3*animationTime);
             window.clearInterval(interval);
             window.setTimeout(bindButtons, animationTime);
@@ -851,14 +869,16 @@ function getContent(username) {
         $("#endGameBtn2").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
-            goHome();
-            startScreen();
+            endGame();
+            //goHome();
+            //startScreen();
         });
         $("#endGameBtn2").live("touch", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
             removeEvents();
-            goHome();
-            startScreen();
+            endGame();
+            //goHome();
+            //startScreen();
         });
         $("#startOverBtn").bind("click", function(){
             $("#questionsCompleteScreen").fadeOut(animationTime); 
