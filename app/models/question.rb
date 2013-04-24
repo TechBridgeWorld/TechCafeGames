@@ -21,12 +21,11 @@ class Question < ActiveRecord::Base
       if answer.correct == true
         @numCorrect+=1
       end
-      logger.debug @numCorrect
     end
 
     # logger.info("=============" + @numCorrect)
 
-    logger.debug @numCorrect
+    # logger.debug @numCorrect
     if @numCorrect > 1
       errors.add("You can only have 1 correct answer", "")
     elsif @numCorrect < 1

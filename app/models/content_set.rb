@@ -12,13 +12,21 @@ class ContentSet < ActiveRecord::Base
     result = {}
     active.each do |content_set|
       result[content_set.name] = content_set.questions
-      puts "-----------" + content_set.active
     end
     result
   end
 
   # Validations
   validates_presence_of :name
+
+  validate :has_questions?
+  def has_questions?
+    logger.debug "========= checking has questions ========="
+    logger.debug self.questions.length
+    if self.questions.length<1
+      errors.add("A content set must have at least 1 question.", "")
+    end
+  end
 
   # Scope
   scope :all, order(:id)
