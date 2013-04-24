@@ -470,6 +470,7 @@ function getContent(username) {
                   startGame();
                 });
             }
+            $("backToTeacher").show();
         }, 
         function(err){});
 }
@@ -1046,8 +1047,8 @@ function getContent(username) {
         var c = Math.round((questionData.length-1)*Math.random());
         var question = questionData[c];
         var choiceArr =[];
-        var answerID;
-        var ansIndex;
+        var answerID = [];
+        var ansIndex = [];
         
         if (randomChoiceFlag) {
         //scramble the answers
@@ -1062,21 +1063,23 @@ function getContent(username) {
 		
         for(var i = 0; i < question.answers.length; i++) {
 			if(question.answers[i].correct){
-				ansIndex = i;
+				ansIndex.push(i);
                 var idNum = i+1;
-                answerID = "#choice"+idNum;
+                answerID.push("#choice"+idNum);
             }
 		}
 		
 		//make sure answer is one of the first four answers
-        if (ansIndex > 3) {
+        for(var i = 0; i < ansIndex.length; i++) {
+        if (ansIndex[i] > 3) {
 			var prevAnsIndex = ansIndex;
-			ansIndex = Math.floor(Math.random() * 4);
+			ansIndex[i] = Math.floor(Math.random() * 4);
 			var idNum = ansIndex+1;
-            answerID = "#choice"+idNum;
-			question.answers[prevAnsIndex] = question.answers[ansIndex];
-			question.answers[ansIndex] = question.a;
+            answerID[i] = "#choice"+idNum;
+			question.answers[prevAnsIndex] = question.answers[ansIndex[i]];
+			question.answers[ansIndex[i]] = question.a;
 		}
+    }
 		
         // get answers for question
         for(var i = 0; i < 4; i++) {
@@ -1128,28 +1131,36 @@ function getContent(username) {
 
         // bind actions when choosing answer
         $("#choice1").on("click", function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[0],"#choice1",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+               checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
         });
         $("#choice1").on('touchstart', function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[0],"#choice1",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
         });
         $("#choice2").on("click", function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[1],"#choice2",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
         });
         $("#choice2").on('touchstart', function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[1],"#choice2",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
         });
         $("#choice3").on("click", function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[2],"#choice3",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
         });
         $("#choice3").on('touchstart', function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[2],"#choice3",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
         });
         $("#choice4").on("click", function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[3],"#choice4",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
         });
         $("#choice4").on('touchstart', function(){
-            checkAns(question.answers[ansIndex].answer,choiceArr[3],"#choice4",answerID,c);
+            for(var i = 0; i < ansIndex.length; i ++)
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
         });
         
         // disable clicks for empty answer

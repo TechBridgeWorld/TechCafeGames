@@ -717,10 +717,21 @@ table{
   position:absolute;
   left:10%;
   top: 25%;
-  height:65%;
+  height:55%;
   width:80%;
   overflow: scroll;
   padding: 0;
+}
+
+#backToTeachers {
+  position:absolute;
+  bottom:10%;
+  height:9%;
+  width:17%;
+  left:10%;
+  z-index:10;
+  background:url("../img/race-assets/nav-back.png") top center no-repeat;
+  display:none;
 }
 
 .chooseTeacherTitle{
