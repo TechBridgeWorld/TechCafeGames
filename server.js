@@ -1,6 +1,5 @@
 var express = require("express");
 var wwwDir = "/";
-var http = require('http');
 var mongoose = require('mongoose');
 var teacherportal = require("./node_modules/node_techcafe/node_techcafe");
 var mongoUri = process.env.MONGOLAB_URI || 
