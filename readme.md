@@ -13,7 +13,7 @@ Node-TechCafe is a Node.js API Implementation for TechCafe's Teacher Portal.
 
 Created for TechBridgeWorld/TechCafe at Carnegie Mellon University. 
 
-For more information, visit:
+Useful links:
 
 *Teacher Portal (Content Creation Platform):*
 http://techcafe-teacher.herokuapp.com
