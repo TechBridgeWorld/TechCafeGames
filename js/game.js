@@ -18,7 +18,6 @@ function execute(){
     var updateCounter;      // counts how many times update function is called
     var ctx;
     var canvas;
-    var buffer;
     var fileFlag = true;
 
     var carX; 
@@ -52,12 +51,6 @@ function execute(){
     var feedbackDelay = 2000;   //time to delay animation when showing question feedback
     var countdownInt;           // countdown interval
     var qTimeout;               // timeout for question
-
-    var barStart;
-    var barWidth;
-    var barHeight;
-    var barTop;
-    var barFrac=100;
     
     var allPoints=[-10, 20];
     var questionPoint = 200;
@@ -65,28 +58,10 @@ function execute(){
     var lane1X; 
     var lane2X; 
     var lane3X;
-    var difficulty="easy";
 
     var numRightQuestion;
     var numQuestions;
     var totalNumQuestions;
-
-    var bgMusic;
-    var carSfx;
-    var coinSfx;
-    var correctSfx;
-    var errorSfx;
-    var powerupSfx;
-    var questionSfx;
-    var boostSfx;
-    var crashSfx;
-    var countdownSfx;
-    var countdownTick;
-    var countdownBeep;
-    var alertSfx;
-    var gameoverSfx;
-    var loopSound;
-    var bgMusicPosition = 0;
 
     var init=false;
 
@@ -96,39 +71,6 @@ function execute(){
 
     var maxNameLength = 25;     // max # of chars to display in high score name
 
-    // images
-
-    var carImage = new Image(); 
-    carImage.src = "img/race-assets/car.png";
-
-    var questionBoxImage = new Image();
-    questionBoxImage.src = "img/race-assets/question-bg.png";
-
-    var obsImage = new Image(); 
-    obsImage.src = "img/race-assets/obstacle-car.png";
-    
-    var coinImage = new Image(); 
-    coinImage.src = "img/race-assets/coin.png";
-    
-    var gasimg = new Image(); 
-    gasimg.src = "img/race-assets/powerup-gas.png";
-    
-    var crossout = new Image(); 
-    crossout.src = "img/race-assets/powerup-eliminate.png";
-    
-    var timeplus = new Image(); 
-    timeplus.src = "img/race-assets/powerup-time.png";
-    
-    var invincible = new Image(); 
-    invincible.src = "img/race-assets/powerup-boost.png";
-
-    var fire = new Image(); 
-    fire.src = 'img/race-assets/fire-sprite2.png';
-
-    // sounds
-
-    var soundOn=true; 
-    
     // start screen actions
     // ALL ONE TIME EVENT LISTENERS GO HERE
     function startScreen(){
@@ -141,13 +83,8 @@ function execute(){
         $("#highscores").hide();
         $("#questionsCompleteScreen").hide();
         $("#chooseLevelScreen").show();
-
-        // play music
-        if (/*soundOn*/ false){
-            bgm.play();
-        }
-
         $(".levelBtn").remove();
+
         ajaxRequest("/getTeachers", function(data){
             // console.log(data);
             for(var i = 0; i < data.length; i++){
@@ -168,15 +105,15 @@ function execute(){
 
         if(init==false) {
             init=true;
-        if(fileFlag) {
-            // pressing start button
-            $("#startBtn").bind("click", function(){
-                showLevels();
-            });
-            $(".startBtn").live("touch", function(){
-                showLevels();
-            });
-        }
+
+        // pressing start button
+        $("#startBtn").bind("click", function(){
+            showLevels();
+        });
+        $(".startBtn").live("touch", function(){
+            showLevels();
+        });
+
         // pressing instructions button
         $("#instructionBtn").bind("click", function(){
             instructions.show();
@@ -252,7 +189,6 @@ function execute(){
             startScreen();
         });
 
-
         // END SCREEN EVENT LISTENERS: 
 
         // send name button
@@ -325,107 +261,23 @@ function execute(){
         updateCounter = 0; 
         score = 0;
         
-        barFrac=100;
         numRightQuestion=0;
         numQuestions=0;
 
         pauseFlag=false;
-        
-		//***********
-		soundManager.setup({
-		  // where to find flash audio SWFs, as needed
-		  url: './swf',
-		  // optional: prefer HTML5 over Flash for MP3/MP4
-		  // preferFlash: false,
-		  onready: function() {
-		  bgMusic = soundManager.createSound({
-		  id: 'bgMusic',
-		  url: './sounds/racing-bgm.mp3'
-		  });
-		  carSfx = soundManager.createSound({
-		  id: 'carSfx',
-		  url: './sounds/car-sfx.mp3'
-		  });
-		  coinSfx = soundManager.createSound({
-		  id: 'coinSfx',
-		  url: './sounds/coin.mp3'
-		  });
-		  correctSfx = soundManager.createSound({
-		  id: 'correctSfx',
-		  url: 'sounds/correct.mp3'
-		  });
-		  errorSfx = soundManager.createSound({
-		  id: 'errorSfx',
-		  url: 'sounds/error.mp3'
-		  });
-		  powerupSfx = soundManager.createSound({
-		  id: 'powerupSfx',
-		  url: 'sounds/powerup.mp3'
-		  });
-		  questionSfx = soundManager.createSound({
-		  id: 'questionSfx',
-		  url: 'sounds/question.mp3'
-		  });
-		  boostSfx = soundManager.createSound({
-		  id: 'boostSfx',
-		  url: 'sounds/blast.mp3'
-		  });
-		  crashSfx = soundManager.createSound({
-		  id: 'crashSfx',
-		  url: 'sounds/crash.mp3'
-		  });
-		  countdownSfx = soundManager.createSound({
-		  id: 'countdownSfx',
-		  url: 'sounds/countdown.mp3'
-		  });
-		  countdownTick = soundManager.createSound({
-		  id: 'countdownTick',
-		  url: 'sounds/countdown-tick.mp3'
-		  });
-		  countdownBeep = soundManager.createSound({
-		  id: 'countdownBeep',
-		  url: 'sounds/countdown-beep.mp3'
-		  });
-		  alertSfx = soundManager.createSound({
-		  id: 'alertSfx',
-		  url: 'sounds/alert.mp3'
-		  });
-		  gameoverSfx = soundManager.createSound({
-		  id: 'gameoverSfx',
-		  url: 'sounds/gameover.mp3'
-		  });
-		    loopSound=function(sound) {
-		        coinSfx.load();
-		  sound.play({
-		    position: bgMusicPosition,
-		    onfinish: function() {
-		      loopSound(sound);
-		    }
-		  },
-		  {volume:30});
-		}
-		  }
-		});
-		
-		console.log(soundManager.getSoundById('alertSfx'));
-		console.log(alertSfx);
-		
-		//***********
 
-        numTotalQuestions = questionData.length;
+		numTotalQuestions = questionData.length;
+
+        /* Gas Meter */  
+        gasMeter = new GasMeter(feedbackDelay, numTotalQuestions);
 
         /* Canvas+DOM variables */
-        buffer = document.createElement('canvas');
         
         canvas = document.getElementById('gameCanvas');
-        ctx_visible = canvas.getContext('2d');
-        ctx_visible.canvas.width = width; 
-        ctx_visible.canvas.height = height;
-        ctx_visible.clearRect(0,0,width,height);
-        buffer.width = canvas.width;
-        buffer.height = canvas.height;
-        
-        ctx = buffer.getContext('2d');
+        ctx = canvas.getContext('2d');
+        ctx.canvas.width = width; 
+        ctx.canvas.height = height;
+        ctx.clearRect(0,0,width,height);
         
         /* Car variables */
         carWidth = 0.1*width; 
@@ -444,9 +296,6 @@ function execute(){
         objectSpeed = 15;
         obsArr = []; 
         
-        /* Gas Meter */
-        gasMeter = new GasMeter(feedbackDelay, alertSfx, soundOn);
-
         /* powerup variables */
         powerUpWidth = 1.5*carWidth;
         powerUpSpawnTime = 50;
@@ -527,6 +376,7 @@ function execute(){
     /**********************
      * Gameplay functions *
 	 *********************/
+
 	// power ups
     function Power(name) {
         this.name = name;
@@ -578,16 +428,14 @@ function execute(){
         else if (pauseFlag) {}
         else {
             if (!invincibleFlag) {
-				//var gameOver = gasMeter.updateBar(invincibleFlag);
-				//if (gameOver) endGame();
-				updateBar();
+				var gameOver = gasMeter.updateBar(invincibleFlag);
+				if (gameOver) endGame();
 			}
             updateObstacles();
             updatePowerUps();
             updateScore(); 
         }
-        ctx_visible.clearRect(0, 0, width, height);
-        ctx_visible.drawImage(buffer,0,0);
+        ctx.drawImage(canvas,0,0);
     }
     
     // Update Score
@@ -596,53 +444,6 @@ function execute(){
         if (invincibleFlag){
             score+=boostPointIncrease;
         }
-    }
-    
-    // update gas meter
-    function updateBar(){
-        barStart = $("#gasIcon").width()/2-5;
-        if(barFrac>0 && !invincibleFlag) barFrac-=.1;
-        if(barFrac <= 0) endGame();
-        if(barFrac > 100) barFrac=100;
-        barWidth = (barFrac/100)*(.93*($("#gasBar").width()-barStart+12));
-
-        // change color when gas is low, add warning sound when super low
-        if (barFrac<50){
-            $("#innerMeter").removeClass("normal");
-            $("#innerMeter").addClass("warning");
-        }
-        else{
-            $("#innerMeter").removeClass("warning");
-            $("#innerMeter").addClass("normal");
-        }
-        if (barFrac > 0 && barFrac<25){
-            $("#innerMeter").removeClass("normal");
-            $("#innerMeter").removeClass("warning");
-            $("#innerMeter").addClass("danger");
-            if (soundOn){
-                if(alertSfx != undefined && alertSfx.playState == 0)
-                  loopSound(alertSfx);
-            }
-        }
-        else if(barFrac <= 0){
-             alertSfx.stop();
-        }
-        else{
-            $("#innerMeter").removeClass("danger");
-            if (soundOn){
-                if(alertSfx != undefined && alertSfx.playState == 1)
-                   alertSfx.stop();
-            }
-        }
-
-        // keep gas meter inside of bar image
-        barHeight = $("#gasBar").height()*(3/5);
-        barTop = $("#gasBar").height()*(1/5)+15;
-        
-        $("#innerMeter").css("left", 22+barStart + "px");
-        $("#innerMeter").css("width", barWidth);
-        $("#innerMeter").css("height", barHeight);
-        $("#innerMeter").css("top", barTop);
     }
     
     // update display of current active power-ups
@@ -788,7 +589,7 @@ function execute(){
                     if (trackDataFlag){
                         gameData.numObstaclesEaten++;
                     }
-                    barFrac+=obsArr[i].points;  // decrease gas
+                    gasMeter.gasLevel+=obsArr[i].points;  // decrease gas
 
                     // show crash effect
                     var $crashFx = $("<div id='explode'></div>");
@@ -959,8 +760,7 @@ function execute(){
                 correctSfx.play();
             }
             numRightQuestion++;         // keep track of right questions
-            //gasMeter.meterUp();                  // increase gas
-			meterUp();
+            gasMeter.meterUp();                  // increase gas
 			
             // show correct feedback
             var $feedback = $("<div class='qFeedback correct' style='display:none'></div>");
@@ -1244,15 +1044,6 @@ function execute(){
         }
     }
 
-    // increase gas meter when answer correctly
-    function meterUp(){
-        var progressIncrease=($('#progressBar').width()/numTotalQuestions)/10;
-        var animateInt = window.setInterval(function(){barFrac+=2; updateBar();},feedbackDelay/30);
-        window.setTimeout(function(){window.clearInterval(animateInt)},feedbackDelay/3);
-        var animateProgress=window.setInterval(function(){$('#progressBarInner').css("width","+="+progressIncrease);},feedbackDelay/30);
-        window.setTimeout(function(){window.clearInterval(animateProgress);},feedbackDelay/3);
-    }
-    
     //draw obstacles and power ups
     function drawObjects(obsCarTransparency) {
 		for (var i = 0; i < powerUps.length; i++) {
@@ -1492,7 +1283,6 @@ function execute(){
           },
           error: function showError (err) {
               alert("There was an error retreiving high scores");
-              //console.log(err);
           }
         });
     }
@@ -1592,5 +1382,4 @@ function execute(){
                 x = lane3X;
          return x;
     }
-
 }
