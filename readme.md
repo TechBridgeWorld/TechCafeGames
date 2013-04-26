@@ -4,16 +4,21 @@ TechCafe Content API
 About:
 ------
 
-Node.js API Implementation for TechCafe's Teacher Portal. 
+The TechCafe games platform allows game developers to create educational
+games that use externally created content. This allows for developers to
+focus on the core gaming experience, and for teachers to tailor content to 
+their students' needs. 
 
-Use externally created educational content for games built with Node.js. 
+Node-TechCafe is a Node.js API Implementation for TechCafe's Teacher Portal. 
 
 Created for TechBridgeWorld/TechCafe at Carnegie Mellon University. 
 
 For more information, visit:
 
-http://www.techbridgeworld.org/techcafe/tools.html
+*Teacher Portal (Content Creation Platform):*
+http://techcafe-teacher.herokuapp.com
 
+*Project page:* 
 http://www.cs.cmu.edu/~239/projects/techcafe-games
 
 Installation:
