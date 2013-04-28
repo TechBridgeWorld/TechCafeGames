@@ -1,7 +1,7 @@
 var express = require("express");
 var wwwDir = "/";
 var mongoose = require('mongoose');
-var teacherportal = require("./node_modules/node_techcafe/node_techcafe");
+var teacherportal = require("./modules/node_techcafe");
 var mongoUri = process.env.MONGOLAB_URI || 
   'mongodb://localhost:27017'; 
 var port = process.env.PORT || 8080;
@@ -44,9 +44,12 @@ function configureExpress(app){
 app.post('/loginAdmin', function(req,res){
 	var username = req.body.username;
 	var password = req.body.password;
-	if (!(username == 'admin' && password == 'tbwadmin')) {
+
+	//
+	if (!(username == 'admin' && password == 'admin')) {
 		res.send('Invalid credentials');
 	} 
+
 	else{
 		var data = ["Student Accounts:"];
 			Student.find(function(err,responseText){
@@ -70,31 +73,7 @@ app.post("/getContent", function(req, res) {
 });
 
 app.post("/postGameData", function(req, res){
-	var currStudent = new Student({
-	gameLength : req.body.gameLength,
-	name : req.body.name,
-    numCoinsEaten: req.body.numCoinsEaten,
-    numCoinsSpawned: req.body.numCoinsSpawned,
-    numObstaclesEaten: req.body.numObstaclesEaten,
-    numObstaclesSpawned: req.body.numObstaclesSpawned,
-    numRightQuestions: req.body.numRightQuestions,
-    numTimeoutQuestions: req.body.numTimeoutQuestions,
-    numTotalQuestions: req.body.numTotalQuestions,
-    numBoostPowersEaten: req.body.numBoostPowersEaten,
-    numBoostPowersSpawned: req.body.numBoostPowersSpawned,
-    numCrossoutPowersEaten: req.body.numCrossoutPowersEaten,
-    numCrossoutPowersSpawned: req.body.numCrossoutPowersSpawned,
-    numGasPowersEaten: req.body.numGasPowersEaten,
-    numGasPowersSpawned: req.body.numPowersSpawned, 
-    numPowersEaten: req.body.numPowersEaten,
-    numPowersMissedInitially: req.body.numPowersMissedInitially,
-    numPowersSpawned: req.body.numPowersSpawned,
-    numTimePowersEaten: req.body.numTimePowersEaten,
-    numTimePowersSpawned: req.body.numTimePowersSpawned,
-    score: req.body.score,
-    timestamp: req.body.timestamp,
-    questionData: req.body.questionData,
-	}); 
+	var currStudent = new Student(req.body); 
 
 	currStudent.save(function(err){
 		 if (err) {
@@ -105,10 +84,7 @@ app.post("/postGameData", function(req, res){
 });
 
 app.post("/postScore", function(req, res){
-	var newScore = new Score({
-		name:req.body.name,
-		score:req.body.score
-	}); 
+	var newScore = new Score(req.body); 
 
 	newScore.save(function(err){
 		 if (err) {
