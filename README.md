@@ -1,7 +1,7 @@
 TECHCAFE GAMES TRANSFER DOCUMENT
 ===================================
 
-####1. Provide instructions on how to checkout the code from the current repository and where to place it on the local machine. ####
+###1. Provide instructions on how to checkout the code from the current repository and where to place it on the local machine. ###
 There are three git repositories: 
 
 Brain Race: https://github.com/CMU-15-239/TechCafeGames
@@ -10,11 +10,12 @@ TechCafe-Node: https://github.com/hedgeday/Node-TechCafe
 
 For all three of the above projects, clone from the respective git repositories. It does not matter where the code is placed on the local machine.
 
-####2. List the platforms on which the project can compiled and built.####
+
+###2. List the platforms on which the project can compiled and built.###
 Windows, Linux, Mac OS
 
-3. Since the project may be multifaceted, provide a list of the different components included in this project along with a description of each one stating its purpose and how it interacts with the other components.
-------------------------------------------------------
+
+###3. Since the project may be multifaceted, provide a list of the different components included in this project along with a description of each one stating its purpose and how it interacts with the other components.###
 There are three components to the project: 
 
 A) Teacher Portal: Web based content authoring tool used to create content for Brain race and future TechCafe games
@@ -23,27 +24,27 @@ URL: techcafe-teacher.herokuapp.com
 B) Brain Race: Cross-platform mobile educational game that uses content created on the teacher portal
 URL: brainrace.herokuapp.com
 
-C) TechCafe-Node: Node.js module used to dynamically import content into Brain Race and future games from the Teacher Portal
+C) TechCafe-Node: Node.js module used to dynamically import content into Brain Race and future games from the Teacher Portal.
 
 
-4. Specify the tools needed to compile and build the project including compilers and/or IDEs. (e.g., Java SDK 1.6, gcc 4.3.2 on the Linux platform, Eclipse Juno, Visual Studio 10, etc...).
------------------------------
-Brain Race: 
+###4. Specify the tools needed to compile and build the project including compilers and/or IDEs.###
+#####Brain Race: #####
 - Node.js 0.8.11
 - MongoDB 2.4.1
 
-Teacher Portal: 
+#####Teacher Portal: #####
 - Ruby 1.9.3
 - Rails 3.2.13 
 - PostgreSQL 9.2.3
 
-5. List any additional libraries that are needed for compiling, building and running the code (e.g., Boost C++ Library 1.53.0, Android API 15).
---------------------------------
-Node Modules (for Brain Race): 
+
+
+###5. List any additional libraries that are needed for compiling, building and running the code ###
+#####Node Modules (for Brain Race): #####
 Express
 Mongoose
 
-Ruby Gems (for Teacher Portal):
+#####Ruby Gems (for Teacher Portal):#####
 bcrypt-ruby
 cancan
 cofee-rails
@@ -57,38 +58,37 @@ sass-rails
 uglifier
 
 
-6. Specify the locations where these tools can be acquired (e.g., URLs, FTP sites, local CMU servers).
----------------------------
+
+###6. Specify the locations where these tools can be acquired. ###
 Both Express and Mongoose can be installed by running ‘npm install’ from the Brain Race directory. They can also be downloaded from http://expressjs.com/ and http://mongoosejs.com/
 All necessary Ruby gems can be installed by running ‘bundle install’ from the Teacher Portal directory.
 
-7. Indicate the location where these tools need to be installed on the local machine for project compilation, building and execution.
--------------------------------------------------------------
-Node Modules (for Brain Race):
+
+###7. Indicate the location where these tools need to be installed on the local machine for project compilation, building and execution.###
+#####Node Modules (for Brain Race):#####
 In your system’s environment path (?). Default is ‘/usr/bin/<ToolName>’ on a Mac without HomeBrew. 
 
-Ruby Gems (for Teacher Portal):
+#####Ruby Gems (for Teacher Portal):#####
 Gems will be automatically installed in the correct place when running ‘bundle install’.
 
-8. Indicate if there are any project config files, what they are used for and provide information on where these files need to be located on the local machine.
---------------------------------------------------------
+
+###8. Indicate if there are any project config files, what they are used for and provide information on where these files need to be located on the local machine.###
 Included in the project package.
 
-9. Specify any settings within these config files for compiling, building and/or execution (e.g., BASEPATH=C:\Users\Bob\myProject\).
----------------------------------------------------------
+
+###9. Specify any settings within these config files for compiling, building and/or execution.###
 Admin user ‘postgres’ might need to be created for Teacher Portal. (On some machines, this is the default user.) (Anything else?)
 
 
 
-10. Provide instructions on how to compile and build the project using the specified tool(s) from item 4 (e.g., startup Eclipse, import project X, right click on file Main and select Run as -> Java Application) and also specify any compiler/build configuration settings (paths of include files and other dependencies).
-----------------------------------------------------------------------------
-Brain Race: 
+###10. Provide instructions on how to compile and build the project using the specified tool(s) from item 4 and also specify any compiler/build configuration settings.###
+#####Brain Race: #####
 - Clone repository
 - Run ‘npm install’ in the Brain Race folder, which installs the required node modules.
 - In a separate terminal window, run mongoDB. (use ‘./mongod’ in your mongodb/bin folder)
 - Open a terminal window, navigate to the Brain Race folder, and use ‘node server.js’
 
-To access local instance of Brain Race:
+######To access local instance of Brain Race:######
 On computer:
 - Using a browser (preferably Chrome), access localhost:8080/desktop.html
 - On Chrome, go to View > Developer >Developer Tools 
@@ -99,7 +99,9 @@ On computer:
 On mobile: 
 - Using a browser (preferably CordovaBrowser) , access <Host Computer IP>:8080
 
-Teacher Portal: 
+
+
+#####Teacher Portal:##### 
 - Clone repository
 - In a separate terminal window, run ‘postgres’
 - In a terminal window, navigate to the Teacher Portal folder and run ‘bundle install’ 
@@ -109,67 +111,65 @@ Teacher Portal:
 To access local instance of Teacher Portal: 
 - Using a browser, navigate to localhost:3000 
 
-11. Indicate the target platform on which the binary (or binaries) are intended to run (e.g., Windows, Android Device, Custom hardware).
------------------------------------------------------------------
+
+
+###11. Indicate the target platform on which the binary (or binaries) are intended to run.###
 The entire project is web based, and can run on any platform with a browser.
 Brain Race is also packaged as an APK file, which can be installed on Android devices.
 
-12. Indicate if the application requires any input files that are read and processed when the application executes (e.g., XML Files, text files, image files, etc).
-----------------------------------------------------------
+
+###12. Indicate if the application requires any input files that are read and processed when the application executes. ###
 The project does not require external content. 
 
-13. Specify the locations where these input files can be obtained if not already included in the project (e.g., URL, CMU Serves, etc...).
------------------------------------------------------------
+
+###13. Specify the locations where these input files can be obtained if not already included in the project.###
 N/A
 
-14. Specify the locations where these input files need to reside on the local machine when the application executes.
-------------------------------------------------------------
+
+###14. Specify the locations where these input files need to reside on the local machine when the application executes.###
 N/A
 
-15. Indicate if the application generates output files.
-------------------------------------------------------------------------
+
+###15. Indicate if the application generates output files.###
 It doesn’t.
 
-16. Specify the location of where these output files will be written.
--------------------------------------------------------------------------------------------
+
+###16. Specify the location of where these output files will be written.###
 N/A
 
-17. If using external hardware or mobile device, provide instructions on how this device needs to be connected to the computer.
----------------------------------------------------------
+
+###17. If using external hardware or mobile device, provide instructions on how this device needs to be connected to the computer.###
 No physical connection is needed between the mobile device and a computer.
+
 When running Brain Race from a mobile device, one option is to install and run the APK, which is connected to brainrace.herokuapp.com.
 Another option is to connect to localhost. To do this, you need to first run the node server on a computer. Then, on the phone, you can access the game at <your computer’s IP>:8080. Accessing the game through Cordova Browser (can be downloaded for free from Google Play and iOS App Store) is recommended because it simulates the game as if it has been packaged as an APK.
 
-18. Regarding mobile devices and/or external hardware, indicate if any of the generated binaries from item 10 need to be installed on this device and provide instructions on how to install these binaries.
-------------------------------------------
+
+###18. Regarding mobile devices and/or external hardware, indicate if any of the generated binaries from item 10 need to be installed on this device and provide instructions on how to install these binaries.###
 For Brain Race, an APK can be installed to access the game hosted at brainrace.herokuapp.com. The APK is included in the Brain Race project package - it can be transferred onto an Android phone and installed directly. The game can then be accessed like any other Android app.  
 
-19. Specify any settings on the computer for the device (e.g., the COM port).
-----------------------------------------------
+
+###19. Specify any settings on the computer for the device.###
 N/A 
 
-20. Provide instructions on how to run the application on the external hardware, mobile device and/or computer.
------------------------------------------------------
+
+###20. Provide instructions on how to run the application on the external hardware, mobile device and/or computer.###
 Install the APK file for Brain Race on the smartphone. Run the application, and play. 
 
 
-21. If the mobile device requires interaction with the computer, provide instructions on 
-how this interaction should work from an end user standpoint (i.e., first run application A on the laptop computer, then lunch program B on the mobile device, next you should see a screen indicating a connection was made, etc...)
-
--------------------------------------------------------------------------
-
+###21. If the mobile device requires interaction with the computer, provide instructions on 
+how this interaction should work from an end user standpoint. ###
 (Optional) 
 Manage users, questions, and content sets on the Teacher Portal at techcafe-teacher.herokuapp.com. 
 
 Launch brain race and use new or previously created content in game. 
 
 
-22. List any known bugs, configuration issues or other pitfalls to look out for when compiling, building and/or running the application.
-------------------------------------------------------------------------    
+###22. List any known bugs, configuration issues or other pitfalls to look out for when compiling, building and/or running the application.###
 PostgreSQL requires the user ‘postgres’ to run with our app. (More?) 
 
-23. Provide a list of future features/capabilities that you would like to see included in the existing tool.
--------------------------------
+
+###23. Provide a list of future features/capabilities that you would like to see included in the existing tool.###
 Different question types for teacher portal, such as fill in the blanks and image questions. 
 
 Performance tracking on teacher portal (for example, different classes’ and students’ performance over time, frequent correctly- and incorrectly-answered questions in a content set, etc). 
@@ -179,10 +179,8 @@ Caching of Brain Race game content so game can still be played if device loses i
 More games. 
 
 
-Additional Information:
----------------------------------
-Keeping the API up to date: 
-
+###Additional Information:###
+#####Keeping the API up to date: #####
 If the location of the Teacher Portal is changed, the API implementation must also be updated in order to continue to correctly serve question content. At the time of writing this document, the Teacher Portal was hosted at http://techcafe-teacher.herokuapp.com. 
 
 Instructions for API update. 
@@ -195,8 +193,8 @@ Step 2: Update line 7 of the file node_techcafe/node_techcafe.js to reflect the 
 
 
 
-Teacher Portal Accounts
 
+#####Teacher Portal Accounts#####
 An account on the Teacher Portal is either an admin or a teacher.
 
 Teachers can manage all questions and their own content sets. Administrators can manage all questions, all content sets, all user accounts, and question categories.
