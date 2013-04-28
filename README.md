@@ -97,17 +97,22 @@ On computer:
 - In the window that pops up at the bottom, click on the settings icon on the bottom right corner of your screen. On the window that pops up over your developer console, click on “Overrides” on the left under “Settings”, and then on the right pane scroll down and enable “Emulate touch events”.
 - You can now control the car in game by clicking and dragging your mouse
 - Note: both the local version and brainrace.herokuapp.com pull content from techcafe-teacher.herokuapp.com. To make the local version pull from a locally hosted teacher portal:
+
     -in node_techcafe.js, in the options variable, change from
+
 	var options = {
 	host: 'techcafe-teacher.herokuapp.com',
 	method: 'GET'
 	};
+
     to
+
 	var options = {  
 	host: 'localhost', 
 	port: 3000,
 	method: 'GET',
 	};
+
     -run the teacher portal locally (see below)
     -access localhost:8080/desktop.html
     -it should now pull content from the local teacher portal
