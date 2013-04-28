@@ -674,6 +674,9 @@ function execute(){
     
     // check if answer is correct after answering
     function checkAns(right, choice, choiceTd, rightTd, questionNum) {
+		if (choice === "") {
+			return; 
+		}
         if (trackDataFlag){
             var thisQuestion = gameData.questionData[gameData.questionData.length-1];
             thisQuestion.answerPosition = choiceTd.charAt(choiceTd.length-1);
@@ -919,7 +922,8 @@ function execute(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
         });
-        $("#choice3").on("click", function(){
+	
+		$("#choice3").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
         });
@@ -927,7 +931,8 @@ function execute(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
         });
-        $("#choice4").on("click", function(){
+        
+		$("#choice4").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
         });
@@ -935,20 +940,6 @@ function execute(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
         });
-        
-        // disable clicks for empty answer
-        for (var i = question.answers.length; i < choiceArr.length; i++) {
-            switch (i) {
-                case 2:
-                    $choice3.off();
-                    break;
-                case 3:
-                    $choice4.off();
-                    break;
-                default:
-                    break;
-            }
-        }
         
         // decreasing used power-ups
         if (storedPowers[0].count != 0) {
@@ -1140,48 +1131,6 @@ function execute(){
         $("#end").slideUp(animationTime);
     }
     
-    // send game statistics to server
-    function sendGameData() {
-        // semicolon-delimited string of jsons because mongo doesn't like arrays
-        var stringifiedQuestionData = "";
-        for (var i=0; i<gameData.questionData.length; i++){
-            stringifiedQuestionData = stringifiedQuestionData + JSON.stringify(gameData.questionData[i]) + ";";
-        }
-        // console.log(stringifiedQuestionData);
-
-        ajaxPost(
-        {
-            gameLength: gameData.gameLength, 
-            name: gameData.name || "[anonymous]", 
-            numCoinsEaten: gameData.numCoinsEaten, 
-            numCoinsSpawned: gameData.numCoinsSpawned, 
-            numObstaclesEaten: gameData.numObstaclesEaten, 
-            numObstaclesSpawned: gameData.numObstaclesSpawned, 
-            numRightQuestions: gameData.numRightQuestions, 
-            numTimeoutQuestions: gameData.numTimeoutQuestions, 
-            numTotalQuestions: gameData.numTotalQuestions, 
-            numBoostPowersEaten: gameData.powersData.numBoostPowersEaten, 
-            numBoostPowersSpawned: gameData.powersData.numBoostPowersSpawned, 
-            numCrossoutPowersEaten: gameData.powersData.numCrossoutPowersEaten, 
-            numCrossoutPowersSpawned: gameData.powersData.numCrossoutPowersSpawned, 
-            numGasPowersEaten: gameData.powersData.numGasPowersEaten,
-            numGasPowersSpawned: gameData.powersData.numPowersSpawned, 
-            numPowersEaten: gameData.powersData.numPowersEaten, 
-            numPowersMissedInitially: gameData.powersData.numPowersMissedInitially, 
-            numPowersSpawned: gameData.powersData.numPowersSpawned, 
-            numTimePowersEaten: gameData.powersData.numTimePowersEaten, 
-            numTimePowersSpawned: gameData.powersData.numTimePowersSpawned,
-            score: gameData.score, 
-            timestamp: new Date(),
-            questionData: stringifiedQuestionData
-        },
-        '/postGameData',
-        function onSuccess(data){
-        },
-        function onError(data){
-        });
-    }
-
     // send score to server
     function sendScore(name, score) {
         ajaxPost(
