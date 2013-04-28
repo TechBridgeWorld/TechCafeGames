@@ -24,12 +24,12 @@ http://www.cs.cmu.edu/~239/projects/techcafe-games
 Installation:
 -------------
 
-Put the folder *Node_TechCafe* under *your-app/node_modules*
+Put the folder *Node_TechCafe* under *your-app/modules* (Or wherever you prefer to save it). 
 
 Usage: 
 ------
 
-	var techcafe = require('./node_modules/Node_TechCafe/node_techcafe');
+	var techcafe = require('./modules/Node_TechCafe/node_techcafe');
 	
 	techcafe.getTeacherList(function(data){
 		//use data
