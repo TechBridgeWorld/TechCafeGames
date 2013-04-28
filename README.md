@@ -154,7 +154,7 @@ Run the application, and play.
 
 
 21. If the mobile device requires interaction with the computer, provide instructions on 
-how this interaction should work from an end user standpoint (i.e., first run application A on the laptop computer, then lunch program B on the mobile device, next you should see a screen indicating a connection was made, etc...).
+how this interaction should work from an end user standpoint (i.e., first run application A on the laptop computer, then lunch program B on the mobile device, next you should see a screen indicating a connection was made, etc...)
 -------------------------------------------------------------------------
 (Optional) 
 Manage teacher accounts, questions, and content sets on the Teacher Portal at techcafe-teacher.herokuapp.com. 
