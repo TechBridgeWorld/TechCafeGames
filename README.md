@@ -98,9 +98,9 @@ On computer:
 - You can now control the car in game by clicking and dragging your mouse
 - Note: both the local version and brainrace.herokuapp.com pull content from techcafe-teacher.herokuapp.com. To make the local version pull from a locally hosted teacher portal:
 
-    -in node_techcafe.js, in the options variable, change from
+-in node_techcafe.js, in the options variable, change from
 
-	var options = {
+    var options = {
 	host: 'techcafe-teacher.herokuapp.com',
 	method: 'GET'
 	};
