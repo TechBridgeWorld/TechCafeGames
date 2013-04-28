@@ -152,6 +152,15 @@ N/A
 -----------------------------------------------------
 Run the application, and play.
 
+21. If the mobile device requires interaction with the computer, provide instructions on how this interaction should work from an end user standpoint (i.e., first run application A on the laptop computer, then launch program B on the mobile device, next you should see a screen indicating a connection was made, etc...)
+----------------------------
+(Optional)
+Manage teacher accounts, questions, and content sets on the Teacher Portal at techcafe-teacher.herokuapp.com.
+
+Launch brain race and use new or previously created content in game.
+
+When deploying the Teacher Portal with a new database, the first person to register will automatically become an admin. After that, everyone who registers from techcafe-teacher.herokuapp.com/signup will automatically become a teacher. Admins can create and edit user accounts in the “Accounts” page.
+
 22. List any known bugs, configuration issues or other pitfalls to look out for when compiling, building and/or running the application.
 ------------------------------------------------------------------------    
 PostgreSQL requires the user ‘postgres’ to run with our app. (More?) 
