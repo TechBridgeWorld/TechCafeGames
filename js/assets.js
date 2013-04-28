@@ -29,7 +29,7 @@ fire.src = 'img/race-assets/fire-sprite2.png';
 
 // sounds
 
-var soundOn=true; 
+var soundOn=false; 
 
 var bgMusic; 
 var carSfx;

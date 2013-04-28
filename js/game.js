@@ -520,7 +520,7 @@ function execute(){
                 // add points and play sound for positive objects (i.e. coins)
                 if(obsArr[i].points >= 0) {
                     score+=obsArr[i].points;
-                    if (/*soundOn*/ true){
+                    if (soundOn){
                         bgMusic.load();
                         coinSfx.play();
                     }
@@ -700,7 +700,7 @@ function execute(){
 
             score+=questionPoint;       // add score
             $("#score").html(score);    // show score
-            if (/*soundOn*/ true){               // play sound
+            if (soundOn){               // play sound
                 correctSfx.play();
             }
             numRightQuestion++;         // keep track of right questions
@@ -720,7 +720,7 @@ function execute(){
         }
         else{
             // play error sound
-            if (/*soundOn*/ true){
+            if (soundOn){
                 errorSfx.play();
             }
 
@@ -820,8 +820,8 @@ function execute(){
         var c = Math.round((questionData.length-1)*Math.random());
         var question = questionData[c];
         var choiceArr =[];
-        var answerID = [];
-        var ansIndex = [];
+        var answerID;
+        var ansIndex;
         
         if (randomChoiceFlag) {
         //scramble the answers
@@ -836,23 +836,21 @@ function execute(){
 		
         for(var i = 0; i < question.answers.length; i++) {
 			if(question.answers[i].correct){
-				ansIndex.push(i);
+				ansIndex = i;
                 var idNum = i+1;
-                answerID.push("#choice"+idNum);
+                answerID = "#choice"+idNum;
             }
 		}
 		
 		//make sure answer is one of the first four answers
-        for(var i = 0; i < ansIndex.length; i++) {
-        if (ansIndex[i] > 3) {
+        if (ansIndex > 3) {
 			var prevAnsIndex = ansIndex;
-			ansIndex[i] = Math.floor(Math.random() * 4);
+			ansIndex = Math.floor(Math.random() * 4);
 			var idNum = ansIndex+1;
-            answerID[i] = "#choice"+idNum;
-			question.answers[prevAnsIndex] = question.answers[ansIndex[i]];
-			question.answers[ansIndex[i]] = question.a;
+            answerID = "#choice"+idNum;
+			question.answers[prevAnsIndex] = question.answers[ansIndex];
+			question.answers[ansIndex] = question.a;
 		}
-    }
 		
         // get answers for question
         for(var i = 0; i < 4; i++) {
@@ -873,9 +871,6 @@ function execute(){
         $qTable.append($countDown);
 
         var $powers = $('<div id="qPowers"></div>');
-        $choice2 = $("#choice2");
-        $choice3 = $("#choice3");
-        $choice4 = $("#choice4");
 
         // add active power-ups, if any, for this question
         var crossout = 0;
@@ -906,23 +901,22 @@ function execute(){
         });
 
         // bind actions when choosing answer
-        $("#choice1").on("click", function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-               checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
-        });
-        $("#choice1").on('touchstart', function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
-        });
-        $("#choice2").on("click", function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
-        });
-        $("#choice2").on('touchstart', function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
-        });
-	
+		function callCheckAns(i) {
+			var choiceString = "#choice" + i;
+			checkAns(question.answers[ansIndex].answer,
+			choiceArr[i-1],choiceString,answerID,c);
+		}
+		
+        $("#choice1").on("click", function() {callCheckAns(1)});
+        $("#choice2").on("click", function() {callCheckAns(2)});
+        $("#choice3").on("click", function() {callCheckAns(3)});
+        $("#choice4").on("click", function() {callCheckAns(4)});
+        
+        $("#choice1").on('touchstart', function() {callCheckAns(1)});
+        $("#choice2").on('touchstart', function() {callCheckAns(2)});
+        $("#choice3").on('touchstart', function() {callCheckAns(3)});
+        $("#choice4").on('touchstart', function() {callCheckAns(4)});
+	/*
 		$("#choice3").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
@@ -939,7 +933,7 @@ function execute(){
         $("#choice4").on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
             checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
-        });
+        }); */
         
         // decreasing used power-ups
         if (storedPowers[0].count != 0) {
