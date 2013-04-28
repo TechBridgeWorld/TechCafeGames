@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+/*------------------- style main elements ----------------*/
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
@@ -28,10 +31,7 @@ body {
     margin:0px;
     padding:0px;
     width:100%;
-    /*padding-top: 2%;*/
-
 }
-
 
 h1 {
     font-size:24px;
@@ -42,12 +42,7 @@ h1 {
     text-align:center;
 }
 
-#gameContainer{
-  position: absolute;
-  height: 100%;
-  width: 100%;
-
-}
+/*------------------- style the game as a whole ----------------*/
 
 /* make game container narrow-shaped if on desktops, tablets, etc. */
 @media only screen 
@@ -67,8 +62,6 @@ and (min-device-height: 700px){
   }
 }
 
-
-
 #gameCanvas{
     position:absolute;
     top:0%;
@@ -77,30 +70,15 @@ and (min-device-height: 700px){
 #screen {
     width: 100%;
     height: 100%;
-    
     margin: 0 auto;
-    
     overflow: hidden;
-    
     background: white;
-    
     position: relative;
 }
 
-/*img {
-    margin: 0;
-    padding: 0;
-    
-    width: 100%;
-    height: 100%;
-}*/
+/*------------------- questions ----------------*/
 
-
-
-
-/*----------------- questions -------------------*/
-
-
+/* main question grid */
 table {
     width:100%;
     height:100%;
@@ -145,39 +123,40 @@ table {
     padding-right: 20%;
 }
 
+/* progress bar styling */
+
 #progressBar {
   height:7%;
   position:relative;
   color:white;
   background-image: linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
-background-image: -o-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
-background-image: -moz-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
-background-image: -webkit-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
-background-image: -ms-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
-
-background-image: -webkit-gradient(
-  linear,
-  left bottom,
-  left top,
-  color-stop(0.38, rgb(100,101,102)),
-  color-stop(0.69, rgb(66,66,66))
-);
+  background-image: -o-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+  background-image: -moz-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+  background-image: -webkit-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+  background-image: -ms-linear-gradient(bottom, rgb(100,101,102) 38%, rgb(66,66,66) 69%);
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.38, rgb(100,101,102)),
+    color-stop(0.69, rgb(66,66,66))
+  );
 }
 
 #progressBarInner {
   background-image: linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
-background-image: -o-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
-background-image: -moz-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
-background-image: -webkit-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
-background-image: -ms-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+  background-image: -o-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+  background-image: -moz-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+  background-image: -webkit-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
+  background-image: -ms-linear-gradient(bottom, rgb(103,160,62) 13%, rgb(134,192,93) 57%);
 
-background-image: -webkit-gradient(
-  linear,
-  left bottom,
-  left top,
-  color-stop(0.13, rgb(103,160,62)),
-  color-stop(0.57, rgb(134,192,93))
-);
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.13, rgb(103,160,62)),
+    color-stop(0.57, rgb(134,192,93))
+  );
   height:100%;
 }
 
@@ -193,6 +172,8 @@ background-image: -webkit-gradient(
   z-index: 20;
 }
 
+/* style question feedback to show wrong and right answers */
+
 #popQ .qFeedback{
     position: absolute;
     top: 10%;
@@ -207,9 +188,11 @@ background-image: -webkit-gradient(
     background: rgba(0,255,0,0.3) url('/img/race-assets/checkmark.png') bottom right no-repeat;
     background-size: 35%;
 }
+
 .qFeedback.wrong-right{
     background: rgba(0,255,0,0.3);
 }
+
 .qFeedback.wrong-choice{
     background: rgba(255,0,0,0.3);
 }
@@ -217,39 +200,26 @@ background-image: -webkit-gradient(
 #choice1, #choice2, #choice3, #choice4 {
    width:50%;
    position: relative;
-/*   background-color:yellow;*/
 }
 
+/* cross out powerup */
 .crossed{
     text-decoration: line-through;
     color: #777;
     font-style: italic;
 }
 
+/* timer */
 #countdown{
   position: absolute;
   top: -5%;
   right: -5%;
   width: 20%;
-/*  height: 20%;*/
   background: url('/img/race-assets/countdown-bg.png') no-repeat;
   background-size: 100%;
 }
 
 #countdown-inner{
-/*  width: 88%;
-  height: 88%;
-  position: relative;
-  top: 6%;
-  left: 6%;
-  background-color: rgba(255,0,0,0.3);
-  border-radius: 50%;
-  color: #444;
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  line-height: 110px;*/
-
   width: 50%;
   height: 50%;
   position: absolute;
@@ -261,7 +231,6 @@ background-image: -webkit-gradient(
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-/*  padding-top: 5%;*/
   -webkit-animation: none; 
 }
 
@@ -270,14 +239,14 @@ background-image: -webkit-gradient(
   -webkit-animation: blinkTwo 0.3s infinite alternate; 
 }
 
+/* powerups */
 #qPowers{
   position: absolute;
   top: 16%;
   right: -5%;
   width: 30%;
   height: 15%;
-/*  background: rgba(0,255,0,0.5);
-*/}
+}
 
 #qPowers .power{
   display: inline-block;
@@ -295,76 +264,7 @@ background-image: -webkit-gradient(
   background-size: 100%;
 }
 
-
-
-
-
-
-table{
-/*    border: 1px solid orange;*/
-}
-
-#one {    
-    margin: 0;
-    padding: 0;
-    
-    width: 100%;
-    height: 100%;
-    -webkit-animation: scrollone 0.2s infinite linear;
-
-    /* testing */
-/*    -webkit-animation: scrollone 0.3s infinite linear;*/
-}
-
-#one.stop{
-  -webkit-animation: none;
-}
-
-#two {
-    margin: 0;
-    padding: 0;
-    
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: -260px;
-    -webkit-animation: scrolltwo 0.2s infinite linear;
-
-    /* testing */
-/*    top: -300px;
-    -webkit-animation: scrollone 0.3s infinite linear;*/
-}
-
-#two.stop{
-  -webkit-animation: none;
-}
-
-@-webkit-keyframes scrollone {
-  from {
-      transform: translate3d(0,0,0);
-      -webkit-transform: translate3d(0,0,0);
-  }
-  
-  to {
-      transform: translate3d(0,260px,0);
-      -webkit-transform: translate3d(0,260px,0);
-  }
-}
-
-@-webkit-keyframes scrolltwo {
-  from {
-      transform: translate3d(0,0,0);
-      -webkit-transform: translate3d(0,0,0);
-  }
-  
-  to {
-      transform: translate3d(0,260px,0);
-      -webkit-transform: translate3d(0,260px,0);
-  }
-}
-
-
-/*------------------- curr powerups display ----------------*/
+/*------------------- current powerups display ----------------*/
 
 #currPowers{
     position: absolute;
@@ -395,8 +295,6 @@ table{
     width:100%;
 }
 
-
-
 /*----------------- top bar -------------------*/
 
 @font-face
@@ -412,7 +310,6 @@ table{
   font-weight: bold;
   color:white;
   position:absolute;
-/*  top:-8px;*/
   margin:0;
   right:18%;
   top:16px;
@@ -443,17 +340,18 @@ table{
   z-index: 1;
 }
 
+/* gas meter styling including color changing and flashing */
 #innerMeter{
-    position: absolute;
-    z-index: 1;
-    background-color: rgba(255,204,0,0);
-	background-image: -webkit-linear-gradient(bottom, #da9000, #fffc00);
-	background-image: -moz-linear-gradient(bottom, #da9000, #fffc00);
-	background-image: -o-linear-gradient(bottom, #da9000, #fffc00);
-	background-image: -ms-linear-gradient(bottom, #da9000, #fffc00);
-	background-image: linear-gradient(to top, #da9000, #fffc00);
-	
-	transform: skew(-25deg,0deg);
+  position: absolute;
+  z-index: 1;
+  background-color: rgba(255,204,0,0);
+  background-image: -webkit-linear-gradient(bottom, #da9000, #fffc00);
+  background-image: -moz-linear-gradient(bottom, #da9000, #fffc00);
+  background-image: -o-linear-gradient(bottom, #da9000, #fffc00);
+  background-image: -ms-linear-gradient(bottom, #da9000, #fffc00);
+  background-image: linear-gradient(to top, #da9000, #fffc00);
+  
+  transform: skew(-25deg,0deg);
   -ms-transform: skew(-25deg,0deg); /* IE 9 */
   -webkit-transform: skew(-25deg,0deg); /* Safari and Chrome */
   -o-transform: skew(-25deg,0deg); /* Opera */
@@ -500,21 +398,22 @@ table{
 
 /* ------------------ start & end screens ------------ */
 
+/* main containers */
 #start, #end, #instructions, #highscores, #chooseLevelScreen{
-    height:100%;
-    width:100%;
-    position:absolute;
-    top:0px;
-    z-index:10;
-    background-color: rgba(0,0,0,.31);
-    -webkit-box-shadow: inset 0 0 1px rgba(255,255,255,0);
-    -moz-box-shadow: inset 0 0 1px rgba(255,255,255,0);
-    box-shadow: inset 0 0 1px rgba(255,255,255,0);
-    background-image: -webkit-linear-gradient(bottom, #0c0c0c, #999);
-    background-image: -moz-linear-gradient(bottom, #0c0c0c, #999);
-    background-image: -o-linear-gradient(bottom, #0c0c0c, #999);
-    background-image: -ms-linear-gradient(bottom, #0c0c0c, #999);
-    background-image: linear-gradient(to top, #0c0c0c, #999);
+  height:100%;
+  width:100%;
+  position:absolute;
+  top:0px;
+  z-index:10;
+  background-color: rgba(0,0,0,.31);
+  -webkit-box-shadow: inset 0 0 1px rgba(255,255,255,0);
+  -moz-box-shadow: inset 0 0 1px rgba(255,255,255,0);
+  box-shadow: inset 0 0 1px rgba(255,255,255,0);
+  background-image: -webkit-linear-gradient(bottom, #0c0c0c, #999);
+  background-image: -moz-linear-gradient(bottom, #0c0c0c, #999);
+  background-image: -o-linear-gradient(bottom, #0c0c0c, #999);
+  background-image: -ms-linear-gradient(bottom, #0c0c0c, #999);
+  background-image: linear-gradient(to top, #0c0c0c, #999);
 }
 
 #start{
@@ -545,6 +444,7 @@ table{
   background-position: bottom left;
 }
 
+/* start screen titles and buttons */
 #startTitle{
   width: 100%;
   height: 20%;
@@ -563,6 +463,7 @@ table{
   background: url('/img/race-assets/start-startbtn.png') no-repeat;
   background-size: 100%;
 }
+
 #startBtn:hover, #startBtn:active{
   background: url('/img/race-assets/start-startbtn-a.png') no-repeat;
   background-size: 100%;
@@ -582,18 +483,40 @@ table{
   margin: 0 8%;
 }
 
+.startScreenBtns {
+  font-family: Juicy;
+  text-decoration:none;
+  text-shadow:0 1px 0 #fff;
+  display:block;
+  width:30%;
+  position: absolute;
+  height:50px;
+  background:#ddd;
+  border-radius:20px;
+  border:4px double #ccc;
+  font-size:120%;
+  color:#666;
+  line-height:50px;
+  text-align:center;
+  margin:20px;
+}
+
+/* instruction and high score buttons */
 #instructionBtn{
   background: url('/img/race-assets/start-instrbtn.png') top center no-repeat;
   background-size: 100%;
 }
+
 #hiScoreBtn{
   background: url('/img/race-assets/start-hiscorebtn.png') top center no-repeat;
   background-size: 100%;
 }
+
 #instructionBtn:hover, #instructionBtn:active{
   background: url('/img/race-assets/start-instrbtn-a.png') top center no-repeat;
   background-size: 100%;
 }
+
 #hiScoreBtn:hover, #hiScoreBtn:active{
   background: url('/img/race-assets/start-hiscorebtn-a.png') top center no-repeat;
   background-size: 100%;
@@ -617,6 +540,7 @@ table{
   height: 100%;
 }
 
+/* end screen */
 #raceOver{
   width: 100%;
   height: 20%;
@@ -682,27 +606,80 @@ table{
   background: url('/img/race-assets/homebtn.png') no-repeat;
   background-size: 100%;
 }
+
 #homeBtn:hover, #homeBtn:active{
   background: url('/img/race-assets/homebtn-a.png') no-repeat;
   background-size: 100%;
 }
 
-.startScreenBtns {
-    font-family: Juicy;
-    text-decoration:none;
-    text-shadow:0 1px 0 #fff;
-    display:block;
-    width:30%;
-    position: absolute;
-    height:50px;
-    background:#ddd;
-    border-radius:20px;
-    border:4px double #ccc;
-    font-size:120%;
-    color:#666;
-    line-height:50px;
-    text-align:center;
-    margin:20px;
+#entername {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+}
+
+#name {
+  position:absolute;
+  left:0%;
+  width:50%;
+  height:30px;
+  font-size: 150%;
+  color: #000;
+}
+
+#sendScoreSuccess{
+  width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  color: #FFf;
+  text-align: center;
+  background-color: rgba(0,0,0,0.5);
+  font-weight: bold;
+  font-size: 150%;
+  padding: 7px 0;
+  border-radius: 5px;
+  display: none;
+}
+
+#send {
+    position:absolute;
+    right:0;
+    width:40%;
+    height:35px;
+}
+
+#send, #cancel{
+  display: inline-block;
+  padding: 2px 6px;
+  margin-bottom: 0;
+  color: #333333;
+  text-align: center;
+  font-size: 130%;
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-bottom-color: #b3b3b3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* -------- Choose Level Screen -------- */
@@ -723,6 +700,7 @@ table{
   padding: 0;
 }
 
+/* back button */
 #backToTeachers {
   position:absolute;
   bottom:10%;
@@ -735,6 +713,7 @@ table{
   display:none;
 }
 
+/* titles */
 .chooseTeacherTitle{
   width: 100%;
   height: 18%;
@@ -756,8 +735,6 @@ table{
   width: 90%;
   left: 10%;
   padding: 1% 5%;
-  /*position:absolute;
-  top:0px;*/
   margin-bottom: 5%;
   background: rgba(0,0,0,0.5);
   border-radius:10px;
@@ -823,7 +800,12 @@ table{
   left: 35%;
 }
 
-
+#canvasCover{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
 
 #endGameBtn2{
   background: url('/img/race-assets/endgame-button.png') top center no-repeat;
@@ -847,6 +829,34 @@ table{
   display:none;
 }
 
+#completedTitleDiv {
+  position:relative;
+  left:5%;
+  height:30%;
+  background-image:url("/img/race-assets/you_won_banner.png");
+  background-size:90% 100%;
+  background-repeat:no-repeat;
+}
+
+#completedTitle{
+  position:absolute;
+  bottom:20%;
+  left:29%;
+  font-size:200%;
+  color:white;
+  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+}
+
+#questionNumberTitle{
+  position:absolute;
+  top:22%;
+  left:24%;
+  font-size:100%;
+  color:white;
+  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+  text-align: center;
+}
+
 /* -------- Instructions page -------- */
 
 #instructions-howto, #instructions-powers{
@@ -861,6 +871,7 @@ table{
   display: none;
   background-size: 80%;
 }
+
 #instructions-powers{
   background: url('../img/race-assets/instructions-powers.png') no-repeat top center;
   display: none;
@@ -874,7 +885,6 @@ table{
   width: 100%;
   bottom: 0;
   display: none;
-/*  background-color: red;*/
 }
 
 #instructions-nav .left, #instructions-nav .right{
@@ -977,12 +987,15 @@ table{
   font-size: 130%;
   font-weight: bold;
 }
+
 #highscoresList .line:last-child{
   border-bottom: none;
 }
+
 #highscoresList .line .name{
   float: left;
 }
+
 #highscoresList .line .score{
   float: right;
 }
@@ -1001,7 +1014,7 @@ and (min-device-aspect-ratio : 16/10) {
 }
 
 #scores {
-    right:10px;
+  right:10px;
 }
 
 #pts{
@@ -1015,363 +1028,67 @@ and (min-device-aspect-ratio : 16/10) {
   font-size: 30;
 }
 
+/*------------------- css for explosion image ----------------- */
+
 #explode{
   position: relative;
   width: 30%;
   height: 600px;
-/*  background: rgba(0,255,0,0.5);*/
   background: url('/img/race-assets/crash.png') no-repeat;
   background-size: 100% auto;
   z-index: 100;
 }
 
-#pts.plus{
-  text-shadow:
-       3px 3px 0 green,
-     -1px -1px 0 green,  
-      1px -1px 0 green,
-      -1px 1px 0 green,
-       1px 1px 0 green;
-}
-#pts.minus{
-  text-shadow:
-       3px 3px 0 red,
-     -1px -1px 0 red,  
-      1px -1px 0 red,
-      -1px 1px 0 red,
-       1px 1px 0 red;
-}
+/*------------------- css for road ----------------- */
 
-h1 {
-    font-family: Juicy;
-    font-size:500%;
-}
-
-#completedTitleDiv {
-  position:relative;
-  left:5%;
-  height:30%;
-  background-image:url("/img/race-assets/you_won_banner.png");
-  background-size:90% 100%;
-  background-repeat:no-repeat;
-}
-
-#completedTitle{
-  position:absolute;
-  bottom:20%;
-  left:29%;
-  font-size:200%;
-  color:white;
-  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
-}
-
-#questionNumberTitle{
-  position:absolute;
-  top:22%;
-  left:24%;
-  font-size:100%;
-  color:white;
-  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
-  text-align: center;
-}
-
-#entername {
-  width: 80%;
-/*  height: 55%;*/
-  position: absolute;
-  top: 50%;
-  left: 10%;
-}
-
-#name {
-    position:absolute;
-    left:0%;
-    width:50%;
-    height:30px;
-    font-size: 150%;
-    color: #000;
-}
-/*
--webkit-input-placeholder{
-  color: #000;
-}
-*/
-/*.nameLabel{
-  position:absolute;
-  top: 15%;
-  font-size: 150%;
-  color: #fff;
-}*/
-
-#sendScoreSuccess{
-  width: 50%;
-  position: absolute;
-  top: 50%;
-  left: 25%;
-  color: #FFf;
-  text-align: center;
-  background-color: rgba(0,0,0,0.5);
-  font-weight: bold;
-  font-size: 150%;
-  padding: 7px 0;
-  border-radius: 5px;
-  display: none;
-}
-
-#send {
-    position:absolute;
-    right:0;
-    width:40%;
-    height:35px;
-}
-
-/*#cancel {
-    position:absolute;
-    bottom:50%;
-    right:10%;
-    width:35%;
-    height:10%;
-}
-*/
-#send, #cancel{
-  display: inline-block;
-  padding: 2px 6px;
-  margin-bottom: 0;
-/*  font-size: 14px;*/
-/*  line-height: 20px;*/
-  color: #333333;
-  text-align: center;
-  font-size: 130%;
-  font-weight: bold;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  vertical-align: middle;
-  cursor: pointer;
-  background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
-  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  background-repeat: repeat-x;
-  border: 1px solid #cccccc;
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border-bottom-color: #b3b3b3;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-#portalTitle {
-    text-align:left;
-    position:relative;
-    left:30px;
-    color:#F8F8F8;
-    text-shadow: 2px 2px #707070;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-}
-
-#titleBar {
-background-image: linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
-background-image: -o-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
-background-image: -moz-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
-background-image: -webkit-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
-background-image: -ms-linear-gradient(bottom, rgb(16,180,209) 25%, rgb(125,242,250) 74%);
-
-background-image: -webkit-gradient(
-  linear,
-  left bottom,
-  left top,
-  color-stop(0.25, rgb(16,180,209)),
-  color-stop(0.74, rgb(125,242,250))
-);
-}
-
-#myClasses {
-  background-color: #686868;
-  width : 100%;
-  height:60px;
-  color:white;
-}
-
-#myClassText {
-  position:absolute;
-  top:0px;
-  font-size: 18px;
-}
-
-#classText {
-  position:absolute;
-  font-size: 18px;
-}
-
-#studentListText {
-  position:absolute;
-  font-size: 14px;
-}
-
-#teacherClasses {
-  position: absolute;
-  left:0;
-  width:18%;
-  height:100%;
-  background-color: #E8E8E8;
-}
-
-.selectedClass {
-  position:relative;
-   height:60px;
-   width:100%;
-  background-color: #00C5CD;
-}
-
-.unselectedClass {
-  position:relative;
-   height:60px;
-   width:100%;
-background-image: linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
-background-image: -o-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
-background-image: -moz-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
-background-image: -webkit-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
-background-image: -ms-linear-gradient(bottom, rgb(199,199,199) 3%, rgb(235,235,235) 70%);
-
-background-image: -webkit-gradient(
-  linear,
-  left bottom,
-  left top,
-  color-stop(0.03, rgb(199,199,199)),
-  color-stop(0.7, rgb(235,235,235))
-);
-}
-
-.selectedStudent {
-   height:50px;
-   width:100%;
-  background-color: #00C5CD;
-}
-
-.unselectedStudent {
-   height:50px;
-   width:100%;
-  background-color: rgb(235,235,235);
-}
-
-#arrow {
-  position:absolute;
-  height:40px;
-  width:35px;
-  top:10px;
-  background-image: url("../img/arrow.png");
-  right:0px;
-  background-repeat: no-repeat;
-}
-
-#teacherMain {
-  position: absolute;
-  right:0;
-  width:82%;
-  height:100%;
-  background-color: #F8F8F8 ;  
-}
-
-#classReportHeaderButton {
-  position:absolute;
-  left:5%;
-    width:15%;
-    -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-   border:none;
-}
-
-#studentReportHeaderButton {
-  position:absolute;
-  left:20%;
-  width:20%;
-  -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-   border:none;
-}
-
-.frontTab {
-  z-index:2;
-  top:6%;
-  height:10%;
-  background-color: rgb(16,180,209);
-}
-
-.backTab {
-  z-index:1;
-  top:8%;
-  height:8%;
-  background-color: #686868;
-}
-
- #studentReportTitle {
-  font-size: 18px;
-  color:white;
- }
-
-#classReportTitle {
-  font-size: 18px;
-  color:white;
-}
-
-#report {
-  position:absolute;
-  z-index:3;
-  left:5%;
-  top:15%;
-  width:90%;
-  height:80%;
-  background-color: white;
-  border-style: solid;
-  border-width: 3px;
-  border-color: #DCDCDC;
-  border-top-color: rgb(16,180,209);
-  border-top-width: 10px;
-}
-
-#classGraph{
-  position:absolute;
-  right:0px;
-  width:100%;
-  height:100%;
-}
-
-#studentGraph {
-  position:absolute;
-  right:0px;
-  width:80%;
-  height:100%;
-}
-
-#studentList {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:20%;
-}
-
-/* test */
-#canvasCover{
-  position: absolute;
+#one {    
+  margin: 0;
+  padding: 0;
+    
   width: 100%;
   height: 100%;
-  background-color: #000;
+  -webkit-animation: scrollone 0.2s infinite linear;
 }
 
-#banner {
-    background-color:black;
-    height:25px;
+#one.stop{
+  -webkit-animation: none;
 }
 
-.studentScore {
-    margin:10%;
+#two {
+  margin: 0;
+  padding: 0;
+    
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: -260px;
+  -webkit-animation: scrolltwo 0.2s infinite linear;
+}
+
+#two.stop{
+  -webkit-animation: none;
+}
+
+@-webkit-keyframes scrollone {
+  from {
+      transform: translate3d(0,0,0);
+      -webkit-transform: translate3d(0,0,0);
+  }
+  
+  to {
+      transform: translate3d(0,260px,0);
+      -webkit-transform: translate3d(0,260px,0);
+  }
+}
+
+@-webkit-keyframes scrolltwo {
+  from {
+      transform: translate3d(0,0,0);
+      -webkit-transform: translate3d(0,0,0);
+  }
+  
+  to {
+      transform: translate3d(0,260px,0);
+      -webkit-transform: translate3d(0,260px,0);
+  }
 }
