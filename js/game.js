@@ -72,7 +72,7 @@ function execute(){
     var maxNameLength = 25;     // max # of chars to display in high score name
     
     //jquery caching
-    var $screen = $("#screen");
+    var $screen = $('#screen');
 	
 	/*********************************
 	 * Game initialization functions *
@@ -82,7 +82,7 @@ function execute(){
     function startScreen(){
         var teachers = [];
         // hide all other screens
-        $screen.hide();
+        $("#screen").hide();
         $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
@@ -153,40 +153,35 @@ function execute(){
         //INSTRUCTION SCREEN EVENT LISTENERS:
 
         // nav buttons
-        $instructions-nav.back = $("#instructions-nav .back");
-        $instructions-nav.right = $("#instructions-nav .right");
-        $instructions-nav.left = $("#instructions-nav .left");
-        
-        $instructions-nav.back.bind("click", function(){
+        $("#instructions-nav .back").bind("click", function(){
             instructions.hide();
         });
-        $instructions-nav.back.live("touch", function(){
+        $("#instructions-nav .back").live("touch", function(){
             instructions.hide();
         });
 
-        $instructions-nav.right.bind("click", function(){
+        $("#instructions-nav .right").bind("click", function(){
             instructions.page2();
         });
-        $instructions-nav.right.live("touch", function(){
+        $("#instructions-nav .right").live("touch", function(){
             instructions.page2();
         });
 
-        $instructions-nav.left.bind("click", function(){
+        $("#instructions-nav .left").bind("click", function(){
             instructions.page1();
         });
 
-        $instructions-nav.left.live("touch", function(){
+        $("#instructions-nav .left").live("touch", function(){
             instructions.page1();
         });
 
         // HIGH SCORE PAGE EVENT LISTENERS: 
 
         // back button
-        $highscores.back = $("#highscores .back");
-        $highscores.back.bind("click", function(){
+        $("#highscores .back").bind("click", function(){
             hideHighscores();
         });
-        $highscores.back.live("touch", function(){
+        $("#highscores .back").live("touch", function(){
             hideHighscores();
         });
 
@@ -203,32 +198,29 @@ function execute(){
         // END SCREEN EVENT LISTENERS: 
 
         // send name button
-        $againBtn = $("#againBtn");
-        $homeBtn = $("#homeBtn");
-        
         $("#send").bind("click", function(){
             sendScore($("#name").val(),score);
             $("#entername").fadeOut(animationTime); 
-            $againBtn.fadeIn(animationTime);
-            $homeBtn.fadeIn(animationTime);
+            $("#againBtn").fadeIn(animationTime);
+            $("#homeBtn").fadeIn(animationTime);
         });
         
         // go back home
-        $homeBtn.bind("click", function(){
+        $("#homeBtn").bind("click", function(){
             goHome();
             startScreen();
         });
-        $homeBtn.live("touch", function(){
+        $("#homeBtn").live("touch", function(){
             goHome();
             startScreen();
         });
 
         // bind action to race again button
-        $againBtn.bind("click", function(){
+        $("#againBtn").bind("click", function(){
             startScreen(); 
             $("#end").slideUp();
         });
-        $againBtn.live("touch", function(){
+        $("#againBtn").live("touch", function(){
             startScreen(); 
             $("#end").slideUp();
         });  
@@ -260,7 +252,7 @@ function execute(){
 	}  
 
 	function startGame(){
-        $screen.show();
+        $("#screen").show();
         // $("#sendScoreSuccess").hide();
         $("#chooseLevelScreen").slideUp(animationTime); 
         setup();
@@ -328,7 +320,7 @@ function execute(){
         interval = setInterval(update, intervalTime);
 
         // show game screen
-        $screen.show();
+        $("#screen").show();
         // show "GO!"
         $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
         $("#sendScoreSuccess").hide();
@@ -733,16 +725,16 @@ function execute(){
             var $choiceFeedback = $("<div class='qFeedback wrong-choice' style='display:none'></div>");
             var $rightFeedback = $("<div class='qFeedback wrong-right' style='display:none'></div>");
             $(rightTd).append($rightFeedback);  
-            choiceTd.append($choiceFeedback);
+            $(choiceTd).append($choiceFeedback);
             $choiceFeedback.fadeIn(animationTime);
             $rightFeedback.fadeIn(animationTime);
         }
         
         // disable answering again after one has been clicked
-        $choice1.off();
-        $choice2.off();
-        $choice3.off();
-        $choice4.off();
+        $("#choice1").off();
+        $("#choice2").off();
+        $("#choice3").off();
+        $("#choice4").off();
         
         // remove question after a few seconds
         window.setTimeout(stopAsking, feedbackDelay);
@@ -878,7 +870,6 @@ function execute(){
         $qTable.append($countDown);
 
         var $powers = $('<div id="qPowers"></div>');
-        $choice1 = $("#choice1");
         $choice2 = $("#choice2");
         $choice3 = $("#choice3");
         $choice4 = $("#choice4");
@@ -912,37 +903,37 @@ function execute(){
         });
 
         // bind actions when choosing answer
-        $choice1.on("click", function(){
+        $("#choice1").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-               checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],$choice1,answerID[i],c);
+               checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
         });
-        $choice1.on('touchstart', function(){
+        $("#choice1").on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],$choice1,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
         });
-        $choice2.on("click", function(){
+        $("#choice2").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],$choice2,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
         });
-        $choice2.on('touchstart', function(){
+        $("#choice2").on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],$choice2,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
         });
-        $choice3.on("click", function(){
+        $("#choice3").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],$choice3,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
         });
-        $choice3.on('touchstart', function(){
+        $("#choice3").on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],$choice3,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
         });
-        $choice4.on("click", function(){
+        $("#choice4").on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],$choice4,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
         });
-        $choice4.on('touchstart', function(){
+        $("#choice4").on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],$choice4,answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
         });
         
         // disable clicks for empty answer
@@ -1103,7 +1094,7 @@ function execute(){
         window.clearInterval(interval);
 
         $("#end").slideDown(animationTime);
-        $screen.fadeOut(animationTime);
+        $("#screen").fadeOut(animationTime);
 
         // show end screen div
         $("#end").slideDown(animationTime);
