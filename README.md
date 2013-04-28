@@ -10,10 +10,12 @@ TechCafe-Node: https://github.com/hedgeday/Node-TechCafe
 
 For all three of the above projects, clone from the respective git repositories. It does not matter where the code is placed on the local machine.
 
+* * *
 
 ###2. List the platforms on which the project can compiled and built.###
 Windows, Linux, Mac OS
 
+* * *
 
 ###3. Since the project may be multifaceted, provide a list of the different components included in this project along with a description of each one stating its purpose and how it interacts with the other components.###
 There are three components to the project: 
@@ -27,6 +29,8 @@ URL: brainrace.herokuapp.com
 C) TechCafe-Node: Node.js module used to dynamically import content into Brain Race and future games from the Teacher Portal.
 
 
+* * *
+
 ###4. Specify the tools needed to compile and build the project including compilers and/or IDEs.###
 #####Brain Race: #####
 - Node.js 0.8.11
@@ -37,12 +41,14 @@ C) TechCafe-Node: Node.js module used to dynamically import content into Brain R
 - Rails 3.2.13 
 - PostgreSQL 9.2.3
 
-
+* * *
 
 ###5. List any additional libraries that are needed for compiling, building and running the code ###
 #####Node Modules (for Brain Race): #####
 Express
 Mongoose
+
+* * *
 
 #####Ruby Gems (for Teacher Portal):#####
 bcrypt-ruby
