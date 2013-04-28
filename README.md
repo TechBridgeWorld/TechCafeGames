@@ -1,8 +1,7 @@
 TECHCAFE GAMES TRANSFER DOCUMENT
 ===================================
 
-1. Provide instructions on how to checkout the code from the current repository and where to place it on the local machine (e.g., C:\MyProject).
--------------------------------------------------------------------------------
+####1. Provide instructions on how to checkout the code from the current repository and where to place it on the local machine. ####
 There are three git repositories: 
 
 Brain Race: https://github.com/CMU-15-239/TechCafeGames
@@ -11,8 +10,7 @@ TechCafe-Node: https://github.com/hedgeday/Node-TechCafe
 
 For all three of the above projects, clone from the respective git repositories. It does not matter where the code is placed on the local machine.
 
-2. List the platforms on which the project can compiled and built (Windows, Linux, Mac OS).
---------------------------------
+####2. List the platforms on which the project can compiled and built.####
 Windows, Linux, Mac OS
 
 3. Since the project may be multifaceted, provide a list of the different components included in this project along with a description of each one stating its purpose and how it interacts with the other components.
@@ -61,8 +59,7 @@ uglifier
 
 6. Specify the locations where these tools can be acquired (e.g., URLs, FTP sites, local CMU servers).
 ---------------------------
-Express: http://expressjs.com/
-Mongoose: http://mongoosejs.com/
+Both Express and Mongoose can be installed by running ‘npm install’ from the Brain Race directory. They can also be downloaded from http://expressjs.com/ and http://mongoosejs.com/
 All necessary Ruby gems can be installed by running ‘bundle install’ from the Teacher Portal directory.
 
 7. Indicate the location where these tools need to be installed on the local machine for project compilation, building and execution.
@@ -87,7 +84,7 @@ Admin user ‘postgres’ might need to be created for Teacher Portal. (On some 
 ----------------------------------------------------------------------------
 Brain Race: 
 - Clone repository
-- In your cloned folder, run 'npm install' to install all necessary dependencies
+- Run ‘npm install’ in the Brain Race folder, which installs the required node modules.
 - In a separate terminal window, run mongoDB. (use ‘./mongod’ in your mongodb/bin folder)
 - Open a terminal window, navigate to the Brain Race folder, and use ‘node server.js’
 
@@ -97,27 +94,7 @@ On computer:
 - On Chrome, go to View > Developer >Developer Tools 
 - In the window that pops up at the bottom, click on the settings icon on the bottom right corner of your screen. On the window that pops up over your developer console, click on “Overrides” on the left under “Settings”, and then on the right pane scroll down and enable “Emulate touch events”.
 - You can now control the car in game by clicking and dragging your mouse
-
-*Note: both the local version and brainrace.herokuapp.com pull content from techcafe-teacher.herokuapp.com. To make the local version pull from a locally hosted teacher portal:*
-
--in node_techcafe.js, in the options variable, change from
-
-    var options = {
-	host: 'techcafe-teacher.herokuapp.com',
-	method: 'GET'
-	};
-
-to
-
-	var options = {  
-	host: 'localhost', 
-	port: 3000,
-	method: 'GET',
-	};
-
-- run the teacher portal locally (see below)
-- access localhost:8080/desktop.html
-- it should now pull content from the local teacher portal
+- Note: both the local version and brainrace.herokuapp.com pull content from techcafe-teacher.herokuapp.com
 
 On mobile: 
 - Using a browser (preferably CordovaBrowser) , access <Host Computer IP>:8080
@@ -159,11 +136,13 @@ N/A
 
 17. If using external hardware or mobile device, provide instructions on how this device needs to be connected to the computer.
 ---------------------------------------------------------
-Via the web. Using Cordova browser, access <your computer’s IP>:8080 when you are running the node server on your computer. 
+No physical connection is needed between the mobile device and a computer.
+When running Brain Race from a mobile device, one option is to install and run the APK, which is connected to brainrace.herokuapp.com.
+Another option is to connect to localhost. To do this, you need to first run the node server on a computer. Then, on the phone, you can access the game at <your computer’s IP>:8080. Accessing the game through Cordova Browser (can be downloaded for free from Google Play and iOS App Store) is recommended because it simulates the game as if it has been packaged as an APK.
 
 18. Regarding mobile devices and/or external hardware, indicate if any of the generated binaries from item 10 need to be installed on this device and provide instructions on how to install these binaries.
 ------------------------------------------
-An APK can be installed to access the game hosted at brainrace.herokuapp.com. The APK is included in the Brain Race project package - it can be transferred onto an Android phone and installed directly. The game can then be accessed like any other Android app.  
+For Brain Race, an APK can be installed to access the game hosted at brainrace.herokuapp.com. The APK is included in the Brain Race project package - it can be transferred onto an Android phone and installed directly. The game can then be accessed like any other Android app.  
 
 19. Specify any settings on the computer for the device (e.g., the COM port).
 ----------------------------------------------
@@ -171,16 +150,19 @@ N/A
 
 20. Provide instructions on how to run the application on the external hardware, mobile device and/or computer.
 -----------------------------------------------------
-Run the application, and play.
+Install the APK file for Brain Race on the smartphone. Run the application, and play. 
 
-21. If the mobile device requires interaction with the computer, provide instructions on how this interaction should work from an end user standpoint (i.e., first run application A on the laptop computer, then launch program B on the mobile device, next you should see a screen indicating a connection was made, etc...)
-----------------------------
-(Optional)
-Manage teacher accounts, questions, and content sets on the Teacher Portal at techcafe-teacher.herokuapp.com.
 
-Launch brain race and use new or previously created content in game.
+21. If the mobile device requires interaction with the computer, provide instructions on 
+how this interaction should work from an end user standpoint (i.e., first run application A on the laptop computer, then lunch program B on the mobile device, next you should see a screen indicating a connection was made, etc...)
 
-When deploying the Teacher Portal with a new database, the first person to register will automatically become an admin. After that, everyone who registers from techcafe-teacher.herokuapp.com/signup will automatically become a teacher. Admins can create and edit user accounts in the “Accounts” page.
+-------------------------------------------------------------------------
+
+(Optional) 
+Manage users, questions, and content sets on the Teacher Portal at techcafe-teacher.herokuapp.com. 
+
+Launch brain race and use new or previously created content in game. 
+
 
 22. List any known bugs, configuration issues or other pitfalls to look out for when compiling, building and/or running the application.
 ------------------------------------------------------------------------    
@@ -190,14 +172,13 @@ PostgreSQL requires the user ‘postgres’ to run with our app. (More?)
 -------------------------------
 Different question types for teacher portal, such as fill in the blanks and image questions. 
 
-Possible performance tracking on teacher portal (for example, different classes’ and students’ performance over time, frequent correctly- and incorrectly-answered questions in a content set, etc). 
+Performance tracking on teacher portal (for example, different classes’ and students’ performance over time, frequent correctly- and incorrectly-answered questions in a content set, etc). 
 
 Caching of Brain Race game content so game can still be played if device loses internet connection during a game.
 
 More games. 
 
 
-
 Additional Information:
 ---------------------------------
 Keeping the API up to date: 
@@ -213,3 +194,13 @@ Step 1: Update the readme.md file to reflect the change in the URL.
 Step 2: Update line 7 of the file node_techcafe/node_techcafe.js to reflect the URL change. 
 
 
+
+Teacher Portal Accounts
+
+An account on the Teacher Portal is either an admin or a teacher.
+
+Teachers can manage all questions and their own content sets. Administrators can manage all questions, all content sets, all user accounts, and question categories.
+
+When deploying the Teacher Portal with a new database, the first person to register will automatically become an admin. After that, everyone who registers from techcafe-teacher.herokuapp.com/signup will automatically become a teacher. 
+
+Admins can create new admin accounts and teacher accounts from the “Accounts” page.
