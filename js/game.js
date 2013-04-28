@@ -70,13 +70,19 @@ function execute(){
 	var gasMeter;
 
     var maxNameLength = 25;     // max # of chars to display in high score name
-
+    
+    //jquery caching
+    var $screen = $("#screen");
+	
+	/*********************************
+	 * Game initialization functions *
+	 * *******************************/ 
     // start screen actions
     // ALL ONE TIME EVENT LISTENERS GO HERE
     function startScreen(){
         var teachers = [];
         // hide all other screens
-        $("#screen").hide();
+        $screen.hide();
         $("#end").hide();
         $("#startGo").hide();
         $("#instructions").hide();
@@ -147,35 +153,40 @@ function execute(){
         //INSTRUCTION SCREEN EVENT LISTENERS:
 
         // nav buttons
-        $("#instructions-nav .back").bind("click", function(){
+        $instructions-nav.back = $("#instructions-nav .back");
+        $instructions-nav.right = $("#instructions-nav .right");
+        $instructions-nav.left = $("#instructions-nav .left");
+        
+        $instructions-nav.back.bind("click", function(){
             instructions.hide();
         });
-        $("#instructions-nav .back").live("touch", function(){
+        $instructions-nav.back.live("touch", function(){
             instructions.hide();
         });
 
-        $("#instructions-nav .right").bind("click", function(){
+        $instructions-nav.right.bind("click", function(){
             instructions.page2();
         });
-        $("#instructions-nav .right").live("touch", function(){
+        $instructions-nav.right.live("touch", function(){
             instructions.page2();
         });
 
-        $("#instructions-nav .left").bind("click", function(){
+        $instructions-nav.left.bind("click", function(){
             instructions.page1();
         });
 
-        $("#instructions-nav .left").live("touch", function(){
+        $instructions-nav.left.live("touch", function(){
             instructions.page1();
         });
 
         // HIGH SCORE PAGE EVENT LISTENERS: 
 
         // back button
-        $("#highscores .back").bind("click", function(){
+        $highscores.back = $("#highscores .back");
+        $highscores.back.bind("click", function(){
             hideHighscores();
         });
-        $("#highscores .back").live("touch", function(){
+        $highscores.back.live("touch", function(){
             hideHighscores();
         });
 
@@ -192,29 +203,32 @@ function execute(){
         // END SCREEN EVENT LISTENERS: 
 
         // send name button
+        $againBtn = $("#againBtn");
+        $homeBtn = $("#homeBtn");
+        
         $("#send").bind("click", function(){
             sendScore($("#name").val(),score);
             $("#entername").fadeOut(animationTime); 
-            $("#againBtn").fadeIn(animationTime);
-            $("#homeBtn").fadeIn(animationTime);
+            $againBtn.fadeIn(animationTime);
+            $homeBtn.fadeIn(animationTime);
         });
         
         // go back home
-        $("#homeBtn").bind("click", function(){
+        $homeBtn.bind("click", function(){
             goHome();
             startScreen();
         });
-        $("#homeBtn").live("touch", function(){
+        $homeBtn.live("touch", function(){
             goHome();
             startScreen();
         });
 
         // bind action to race again button
-        $("#againBtn").bind("click", function(){
+        $againBtn.bind("click", function(){
             startScreen(); 
             $("#end").slideUp();
         });
-        $("#againBtn").live("touch", function(){
+        $againBtn.live("touch", function(){
             startScreen(); 
             $("#end").slideUp();
         });  
@@ -222,9 +236,6 @@ function execute(){
 
     }
 
-	/*********************************
-	 * Game initialization functions *
-	 * *******************************/
 	function getContent(username) {
     $(".levelBtn").remove();
     ajaxPost({tid:username}, "/getContent", function(data){
@@ -249,7 +260,7 @@ function execute(){
 	}  
 
 	function startGame(){
-        $("#screen").show();
+        $screen.show();
         // $("#sendScoreSuccess").hide();
         $("#chooseLevelScreen").slideUp(animationTime); 
         setup();
@@ -317,7 +328,7 @@ function execute(){
         interval = setInterval(update, intervalTime);
 
         // show game screen
-        $("#screen").show();
+        $screen.show();
         // show "GO!"
         $("#startGo").fadeIn(animationTime*2).fadeOut(animationTime);
         $("#sendScoreSuccess").hide();
@@ -423,7 +434,6 @@ function execute(){
         }
 
         ctx.clearRect(0,0,width,height);
-        draw(); 
         if (questionFlag) drawQuestionBox();
         else if (pauseFlag) {}
         else {
@@ -435,6 +445,7 @@ function execute(){
             updatePowerUps();
             updateScore(); 
         }
+        draw(); 
         ctx.drawImage(canvas,0,0);
     }
     
@@ -446,64 +457,6 @@ function execute(){
         }
     }
     
-    // update display of current active power-ups
-    function updateCurrPowers(){
-        var crossout = 0;
-        var timeplus = 1;
-        var invincible = 2;
-
-        // count each
-        var numTime = storedPowers[timeplus].count;
-        var numCrossOut = storedPowers[crossout].count;
-        var numInvincible = storedPowers[invincible].count;
-
-        // show current powers div if any exists
-        if (numTime+numCrossOut+numInvincible>0){
-            $('#currPowers').show(animationTime);
-        }
-        else{
-            $('#currPowers').hide(animationTime);
-        }
-
-        // show invincible icon if any exists
-        if (numInvincible > 0){
-            $('#currBoost').show(animationTime);
-        }
-        else {
-            $('#currBoost').hide(animationTime);
-        }
-
-        // show time icon if any exists
-        if (numTime > 0){
-            $('#currTime').show(animationTime);
-            if (numTime>1){
-                $('#currTime .num').html("x"+numTime);
-                $('#currTime .num').show(animationTime);
-            }
-            else{
-                $('#currTime .num').hide(animationTime);
-            }
-        }
-        else{
-            $('#currTime').hide(animationTime);
-        }
-
-        // show eliminate if any exists
-        if (numCrossOut > 0){
-            $('#currEliminate').show(animationTime);
-            if (numCrossOut>1){
-                $('#currEliminate .num').html("x"+numCrossOut);
-                $('#currEliminate .num').show(animationTime);
-            }
-            else{
-                $('#currEliminate .num').hide(animationTime);
-            }
-        }
-        else{
-            $('#currEliminate').hide(animationTime);
-        }
-    }
-
 	// update countdown
     function updateCountdown(sec){
         // set number
@@ -534,7 +487,6 @@ function execute(){
             
             if (storedPowers[1].count > 0) {
                 storedPowers[1].decrement();
-                updateCurrPowers();
                 timeLimit += 10000;
             }
         }
@@ -675,7 +627,6 @@ function execute(){
                     invincibleFlag = true;  // set flag
                     objectSpeed = 40;       // change speed of objects on road
                     storedPowers[2].increment();            // add to active power
-                    updateCurrPowers();                     // show
                     obsCarTransparency = 0.2;
                     setTimeout(function() {                 // set duration
                         objectSpeed = 20;
@@ -690,7 +641,6 @@ function execute(){
                     setTimeout(function() {                 // set duration
                         objectSpeed = 10;
                         storedPowers[2].decrement();
-                        updateCurrPowers();
                         invincibleFlag = false;
                         flameTransparency = 1;
                         obsCarTransparency = 1;
@@ -713,7 +663,6 @@ function execute(){
                         }
                         storedPowers[1].increment();
                     }
-                    updateCurrPowers();
                 }
                 powerUps.splice(i, 1);
             }
@@ -784,16 +733,16 @@ function execute(){
             var $choiceFeedback = $("<div class='qFeedback wrong-choice' style='display:none'></div>");
             var $rightFeedback = $("<div class='qFeedback wrong-right' style='display:none'></div>");
             $(rightTd).append($rightFeedback);  
-            $(choiceTd).append($choiceFeedback);
+            choiceTd.append($choiceFeedback);
             $choiceFeedback.fadeIn(animationTime);
             $rightFeedback.fadeIn(animationTime);
         }
         
         // disable answering again after one has been clicked
-        $("#choice1").off();
-        $("#choice2").off();
-        $("#choice3").off();
-        $("#choice4").off();
+        $choice1.off();
+        $choice2.off();
+        $choice3.off();
+        $choice4.off();
         
         // remove question after a few seconds
         window.setTimeout(stopAsking, feedbackDelay);
@@ -830,6 +779,7 @@ function execute(){
      * ***************/
     function draw() {
 		if (invincibleFlag) drawFlames(flameTransparency);
+		drawCurrPowers();
 		drawScore();
         drawCar();
         drawObjects(obsCarTransparency);
@@ -928,6 +878,10 @@ function execute(){
         $qTable.append($countDown);
 
         var $powers = $('<div id="qPowers"></div>');
+        $choice1 = $("#choice1");
+        $choice2 = $("#choice2");
+        $choice3 = $("#choice3");
+        $choice4 = $("#choice4");
 
         // add active power-ups, if any, for this question
         var crossout = 0;
@@ -958,47 +912,47 @@ function execute(){
         });
 
         // bind actions when choosing answer
-        $("#choice1").on("click", function(){
+        $choice1.on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-               checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
+               checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],$choice1,answerID[i],c);
         });
-        $("#choice1").on('touchstart', function(){
+        $choice1.on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],"#choice1",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[0],$choice1,answerID[i],c);
         });
-        $("#choice2").on("click", function(){
+        $choice2.on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],$choice2,answerID[i],c);
         });
-        $("#choice2").on('touchstart', function(){
+        $choice2.on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],"#choice2",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[1],$choice2,answerID[i],c);
         });
-        $("#choice3").on("click", function(){
+        $choice3.on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],$choice3,answerID[i],c);
         });
-        $("#choice3").on('touchstart', function(){
+        $choice3.on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],$choice3,answerID[i],c);
         });
-        $("#choice4").on("click", function(){
+        $choice4.on("click", function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],$choice4,answerID[i],c);
         });
-        $("#choice4").on('touchstart', function(){
+        $choice4.on('touchstart', function(){
             for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
+            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],$choice4,answerID[i],c);
         });
         
         // disable clicks for empty answer
         for (var i = question.answers.length; i < choiceArr.length; i++) {
             switch (i) {
                 case 2:
-                    $("#choice3").off();
+                    $choice3.off();
                     break;
                 case 3:
-                    $("#choice4").off();
+                    $choice4.off();
                     break;
                 default:
                     break;
@@ -1008,7 +962,6 @@ function execute(){
         // decreasing used power-ups
         if (storedPowers[0].count != 0) {
             storedPowers[0].decrement();
-            updateCurrPowers();
             var del = Math.floor(Math.random() * question.answers.length);
             while (del == ansIndex) {
                 var del = Math.floor(Math.random() * question.answers.length);
@@ -1023,7 +976,6 @@ function execute(){
             var timeLimit = questionTime;
             if (storedPowers[1].count > 0) {
                 storedPowers[1].decrement();
-                updateCurrPowers();
                 timeLimit += 10000;
             }
 
@@ -1068,7 +1020,64 @@ function execute(){
     		}
     	}
     }
+    
+    // draw display of current active power-ups
+    function drawCurrPowers(){
+        var crossout = 0;
+        var timeplus = 1;
+        var invincible = 2;
 
+        // count each
+        var numTime = storedPowers[timeplus].count;
+        var numCrossOut = storedPowers[crossout].count;
+        var numInvincible = storedPowers[invincible].count;
+
+        // show current powers div if any exists
+        if (numTime+numCrossOut+numInvincible>0){
+            $('#currPowers').show(animationTime);
+        }
+        else{
+            $('#currPowers').hide(animationTime);
+        }
+
+        // show invincible icon if any exists
+        if (numInvincible > 0){
+            $('#currBoost').show(animationTime);
+        }
+        else {
+            $('#currBoost').hide(animationTime);
+        }
+
+        // show time icon if any exists
+        if (numTime > 0){
+            $('#currTime').show(animationTime);
+            if (numTime>1){
+                $('#currTime .num').html("x"+numTime);
+                $('#currTime .num').show(animationTime);
+            }
+            else{
+                $('#currTime .num').hide(animationTime);
+            }
+        }
+        else{
+            $('#currTime').hide(animationTime);
+        }
+
+        // show eliminate if any exists
+        if (numCrossOut > 0){
+            $('#currEliminate').show(animationTime);
+            if (numCrossOut>1){
+                $('#currEliminate .num').html("x"+numCrossOut);
+                $('#currEliminate .num').show(animationTime);
+            }
+            else{
+                $('#currEliminate .num').hide(animationTime);
+            }
+        }
+        else{
+            $('#currEliminate').hide(animationTime);
+        }
+    }
     
 	/*********************
 	 * Endgame functions *
@@ -1094,7 +1103,7 @@ function execute(){
         window.clearInterval(interval);
 
         $("#end").slideDown(animationTime);
-        $("#screen").fadeOut(animationTime);
+        $screen.fadeOut(animationTime);
 
         // show end screen div
         $("#end").slideDown(animationTime);
