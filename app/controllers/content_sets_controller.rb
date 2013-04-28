@@ -11,6 +11,7 @@ class ContentSetsController < ApplicationController
   # GET /content_sets
   # GET /content_sets.json
   def index
+    @questions = Question.order(params[:sort])
     
     if current_user && current_user.is_admin?
       @content_sets = ContentSet.byid
@@ -62,6 +63,7 @@ class ContentSetsController < ApplicationController
   # POST /content_sets.json
   def create
     @content_set = ContentSet.new(params[:content_set])
+    @questions = Question.order(params[:sort])
 
     @content_set.user = current_user
 
@@ -80,6 +82,7 @@ class ContentSetsController < ApplicationController
   # PUT /content_sets/1.json
   def update
     @content_set = ContentSet.find(params[:id])
+    @questions = Question.order(params[:sort])
 
     respond_to do |format|
       if @content_set.update_attributes(params[:content_set])

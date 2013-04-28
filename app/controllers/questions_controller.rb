@@ -45,12 +45,22 @@ class QuestionsController < ApplicationController
   # GET /questions/1/edit
   def edit
     @question = Question.find(params[:id])
+    @answersLeft = 4-@question.answers.length
+
+    @answersLeft.times do
+      answer = @question.answers.build
+    end
   end
 
   # POST /questions
   # POST /questions.json
   def create
     @question = Question.new(params[:question])
+    @answersLeft = 4-@question.answers.length
+
+    @answersLeft.times do
+      answer = @question.answers.build
+    end
 
     respond_to do |format|
       if @question.save
@@ -67,6 +77,11 @@ class QuestionsController < ApplicationController
   # PUT /questions/1.json
   def update
     @question = Question.find(params[:id])
+    @answersLeft = 4-@question.answers.length
+
+    @answersLeft.times do
+      answer = @question.answers.build
+    end
 
     respond_to do |format|
       if @question.update_attributes(params[:question])

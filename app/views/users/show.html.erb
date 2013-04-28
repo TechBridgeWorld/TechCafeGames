@@ -42,7 +42,7 @@
 </table>
 
 <br/><br/>
-<h3><%= @user.username %>'s Content Sets</h3>
+<h3><%= @user.username %>'s Content Sets (<%= @user.content_sets.count %>)</h3>
 
 <% if @user.content_sets.count>=1 %>
   <table class="table">
