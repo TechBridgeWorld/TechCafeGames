@@ -56,7 +56,6 @@ function execute() {
 
                         var trackingData = data[1];
                         var dataLength = trackingData.length;
-                        console.log(trackingData);
 
                         // check for empty results
                         if (dataLength<1){
@@ -221,7 +220,6 @@ function execute() {
                                     // get question data from semicolon-delimited string
                                     var questionData = trackingData[i].questionData[0];
                                     var questionArray = questionData.split(';');
-                                    console.log(questionArray);
 
                                     var $questions = $("<div class='specificQuestions'></div>");
 

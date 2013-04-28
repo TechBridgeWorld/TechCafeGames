@@ -92,9 +92,7 @@ function execute(){
         $(".levelBtn").remove();
 
         ajaxRequest("/getTeachers", function(data){
-            // console.log(data);
             for(var i = 0; i < data.length; i++){
-                // console.log("t: "+data[i].username);
                 $("#chooseLevelButtons").append('<div id="'+data[i].username+'" class="levelBtn"><h2>'+data[i].username+'</h2></div>');
                 $("#"+data[i].username).bind("click", function(){
                     getContent(this.id);
@@ -104,7 +102,6 @@ function execute(){
         function(err){});
 
         for(var i = 0; i < teachers.length; i++) {
-            // console.log("t: "+teachers[i]);
             $("#chooseLevelScreen").append('<div id="'+teachers[i]+'" class="levelBtn"><h2>+'+teachers[i]+'+</h2></div>');
 
         }
@@ -231,16 +228,12 @@ function execute(){
 	function getContent(username) {
     $(".levelBtn").remove();
     ajaxPost({tid:username}, "/getContent", function(data){
-            // console.log(data);
             data=data.content_sets;
             $("#choosePageTitle").removeClass("chooseTeacherTitle").addClass("chooseContentSetTitle");
             for(var i = 0; i < data.length; i++){
-                // console.log("c: "+data[i].name);
                 $("#chooseLevelButtons").append('<div id="'+i+'" class="levelBtn"><h2>'+data[i].name+'</h2></div>');
                 $("#"+i).bind("click", function(){
-                    // console.log("clicked");
                   questionData = data[(parseInt(this.id))].questions;
-                  // console.log(questionData);
                   $(".levelBtn").remove();
                   $("#backToTeachers").css("display","none");
                   startGame();
@@ -420,7 +413,6 @@ function execute(){
         updateCounter++;
         if (trackDataFlag){
             if (updateCounter%(1000/intervalTime) === 0){
-                // console.log(gameData.gameLen)
                 gameData.gameLength++;
             }
         }
@@ -916,24 +908,6 @@ function execute(){
         $("#choice2").on('touchstart', function() {callCheckAns(2)});
         $("#choice3").on('touchstart', function() {callCheckAns(3)});
         $("#choice4").on('touchstart', function() {callCheckAns(4)});
-	/*
-		$("#choice3").on("click", function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
-        });
-        $("#choice3").on('touchstart', function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[2],"#choice3",answerID[i],c);
-        });
-        
-		$("#choice4").on("click", function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
-        });
-        $("#choice4").on('touchstart', function(){
-            for(var i = 0; i < ansIndex.length; i ++)
-            checkAns(question.answers[ansIndex[i]].answer,choiceArr[3],"#choice4",answerID[i],c);
-        }); */
         
         // decreasing used power-ups
         if (storedPowers[0].count != 0) {
@@ -1147,39 +1121,24 @@ function execute(){
         for (var i=0; i<gameData.questionData.length; i++){
             stringifiedQuestionData = stringifiedQuestionData + JSON.stringify(gameData.questionData[i]) + ";";
         }
-        // console.log(stringifiedQuestionData);
 
-        ajaxPost(
-        {
-            gameLength: gameData.gameLength, 
-            name: gameData.name || "[anonymous]", 
-            numCoinsEaten: gameData.numCoinsEaten, 
-            numCoinsSpawned: gameData.numCoinsSpawned, 
-            numObstaclesEaten: gameData.numObstaclesEaten, 
-            numObstaclesSpawned: gameData.numObstaclesSpawned, 
-            numRightQuestions: gameData.numRightQuestions, 
-            numTimeoutQuestions: gameData.numTimeoutQuestions, 
-            numTotalQuestions: gameData.numTotalQuestions, 
-            numBoostPowersEaten: gameData.powersData.numBoostPowersEaten, 
-            numBoostPowersSpawned: gameData.powersData.numBoostPowersSpawned, 
-            numCrossoutPowersEaten: gameData.powersData.numCrossoutPowersEaten, 
-            numCrossoutPowersSpawned: gameData.powersData.numCrossoutPowersSpawned, 
-            numGasPowersEaten: gameData.powersData.numGasPowersEaten,
-            numGasPowersSpawned: gameData.powersData.numPowersSpawned, 
-            numPowersEaten: gameData.powersData.numPowersEaten, 
-            numPowersMissedInitially: gameData.powersData.numPowersMissedInitially, 
-            numPowersSpawned: gameData.powersData.numPowersSpawned, 
-            numTimePowersEaten: gameData.powersData.numTimePowersEaten, 
-            numTimePowersSpawned: gameData.powersData.numTimePowersSpawned,
-            score: gameData.score, 
-            timestamp: new Date(),
-            questionData: stringifiedQuestionData
-        },
-        '/postGameData',
-        function onSuccess(data){
-        },
-        function onError(data){
-        });
+        var sendData = gameData; 
+        sendData.name = gameData.name || "[anonymous]"; 
+        sendData.timestamp = new Date(); 
+        sendData.questionData = stringifiedQuestionData;
+        sendData.numBoostPowersEaten = gameData.powersData.numBoostPowersEaten;
+        sendData.numBoostPowersSpawned = gameData.powersData.numBoostPowersSpawned;
+        sendData.numCrossoutPowersEaten = gameData.powersData.numCrossoutPowersEaten;
+        sendData.numCrossoutPowersSpawned = gameData.powersData.numCrossoutPowersSpawned; 
+        sendData.numGasPowersEaten = gameData.powersData.numGasPowersEaten;
+        sendData.numGasPowersSpawned = gameData.powersData.numPowersSpawned; 
+        sendData.numPowersEaten = gameData.powersData.numPowersEaten; 
+        sendData.numPowersMissedInitially = gameData.powersData.numPowersMissedInitially;
+        sendData.numPowersSpawned = gameData.powersData.numPowersSpawned;
+        sendData.numTimePowersEaten = gameData.powersData.numTimePowersEaten;
+        sendData.numTimePowersSpawned = gameData.powersData.numTimePowersSpawned;
+        
+        ajaxPost(sendData,'/postGameData',function onSuccess(data){},function onError(data){});
     }
 
 	/******************************
