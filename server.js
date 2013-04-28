@@ -10,7 +10,6 @@ var app = express.createServer();
 var Student = require('./models/Student.js');
 var Score = require('./models/Score.js');
 
-
 function isEmpty(obj){
 	for(var i in obj){
 		if(obj.hasOwnProperty(i)){
@@ -45,7 +44,10 @@ app.post('/loginAdmin', function(req,res){
 	var username = req.body.username;
 	var password = req.body.password;
 
-	//
+	//This admin page is only for developers, 
+	//and does not contain any sensitive information. 
+	//All collected student data is anonymized. 
+	//Don't panic! 
 	if (!(username == 'admin' && password == 'admin')) {
 		res.send('Invalid credentials');
 	} 
