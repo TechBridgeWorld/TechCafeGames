@@ -87,6 +87,7 @@ Admin user ‘postgres’ might need to be created for Teacher Portal. (On some 
 ----------------------------------------------------------------------------
 Brain Race: 
 - Clone repository
+- In your cloned folder, run 'npm install' to install all necessary dependencies
 - In a separate terminal window, run mongoDB. (use ‘./mongod’ in your mongodb/bin folder)
 - Open a terminal window, navigate to the Brain Race folder, and use ‘node server.js’
 
