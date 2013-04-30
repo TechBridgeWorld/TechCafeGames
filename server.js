@@ -3,7 +3,7 @@ var wwwDir = "/";
 var mongoose = require('mongoose');
 var teacherportal = require("./modules/node_techcafe");
 var mongoUri = process.env.MONGOLAB_URI || 
-  'mongodb://localhost:27017'; 
+  'mongodb://localhost:27017/BrainRace'; 
 var port = process.env.PORT || 8080;
 
 var app = express.createServer();
