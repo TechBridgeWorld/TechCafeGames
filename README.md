@@ -5,8 +5,10 @@ TECHCAFE GAMES TRANSFER DOCUMENT
 There are three git repositories: 
 
 Brain Race: https://github.com/CMU-15-239/TechCafeGames
-Teacher Portal: https://github.com/hedgeday/TeacherPortal
-TechCafe-Node: https://github.com/hedgeday/Node-TechCafe
+
+Teacher Portal: https://github.com/CMU-15-239/TeacherPortal
+
+TechCafe-Node: https://github.com/CMU-15-239/Node-TechCafe
 
 For all three of the above projects, clone from the respective git repositories. It does not matter where the code is placed on the local machine.
 
@@ -215,7 +217,7 @@ If the location of the Teacher Portal is changed, the API implementation must al
 
 Instructions for API update. 
 
-The API is located at https://github.com/hedgeday/Node-TechCafe. 
+The API is located at https://github.com/CMU-15-239/Node-TechCafe. 
 
 Step 1: Update the readme.md file to reflect the change in the URL. 
 
