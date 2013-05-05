@@ -1,0 +1,9 @@
+Todo for prompt:
+  - write:
+    - function to flash tile/ball
+    - function to display key prompt
+  - countdown:
+      * use settimeout and functions written above
+  - make styles for overlay
+      * and use jQuery fadein to make it look nice
+  - ?color picture?

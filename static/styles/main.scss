@@ -1,0 +1,564 @@
+/* heights */
+$totalWidth: 750px; /* 3:2 aspect ration */
+$totalHeight: 500px; 
+$canvasWidth: (400/9)*15px;
+ /* these 3 heights should add up to total height */
+$canvasHeight: 390px;
+$libraryHeight: 60px;
+$bottomHeight: 50px;
+$numElements: 8;
+$imgFolder: "../images/";
+$fontsFolder: "../fonts/";
+
+/* theme colors */
+$bluegray: #BadaEB;
+$lightgray: #F1F1F1;
+$lightyellow: #f4eb2f;
+$darkyellow: #F07000;
+$dullyellow: #f4ee61;
+$chillblue: #3E91A1;
+$niceblue: #009ECE;
+
+$buttonColor: lighten($chillblue, 8%);
+$backgroundColor: lighten($dullyellow, 6%);
+$menuBgColor: $lightgray;
+
+/* old colors */
+$shadowColor: #777;
+$sidebarColor: #94b8d5;
+$bottomColor: #ECD38F;
+
+@mixin mobileMediaOverride{
+    @media only screen and (max-device-width : 1024px){
+        @content;
+    }
+}
+
+@mixin customFont($fileName, $fontFamily: false, $fontExt: ".ttf", 
+                  $fontWeight: normal, $fontStyle: normal, $format: "truetype"){
+    @font-face {
+        @if ($fontFamily == false){
+            font-family: $fileName;
+        }
+        @else{
+            font-family: $fontFamily;
+        }
+        font-weight: $fontWeight;
+        font-style: $fontStyle;
+        src: url($fontsFolder + $fileName + $fontExt) format($format);
+    }
+}
+
+@mixin animated($properties: all, $duration: 0.2s){
+    @if($properties == transform){
+        transition-property: transform;
+        -webkit-transition-property: -webkit-transform;
+        -moz-transition-property: -moz-transform;
+        -o-transition-property: -o-transform;
+    }
+    @else{
+        transition-property: $properties;
+        -webkit-transition-property: $properties;
+        -moz-transition-property: $properties;
+        -o-transition-property: $properties;
+    }
+    
+    transition-duration: $duration;
+    -webkit-transition-duration: $duration;
+    -moz-transition-duration: $duration;
+    -o-transition-duration: $duration;
+    
+    -webkit-transition-timing-function:ease-in;
+    -moz-transition-timing-function:ease-in;
+    -o-transition-timing-function:ease-in;
+    transition-timing-function:ease-in;
+}
+
+@mixin transformed($transform){
+    transform:$transform;
+    -ms-transform:$transform; /* IE 9 */
+    -moz-transform:$transform; /* Firefox */
+    -webkit-transform:$transform; /* Safari and Chrome */
+    -o-transform:$transform; /* Opera */
+}
+
+@mixin shadowed($color:$shadowColor){
+    box-shadow: 0 1px 4px $color;
+}
+
+@mixin clickable{
+    cursor: pointer;
+}
+
+@mixin movable{
+    cursor: move;
+}
+
+@mixin unhighlightable{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    -webkit-tap-highlight-color: transparent;
+    -moz-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+}
+
+@mixin highlightable{
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+@mixin rounded($radius: 4px){
+    border-radius: $radius;
+}
+
+@mixin spriteIcon($imgName, $width, $height, $fill:true){
+    background-image: url($imgFolder + $imgName);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: $width;
+    height: $height;
+    
+    @if ($fill){
+        background-size: contain;
+    }
+}
+
+@mixin gradient($base: #ffffff){
+    $darker: darken($base, 15%);
+    background-color: $base;
+    background-repeat: no-repeat;
+    background-image: -moz-linear-gradient(top, $base, $base 25%, $darker);
+    background-image: -webkit-linear-gradient($base, $base 25%, $darker);
+    background-image: linear-gradient($base, $base 25%, $darker);
+}
+
+.gravity-icon{
+   @include spriteIcon("gravity.png", 45px, 40px);
+}
+
+.click-icon{
+    @include spriteIcon("click.png", 45px, 40px); 
+    @include mobileMediaOverride{
+        @include spriteIcon("touch.png", 45px, 40px); 
+    }
+}
+
+.keys-icon{
+    @include spriteIcon("arrowkeys.png", 45px, 40px); 
+}
+
+.undo-icon{
+    @include spriteIcon("undo.png", 45px, 40px); 
+}
+
+.redo-icon{
+    @include spriteIcon("redo.png", 45px, 40px); 
+}
+
+.play-icon{
+    @include spriteIcon("play.png", 45px, 40px); 
+}
+
+.close-icon{
+    @include spriteIcon("close.png", 45px, 40px); 
+}
+
+.save-icon{
+    @include spriteIcon("save.png", 45px, 40px); 
+    /* for getting game code! */
+    &.getGameCode {
+        background-image: url($imgFolder + "download.svg");
+    }
+}
+
+.grid-icon{
+    @include spriteIcon("grid.png", 45px, 40px); 
+}
+
+.delete-tiny-icon{
+    @include spriteIcon("trash.svg", 20px, 20px); 
+}
+
+.left-icon{
+    @include spriteIcon("left.svg", 30px, 30px);
+}
+
+.right-icon{
+    @include spriteIcon("right.svg", 30px, 30px);
+}
+
+.up-icon{
+    @include spriteIcon("up.svg", 30px, 30px);
+}
+
+.down-icon{
+    @include spriteIcon("down.svg", 30px, 30px);
+}
+
+.jump-icon{
+    @include spriteIcon("hurdle.svg", 30px, 30px);
+}
+
+.loading-img{
+    @include spriteIcon("ajax-loader.gif", 16px, 16px, $fill:false); 
+    
+    &.dark{
+        @include spriteIcon("ajax-loader-dark.gif", 16px, 16px, $fill:false); 
+    }
+}
+
+// the dark overlay that comes up to cover some part of the screen
+.large-loader-overlay{
+    @include spriteIcon("ajax-loader-big.gif", 100%, 100%, $fill:false);
+    
+    background-color: rgba(255,255,255, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    
+    &.success{
+        @include spriteIcon("check-green.svg", 100%, 100%, $fill:false);
+    }
+    
+    &.error{
+        @include spriteIcon("no-red.svg", 100%, 100%, $fill:false);
+    }
+}
+
+@include customFont("Junction", $fontExt: ".otf", $format: "opentype");
+
+/* allow highlighting text in inputs */
+input {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+html{
+    min-height:100%;
+    height: 100%;
+    font-size: 1em;
+}
+
+body{
+    min-height:100%;
+    height: 100%;
+    text-rendering: optimizeLegibility;
+    text-align: center;
+    
+    font-family: /*"Junction", */Helvetica, sans-serif;
+}
+
+strong{
+    font-weight:bold;
+}
+
+em{
+    font-style:italic;
+}
+
+.page-wrapper{
+    margin:0 auto;
+    padding: .5em;
+    width:80%;
+    min-width:320px;
+    @include mobileMediaOverride{
+        margin:0 auto;
+        padding: 0em;
+        width:100%;
+        min-width:0px;
+        height: 100%;
+    }
+}
+
+#game-page-section{
+    margin-top: 1em;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    @include mobileMediaOverride{
+        margin-top: 0em;
+        height: 100%;
+    }
+}
+
+#playing-area{
+    @include shadowed;
+    @include unhighlightable;
+    position: relative;
+    width: $totalWidth;
+    height: $totalHeight;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 2em;
+    display: inline-block;
+    background-color: $backgroundColor;
+    
+    @include mobileMediaOverride{
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
+#canvas-main-area{
+    position: relative;
+    width: 100%;
+    height: percentage(($canvasHeight + $libraryHeight) / $totalHeight);
+    text-align: center;
+}
+
+#editor-canvas{
+    width: 90%;
+    height: percentage($canvasHeight / ($canvasHeight + $libraryHeight));
+    display: inline-block;
+    background-color: lighten($backgroundColor, 15%);
+    
+    &.clickable{
+        @include clickable;
+    }
+    
+    &.movable{
+        @include movable;
+    }
+}
+
+#presets-library{
+    display: block;
+    width: 100%;
+    height: percentage($libraryHeight / $totalHeight);
+    background-color: $backgroundColor;
+    
+    text-align: center;
+    
+    .preset-elem{
+        display: inline-block;
+        margin: .5em;
+        max-height: 70%;
+        max-width: percentage((750 * .9) / ($numElements));
+        
+        &.usable{
+           @include movable; 
+           @include shadowed;
+           @include animated($properties:transform);
+           
+           background-color: white;
+           &:hover{
+               @include transformed(rotate(7.5deg) translateY(2px));
+           }
+        }
+        
+        &.loading-img{
+            padding: 3px;
+        }
+    }
+}
+
+#editor-options{
+    display: block;
+    width: 100%;
+    height: percentage($bottomHeight / $totalHeight);
+    padding: .5% 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: $backgroundColor;
+    section{
+        height: 100%;
+        vertical-align: top;
+        display: inline-block;
+        margin: 0;
+        padding: 0 1%;
+        border-right: 1px solid grey;
+        
+        &:first-child{
+            padding-left: 0em;
+        }
+        
+        &:last-child{
+            border-right: 0px;
+            padding-right: 0em;
+        }
+    }
+    
+    button{
+        height: percentage(45px / $bottomHeight);
+        @include mobileMediaOverride{
+            width: 35px;
+        }
+    }
+}
+
+button{
+    @include rounded;
+    @include clickable;
+    @include shadowed;
+    @include unhighlightable;
+    
+    font-family: /*"Junction",*/ Helvetica, sans-serif;
+    
+    display: inline-block;
+    margin: 0 .3em;
+    padding: 0em;
+    border: 1px solid transparent;
+    border-top: 1px solid lighten($buttonColor, 5%);
+    border-bottom: 1px solid darken($buttonColor, 15%);
+    background-color: $buttonColor;
+    
+    &:hover{
+        background-color: lighten($buttonColor, 15%);
+    }
+    
+    &:active{
+        box-shadow: inset 1px 1px 4px $shadowColor;
+    }
+    
+    &.left-cap{
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-right: 1px solid darken($buttonColor, 15%);
+        margin-right: 0px;
+    }
+    
+    &.right-cap{
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-left: 1px solid lighten($buttonColor, 5%);
+        margin-left: 0px;
+    }
+    
+    &.selected{
+        $color: desaturate($buttonColor, 20%);
+        background-color: $color;
+        box-shadow: 0px 0px transparent;
+        border-bottom: 1px solid lighten($color, 5%);
+        border-top: 1px solid darken($color, 15%);
+        border-left: 0px solid transparent;
+        border-right: 0px solid transparent;
+    }
+    
+    &.unusable{
+        @include shadowed;
+        background-color: desaturate($buttonColor, 100%);
+        cursor: auto;
+        opacity: 0.7;
+    }
+    
+    &.light-button{
+        position: relative;
+        border: 1px solid $buttonColor;
+        background-color: lighten($buttonColor, 45%);
+        &:hover{
+            opacity: 0.7;
+            background-color:white;
+        }
+        
+        &.unusable{
+            cursor: auto;
+            border-color: grey;
+            
+            &:after{
+                @include spriteIcon("no-red.svg", 100%, 100%, $fill:true);
+                content: "";
+                position: absolute;
+                top: -25%;
+                left: -25%;
+                width: 150%;
+                height: 150%;
+            }
+        }
+    }
+}
+
+.elem-options-popup{
+    @include rounded;
+    @include shadowed;
+    z-index: 100;
+    position: absolute;
+    background-color: white;
+    padding: .35em;
+    
+    button{
+        vertical-align: middle;
+    }
+}
+
+
+$mobileOverlayWidth: 50px;
+$mobileOverlayHeight: 75px;
+#mobile-overlay-wrapper {
+    display: none;
+    
+    @include mobileMediaOverride{
+      display: block;
+    }
+}
+
+.mobile-overlay-button{
+    @include rounded(50%);
+    @include shadowed(black);
+    //display: none;
+    
+    position: absolute;
+    z-index: 1000;
+    opacity: .4;
+    width: percentage($mobileOverlayWidth / $totalWidth);
+    height: percentage($mobileOverlayHeight / $totalHeight);
+    border: 1px solid black;
+    
+    bottom: percentage(($bottomHeight + 5px) / $totalHeight);
+    
+    &:active{
+        background-color: orange;
+        opacity: .7;
+    }
+    
+    //@include mobileMediaOverride{
+    //    display: block;
+    //}
+}
+
+#mobile-left-button{
+    left: percentage(10px / $totalWidth);
+    bottom: percentage(($bottomHeight + $mobileOverlayHeight / 2 + 10px) / $totalHeight);
+}
+
+#mobile-right-button{
+    left: percentage(($mobileOverlayWidth * 2 + 10px) / $totalWidth);
+    bottom: percentage(($bottomHeight + $mobileOverlayHeight / 2 + 10px) / $totalHeight);
+}
+
+#mobile-up-button{
+    left: percentage((10px + $mobileOverlayWidth)/ $totalWidth);
+    bottom: percentage(($bottomHeight + $mobileOverlayHeight + 15px) / $totalHeight);
+}
+
+#mobile-down-button{
+    left: percentage((10px + $mobileOverlayWidth) / $totalWidth);
+}
+
+#mobile-jump-button{
+    
+    width: percentage(($mobileOverlayWidth * 4/3) / $totalWidth);
+    height: percentage(($mobileOverlayHeight * 4/3) / $totalHeight);
+
+    right: percentage(10px / $totalWidth);
+    background-size: 80% 80%;
+}
+
+@import "mainMenu";
+@import "runner";
+@import "login";

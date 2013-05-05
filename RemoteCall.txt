@@ -1,0 +1,15 @@
+var http = require('http');
+
+var options = {host:'gentle-shore-9072.herokuapp.com', path:'/register', method:'GET'};
+
+var	callback = function(response) { 
+	var str = ''; 
+	response.on('data', function (chunk) 
+		{ str += chunk; }
+	);
+	response.on('end', function () { 
+		console.log(JSON.parse(str));
+	});
+};
+
+http.request(options,callback).end();

@@ -1,0 +1,327 @@
+/* theme colors */
+$bluegray: #BadaEB;
+$lightgray: #F1F1F1;
+$lightyellow: #F0E500;
+$darkyellow: #F07000;
+$dullyellow: #FFFF5A;
+$chillblue: #3E91A1;
+$niceblue: #009ECE;
+$buttonColor: lighten($chillblue, 5%);
+$imgFolder: "../images/";
+$backgroundColor: lighten($dullyellow, 6%);
+
+
+@mixin mobileMediaOverride{
+    @media only screen and (max-device-width : 1024px){
+        @content;
+    }
+}
+
+@mixin spriteIcon($imgName, $width, $height, $fill:true){
+    background-image: url($imgFolder + $imgName);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: $width;
+    height: $height;
+    
+    @if ($fill){
+        background-size: contain;
+    }
+}
+
+@mixin mobileMediaOverride{
+    @media only screen and (max-device-width : 1024px){
+        @content;
+    }
+}
+
+.screen-view {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+#homepage{ 
+  overflow: auto;
+  text-align: center;
+}
+
+h1#title{
+  width: 80%;
+  height: auto;
+  line-height: 1em;
+  font-size: 3em;
+  background-color: $chillblue;
+  display: inline-block;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  letter-spacing: .2em;
+  padding: .2em 0em;
+  color: $lightyellow;
+  font-weight: 800;
+  text-shadow: 2px 2px $darkyellow;
+  
+  /* awesome border */
+  border-style: solid;
+  border-color: darken($chillblue,5%);
+  border-width: .1em;
+  border-top-width: 0px;
+  cursor: default;
+  
+  @include mobileMediaOverride{
+     font-size: 2em;
+  }
+}
+
+#button-container {
+  margin: 4% 0%;
+  width: 100%;
+  height: 20%;
+}
+
+#play-button {
+  /* margin-left based on % of load-code-button on right */
+  margin-left: 13%;
+  height: 100%;
+  width: 55%;
+  padding: 3px;
+}
+
+#play-button-text {
+  width: 70%;
+  height: 100%;
+  display: inline-block;
+  font-size: 4em;
+  letter-spacing: 0.2em;
+  color: $darkyellow;
+  text-shadow: 3px 2px $lightyellow;
+  vertical-align: top;
+  margin-left: 6%;
+  #play-button:hover &{
+    color: $lightyellow;
+    text-shadow: 3px 2px $darkyellow;
+  }
+}
+
+#play-button-icon {
+  @include spriteIcon("playBig.png", 20%, 100%);
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 3%;
+  #play-button:hover &{
+    background-image: url("../images/playBigReverse.png");
+  }
+}
+
+#load-code-button {
+  @include spriteIcon("../images/download.svg", 8%, 65%);
+  vertical-align: top;
+  margin: 0;
+  margin-left: 5%;
+  margin-top: 2.5%;
+}
+
+#minigame-library {
+  width: 80%;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: $lightgray;
+  border-radius: 1em;
+  text-align: left;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+
+.minigame {
+  width: 18%;
+  height: 2em; /* to be replaced */
+  margin: 1% 3.5%;
+  vertical-align: top;
+}
+
+#edit-new-game {
+  @include spriteIcon("plus.svg", 80%, 80%, false);
+  font-size: 3em;
+  width: 18%;
+  height: 2em;
+  border: .11em dashed $dullyellow;
+  background-color: lighten($chillblue, 20%);
+  &:hover{
+    border: .11em dashed $darkyellow;
+    background-color: $lightyellow;
+  }
+}
+
+.scrollable {
+  overflow: auto;
+}
+
+/* minimap things */
+
+.mapelem{
+  width: 100%;
+  height: 66%;
+  vertical-align: top;
+  background-color: lighten($backgroundColor, 15%);
+}
+
+.maprow{
+  width: 100%;
+  height: 100%;
+}
+
+.elemSquare{
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ball {
+  border-radius: 100%;
+  background-color: gray;
+}
+.origin {
+  background-color: black;
+}
+.fire{
+  background-color: orange;
+}
+.cloud{
+  background-color: white;
+}
+.answer1{
+  background-color: red;
+}
+.answer2{
+  background-color: yellow;
+}
+.answer3{
+  background-color: green;
+}
+.answer4{
+  background-color: blue;
+}
+.stone{
+  background-color: brown;
+}
+
+/* overlays */
+
+.overlay {
+  background-color: rgba(255,255,255,0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+}
+
+.messagebox{
+  @include highlightable;
+  display: inline-block;
+  width: 100%;
+  line-height: 1.5em;
+  font-size: 2em;
+  font-family: Courier, Helvetica, sans-serif;
+}
+
+#gamecodeinputoverlay{
+  text-align: center;
+}
+
+#gamecodeinputarea{
+  width: 60%;
+  height: 60%;
+  text-align: center;
+  display: inline-block;
+
+  button {
+    width: 60%;
+    height: 20%;
+    display: inline-block;
+    margin: 2%;
+    vertical-align: middle;
+    div {
+      font-size: 3.5em;
+      font-family: Courier, Helvetica, sans-serif;
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 2%;
+    }
+    #cancel-icon{
+      @include spriteIcon("close.svg", 20%, 90%);
+    }
+    #check-icon{
+      @include spriteIcon("check.svg", 20%, 90%);
+    }
+  }
+  #cancelgamecodebutton{
+    width: 40%;
+    height: 15%;
+    font-size: .5em;
+  }
+
+}
+
+#gamecodeicon{
+  @include spriteIcon("download.svg", 30%, 30%);
+  display: inline-block;
+}
+
+#gamecodetextbox{
+  width: auto;
+  height: 20%;
+  font-size: 2.5em;
+  text-align: center;
+  font-family: Courier, Helvetica, sans-serif;
+  color: orange;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#gamecodemessage{
+  font-family: Courier, Helvetica, sans-serif;
+}
+
+#logoutButton{
+  width: 25%;
+  height: 8%;
+  #logout-icon{
+    @include spriteIcon("logout.png", 20%, 100%);
+    display: inline-block;
+  }
+  #logout-text{
+    font-size: 2.8em;
+    @include mobileMediaOverride{
+      font-size: 1.5em;
+    }
+    display: inline-block;
+    vertical-align: top;
+
+  }
+}
+
+#minigamelibloginoverlay{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 158, 206, 0.4);
+  z-index: 10;
+  border-radius: 12px;
+  font-size: 6em;
+  color: rgba($darkyellow, .8);
+  vertical-align: middle;
+  line-height: 1.5em;
+  &:hover{
+    background-color: rgba(0, 158, 206, 0.6);
+    color: rgba($darkyellow, 1);
+    cursor: pointer;
+  };
+}

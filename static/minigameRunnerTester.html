@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <link href="/styles/reset.css" rel="stylesheet" type="text/css" />
+    <link href="/styles/main.css" rel="stylesheet" type="text/css" />
+    <script src="/scripts/jquery-1.9.0.js"></script>
+    <script src="/scripts/assert.js"></script>
+    <script src="/scripts/bindShim.js"></script>
+    <script src="/scripts/utils.js"></script>
+    <script src="/scripts/MinigameRunner.js"></script>
+    <script src="/scripts/GameElement.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+          /* retrieve the queue of minigames to be loaded.
+           * TODO: for now, this data is hard-coded. if we go for one-html-file
+           * organization, this data will be passed in a variable global to
+           * this file from another view.  */
+          var data = new Array(
+            {
+              /* sample document that could be pulled from the Minigames
+               * collection */
+              "mode": "directional",
+              "hasGravity": false,
+              "origin": [6, 4],
+              "elementData": [
+                {"type": "answer", path: [[1,1]]},
+                {"type": "answer", path: [[1,7]]},
+                {"type": "answer", path: [[11,1]]},
+                {"type": "answer", path: [[11,7]]},
+                {"type": "fire", path: [[3,3]]},
+                {"type": "fire", path: [[9,6]]},
+                {"type": "stone", path: [[4,7]]},
+                {"type": "stone", path: [[9,2]]}
+              ]
+            },
+            {
+              /* sample document that could be pulled from the Minigames
+               * collection */
+              "mode": "directional",
+              "hasGravity": false,
+              "origin": [6, 4],
+              "elementData": [
+                {"type": "answer", path: [[1,1]]},
+                {"type": "answer", path: [[1,7]]},
+                {"type": "answer", path: [[11,1]]},
+                {"type": "answer", path: [[11,7]]},
+                {"type": "fire", path: [[9,6]]},
+                {"type": "stone", path: [[9,2]]}
+              ]
+            }
+          );
+          
+          // placeholder loading interface
+          /*
+          var $loader = $("<p>").text("Loading images...")
+                                .append(
+                                    $("<img>").addClass("loading-img").addClass("dark")
+                                )
+                                .appendTo($("#msg-display"));
+          */
+          GameElement.preloadImages(function(){
+              /*
+              $("#msg-display").slideUp(function(){
+                $loader.remove();
+                for(var type in GameElement.typeProperties){
+                    var typeData = GameElement.typeProperties[type];
+                    $("#msg-display").append(
+                        $("<span>").append(
+                                        $(typeData["image"]).css({
+                                            "height": "50px",
+                                            "width": "50px"
+                                        })
+                                    )
+                                   .append($("<p>").text(type))
+                                   .css({
+                                      "display": "inline-block",
+                                      "margin": "10px"
+                                   })
+                    );
+                }
+                $("#msg-display").append($("<br>"));
+                $("#msg-display").slideDown();
+              });
+              */
+
+              /** actually start the minigame **/
+              var MGR = new MinigameRunner(data, 9, 15);
+              MGR.enter();
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="msg-display"></div>
+    <canvas id="editor-canvas" width="666.66" height="400"
+            style="border: 1px solid black;">
+      <!--Dummy width and height. Actual width/height set in javascript.-->
+      Your browser does not support HTML5 canvas!
+    </canvas>
+  </body>
+</html>

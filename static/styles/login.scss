@@ -1,0 +1,152 @@
+/* this is for the login popup */
+
+@mixin spriteIcon($imgName, $width, $height, $fill:true){
+    background-image: url($imgFolder + $imgName);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: $width;
+    height: $height;
+    
+    @if ($fill){
+        background-size: contain;
+    }
+}
+
+$dullyellow: #f4ee61;
+$bluegray: #BadaEB;
+$chillblue: #3E91A1;
+$darkyellow: #F07000;
+$lightyellow: #F0E500;
+$lightgray: #F1F1F1;
+
+#loginoverlay{
+  background-color: rgba(255,255,255,0.4);
+  z-index: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+//
+#login-area{
+  width: 80%;
+  height: 90%;
+  margin: 3% 10%;
+  border-radius: 4px;
+  background-color: $dullyellow;
+  text-align: center;
+}
+
+//
+#loginMessage{
+  width: 80%;
+  height: 12%;
+  margin: 2% 0;
+  display: inline-block;
+  font-family: Helvetica, sans-serif;
+  font-size: 3em;
+  color: $lightyellow;
+  text-shadow: 2px 2px $darkyellow;
+  background-color: $chillblue;
+  border-radius: 5px;
+  border: 3px;
+  border-style: solid;
+  border-color: $darkyellow;
+}
+
+#loginFields{
+  width: 65%;
+  height: 79%;
+  display: inline-block;
+}
+
+//
+.login-entry{
+  width: 100%;
+  height: 22%;
+  margin: 4% 0;
+  display: inline-block;
+  background-color: $lightgray;
+  border-radius: 5px;
+}
+
+.login-button{
+  width: 70%;
+  height: 16%;
+  margin: 2% 0;
+  display: inline-block;
+}
+
+//
+#username-icon{
+  @include spriteIcon("username.svg", 20%, 100%);
+  display: inline-block;
+  //background-color: $bluegray;
+  border-radius: 3px;
+  margin: 0 2%;
+}
+
+#password-icon{
+  @include spriteIcon("passkey.svg", 20%, 80%);
+  display: inline-block;
+  //background-color: $bluegray;
+  border-radius: 3px;
+  margin: 2%;
+}
+
+#submitlogin-icon{
+  @include spriteIcon("check.svg", 20%, 100%);
+  display: inline-block;
+}
+
+#cancellogin-icon{
+  @include spriteIcon("close.svg", 20%, 100%);
+  display: inline-block;
+}
+
+.login-textbox{
+  width: 65%;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 3%;
+}
+
+//
+.login-message{
+  display: inline-block;
+  height: 40%;
+  width: 100%;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.5em;
+  color: $darkyellow;
+  text-shadow: 2px 2px $lightyellow;
+}
+
+.login-input{
+  display: inline-block;
+  height: 40%;
+  width: 90%;
+  color: $darkyellow;
+  font-size: 1.5em;
+}
+
+.login-button-text{
+  width: 70%;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  font-family: Helvetica, sans-serif;
+  font-size: 3em;
+  color: $lightyellow;
+  text-shadow: 2px 2px $darkyellow;
+}
+
+#submitlogin-text{
+  color: lighten(green,17%);
+  text-shadow: 2px 2px darken(green, 5%);
+}
+#cancellogin-text{
+  color: red;
+  text-shadow: 2px 2px darken(red, 10%);
+}

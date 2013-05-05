@@ -1,0 +1,56 @@
+Connor Brem (cbrem)
+Erik Pintar (epintar)
+Leon Zhang (lwzhang)
+
+Required elements used:
+
+1. JavaScript (w/ prototypical objects)
+  - Almost every front-end scripting file uses JavaScript objects with
+    custom prototyping. (see contents of ./static/scripts/)
+  - Object inheritence is also used. 
+     - For example, see ./static/scripts/EditorActions.js, which 
+       has several subclassed objects for different actions on the 
+       undo/redo action stack
+
+2. Canvas
+  - The playing area, as well as the editing area are almost entirely
+    Canvas-based. 
+  - We also use Canvas svg-style shadowing on lines 524-527 of
+    ./static/scripts/EditorManager.js
+
+3. HTML
+  - 
+
+4. CSS
+  - Multiple techniques used, such as:
+    - resets (line 9, ./static/index.html)
+    - custom fonts (lines 37-50, 238 in ./static/styles/main.scss)
+    - psuedo elements (lines 473-481, ./static/styles/main.scss)
+    - transitions/transforms 
+      (anything using the mixins on lines 52-83 of ./static/styles/main.scss)
+    - CSS preprocessing (SASS was used for all CSS)
+    - mobile layout (anything using mixin on lines 31-35 of ./static/styles/main.scss)
+    - fluid layout (percentages used to properly scale at different resolutions)
+       - example: line 320, ./static/styles/main.scss
+
+5. DOM manipulation, 6. jQuery
+  - Both heavily used hand-in-hand. 
+  - Examples:
+    - cloning DOM elements to act as fake drag-and-drop ghost image on mobiles
+      - lines 138-146, ./static/scripts/LibraryManager.js
+    - creating DOM elements to act as loader overlay during saving
+      - lines 618-619, 646-654, ./static/scripts/EditorManager.js
+
+9. AJAX Client
+  -
+
+10. AJAX Server
+  - 
+
+11. node.js
+  -
+
+14. Server side databases (MongoDB)
+  -
+
+
