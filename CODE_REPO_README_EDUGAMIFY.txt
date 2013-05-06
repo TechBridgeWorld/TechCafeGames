@@ -15,8 +15,10 @@ Please provide details for as many sections that apply to your specific project.
 
 3. Since the project may be multifaceted, provide a list of the different components included in this project along with a description of each one stating its purpose and how it interacts with the other components.
 
-  just one component:
-    app.js accesses a mongo database stored on MongoLab and the TechCafe database
+  node/express:
+    app.js accesses a mongo database stored on MongoLab and the TechCafe database and serves the html/css/javascript files of the app itself
+  mongolab:
+    hosts our databases
 
 4. Specify the tools needed to compile and build the project including compilers and/or IDEs. (e.g., Java SDK 1.6, gcc 4.3.2 on the Linux platform, Eclipse Juno, Visual Studio 10, etc...).
 

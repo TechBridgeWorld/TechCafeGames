@@ -550,6 +550,7 @@ $(document).ready(function(){
     $("#runner-top-bar").fitText(2, {minFontSize: "6px"});
     $(".answer").fitText(.5, {minFontSize: "6px"});
     $("#selectMessage").fitText(1);
+    $("#cancelquestion-text").fitText(.4);
     // make edit new game icon square
     minigameWidth = ($("#edit-new-game").width())
               + 2*parseInt($("#edit-new-game").css('border-width')[0]);
