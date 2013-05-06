@@ -484,7 +484,6 @@ function promptQuestionSelect() {
             url: "/changeQuestionSet",
             data: {'qSetName': qSetName},
             success: function(data) {
-                console.log("got: ", data);
                 callback();
             }
         })
@@ -507,7 +506,6 @@ function promptQuestionSelect() {
                 }
                 $(".question-name").click(function(e){
                     var qSetName = $(this).html();
-                    console.log("qSetName: ", qSetName);
                     changeQuestionSet(qSetName, function() {
                         $('#questionoverlay').hide();
                         $('#selectFields').empty();
@@ -551,6 +549,7 @@ $(document).ready(function(){
     $("#play-button-text").fitText(.35);
     $("#runner-top-bar").fitText(2, {minFontSize: "6px"});
     $(".answer").fitText(.5, {minFontSize: "6px"});
+    $("#selectMessage").fitText(1);
     // make edit new game icon square
     minigameWidth = ($("#edit-new-game").width())
               + 2*parseInt($("#edit-new-game").css('border-width')[0]);
