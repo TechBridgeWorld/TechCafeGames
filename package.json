@@ -10,12 +10,5 @@
     "npm": "1.1.x",
     "mongodb" : "1.1.11",
     "mongo-express-auth" : "0.0.7"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://https://github.com/elpintar/edugamify.git"
-  },
-  "engines": {
-    "node": "0.8.x"
   }
 }
