@@ -46,7 +46,6 @@ app.use(express.session({ secret: 'secrets secrets are no fun' }));
 
 // login uses a username and password and attempts to log in the database
 app.post('/login', function(req, res){
-    console.log("you are logging in!");
     mongoExpressAuth.login(req, res, function(err){
         if (err)
             res.send(err);
@@ -57,7 +56,6 @@ app.post('/login', function(req, res){
 
 // registers a new user
 app.post('/register', function(req, res){
-    console.log("you are registering!");
     mongoExpressAuth.register(req, function(err){
         if (err)
             res.send(err);
@@ -99,30 +97,6 @@ var ALL_COLLECTIONS_DATA = null;
 var ALL_COLLECTIONS_NAMES = ['minigameData', 'accountProfiles', 'questions'];
 var QUESTION_DATA = null;
 
-// Asynchronously read file contents, then call callbackFn
-function readFile(filename, defaultData, callbackFn) {
-  fs.readFile(filename, function(err, data) {
-    if (err) {
-      console.log("Error reading file: ", filename);
-      data = defaultData;
-    } else {
-      console.log("Success reading file: ", filename);
-    }
-    if (callbackFn) callbackFn(err, data);
-  });
-}
-
-// Asynchronously write file contents, then call callbackFn
-function writeFile(filename, data, callbackFn) {
-  fs.writeFile(filename, data, function(err) {
-    if (err) {
-      console.log("Error writing file: ", filename);
-    } else {
-      console.log("Success writing file: ", filename);
-    }
-    if (callbackFn) callbackFn(err);
-  });
-}
 
 // either creates or updates the given minigame data, based whether an id is 
 // given. On success, sends the mongo id of the updated gamedata document
@@ -142,7 +116,7 @@ app.post("/saveGameData", function(request, response){
                 response.send(500, "insert error");
             }
             else{
-                console.log("created", docs[0]._id);
+                //console.log("created", docs[0]._id);
                 response.send({
                     "status": "ok",
                     "id": docs[0]._id
@@ -157,7 +131,6 @@ app.post("/saveGameData", function(request, response){
     if("id" in request.body){
         
         var gameId = request.body['id'];
-        console.log("looking for game with id", gameId);
         var mongolabId = new BSON.ObjectID(gameId);
         minigameCollection.findOne({"_id": mongolabId}, function(findErr, doc){
             if(findErr){
@@ -169,7 +142,6 @@ app.post("/saveGameData", function(request, response){
                         response.send(500, "update error");
                     }
                     else{
-                        console.log("updated", gameId);
                         response.send({
                             "status": "ok",
                             "id": gameId
@@ -207,7 +179,6 @@ app.get("/getGameData/:mongoId", function (request, response){
                     response.send(500, "update error");
                 }
                 else{
-                    console.log("HER IS MAH HGAME:\n", mongoId, minigameObject);
                     response.send({
                         "gameData": minigameObject
                     });
@@ -281,8 +252,6 @@ app.put("/initUser/:username", function(request, response) {
             "5180174aba85bf417400000f" // challenge
             ]
     }
-    console.log("new user: ", userStr);
-    console.log("init data: ", newObj);
     accountProfiles.insert(newObj, function(err) {
         console.log("error: ", err);
         if (err) {
@@ -317,7 +286,6 @@ app.get("/longid/:shortid", function(request, response){
             }
         }
         // longid will be 0 if none found or the id found
-        console.log("longId found was:", longid, "type: ", typeof(longid));
         response.send({
             "longid": longid
         });
@@ -393,8 +361,8 @@ function launchApp(pulledContent, collectionData){
         assert.assert(ALL_COLLECTIONS_DATA !== null, 
             "did not pull collections properly");
         
-        console.log('pulled content\n', QUESTION_DATA);
-        console.log('loaded collections\n');
+        //console.log('pulled content\n', QUESTION_DATA);
+        //console.log('loaded collections\n');
         
         var port = process.env.PORT || 8000;
         console.log("starting app on port", port);
@@ -416,7 +384,7 @@ function openDb(onAllLoadedFn){
             
             numLoadedCollections++;
             loadedCollections[loadedName] = loadedCollection;
-            console.log(loadedName, "collection loaded!");
+            //console.log(loadedName, "collection loaded!");
             if(numLoadedCollections >= collectionNames.length){
                 onAllLoadedFn(loadedCollections);
             }
@@ -425,12 +393,12 @@ function openDb(onAllLoadedFn){
     
     // called when the database is opened; opens all collections
     function onDbReady(){
-        console.log('database opened!');
+        //console.log('database opened!');
         console.log('loading collections...');
         
         for(var i = 0; i < collectionNames.length; i++){
             var collectionName = collectionNames[i];
-            console.log('loading ', collectionName, '...');
+            //console.log('loading ', collectionName, '...');
             mongoClient.collection(collectionName, 
                                    makeCollectionReadyFn(collectionName));
         }
@@ -439,7 +407,7 @@ function openDb(onAllLoadedFn){
     // takes care of the mongolab authentication for the database
     function _databaseAuth(err, db) {
         if (err) done(err);
-        console.log("authenticating mongolab database for auth...")
+        //console.log("authenticating mongolab database for auth...")
         db.authenticate(
             username, 
             password, 
@@ -450,7 +418,7 @@ function openDb(onAllLoadedFn){
                     console.log("database authentication not successsful.");
                 }
                 else {
-                    console.log("db authentication successful!");
+                    //console.log("db authentication successful!");
                     onDbReady();
                 }
             });
@@ -483,10 +451,10 @@ function pullQuestionContent(onPulledFn){
 
         response.on('end', function () { 
             var parsedVal = JSON.parse(str);
-            console.log('question content pulled!');
+            //console.log('question content pulled!');
             techcafe.getContentByTeacher('epintar', function(data){
                 // Returns a list of JSON objects containing all content sets owned by teacher 'TeacherUsername'
-                console.log("data pulled", data);
+                //console.log("data pulled", data);
                 onPulledFn(parsedVal);
             });
         });
@@ -516,7 +484,7 @@ function initServer() {
     }
 
     function _grabContent(){
-        console.log("loaded mongo-express-auth!");
+        //console.log("loaded mongo-express-auth!");
         
         pullQuestionContent(function(pulledData){
             _pulledContent = pulledData;
