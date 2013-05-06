@@ -551,6 +551,7 @@ $(document).ready(function(){
     $(".answer").fitText(.5, {minFontSize: "6px"});
     $("#selectMessage").fitText(1);
     $("#cancelquestion-text").fitText(.4);
+    $("#gamecodemessage").fitText(1);
     // make edit new game icon square
     minigameWidth = ($("#edit-new-game").width())
               + 2*parseInt($("#edit-new-game").css('border-width')[0]);
