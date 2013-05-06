@@ -17,8 +17,26 @@ function hideAll() {
     // hide login and game code overlays
     $('#loginoverlay').hide();
     $('#gamecodeinputoverlay').hide();
+    $('#questionoverlay').hide();
     // set no scroll for edit and play page
     $('#playing-area').css('overflow', 'hidden');
+}
+
+// shows all DOM elements inside '#playing-area'
+function showAll() {
+    // for home page
+    $('#homepage').show();
+    $('#minigamelibloginoverlay').show();
+    // for play page
+    $('#playpage').show();
+    // for edit page
+    $('#editpage').show();
+    // hide login and game code overlays
+    $('#loginoverlay').show();
+    $('#gamecodeinputoverlay').show();
+    $('#questionoverlay').show();
+    // set no scroll for edit and play page
+    $('#playing-area').css('overflow', 'auto');
 }
 
 function goToEditPage(minigameObject, minigameId) {
@@ -111,7 +129,7 @@ function addMinimap(gameId) {
 }
 
 // adds minigame to homepage library
-function addToMinigameLib(id) {
+var addToMinigameLib = function(id) {
     // see if it already is in library
     if (minigameLibList.indexOf(id) >= 0) {
         return;
@@ -143,7 +161,7 @@ function addToMinigameLib(id) {
 }
 
 // initializes minigame library for a user
-function initMinigameLibrary(username) {
+function initMinigameLibrary(username, callback) {
     // clear the minigames there right now
     $('.minigame.stored').each(function(){
         $(this).remove();
@@ -157,6 +175,9 @@ function initMinigameLibrary(username) {
             for (var i = 0; i < data.length; i++) {
                 addToMinigameLib(data[i]);
             };
+            if (callback instanceof Function) {
+                callback();
+            }
         },
         error: function(data, err) {
             console.log("retrieving stored data error: ", err);
@@ -169,6 +190,7 @@ function initMinigameLibrary(username) {
 function initHomePage(homePageSetUp) {
     // hide all DOM elements from other pages
     hideAll();
+    playingGame = false;
     // make this window scrollable
     $('#playing-area').css('overflow', 'auto');
 
@@ -185,8 +207,10 @@ function initHomePage(homePageSetUp) {
 
     // if we haven't been to the home page yet, set it up
     function setupHomePage() {
+        // if player is not logged in,
         // they should do tutorial, so cover the library for now
-        $('#minigamelibloginoverlay').show();
+        if (curUsername === "default")
+            $('#minigamelibloginoverlay').show();
 
         // create new game (EDIT)
         $('#edit-new-game').click(function() {
@@ -195,6 +219,8 @@ function initHomePage(homePageSetUp) {
 
         /* transition to minigame runner view */
         $('#play-button').click(function () {
+            if (playingGame) return;
+            playingGame = true;
             // set scroll back to top
             $('#playing-area').scrollTop(0);
             // run game
@@ -204,7 +230,12 @@ function initHomePage(homePageSetUp) {
         // show game code input overlay
         $('#load-code-button').click(function(){
             promptGameCodeInput();
-        })
+        });
+
+        // show game code input overlay
+        $('#select-questions-button').click(function(){
+            promptQuestionSelect();
+        });
 
         $('#minigamelibloginoverlay').click(function(){
             promptLogin("LOG IN TO CREATE");
@@ -279,6 +310,7 @@ function initRunner(data, fromEditor, minigameId) {
 // sets up edit page view
 function initEditPage(minigameObject, minigameId){
     updateCanvasSizes($("#editor-canvas"), 667, 390);
+    playingGame = false;
 
     var $keysButton = $("button.keys-icon");
     var $clickButton = $("button.click-icon");
@@ -307,6 +339,8 @@ function initEditPage(minigameObject, minigameId){
     });
     
     $playButton.click(function(e){
+        if (playingGame) return;
+        playingGame = true;
         e.preventDefault();
         editor.destroy();
         $gravityButton.off();
@@ -378,77 +412,6 @@ function initEditPage(minigameObject, minigameId){
     });
 }
 
-// if the user is logged in, returns username
-// otherwise, calls promptLogin
-function checkLogin(callback) {
-    $.ajax({
-        type: 'get',
-        url: '/me',
-        data: {},
-        success: function(data){
-            if (data === "no login data present") {
-                callback(false);
-            }
-            else {
-                callback(data.username);
-            }
-        }
-    });
-}
-
-// display login screen
-function promptLogin(message, callback) {
-    if (message === undefined)
-        message = "PLEASE LOG IN";
-    $("#loginMessage").html(message);
-    // empty fields if not empty
-    $("#username-input").val("");
-    $("#password-input").val("");
-
-    $("#loginoverlay").show();
-
-    // fit text pieces
-    $("#loginMessage").fitText(1);
-    $(".login-message").fitText(1);
-    $(".login-button-text").fitText(.5);
-    $(".login-input").fitText(1);
-
-    $("#submitloginButton").click(function(e) {
-        var username = $("#username-input").val();
-        var password = $("#password-input").val();
-        // update username
-        curUsername = username;
-        // call login function
-        login(username, password, function(err, result) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            if (callback instanceof Function) {
-                callback();
-            }
-            loggedInChanges(err, result);
-        });
-        // destroy event handlers
-        $("#cancelloginButton").off();
-        $("#submitloginButton").off();
-        // leave popup
-        $("#loginoverlay").hide();
-        e.preventDefault();
-        e.stopPropagation();
-    });
-
-    $("#cancelloginButton").click(function(e) {
-        // destroy event handlers
-        $("#submitloginButton").off();
-        $(this).off();
-        // leave popup
-        $("#loginoverlay").hide();
-        e.preventDefault();
-        e.stopPropagation();
-    });
-}
-
 // takes text and puts it on a nice overlay that disappears when clicks
 function promptMessage(message) {
     // check that there isn't one already
@@ -508,34 +471,81 @@ function promptGameCodeInput() {
     });
 }
 
-function loggedInChanges(err, result) {
-    if (err)
-        throw err;
-    if (result === 'ok') {
-        $('#minigamelibloginoverlay').hide();
-        $('#logoutButton').show();
-        // set up minigame library accordingly 
-        // (curUsername was set on the login form submit)
-        initMinigameLibrary(curUsername);
+function promptQuestionSelect() {
+    $('#questionoverlay').show();
+    // exit the question select prompt
+    $("#cancelquestionButton").click(function(e){
+        $("#questionoverlay").hide();
+    });
+    // after content set selected, change set on database
+    function changeQuestionSet(qSetName, callback) {
+        $.ajax({
+            type: "post",
+            url: "/changeQuestionSet",
+            data: {'qSetName': qSetName},
+            success: function(data) {
+                console.log("got: ", data);
+                callback();
+            }
+        })
     }
-    else
-        g.onLoginFail(result);
-}
-
-function loggedOutChanges() {
-    // hide logout button on homepage
-    $('#logoutButton').hide();
-    initMinigameLibrary("default");
-    //promptLogin("PLEASE LOG IN");
+    // after teacher is selected, display content set choices
+    function setUpContents(teacherName) {
+        $.ajax({
+            type: "get",
+            url: "/info/contentList/" + teacherName,
+            success: function(data) {
+                $("#selectFields").empty();
+                var contents = data.content_sets;
+                for (var j = 0; j < contents.length; j++) {
+                    var qset = contents[j];
+                    var qName = qset.name;
+                    var $questionSet = $("<div>");
+                    $questionSet.addClass("question-name");
+                    $questionSet.html(qName);
+                    $("#selectFields").append($questionSet);
+                }
+                $(".question-name").click(function(e){
+                    var qSetName = $(this).html();
+                    console.log("qSetName: ", qSetName);
+                    changeQuestionSet(qSetName, function() {
+                        $('#questionoverlay').hide();
+                        $('#selectFields').empty();
+                    });
+                });
+            }
+        });
+    }
+    // get the whole teacher list, display teacher choices
+    $.ajax({
+        type: "get",
+        url: "/info/teacherList",
+        success: function(data) {
+            for (var i = 0; i < data.length; i++) {
+                var teacherName = data[i].username;
+                var $teacher = $("<div>");
+                $teacher.addClass("question-name");
+                $teacher.html(teacherName);
+                $("#selectFields").append($teacher);
+            }
+            $(".question-name").click(function(e){
+                var teacherName = $(this).html();
+                setUpContents(teacherName);
+            });
+        }
+    });
 }
 
 // this will store the current user's username
 var curUsername = "default";
 var minigameWidth = 0;
 var minigameLibList = [];
+var playingGame = false;
 
 // initialize home page first
 $(document).ready(function(){
+    // so that all widths/heights are accurate for these updates
+    showAll();
     // fit text
     $('#title').fitText(.9);
     $("#play-button-text").fitText(.35);
@@ -545,16 +555,21 @@ $(document).ready(function(){
     minigameWidth = ($("#edit-new-game").width())
               + 2*parseInt($("#edit-new-game").css('border-width')[0]);
     $("#edit-new-game").css('height', minigameWidth+'px');
-    // go to home page
-    initHomePage(false);
+    hideAll();
     checkLogin(function(result){
         if (result === false) {
-            loggedOutChanges();
+            loggedOutChanges(function() {
+                // go to home page
+                initHomePage(false);
+            });
         }
         else {
             $('#minigamelibloginoverlay').hide();
             curUsername = result;
-            loggedInChanges(null, "ok");
+            loggedInChanges(null, "ok", function() {
+                // go to home page
+                initHomePage(false);
+            });
         }
     });
 });

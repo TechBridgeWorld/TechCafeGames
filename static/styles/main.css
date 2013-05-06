@@ -498,8 +498,6 @@ h1#title {
   height: 20%; }
 
 #play-button {
-  /* margin-left based on % of load-code-button on right */
-  margin-left: 13%;
   height: 100%;
   width: 55%;
   padding: 3px; }
@@ -531,17 +529,26 @@ h1#title {
   #play-button:hover #play-button-icon {
     background-image: url("../images/playBigReverse.png"); }
 
-#load-code-button {
+#button-container #load-code-button, #button-container #select-questions-button {
+  vertical-align: top;
+  margin: 0;
+  margin-top: 2.5%; }
+#button-container #load-code-button {
   background-image: url("../images/../images/download.svg");
   background-repeat: no-repeat;
   background-position: center center;
   width: 8%;
   height: 65%;
   background-size: contain;
-  vertical-align: top;
-  margin: 0;
-  margin-left: 5%;
-  margin-top: 2.5%; }
+  margin-left: 5%; }
+#button-container #select-questions-button {
+  background-image: url("../images/../images/questionBox.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 8%;
+  height: 65%;
+  background-size: contain;
+  margin-right: 5%; }
 
 #minigame-library {
   width: 80%;
@@ -744,6 +751,62 @@ h1#title {
     background-color: rgba(0, 158, 206, 0.6);
     color: #f07000;
     cursor: pointer; }
+
+#question-area {
+  width: 70%;
+  height: 90%;
+  margin-top: 3%;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #ffff5a; }
+  #question-area #selectMessage {
+    width: 80%;
+    height: 14%;
+    margin: 2% 0;
+    display: inline-block;
+    font-family: Helvetica, sans-serif;
+    font-size: 2em;
+    color: #f0e500;
+    text-shadow: 2px 2px #f07000;
+    background-color: #3e91a1;
+    border-radius: 5px;
+    border: 3px;
+    border-style: solid;
+    border-color: #f07000; }
+  #question-area #selectFields {
+    overflow: auto;
+    width: 70%;
+    height: 60%;
+    background-color: #3e91a1;
+    display: inline-block; }
+    #question-area #selectFields .question-name {
+      width: 90%;
+      padding: 2% 0;
+      display: inline-block;
+      margin: 2% 0;
+      border-radius: 4px;
+      background-color: #f1f1f1;
+      font-size: 2em;
+      color: #d66400; }
+      #question-area #selectFields .question-name:hover {
+        cursor: pointer; }
+  #question-area #cancelquestionButton {
+    width: 45%;
+    height: 12%;
+    margin: 2% 0;
+    display: inline-block; }
+    #question-area #cancelquestionButton #cancelquestion-icon {
+      background-image: url("../images/close.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 20%;
+      height: 100%;
+      background-size: contain;
+      display: inline-block; }
+    #question-area #cancelquestionButton #cancellogin-text {
+      color: red;
+      text-shadow: 2px 2px #cc0000; }
 
 /*
  * runner.scss - contains all styles for minigame-runner view

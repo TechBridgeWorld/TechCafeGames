@@ -196,7 +196,6 @@ LibraryPresetItem.prototype._dragStartCallback = function(ev){
 }
 
 LibraryPresetItem.prototype._dragMoveCallback = function(ev){
-    console.log("drag move");
     if(this.extraOnDragCallback){
         var absEvX = ev.originalEvent.pageX;
         var absEvY = ev.originalEvent.pageY;

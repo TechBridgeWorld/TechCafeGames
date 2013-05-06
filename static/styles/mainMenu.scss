@@ -35,6 +35,15 @@ $backgroundColor: lighten($dullyellow, 6%);
     }
 }
 
+@mixin highlightable{
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 .screen-view {
   text-align: center;
   width: 100%;
@@ -82,8 +91,6 @@ h1#title{
 }
 
 #play-button {
-  /* margin-left based on % of load-code-button on right */
-  margin-left: 13%;
   height: 100%;
   width: 55%;
   padding: 3px;
@@ -115,12 +122,20 @@ h1#title{
   }
 }
 
-#load-code-button {
-  @include spriteIcon("../images/download.svg", 8%, 65%);
-  vertical-align: top;
-  margin: 0;
-  margin-left: 5%;
-  margin-top: 2.5%;
+#button-container {
+  #load-code-button,#select-questions-button {
+    vertical-align: top;
+    margin: 0;
+    margin-top: 2.5%;
+  }
+  #load-code-button {
+    @include spriteIcon("../images/download.svg", 8%, 65%);
+    margin-left: 5%;
+  }
+  #select-questions-button {
+    @include spriteIcon("../images/questionBox.svg", 8%, 65%);
+    margin-right: 5%;
+  }
 }
 
 #minigame-library {
@@ -324,4 +339,64 @@ h1#title{
     color: rgba($darkyellow, 1);
     cursor: pointer;
   };
+}
+
+#question-area { 
+  width: 70%;
+  height: 90%;
+  margin-top: 3%;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: $dullyellow;
+  #selectMessage {
+    width: 80%;
+    height: 14%;
+    margin: 2% 0;
+    display: inline-block;
+    font-family: Helvetica, sans-serif;
+    font-size: 2em;
+    color: $lightyellow;
+    text-shadow: 2px 2px $darkyellow;
+    background-color: $chillblue;
+    border-radius: 5px;
+    border: 3px;
+    border-style: solid;
+    border-color: $darkyellow;
+  };
+  #selectFields {
+    overflow: auto;
+    width: 70%;
+    height: 60%;
+    background-color: $chillblue;
+    display: inline-block;
+    .question-name {
+      width: 90%;
+      //height: 20%;
+      padding: 2% 0;
+      display: inline-block;
+      margin: 2% 0;
+      border-radius: 4px;
+      background-color: $lightgray;
+      font-size: 2em;
+      color: darken($darkyellow, 5%);
+      &:hover{
+        cursor: pointer;
+      };
+    }
+  };
+  #cancelquestionButton {
+    width: 45%;
+    height: 12%;
+    margin: 2% 0;
+    display: inline-block;
+    #cancelquestion-icon{
+      @include spriteIcon("close.svg", 20%, 100%);
+      display: inline-block;
+    };
+    #cancellogin-text{
+      color: red;
+      text-shadow: 2px 2px darken(red, 10%);
+    };
+  }
 }

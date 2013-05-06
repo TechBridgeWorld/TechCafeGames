@@ -47,8 +47,6 @@ function EditorManager(initMinigameData,numCellRows,numCellCols,minigameId){
     if (this.minigameId in tutorialIds)
         this.minigameId = undefined;
 
-    console.log(this.minigameId);
-    
     this.libraryManager = new LibraryManager(this.canvas, 
                             // callback function to draw highlighted grid cells when dragging from library
                              function(draggedPreset, mouseX, mouseY){
@@ -236,6 +234,7 @@ function EditorManager(initMinigameData,numCellRows,numCellCols,minigameId){
             // the callback makes sure it actually saves
             promptLogin("LOG IN TO SAVE", function() {
                 this.save(function(){
+                    console.log("saving");
                     // you can get the game code only after saving
                     this.$saveButton.addClass("getGameCode");
                 }.bind(this));

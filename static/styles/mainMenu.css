@@ -1,81 +1,351 @@
-/*
-Syntax error: Undefined mixin 'highlightable'.
-        on line 225 of static/styles/mainMenu.scss, in `highlightable'
-        from line 225 of static/styles/mainMenu.scss
+/* theme colors */
+.screen-view {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative; }
 
-220:   width: 100%;
-221:   height: 100%;
-222: }
-223: 
-224: .messagebox{
-225:   @include highlightable;
-226:   display: inline-block;
-227:   width: 100%;
-228:   line-height: 1.5em;
-229:   font-size: 2em;
-230:   font-family: Courier, Helvetica, sans-serif;
+#homepage {
+  overflow: auto;
+  text-align: center; }
 
-Backtrace:
-static/styles/mainMenu.scss:225:in `highlightable'
-static/styles/mainMenu.scss:225
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:253:in `visit_mixin'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:53:in `map'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:109:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:121:in `with_environment'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:108:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:320:in `visit_rule'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:53:in `map'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:109:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:121:in `with_environment'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:108:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:128:in `visit_root'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:100:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:7:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/visitors/perform.rb:7:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/tree/root_node.rb:20:in `render'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/engine.rb:315:in `_render'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/engine.rb:262:in `render'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin/compiler.rb:341:in `update_stylesheet'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin/compiler.rb:203:in `update_stylesheets'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin/compiler.rb:201:in `each'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin/compiler.rb:201:in `update_stylesheets'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin/compiler.rb:299:in `watch'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/multi_listener.rb:108:in `call'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/multi_listener.rb:108:in `on_change'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/multi_listener.rb:117:in `initialize_adapter'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/adapters/polling.rb:56:in `call'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/adapters/polling.rb:56:in `poll'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/adapters/polling.rb:32:in `start'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/adapters/polling.rb:32:in `initialize'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/adapters/polling.rb:32:in `new'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/adapters/polling.rb:32:in `start'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/vendor/listen/lib/listen/multi_listener.rb:44:in `start'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin/compiler.rb:307:in `watch'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin.rb:107:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/plugin.rb:107:in `method_missing'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/exec.rb:445:in `watch_or_update'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/exec.rb:307:in `process_result'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/exec.rb:41:in `parse'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/../lib/sass/../sass/exec.rb:21:in `parse!'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.7/bin/sass:9
-/usr/bin/sass:19:in `load'
-/usr/bin/sass:19
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined mixin 'highlightable'.\A         on line 225 of static/styles/mainMenu.scss, in `highlightable'\A         from line 225 of static/styles/mainMenu.scss\A \A 220:   width: 100%;\A 221:   height: 100%;\A 222: }\A 223: \A 224: .messagebox{\A 225:   @include highlightable;\A 226:   display: inline-block;\A 227:   width: 100%;\A 228:   line-height: 1.5em;\A 229:   font-size: 2em;\A 230:   font-family: Courier, Helvetica, sans-serif;"; }
+h1#title {
+  width: 80%;
+  height: auto;
+  line-height: 1em;
+  font-size: 3em;
+  background-color: #3e91a1;
+  display: inline-block;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  letter-spacing: .2em;
+  padding: .2em 0em;
+  color: #f0e500;
+  font-weight: 800;
+  text-shadow: 2px 2px #f07000;
+  /* awesome border */
+  border-style: solid;
+  border-color: #37808f;
+  border-width: .1em;
+  border-top-width: 0px;
+  cursor: default; }
+  @media only screen and (max-device-width: 1024px) {
+    h1#title {
+      font-size: 2em; } }
+
+#button-container {
+  margin: 4% 0%;
+  width: 100%;
+  height: 20%; }
+
+#play-button {
+  height: 100%;
+  width: 55%;
+  padding: 3px; }
+
+#play-button-text {
+  width: 70%;
+  height: 100%;
+  display: inline-block;
+  font-size: 4em;
+  letter-spacing: 0.2em;
+  color: #f07000;
+  text-shadow: 3px 2px #f0e500;
+  vertical-align: top;
+  margin-left: 6%; }
+  #play-button:hover #play-button-text {
+    color: #f0e500;
+    text-shadow: 3px 2px #f07000; }
+
+#play-button-icon {
+  background-image: url("../images/playBig.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 20%;
+  height: 100%;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 3%; }
+  #play-button:hover #play-button-icon {
+    background-image: url("../images/playBigReverse.png"); }
+
+#button-container #load-code-button, #button-container #select-questions-button {
+  vertical-align: top;
+  margin: 0;
+  margin-top: 2.5%; }
+#button-container #load-code-button {
+  background-image: url("../images/../images/download.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 8%;
+  height: 65%;
+  background-size: contain;
+  margin-left: 5%; }
+#button-container #select-questions-button {
+  background-image: url("../images/../images/questionBox.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 8%;
+  height: 65%;
+  background-size: contain;
+  margin-right: 5%; }
+
+#minigame-library {
+  width: 80%;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: #f1f1f1;
+  border-radius: 1em;
+  text-align: left;
+  display: inline-block;
+  position: relative;
+  text-align: center; }
+
+.minigame {
+  width: 18%;
+  height: 2em;
+  /* to be replaced */
+  margin: 1% 3.5%;
+  vertical-align: top; }
+
+#edit-new-game {
+  background-image: url("../images/plus.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 80%;
+  height: 80%;
+  font-size: 3em;
+  width: 18%;
+  height: 2em;
+  border: 0.11em dashed #ffff5a;
+  background-color: #79becc; }
+  #edit-new-game:hover {
+    border: 0.11em dashed #f07000;
+    background-color: #f0e500; }
+
+.scrollable {
+  overflow: auto; }
+
+/* minimap things */
+.mapelem {
+  width: 100%;
+  height: 66%;
+  vertical-align: top;
+  background-color: #ffffc5; }
+
+.maprow {
+  width: 100%;
+  height: 100%; }
+
+.elemSquare {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top; }
+
+.ball {
+  border-radius: 100%;
+  background-color: gray; }
+
+.origin {
+  background-color: black; }
+
+.fire {
+  background-color: orange; }
+
+.cloud {
+  background-color: white; }
+
+.answer1 {
+  background-color: red; }
+
+.answer2 {
+  background-color: yellow; }
+
+.answer3 {
+  background-color: green; }
+
+.answer4 {
+  background-color: blue; }
+
+.stone {
+  background-color: brown; }
+
+/* overlays */
+.overlay {
+  background-color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%; }
+
+.messagebox {
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  display: inline-block;
+  width: 100%;
+  line-height: 1.5em;
+  font-size: 2em;
+  font-family: Courier, Helvetica, sans-serif; }
+
+#gamecodeinputoverlay {
+  text-align: center; }
+
+#gamecodeinputarea {
+  width: 60%;
+  height: 60%;
+  text-align: center;
+  display: inline-block; }
+  #gamecodeinputarea button {
+    width: 60%;
+    height: 20%;
+    display: inline-block;
+    margin: 2%;
+    vertical-align: middle; }
+    #gamecodeinputarea button div {
+      font-size: 3.5em;
+      font-family: Courier, Helvetica, sans-serif;
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 2%; }
+    #gamecodeinputarea button #cancel-icon {
+      background-image: url("../images/close.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 20%;
+      height: 90%;
+      background-size: contain; }
+    #gamecodeinputarea button #check-icon {
+      background-image: url("../images/check.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 20%;
+      height: 90%;
+      background-size: contain; }
+  #gamecodeinputarea #cancelgamecodebutton {
+    width: 40%;
+    height: 15%;
+    font-size: .5em; }
+
+#gamecodeicon {
+  background-image: url("../images/download.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 30%;
+  height: 30%;
+  background-size: contain;
+  display: inline-block; }
+
+#gamecodetextbox {
+  width: auto;
+  height: 20%;
+  font-size: 2.5em;
+  text-align: center;
+  font-family: Courier, Helvetica, sans-serif;
+  color: orange;
+  display: inline-block;
+  vertical-align: middle; }
+
+#gamecodemessage {
+  font-family: Courier, Helvetica, sans-serif; }
+
+#logoutButton {
+  width: 25%;
+  height: 8%; }
+  #logoutButton #logout-icon {
+    background-image: url("../images/logout.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 20%;
+    height: 100%;
+    background-size: contain;
+    display: inline-block; }
+  #logoutButton #logout-text {
+    font-size: 2.8em;
+    display: inline-block;
+    vertical-align: top; }
+    @media only screen and (max-device-width: 1024px) {
+      #logoutButton #logout-text {
+        font-size: 1.5em; } }
+
+#minigamelibloginoverlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 158, 206, 0.4);
+  z-index: 10;
+  border-radius: 12px;
+  font-size: 6em;
+  color: rgba(240, 112, 0, 0.8);
+  vertical-align: middle;
+  line-height: 1.5em; }
+  #minigamelibloginoverlay:hover {
+    background-color: rgba(0, 158, 206, 0.6);
+    color: #f07000;
+    cursor: pointer; }
+
+#question-area {
+  width: 70%;
+  height: 90%;
+  margin-top: 3%;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #ffff5a; }
+  #question-area #selectMessage {
+    width: 80%;
+    height: 14%;
+    margin: 2% 0;
+    display: inline-block;
+    font-family: Helvetica, sans-serif;
+    font-size: 2em;
+    color: #f0e500;
+    text-shadow: 2px 2px #f07000;
+    background-color: #3e91a1;
+    border-radius: 5px;
+    border: 3px;
+    border-style: solid;
+    border-color: #f07000; }
+  #question-area #selectFields {
+    overflow: auto;
+    width: 70%;
+    height: 60%;
+    background-color: #3e91a1;
+    display: inline-block; }
+    #question-area #selectFields .question-name {
+      width: 90%;
+      padding: 2% 0;
+      display: inline-block;
+      margin: 2% 0;
+      border-radius: 4px;
+      background-color: #f1f1f1;
+      font-size: 2em;
+      color: #d66400; }
+      #question-area #selectFields .question-name:hover {
+        cursor: pointer; }
+  #question-area #cancelquestionButton {
+    width: 45%;
+    height: 12%;
+    margin: 2% 0;
+    display: inline-block; }
+    #question-area #cancelquestionButton #cancelquestion-icon {
+      background-image: url("../images/close.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 20%;
+      height: 100%;
+      background-size: contain;
+      display: inline-block; }
+    #question-area #cancelquestionButton #cancellogin-text {
+      color: red;
+      text-shadow: 2px 2px #cc0000; }

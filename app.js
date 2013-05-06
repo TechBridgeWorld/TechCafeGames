@@ -255,9 +255,11 @@ app.put("/initUser/:username", function(request, response) {
     accountProfiles.insert(newObj, function(err) {
         console.log("error: ", err);
         if (err) {
+            console.log("insert new user error");
             response.send(400, "write error");
         }
         else {
+            ALL_COLLECTIONS_DATA.accountProfiles = accountProfiles;
             response.send({
                 "err": err, 
                 "msg": "ok"
@@ -295,14 +297,13 @@ app.get("/longid/:shortid", function(request, response){
 // just give them one random question for now
 app.get("/info/questions", function(request, response) {
     // question data is an array with beginner questions at index 0
-    var easyEnglishQuestions = 
-        (QUESTION_DATA.content_sets[0]).questions;
+    var questions = QUESTION_DATA;
 
-    var numQuestions = easyEnglishQuestions.length;
+    var numQuestions = questions.length;
     var randQuestionUnRound = ((numQuestions)*(Math.random()));
     var randQuestionIndex = Math.floor(randQuestionUnRound);
     response.send({
-        "question": easyEnglishQuestions[randQuestionIndex]
+        "question": questions[randQuestionIndex]
     });
 });
 
@@ -333,6 +334,32 @@ app.get("/info/collections", function(request, response){
             });
         })(collectionName);
     }
+});
+
+// Changing the Question Content!
+
+app.get("/info/teacherList", function(request, response) {
+    techcafe.getTeacherList(function(data) {
+        response.send(data); 
+    });
+});
+
+app.get("/info/contentList/:teacherName", function(request, response) {
+    var teacherName = request.params.teacherName;
+    techcafe.getContentByTeacher(teacherName, function(data) {
+        response.send(data); 
+    });
+});
+
+app.post("/changeQuestionSet", function(request, response) {
+    var questionSetName = request.body['qSetName'];
+    techcafe.getContentSetList(function(data){
+        // update what the question data is for the user (if it has ?s)
+        if (data[questionSetName] !== undefined &&
+            data[questionSetName].length > 0)
+            QUESTION_DATA = data[questionSetName];
+        response.send("ok");
+    });
 });
 
 /*
@@ -438,31 +465,32 @@ function pullQuestionContent(onPulledFn){
     console.log('pulling question content from server...');
     var options = {host:'techcafe-teacher.herokuapp.com', 
                    path:easyEnglishQuestionsPath, method:'GET'};
-    var	callback = function(response) { 
-        var str = ''; 
-        response.on('data', function (chunk){ 
-            str += chunk; 
-        });
+    techcafe.getContentByTeacher('epintar', function(data){
+        // Returns a list of JSON objects containing all content 
+        // sets owned by teacher 'epintar' (default teacher name)
+        //console.log("questions pulled", data.content_sets[0].questions);
+        onPulledFn(data.content_sets[0].questions);
+    });
+    // var	callback = function(response) { 
+    //     var str = ''; 
+    //     response.on('data', function (chunk){ 
+    //         str += chunk; 
+    //     });
         
-        response.on('error' , function(err) {
-            console.log("TECH CAFE DATABASE BROKEN.\n", err);
-            onPulledFn("use backup questions");
-        });
+    //     response.on('error' , function(err) {
+    //         console.log("TECH CAFE DATABASE BROKEN.\n", err);
+    //         onPulledFn("use backup questions");
+    //     });
 
-        response.on('end', function () { 
-            var parsedVal = JSON.parse(str);
-            //console.log('question content pulled!');
-            techcafe.getContentByTeacher('epintar', function(data){
-                // Returns a list of JSON objects containing all content sets owned by teacher 'TeacherUsername'
-                //console.log("data pulled", data);
-                onPulledFn(parsedVal);
-            });
-        });
-    };
+    //     response.on('end', function () { 
+    //         var parsedVal = JSON.parse(str);
+    //         //console.log('question content pulled!');
+    //     });
+    // };
 
-    http.request(options,callback).on('error', function(err){
-        console.log("error while loading content", err);
-    }).end();
+    // http.request(options,callback).on('error', function(err){
+    //     console.log("error while loading content", err);
+    // }).end();
 
 
 }
