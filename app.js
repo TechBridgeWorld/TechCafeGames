@@ -396,7 +396,7 @@ function launchApp(pulledContent, collectionData){
         console.log('pulled content\n', QUESTION_DATA);
         console.log('loaded collections\n');
         
-        var port = 8000;
+        var port = process.env.PORT || 8000;
         console.log("starting app on port", port);
         app.listen(port);
     });
