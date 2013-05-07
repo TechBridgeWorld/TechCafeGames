@@ -457,6 +457,22 @@ button {
   background-size: 80% 80%; }
 
 /* theme colors */
+#loader {
+  background-image: url("../images/ajax-loader-big.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  background-color: #ffff5a; }
+
+.loadingMinigame,
+.loadingBox {
+  background-image: url("../images/ajax-loader.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%; }
+
 .screen-view {
   text-align: center;
   width: 100%;
@@ -880,10 +896,7 @@ h1#title {
 .directional-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
+  left: -25%;
   background-image: url("../images/arrowkeys.svg");
   background-repeat: no-repeat;
   background-position: center center;
@@ -894,12 +907,9 @@ h1#title {
 
 .tap-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
-  background-image: url("../images/click.svg");
+  top: -5%;
+  left: -35%;
+  background-image: url("../images/touch.svg");
   background-repeat: no-repeat;
   background-position: center center;
   width: 100%;
@@ -907,17 +917,23 @@ h1#title {
   background-size: contain;
   background-size: 40%; }
 
+.tap-overlay.startMove {
+  position: absolute;
+  top: 0%;
+  left: -25%;
+  transition-property: top, left;
+  transition-duration: 2s, 2s;
+  transition-delay: 0s, 0s;
+  transition-timing-function: ease-in-out; }
+
 .grav-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 80%;
-  width: 80%;
-  background-color: rgba(255, 255, 255, 0.8);
+  left: 45%;
   background-image: url("../images/gravity.png");
   background-repeat: no-repeat;
   background-position: center center;
-  width: 100%;
+  width: 60%;
   height: 100%;
   background-size: contain;
   background-size: 40%; }
@@ -925,14 +941,11 @@ h1#title {
 .grav-off-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 80%;
-  width: 80%;
-  background-color: rgba(255, 255, 255, 0.8);
+  left: 33%;
   background-image: url("../images/gravity-off.png");
   background-repeat: no-repeat;
   background-position: center center;
-  width: 100%;
+  width: 84%;
   height: 100%;
   background-size: contain;
   background-size: 40%; }

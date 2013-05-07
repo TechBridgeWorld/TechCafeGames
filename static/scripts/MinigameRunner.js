@@ -220,7 +220,7 @@ MinigameRunner.prototype = {
 
     if (this.mode === "directional") {
       if (!this.mobile) {
-        promptOverlay(this, "directional", 1000, undefined);
+        promptOverlay(this, undefined, true);
       }
       return;
     }
@@ -326,6 +326,7 @@ MinigameRunner.prototype = {
    */
   "handleKeydown": function (e) {
     if (this.mode === "directional" || e.which === 32) {
+      // added to get rid of prompt instead of tapping
       switch (e.which) {
         case 32: this.keys.space = true;
                  break;
@@ -339,7 +340,7 @@ MinigameRunner.prototype = {
                  break;
       }
     } else {
-      promptOverlay(this, "tap", 1000, undefined);
+      promptOverlay(this, undefined, true);
     }
   },
   /*
@@ -390,6 +391,11 @@ MinigameRunner.prototype = {
           this.togglePause();
         } else if (!this.paused) {
           this.moveAvatar(key);
+        }
+        if (key === "left" || key === "right" ||
+            key === "down" || key === "up") {
+          console.log("hi");
+          //deleteAnyPromptOverlay();
         }
       }
     }

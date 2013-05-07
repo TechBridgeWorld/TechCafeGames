@@ -74,48 +74,47 @@ $backgroundColor: lighten($dullyellow, 6%);
 .directional-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  left: -25%;
 
-  background-color: rgba(255, 255, 255, 0.8);
   @include spriteIcon("arrowkeys.svg", 100%, 100%);
   background-size: 40%;
 }
 
 .tap-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  top: -5%;
+  left: -35%;
 
-  background-color: rgba(255, 255, 255, 0.8);
-  @include spriteIcon("click.svg", 100%, 100%);
+  @include spriteIcon("touch.svg", 100%, 100%);
   background-size: 40%;
+}
+
+.tap-overlay.startMove {
+  position: absolute;
+  top: 0%;
+  left: -25%;
+
+  transition-property: top, left;
+  transition-duration: 2s, 2s;
+  transition-delay: 0s, 0s;
+  transition-timing-function: ease-in-out;
 }
 
 .grav-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 80%;
-  width: 80%;
+  left: 45%;
 
-  background-color: rgba(255, 255, 255, 0.8);
-  @include spriteIcon("gravity.png", 100%, 100%);
+  @include spriteIcon("gravity.png", 60%, 100%);
   background-size: 40%;
 }
 
 .grav-off-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 80%;
-  width: 80%;
+  left: 33%;
 
-  background-color: rgba(255, 255, 255, 0.8);
-  @include spriteIcon("gravity-off.png", 100%, 100%);
+  @include spriteIcon("gravity-off.png", 84%, 100%);
   background-size: 40%;
 }
 

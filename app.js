@@ -213,7 +213,8 @@ app.post("/addToUserLib", function(request, response){
     }
 });
 
-// GETS a user's minigameLibrary
+// GETS a user's minigameLibrary 
+// (AND update their QUESTION_DATA, if applicable)
 app.get("/minigameLib/:username", function(request, response) {
     var accountProfiles = ALL_COLLECTIONS_DATA.accountProfiles;
     var userStr = request.params.username;
@@ -223,7 +224,19 @@ app.get("/minigameLib/:username", function(request, response) {
         accountProfiles.findOne(query, function(err, userObj){
             if(err) response.send(500, "update error");
             else {
-                response.send(userObj.minigameLibrary);
+                if (userObj.contentSet === undefined) {
+                    var questionSetName = "english-easy"
+                } else {
+                    var questionSetName = userObj.contentSet;
+                }
+                techcafe.getContentSetList(function(data){
+                    // update what the question data is for the user
+                    if (data[questionSetName] !== undefined &&
+                        data[questionSetName].length > 0)
+                        QUESTION_DATA = data[questionSetName];
+                    // now actually send minigame library like asked for
+                    response.send(userObj.minigameLibrary);
+                });
             }
         });
     }
@@ -240,6 +253,7 @@ app.put("/initUser/:username", function(request, response) {
     var newObj = {
         "username": userStr,
         "tutorials": [],
+        "contentSet": "english-easy",
         "minigameLibrary": 
             [
             "51800d7eba85bf4174000008", // cloud mountain
@@ -351,14 +365,30 @@ app.get("/info/contentList/:teacherName", function(request, response) {
     });
 });
 
+// changes question set for current setting
+// and for the user for the future!
 app.post("/changeQuestionSet", function(request, response) {
     var questionSetName = request.body['qSetName'];
+    var accountProfiles = ALL_COLLECTIONS_DATA.accountProfiles;
     techcafe.getContentSetList(function(data){
         // update what the question data is for the user (if it has ?s)
         if (data[questionSetName] !== undefined &&
             data[questionSetName].length > 0)
             QUESTION_DATA = data[questionSetName];
-        response.send("ok");
+        // now change the user data (if not default user)
+        if (request.body['username'] === "default") {
+            response.send("ok");
+            return;
+        }
+        var query = {'username': request.body['username']};
+        var partialUpdate = { $set: { 'contentSet': questionSetName } };
+        accountProfiles.update(query, partialUpdate, { 'multi': true }, 
+          function (error){
+            if (error)
+                throw error;
+            else
+                response.send("ok");
+        });
     });
 });
 

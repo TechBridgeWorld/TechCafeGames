@@ -20,6 +20,8 @@ function hideAll() {
     $('#questionoverlay').hide();
     // set no scroll for edit and play page
     $('#playing-area').css('overflow', 'hidden');
+    // loader
+    $("#loader").hide();
 }
 
 // shows all DOM elements inside '#playing-area'
@@ -83,6 +85,7 @@ function addMinimap(gameId) {
     var $elem = $('#'+gameId);
     // remove everything inside in case it's an update
     $elem.empty();
+    $elem.addClass('loadingMinigame');
     function fillMinimap($mapelem, gameData) {
         var gameCols = 15; var gameRows = 9;
         // create all the little dom elements!
@@ -121,6 +124,7 @@ function addMinimap(gameId) {
             if ($elem.find('.mapelem').length === 0)
                 $elem.append($mapelem);
             fillMinimap($mapelem, data.gameData);
+            $elem.removeClass('loadingMinigame');
         },
         error: function(data, err) {
             console.log("retrieving stored data error: ", err);
@@ -275,13 +279,13 @@ function initRunner(data, fromEditor, minigameId) {
     /* tutorial levels! (no user can edit these) */
     var tutorial = [
     "51800d7eba85bf4174000008", // cloud mountain
-    "5180078fba85bf4174000001", // fire platformer
+    //"5180078fba85bf4174000001", // fire platformer
     "51800bd9ba85bf4174000006", // tap mode
     "51800c81ba85bf4174000007", // atop clouds
-    "51800e3aba85bf4174000009", // secret wall
+    //"51800e3aba85bf4174000009", // secret wall
     "518000f86c5caf3c73000005", // block maze
-    "51801579ba85bf417400000b", // fire tunnel
-    "5180174aba85bf417400000f" // challenge
+    //"51801579ba85bf417400000b", // fire tunnel
+    //"5180174aba85bf417400000f" // challenge
     ];
 
     // random five games from minigame library!
@@ -475,14 +479,20 @@ function promptQuestionSelect() {
     $('#questionoverlay').show();
     // exit the question select prompt
     $("#cancelquestionButton").click(function(e){
+        $("#selectFields").empty();
         $("#questionoverlay").hide();
     });
+    // make it look like it's loading
+    $("#selectFields").addClass("loadingBox");
     // after content set selected, change set on database
     function changeQuestionSet(qSetName, callback) {
         $.ajax({
             type: "post",
             url: "/changeQuestionSet",
-            data: {'qSetName': qSetName},
+            data: {
+                'qSetName': qSetName,
+                'username': curUsername
+            },
             success: function(data) {
                 callback();
             }
@@ -504,6 +514,7 @@ function promptQuestionSelect() {
                     $questionSet.html(qName);
                     $("#selectFields").append($questionSet);
                 }
+                $("#selectFields").removeClass("loadingBox");
                 $(".question-name").click(function(e){
                     var qSetName = $(this).html();
                     changeQuestionSet(qSetName, function() {
@@ -519,6 +530,7 @@ function promptQuestionSelect() {
         type: "get",
         url: "/info/teacherList",
         success: function(data) {
+            $("#selectFields").empty();
             for (var i = 0; i < data.length; i++) {
                 var teacherName = data[i].username;
                 var $teacher = $("<div>");
@@ -526,7 +538,10 @@ function promptQuestionSelect() {
                 $teacher.html(teacherName);
                 $("#selectFields").append($teacher);
             }
+            $("#selectFields").removeClass("loadingBox");
             $(".question-name").click(function(e){
+                $("#selectFields").empty();
+                $("#selectFields").addClass("loadingBox");
                 var teacherName = $(this).html();
                 setUpContents(teacherName);
             });
@@ -557,6 +572,7 @@ $(document).ready(function(){
               + 2*parseInt($("#edit-new-game").css('border-width')[0]);
     $("#edit-new-game").css('height', minigameWidth+'px');
     hideAll();
+    $("#loader").show();
     checkLogin(function(result){
         if (result === false) {
             loggedOutChanges(function() {

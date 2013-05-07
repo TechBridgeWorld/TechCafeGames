@@ -98,7 +98,6 @@ function promptLogin(message, callback) {
     $(".login-input").fitText(1);
 
     $("#submitloginButton").click(function(e) {
-        console.log("loginn");
         var username = $("#username-input").val();
         var password = $("#password-input").val();
         // update username
@@ -111,11 +110,9 @@ function promptLogin(message, callback) {
             }
             // REGISTER if login fails
             else if (result !== "ok") {
-                console.log("login fail: register");
                 var username = $("#username-input").val();
                 var password = $("#password-input").val();
                 register(username, password, function(error, res){
-                    console.log("msg: ", res);
                     if (error) throw error;
                     // register FAIL
                     else if (res !== "ok") {
@@ -126,7 +123,6 @@ function promptLogin(message, callback) {
                     }
                     // register SUCCESS
                     else {
-                        console.log("register good");
                         var username = $("#username-input").val();
                         var password = $("#password-input").val();
                         // here's where the new user is put in the database
@@ -138,7 +134,6 @@ function promptLogin(message, callback) {
                                 if (data.err || (data.msg !== "ok")) 
                                     console.log("initializing user error");
                                 else {
-                                    console.log("now let's log in"); 
                                     login(username, password,function(err,res){
                                         loggedInChanges(err, res, 
                                             function(error, result) {
@@ -159,12 +154,6 @@ function promptLogin(message, callback) {
             });
         });
         function andThen() {
-            // // destroy event handlers
-            // $("#cancelloginButton").off();
-            // $("#submitloginButton").off();
-            // // leave popup
-            // console.log("hiding");
-            // $("#loginoverlay").hide();
             if (callback instanceof Function) {
                 callback();
             }
@@ -198,7 +187,6 @@ function loggedInChanges(err, result, callback) {
             $("#cancelloginButton").off();
             $("#submitloginButton").off();
             // leave popup
-            console.log("hiding2");
             $("#loginoverlay").hide();
             if (callback instanceof Function) {
                 callback();

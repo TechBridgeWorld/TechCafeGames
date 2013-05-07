@@ -44,6 +44,16 @@ $backgroundColor: lighten($dullyellow, 6%);
     user-select: text;
 }
 
+#loader{
+  @include spriteIcon("ajax-loader-big.gif", 100%, 100%, false);
+  background-color: $dullyellow;
+}
+
+.loadingMinigame,
+.loadingBox {
+  @include spriteIcon("ajax-loader.gif", 100%, 100%, false);
+}
+
 .screen-view {
   text-align: center;
   width: 100%;

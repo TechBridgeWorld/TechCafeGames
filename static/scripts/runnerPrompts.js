@@ -6,17 +6,56 @@
  * promptKeys - fill center screen with image of keys. activated at beginning
  *              of level and whenever user uses mouse.
  */
-function promptOverlay (runner, name, ms, callback) {
+function promptOverlay (runner, callback, fade) {
   /* pause game and don't remember whether it started paused */
   runner.paused = true;
 
-  /* display key overlay, then ease it out */
-  var overlay = $("<div>").addClass(name + "-overlay");
-  $("#playing-area").append(overlay);
-  overlay.fadeOut(ms, function () {
+  // controls overlay
+  var overlayControls = $("<div>").addClass(runner.mode + "-overlay");
+  // gravity overlay
+  var gravOverlay = (runner.hasGravity) ? "grav" : "grav-off";
+  var overlayGrav = $("<div>").addClass(gravOverlay + "-overlay");
+  // overall overlay
+  var promptOverlay = $("<div>").addClass("overlay").attr("id", "prompt");
+  promptOverlay.append(overlayControls);
+  promptOverlay.append(overlayGrav);
+  $("#playing-area").append(promptOverlay);
+  // move tap ball thingy
+  if (runner.mode === "tap") {
+    setTimeout(function(){overlayControls.addClass("startMove")},50);
+  }
+  var moveDelay = 2000;
+  promptOverlay.click(function () {
+    promptOverlay.remove();
     runner.paused = false;
     if (callback !== undefined) callback();
   });
+  var fadeOutTime = 1000;
+  if (fade === true) {
+    promptOverlay.fadeOut(fadeOutTime, function () {
+      promptOverlay.remove();
+      runner.paused = false;
+      if (callback !== undefined) callback();
+    });
+  }
+  // otherwise, never display prompt longer than 2 seconds
+  var longestDisplayTime = 1700;
+  var shortFadeOutTime = 300;
+  setTimeout(function() {
+    promptOverlay.fadeOut(shortFadeOutTime, function () {
+      promptOverlay.remove();
+      runner.paused = false;
+      if (callback !== undefined) callback();
+    });
+  }, longestDisplayTime);
+}
+
+function deleteAnyPromptOverlay() {
+  console.log("removing");
+  if ($("#prompt").length > 0) {
+    $("#prompt").remove();
+  }
+  return;
 }
 
 /* highlight the ball/answer pair corresponding to the given number */
@@ -56,12 +95,10 @@ function runnerLoadAnimation (runner) {
   var gravOverlay = (runner.hasGravity) ? "grav" : "grav-off";
 
   runner.paused = true;
-  promptOverlay(runner, runner.mode, 1000, function () {
-    promptOverlay(runner, gravOverlay, 1000, function () {
-      // I like to unpause after the control scheme
-      runner.paused = false;
-      highlightAnswers(runner, 1, 500, function () {
-      });
+  promptOverlay(runner, function () {
+    // I like to unpause after the control scheme
+    runner.paused = false;
+    highlightAnswers(runner, 1, 500, function () {
     });
   });
 }
