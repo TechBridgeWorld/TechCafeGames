@@ -12,7 +12,7 @@ Syntax error: Undefined variable: "$totalHeight".
 10: $dullyellow: #f4ee61;
 11: $backgroundColor: lighten($dullyellow, 6%);
 12: 
-13: #runner-top-bar {
+13: @mixin animated($properties: all, $duration: 0.2s){
 
 Backtrace:
 static/styles/runner.scss:8
@@ -73,4 +73,4 @@ static/styles/runner.scss:8
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$totalHeight\".\A         on line 8 of static/styles/runner.scss\A \A 3:  */\A 4: \A 5: $chillblue: #3E91A1;\A 6: $topBarHeight: 50px;\A 7: $topButtonHeight: 35px;\A 8: $topButtonHeightPercent: percentage($topButtonHeight / $totalHeight);\A 9: $bottomHeight: 60px;\A 10: $dullyellow: #f4ee61;\A 11: $backgroundColor: lighten($dullyellow, 6%);\A 12: \A 13: #runner-top-bar {"; }
+  content: "Syntax error: Undefined variable: \"$totalHeight\".\A         on line 8 of static/styles/runner.scss\A \A 3:  */\A 4: \A 5: $chillblue: #3E91A1;\A 6: $topBarHeight: 50px;\A 7: $topButtonHeight: 35px;\A 8: $topButtonHeightPercent: percentage($topButtonHeight / $totalHeight);\A 9: $bottomHeight: 60px;\A 10: $dullyellow: #f4ee61;\A 11: $backgroundColor: lighten($dullyellow, 6%);\A 12: \A 13: @mixin animated($properties: all, $duration: 0.2s){"; }

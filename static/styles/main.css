@@ -921,6 +921,18 @@ h1#title {
   position: absolute;
   top: 0%;
   left: -25%;
+  transition-property: all;
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  transition-duration: 2s;
+  -webkit-transition-duration: 2s;
+  -moz-transition-duration: 2s;
+  -o-transition-duration: 2s;
+  -webkit-transition-timing-function: ease-in-out;
+  -moz-transition-timing-function: ease-in-out;
+  -o-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
   transition-property: top, left;
   transition-duration: 2s, 2s;
   transition-delay: 0s, 0s;
@@ -1008,6 +1020,18 @@ h1#title {
     background-size: 10%; }
   .answer-overlay.zoom {
     background-size: 50%;
+    transition-property: all;
+    -webkit-transition-property: all;
+    -moz-transition-property: all;
+    -o-transition-property: all;
+    transition-duration: 0.8s;
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    -webkit-transition-timing-function: ease-in-out;
+    -moz-transition-timing-function: ease-in-out;
+    -o-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
     transition-property: background-size;
     transition-duration: .8s;
     transition-delay: 0s;

@@ -10,6 +10,32 @@ $bottomHeight: 60px;
 $dullyellow: #f4ee61;
 $backgroundColor: lighten($dullyellow, 6%);
 
+@mixin animated($properties: all, $duration: 0.2s){
+    @if($properties == transform){
+        transition-property: transform;
+        -webkit-transition-property: -webkit-transform;
+        -moz-transition-property: -moz-transform;
+        -o-transition-property: -o-transform;
+    }
+    @else{
+        transition-property: $properties;
+        -webkit-transition-property: $properties;
+        -moz-transition-property: $properties;
+        -o-transition-property: $properties;
+    }
+    
+    transition-duration: $duration;
+    -webkit-transition-duration: $duration;
+    -moz-transition-duration: $duration;
+    -o-transition-duration: $duration;
+    
+    -webkit-transition-timing-function:ease-in-out;
+    -moz-transition-timing-function:ease-in-out;
+    -o-transition-timing-function:ease-in-out;
+    transition-timing-function:ease-in-out;
+}
+
+
 #runner-top-bar {
   width: 75%;
   display: inline-block;
@@ -93,6 +119,8 @@ $backgroundColor: lighten($dullyellow, 6%);
   position: absolute;
   top: 0%;
   left: -25%;
+
+  @include animated(all, 2s);
 
   transition-property: top, left;
   transition-duration: 2s, 2s;
@@ -178,6 +206,9 @@ $backgroundColor: lighten($dullyellow, 6%);
   /* zoom in icon */
   &.zoom{
     background-size: 50%;
+
+    @include animated(all, .8s);
+
     transition-property: background-size;
     transition-duration: .8s;
     transition-delay: 0s;

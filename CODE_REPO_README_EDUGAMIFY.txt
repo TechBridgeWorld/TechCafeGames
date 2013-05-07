@@ -100,3 +100,4 @@ Please provide details for as many sections that apply to your specific project.
 23. Provide a list of future features/capabilities that you would like to see included in the existing tool.
 
   more minigame objects-springs, reverse gravity blocks
+  more visibly share levels-can "like" other levels and play the best ones
