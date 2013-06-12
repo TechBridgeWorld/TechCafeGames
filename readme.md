@@ -26,6 +26,41 @@ Installation:
 
 Put the folder *Node_TechCafe* under *your-app/modules* (Or wherever you prefer to save it). 
 
+Setting Up the Connection to Teacher Portal:
+------
+
+Inside the file Node_TechCafe.js you will see a seciton similar to the one below. You need to list the URL or IP address of the machine running the teacher portal software. The port will always be 3000 assuming that this port is not being used by other applications.
+
+	var options = {
+		host: '<YOUR SERVER RUNNING TEACHER PORTAL>',
+		port: 3000,
+		method: 'GET',
+	};
+
+Example of Teacher Portal running on a publically available web server:
+	
+	var options = {
+		host: 'www.myserver.com',
+		port: 3000,
+		method: 'GET',
+	};
+	
+Example of specifying a machine that may be running on your local network
+	
+	var options = {
+		host: '192.168.0.12',
+		port: 3000,
+		method: 'GET',
+	};
+	
+Example of running the both the server and Brain Race game on the same machine.
+	
+	var options = {
+		host: 'localhost',
+		port: 3000,
+		method: 'GET',
+	};
+
 Usage: 
 ------
 
