@@ -100,6 +100,67 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @question.destroy
 
+    #############################################################################
+    # Code added by Gary (Beginning Block)
+
+    # Since a question will be deleted, check if deleting this question will result in the corresponding content set having zero questions.
+    # If this is the case then the corresponding content set must be marked as inactive so it does not show up in the Brain Race game.
+    # NOTE: This solution is a poor solution (N+1) problem. But since I do not know how to do this query in the confines of this RoR app,
+    #	    I had to get something working ASAP. The proper way to do this woould be to modify the code in the following models content_set.rb,
+    #	    question.rb and question_content.rb and also modyfy the code in the following controllers questions_controller.rb and content_sets_controller.rb 
+    #	    (and possibly add a new controller for the question_contents) in order to handle this query operation more eloquently.
+
+    foreignKey = @question.id
+    query1 = "SELECT content_set_id FROM question_contents WHERE question_id=#{foreignKey}"
+    logger.debug "Query 1: " + query1
+    @questionContentsResults = ActiveRecord::Base.connection.execute(query1)
+
+    logger.debug "--------------------------------------------------------"
+
+    # Beginning For loop
+    @questionContentsResults.each do |currentContentSetIdHash|
+
+      currentContentSetIdStr = currentContentSetIdHash["content_set_id"]
+      currentContentSetId = currentContentSetIdStr.to_i
+
+      logger.debug "Current Content Set ID = #{currentContentSetId} and current class #{currentContentSetId.class}"
+
+      query2 = "SELECT COUNT(content_set_id) FROM question_contents WHERE content_set_id=#{currentContentSetId}"
+      logger.debug "Query 2: " + query2
+      @numberOfQueryResults = ActiveRecord::Base.connection.execute(query2)
+
+      @numberOfQueryResults.each do |currentQueryResultCount|
+	logger.debug "Current Query Result Count is #{currentQueryResultCount}"
+
+	currentCountStr = currentQueryResultCount["count"]
+	currentCount    = currentCountStr.to_i
+
+	logger.debug "Current Count for content_set_id #{currentContentSetId} is #{currentCount}"
+
+	# This meams that if there is either one entry (current entry about to be deleted), then this content set must be set to inactive since there are not questions
+	if (currentCount < 2)	
+	  query3 = "UPDATE content_sets SET active=false WHERE id=#{currentContentSetId}"
+	  ActiveRecord::Base.connection.execute(query3)
+	  logger.debug "Query 3: " + query3
+	else
+	  logger.debug "Query 3: No need to toggle active flag on content_set with ID #{currentContentSetId}"
+	end
+
+      end
+
+    end
+    # End For loop
+
+    # Delete the actual question reference from the question_content table
+    query4 = "DELETE FROM question_contents WHERE question_id=#{foreignKey}"
+    logger.debug "Query 4: " + query4
+    ActiveRecord::Base.connection.execute(query4)
+
+    logger.debug "--------------------------------------------------------"
+
+    # Code added by Gary (End Block)
+    #############################################################################
+    
     respond_to do |format|
       format.html { redirect_to questions_url }
       format.json { head :no_content }
