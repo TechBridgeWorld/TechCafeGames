@@ -1,0 +1,28 @@
+LOG:  database system was shut down at 2013-04-05 15:23:25 EDT
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  database "OwO" does not exist
+FATAL:  database "OwO" does not exist
+FATAL:  database "OwO" does not exist
+FATAL:  database "OwO" does not exist
+FATAL:  database "TeacherPortal_development" does not exist
+FATAL:  database "TeacherPortal_development" does not exist
+FATAL:  database "TeacherPortal_test" does not exist
+ERROR:  database "TeacherPortal_development" is being accessed by other users
+DETAIL:  There are 2 other sessions using the database.
+STATEMENT:  DROP DATABASE IF EXISTS "TeacherPortal_development"
+ERROR:  relation "users" does not exist at character 315
+STATEMENT:              SELECT a.attname, format_type(a.atttypid, a.atttypmod),
+	                     pg_get_expr(d.adbin, d.adrelid), a.attnotnull, a.atttypid, a.atttypmod
+	              FROM pg_attribute a LEFT JOIN pg_attrdef d
+	                ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+	             WHERE a.attrelid = '"users"'::regclass
+	               AND a.attnum > 0 AND NOT a.attisdropped
+	             ORDER BY a.attnum
+	
+ERROR:  syntax error at end of input at character 50
+STATEMENT:  SELECT "questions".* FROM "questions"  ORDER BY #
+ERROR:  syntax error at end of input at character 50
+STATEMENT:  SELECT "questions".* FROM "questions"  ORDER BY #
+ERROR:  syntax error at end of input at character 50
+STATEMENT:  SELECT "questions".* FROM "questions"  ORDER BY #

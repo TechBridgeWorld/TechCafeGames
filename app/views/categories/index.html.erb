@@ -1,0 +1,34 @@
+<div class="action-bar">
+  <div class="left">
+    <h1>Question Categories</h1>
+  </div>
+  <div class="right">
+   <%= link_to 'Add New Category', new_category_path, :class => 'btn btn-primary' %>
+  </div>
+</div>
+
+<% if @categories.length>=1 %>
+  <table class="table category table-hover">
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @categories.each do |category| %>
+    <tr>
+      <td><%= category.name %></td>
+      <td>
+        <%= link_to(image_tag('edit.png'), edit_category_path(category), :class=>'action-btn') %>
+      </td>
+      <td>
+        <%= link_to(image_tag('delete.png'), category, :class=>"action-btn",  method: :delete, data: { confirm: 'Are you sure you want to delete this category?' }) %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+
+<% else %>
+  <h4>No categories created yet.</h4>
+<% end %>
+

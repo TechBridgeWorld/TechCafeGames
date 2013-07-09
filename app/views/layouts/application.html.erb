@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teacher Portal</title>
+    <%= stylesheet_link_tag "bootstrap" %>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "bootstrap" %>
+    <%= javascript_include_tag "application" %>
+    
+    <%= csrf_meta_tag %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top ">
+      <div class="navbar-inner">
+        <%= link_to "Teacher Portal", root_path, :class => "brand" %>
+        <ul class="nav">
+          <li>
+            <%= link_to "Questions", questions_path %>
+          </li>
+          <li>
+            <%= link_to "Content Sets", content_sets_path %>
+          </li>
+          <% if current_user && current_user.is_admin? %>
+            <li>
+              <%= link_to "Question Categories", categories_path %>
+            </li>
+            <li>
+              <%= link_to "Accounts", users_path %>
+            </li>
+          <% end %>
+        </ul>
+        <div class="nav pull-right">
+            <% if current_user %>
+              <% if current_user.is_admin? %>
+                <% @account = " [ ADMIN ACCOUNT ]" %>
+              <% elsif current_user.is_teacher? %>
+                <% @account = " [ TEACHER ACCOUNT ]" %>
+              <% end %>
+                <%= link_to current_user.username + @account, edit_user_path(current_user), :class => "btn btn-info" %>
+                <%= link_to "Logout", logout_path, :class => "btn btn-warning" %>
+            <% else %>
+                <%= link_to "Login", login_path, :class => "btn btn-primary" %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+      <%= content_tag :h1, yield(:title) if show_title? %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

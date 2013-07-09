@@ -1,0 +1,7 @@
+<% if current_user && current_user.is_admin? %>
+	<% title "Create New Account" %>
+<% else %>
+	<% title "Sign up" %>
+<% end %>
+
+<%= render 'form' %>

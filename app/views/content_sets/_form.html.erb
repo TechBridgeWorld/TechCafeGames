@@ -1,0 +1,100 @@
+<%= form_for(@content_set) do |f| %>
+  <% if @content_set.errors.any? %>
+    <div id="error_explanation">
+      <h4><%= pluralize(@content_set.errors.count, "error") %> prohibited this content_set from being saved:</h4>
+
+      <ul>
+      <% @content_set.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <div class="controls">
+      <table>
+        <tr>
+          <td>
+            <%= f.label :name, "Content Set Name", :class=>'control-label' %>
+            <%= f.text_field :name, :class=> 'input-xxlarge' %>
+          </td>
+          <td class="active">
+            <a href="#" rel="tooltip" title="Only active content sets will show in games">
+              <%= f.label :active %>
+              <%= f.check_box :active %>
+            </a>
+          </td>
+          <% if current_user && current_user.is_admin? %>
+            <td class="active">
+              <%= f.label :user_id, "Belongs To" %>
+              <%= f.collection_select :user_id, User.all, :id, :username%>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <%= f.hidden_field :date, :value => Time.new %>
+
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Include</th>
+      <th><%= link_to "#", :sort => "id" %></th>
+      <th><%= link_to "Question", :sort => "Question"%></th>
+      <th><%= link_to "Category", :sort => "Category"%></th>
+      <th><%= link_to "Difficulty", :sort => "Difficulty" %></th>
+    </tr>
+  </thead>
+
+  <% if @questions %>
+  <% @questions.byid.each do |question| %>
+    <tr>
+      <td>
+        <%= check_box_tag "content_set[question_ids][]", question.id, @content_set.questions.include?(question) %>
+      </td>
+      <td>
+        <div class="number-id"><%= question.id %></div>
+      </td>
+      <td>
+        <%= question.question %>
+        <table class="border-free-table">
+          <tr>
+            <% question.answers.each do |answer| %>
+              <% if answer.answer != "" %>
+                <td>
+                  <% if answer.correct %>
+                    <div class="answer-label correct">
+                      <%= answer.answer %>
+                    </div>
+                  <% else %>
+                    <div class="answer-label">
+                      <%= answer.answer %>
+                    </div>
+                  <% end %>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+      <td><%= question.category.name %></td>
+      <td>
+        <% if question.difficulty == 0 %>
+          Easy
+        <% elsif question.difficulty == 1 %>
+          Medium
+        <% elsif question.difficulty == 2 %>
+          Hard
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  <% end %>
+  </table>
+
+  <%= button_tag "Submit Content Set", :class => "btn btn-primary", :type => "submit" %>
+  <%= link_to 'Cancel', content_sets_path, :class=>'btn' %>
+<% end %>

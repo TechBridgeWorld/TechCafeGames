@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  question: MyString
+  category: MyString
+  difficulty: 1
+
+two:
+  question: MyString
+  category: MyString
+  difficulty: 1

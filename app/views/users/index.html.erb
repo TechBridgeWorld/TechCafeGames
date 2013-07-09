@@ -1,0 +1,49 @@
+<div class="action-bar">
+  <div class="left">
+    <h1>User Accounts</h1>
+  </div>
+  <div class="right">
+   <%= link_to 'Add New User', new_user_path, :class => 'btn btn-primary' %>
+  </div>
+</div>
+
+<table class="table paginated table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Role</th>
+      <th>Username</th>
+      <th>Owned Content Sets</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <% @users.each do |user| %>
+    <tr class="item">
+      <td>
+        <div class="number-id"><%= user.id %></div>
+      </td>
+      <td>
+        <% if user.is_admin? %>
+          <div class="role-label admin">
+            ADMIN
+          </div>
+        <% elsif user.is_teacher? %>
+          <div class="role-label teacher">
+            TEACHER
+          </div>
+        <% end %>
+      </td>
+      <td>
+        <%= link_to user.username, user %>
+      </td>
+      <td><%= link_to user.content_sets.count, user %></td>
+      <td><%= user.email %></td>
+      
+      <td>
+        <%= link_to(image_tag('edit.png'), edit_user_path(user), :class=>'action-btn') %>
+      </td>
+    </tr>
+  <% end %>
+</table>

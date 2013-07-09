@@ -1,0 +1,72 @@
+<div class="action-bar">
+  <div class="left">
+    <h1>All Questions</h1>
+  </div>
+  <div class="right">
+   <%= link_to 'Add New Question', new_question_path, :class => 'btn btn-primary' %>
+  </div>
+</div>
+
+<% if @questions.length>=1 %>
+
+<table class="table paginated table-hover">
+  <thead>
+    <tr>
+      <th><%= link_to "ID", :sort => "id" %></th>
+      <th><%= link_to "Question", :sort => "Question"%></th>
+      <th><%= link_to "Category", :sort => "Category"%></th>
+      <th><%= link_to "Difficulty", :sort => "Difficulty" %></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <% @questions.byid.each do |question| %>
+    <tr class="item">
+      <td>
+        <div class="number-id"><%= question.id %></div>
+      </td>
+      <td>
+        <%= question.question %>
+        <table class="border-free-table">
+          <tr>
+            <% question.answers.each do |answer| %>
+              <% if answer.answer != "" %>
+                <td>
+                  <% if answer.correct %>
+                    <div class="answer-label correct">
+                      <%= answer.answer %>
+                    </div>
+                  <% else %>
+                    <div class="answer-label">
+                      <%= answer.answer %>
+                    </div>
+                  <% end %>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+      <td><%= question.category.name %></td>
+      <td>
+        <% if question.difficulty == 0 %>
+          Easy
+        <% elsif question.difficulty == 1 %>
+          Medium
+        <% elsif question.difficulty == 2 %>
+          Hard
+        <% end %>
+      </td>
+      <td class="action">
+        <%= link_to(image_tag('edit.png'), edit_question_path(question), :class=>'action-btn') %>
+      </td>
+      <td class="action">
+        <%= link_to(image_tag('delete.png'), question, :class=>"action-btn",  method: :delete, data: { confirm: 'Are you sure you want to delete this question?' }) %>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <h4>No questions created yet.</h4>
+<% end %>
+</table>

@@ -1,0 +1,58 @@
+<%= form_for @user do |f| %>
+  <%= f.error_messages %>
+
+  <div class="control-group">
+    <%= f.label :username, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_field :username %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :email, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_field :email %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :password, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.password_field :password %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :password_confirmation, "Confirm Password", :class=>'control-label' %>
+    <div class="controls">
+       <%= f.password_field :password_confirmation %>
+    </div>
+  </div>
+
+  <% if current_user && current_user.is_admin? %>
+    <div class="control-group">
+      <%= f.label :role, "Role", :class=>'control-label' %>
+      <div class="controls">
+        <%= f.select(:role, User::ROLES) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="roles-explaination">
+        <strong>Admins:</strong> manage all users, questions, content sets, and question categories<br/>
+        <strong>Teachers:</strong> manage all questions and teacher's own content sets
+      </div>
+    </div>
+    <br/><br/>
+  <% elsif @users.count==0 %>
+    <%= f.hidden_field :role, :value => "admin" %>
+    <p><strong>You are the first user. Your account will be an admin account.</strong></p>
+  <% else %>
+    <%= f.hidden_field :role, :value => "teacher" %>
+  <% end %>
+
+  <div class="actions">
+
+    <%= button_tag "Submit", :class => "btn btn-primary", :type => "submit" %>
+    <% if current_user && current_user.is_admin? %>
+      <%= link_to 'Cancel', users_path, :class=>'btn' %>
+    <% end %>
+  </div>
+  
+<% end %>

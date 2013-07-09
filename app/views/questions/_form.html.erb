@@ -1,0 +1,65 @@
+<%= form_for(@question) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h4><%= pluralize(@question.errors.count, "error") %> in submitting question:</h4>
+
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :question, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.text_area :question, :rows => 3, :class=> 'input-xxlarge' %>
+    </div>
+  </div>
+
+  <div class="control-group inline">
+    <%= f.label :category, :class=>'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :category_id, Category.all, :id, :name%>
+    </div>
+  </div>
+
+  <div class="control-group inline">
+    <%= f.label :difficulty, :class=>'control-label' %>
+    <div class="controls">
+       <%= f.select :difficulty, options_for_select([["Easy", 0], ["Medium", 1], ["Hard", 2]]) %>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <td>Answer Choice</td>
+      <td>Correct</td>
+      <td></td>
+    </tr>
+    <%= f.fields_for :answers, @answer do |answer_form|%>
+      <tr class="fields">
+        <td>
+            <div class="control-group inline">
+              <div class="controls">
+                <%= answer_form.text_field :answer, :class => 'input-xlarge' %>
+              </div>
+            </div>
+        </td>
+        <td>
+            <div class="control-group inline">
+              <div class="controls">
+                <%= answer_form.check_box :correct%>
+              </div>
+            </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <div class="actions">
+    <%= button_tag "Submit Question", :class => "btn btn-primary", :type => "submit" %>
+    <%= link_to 'Cancel', questions_path, :class=>'btn' %>
+  </div>
+<% end %>
