@@ -4,7 +4,8 @@ var eventResp = new events.EventEmitter;
 eventResp.setMaxListeners(0);
 
 var options = {  
-	host: 'techcafe-teacher.herokuapp.com', 
+	host: 'localhost',
+	port: 3000, 
 	method: 'GET',
 };
 
