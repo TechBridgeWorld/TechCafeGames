@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/styles/reset.css" rel="stylesheet" type="text/css">
+    <link href="/styles/main.css" rel="stylesheet" type="text/css">
+    <script src="/scripts/jquery-1.9.0.js"></script>
+    <script src="/scripts/jquery.fittext.js"></script>
+    <script src="/scripts/assert.js"></script>
+    <script src="/scripts/bindShim.js"></script>
+    <script src="/scripts/utils.js"></script>
+    <script src="scripts/runnerUtil.js"></script>
+    <script src="scripts/MinigameRunner.js"></script>
+    <script src="scripts/runnerPrompts.js"></script>
+    <script src="scripts/GameElement.js"></script>
+    <script src="/scripts/LibraryManager.js"></script>
+    <script src="/scripts/EditorActions.js"></script>
+    <script src="/scripts/ActionStack.js"></script>
+    <script src="/scripts/GridManager.js"></script>
+    <script src="/scripts/EditorManager.js"></script>
+    <script src="/scripts/serialization.js"></script>
+    <script src="/scripts/typeProperties.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/init.js"></script>
+</head>
+<body>
+    <div id="playing-area">
+
+        <div id="loader"></div>
+
+        <div id="homepage" class="screen-view">
+            <h1 id="title" class="bottom-cap">EDUGAMIFY!</h1>
+            <div id="button-container">
+                <button id="select-questions-button" class="button"></button>
+                <button id="play-button" class="button">
+                    <span id="play-button-icon"></span><!--
+                 --><span id="play-button-text">PLAY</span>
+                </button>
+                <button id="load-code-button" class="button"></button>
+            </div>
+            <div id="minigame-library">
+                <div id="minigamelibloginoverlay">LOG IN</div><!--
+             --><button id="edit-new-game" class="minigame"></button>
+                <!--
+         --></div>
+            <button id="logoutButton">
+                <div id="logout-icon"></div>
+                <div id="logout-text">LOG OUT</div>
+            </button>
+        </div>
+        
+        <div id="playpage" class="screen-view">
+            <button id="play-pause"></button>
+            <div id="runner-top-bar"></div>
+            <button id="exit-runner"></button>
+            <canvas id="play-canvas"></canvas>
+            <div id="answer-options">
+                <span id="answer1" class="answer"></span>
+                <span id="answer2" class="answer"></span>
+                <span id="answer3" class="answer"></span>
+                <span id="answer4" class="answer"></span>
+            </div>
+            <div id="mobile-overlay-wrapper"> 
+              <div id="mobile-left-button" class="mobile-overlay-button left-icon"></div>
+              <div id="mobile-right-button" class="mobile-overlay-button right-icon"></div>
+              <div id="mobile-up-button" class="mobile-overlay-button up-icon"></div>
+              <div id="mobile-down-button" class="mobile-overlay-button down-icon"></div>
+              <div id="mobile-jump-button" class="mobile-overlay-button jump-icon"></div>
+            </div>
+            
+        </div>
+
+        <div id="editpage" class="screen-view">
+            <div id="canvas-main-area">
+                <div id="presets-library"></div>
+                <canvas id="editor-canvas">
+                </canvas>
+            </div>
+            <div id="editor-options">
+                <section>
+                    <button class="gravity-icon selected"></button>
+                </section>
+                <section>
+                    <button class="click-icon left-cap"></button><!--
+                 --><button class="keys-icon right-cap selected"></button>
+                </section><!--
+             --><section>
+                    <button class="grid-icon selected"></button>
+                </section><!--
+             --><section>
+                    <button class="undo-icon"></button><!--
+                 --><button class="redo-icon"></button>
+                </section><!--
+             --><section>
+                    <button class="play-icon"></button><!--
+                 --><button class="save-icon"></button><!--
+                 --><button class="close-icon"></button>
+                </section>
+            </div>
+        </div>
+
+        <div id="loginoverlay" class="screen-view">
+            <div id="login-area">
+                <div id="loginMessage">LOG IN TO SAVE</div>
+                <div id="loginFields">
+                    <div id="username-area" class="login-entry">
+                        <div id="username-icon"></div>
+                        <div class="login-textbox">
+                            <div id="username-message" class="login-message">Username</div>
+                            <input id="username-input" class="login-input"type="text" size="10"></input>
+                        </div>
+                    </div>
+                    <div id="password-area" class="login-entry">
+                        <div id="password-icon"></div>
+                        <div class="login-textbox">
+                            <div id="password-message" class="login-message">Password</div>
+                            <input id="password-input" class="login-input" type="password" size="10"></input>
+                        </div>
+                    </div>
+                    <button id="submitloginButton" class="login-button">
+                        <div id="submitlogin-icon"></div>
+                        <div id="submitlogin-text" class="login-button-text">LOG IN</div>
+                    </button>
+                    <button id="cancelloginButton" class="login-button">
+                        <div id="cancellogin-icon"></div>
+                        <div id="cancellogin-text" class="login-button-text">CANCEL</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gamecodeinputoverlay" class="screen-view overlay">
+            <div id="gamecodeinputarea">
+                <div id="gamecodeicon"></div>
+                <div id="gamecodemessage" class="messagebox">GAME CODE INPUT</div>
+                <input id="gamecodetextbox" type="text" size="5"></input>
+                <button id="getgamebutton">
+                    <div id="check-icon"></div>
+                    <div>GET GAME</div>
+                </button>
+                <button id="cancelgamecodebutton" class="login-button">
+                    <div id="cancel-icon"></div>
+                    <div>CANCEL</div>
+                </button>
+            </div>
+        </div>
+
+        <div id="questionoverlay" class="screen-view overlay">
+            <div id="question-area">
+                <div id="selectMessage">SELECT TEACHER</div>
+                <div id="selectFields">
+                </div>
+                <button id="cancelquestionButton" class="login-button">
+                    <div id="cancelquestion-icon"></div>
+                    <div id="cancelquestion-text" class="login-button-text">CANCEL</div>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

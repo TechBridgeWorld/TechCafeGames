@@ -1,0 +1,21 @@
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="100" height="100" id="svg2" version="1.1" inkscape:version="0.48.3.1 r9886" sodipodi:docname="circle1.svg">
+  <defs id="defs4"/>
+  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="2.8" inkscape:cx="67.424928" inkscape:cy="61.817107" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" showguides="false" inkscape:snap-center="true" inkscape:snap-object-midpoints="true" inkscape:snap-midpoints="true" fit-margin-top="0" fit-margin-left="0" fit-margin-right="0" fit-margin-bottom="0" inkscape:window-width="1553" inkscape:window-height="898" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="0" gridtolerance="10">
+    <inkscape:grid type="xygrid" id="grid2989" empspacing="5" visible="true" enabled="true" snapvisiblegridlinesonly="true" originx="-17.175136px" originy="-721.25147px" color="#0000ff" opacity="0.04313725" empcolor="#0000ff" empopacity="0.10588235" dotted="true"/>
+  </sodipodi:namedview>
+  <metadata id="metadata7">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(-17.175136,-231.11071)">
+    <a id="a2991" transform="matrix(0.31327517,0,0,0.31327517,-44.850183,186.87482)">
+      <path style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none" d="M 50 0 C 22.385762 0 1.5533243e-16 22.385762 0 50 C -4.7369516e-15 77.614238 22.385762 100 50 100 C 77.614238 100 100 77.614238 100 50 C 100 22.385762 77.614238 -1.4055522e-14 50 0 z M 50 14.15625 C 69.7993 14.15625 85.84375 30.2007 85.84375 50 C 85.84375 69.7993 69.7993 85.84375 50 85.84375 C 30.2007 85.84375 14.15625 69.7993 14.15625 50 C 14.15625 30.2007 30.2007 14.15625 50 14.15625 z " transform="matrix(3.1920819,0,0,3.1920819,197.9899,141.20458)" id="path2985"/>
+    </a>
+    <a id="a2994" transform="matrix(0.31327517,0,0,0.31327517,-44.850183,186.87482)"/>
+  </g>
+</svg>

@@ -1,0 +1,217 @@
+/*
+ * runner.scss - contains all styles for minigame-runner view
+ */
+
+$chillblue: #3E91A1;
+$topBarHeight: 50px;
+$topButtonHeight: 35px;
+$topButtonHeightPercent: percentage($topButtonHeight / $totalHeight);
+$bottomHeight: 60px;
+$dullyellow: #f4ee61;
+$backgroundColor: lighten($dullyellow, 6%);
+
+@mixin animated($properties: all, $duration: 0.2s){
+    @if($properties == transform){
+        transition-property: transform;
+        -webkit-transition-property: -webkit-transform;
+        -moz-transition-property: -moz-transform;
+        -o-transition-property: -o-transform;
+    }
+    @else{
+        transition-property: $properties;
+        -webkit-transition-property: $properties;
+        -moz-transition-property: $properties;
+        -o-transition-property: $properties;
+    }
+    
+    transition-duration: $duration;
+    -webkit-transition-duration: $duration;
+    -moz-transition-duration: $duration;
+    -o-transition-duration: $duration;
+    
+    -webkit-transition-timing-function:ease-in-out;
+    -moz-transition-timing-function:ease-in-out;
+    -o-transition-timing-function:ease-in-out;
+    transition-timing-function:ease-in-out;
+}
+
+
+#runner-top-bar {
+  width: 75%;
+  display: inline-block;
+  height: percentage(($topBarHeight - 3px) / $totalHeight);
+  margin-bottom: percentage(3px / $totalHeight);
+  background-color: $chillblue;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  font-size: 2em;
+  padding-top: .2em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#runner-bottom-bar {
+  height: 10%;
+  width: 100%;
+  border-radius: 10% 10% 0% 0%;
+  background-color: $chillblue;
+}
+
+
+#play-pause,#exit-runner {
+  vertical-align: top;
+  margin: 7px 12px;
+  padding: 0.8% 0;  
+}
+
+#play-pause {
+  @include spriteIcon("pause.png", 5%, $topButtonHeightPercent);
+  &.play-button {
+      @include spriteIcon("play.png", 5%, $topButtonHeightPercent);
+      /* make button red and selected */
+      $color: desaturate(red, 20%);
+      background-color: $color;
+      box-shadow: 0px 0px transparent;
+      border-bottom: 1px solid lighten($color, 15%);
+      border-top: 2px solid darken($color, 15%);
+  }
+}
+
+#exit-runner {
+  @include spriteIcon("../images/close.png", 5%, $topButtonHeightPercent);
+}
+
+#answer-options {
+  height: percentage($bottomHeight / $totalHeight);
+  width: 100%;
+  background-color: $chillblue;
+}
+
+#play-canvas {
+  background-color: lighten($backgroundColor, 15%);
+  width: percentage($canvasWidth / $totalWidth);
+  height: percentage($canvasHeight / $totalHeight);
+  @include mobileMediaOverride{
+     width: percentage($canvasWidth / $totalWidth);
+  }
+}
+
+.directional-overlay {
+  position: absolute;
+  top: 0;
+  left: -25%;
+
+  @include spriteIcon("arrowkeys.svg", 100%, 100%);
+  background-size: 40%;
+}
+
+.tap-overlay {
+  position: absolute;
+  top: -5%;
+  left: -35%;
+
+  @include spriteIcon("touch.svg", 100%, 100%);
+  background-size: 40%;
+}
+
+.tap-overlay.startMove {
+  position: absolute;
+  top: 0%;
+  left: -25%;
+
+  @include animated(all, 2s);
+
+  transition-property: top, left;
+  transition-duration: 2s, 2s;
+  transition-delay: 0s, 0s;
+  transition-timing-function: ease-in-out;
+}
+
+.grav-overlay {
+  position: absolute;
+  top: 0;
+  left: 45%;
+
+  @include spriteIcon("gravity.png", 60%, 100%);
+  background-size: 40%;
+}
+
+.grav-off-overlay {
+  position: absolute;
+  top: 0;
+  left: 33%;
+
+  @include spriteIcon("gravity-off.png", 84%, 100%);
+  background-size: 40%;
+}
+
+@mixin highlighted {
+  outline: 5px solid rgba(240, 112, 0, 0.8);
+}
+
+.answer {
+  height: percentage(($bottomHeight - 15px) / $bottomHeight);
+  width: 20%;
+  margin: .5% 5px;
+  padding: .25em 0;
+  vertical-align: middle;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  display: inline-block;
+  background-color: white;
+  font-size: 1.5em;
+
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  
+  //&:hover{
+  //  @include highlighted;
+  //  @include clickable;
+  //}
+
+  &.highlight {
+    @include highlighted;
+  }
+}
+
+#answer1 { background-color: #C2000B; }
+#answer2 { background-color: #F8E618; }
+#answer3 { background-color: #008837; }
+#answer4 { background-color: #00A0C6; }
+
+/* overlay that comes up when an answer ball is selected */
+.answer-overlay {
+  background-color: rgba(255,255,255,0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  /* wrong answer */
+  &.wrong{
+    @include spriteIcon("no-red.svg", 100%, 100%, $fill:false);
+    background-size: 50%;
+  }
+  /* right answer */
+  &.right{
+    @include spriteIcon("check-green.svg", 100%, 100%, $fill:false);
+    background-size: 10%;
+  }
+  /* zoom in icon */
+  &.zoom{
+    background-size: 50%;
+
+    @include animated(all, .8s);
+
+    transition-property: background-size;
+    transition-duration: .8s;
+    transition-delay: 0s;
+    transition-timing-function: ease-in-out;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "edugamify",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.1.0",
+    "npm": "1.1.x",
+    "mongodb" : "1.1.11",
+    "mongo-express-auth" : "0.0.7"
+  },
+  "engines": {
+    "node": "0.10.5"
+  }
+}
