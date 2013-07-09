@@ -1,0 +1,33 @@
+{
+	"name":"node-techcafe",
+	"description": "Node.js API Implementation for TechCafe's Teacher Portal",
+	"version": "0.1.1",
+	"author":{
+		"name":"Sachin Hegde"
+	}, 
+	"contributors":[
+	{
+		"name":"Ying Xia"
+	},
+	{
+		"name":"Rachel Leksana"
+	},
+	{
+		"name":"Esther Wang"
+	},
+	{
+		"name":"Gina Assaf"
+	}
+	],
+	"dependencies":{
+		"http":"*",
+		"events":"*"
+	},
+	"keywords":[
+		"TechCafe",
+		"TechBridgeWorld"
+		"Education",
+		"CMU",
+		"api"
+	]
+}
