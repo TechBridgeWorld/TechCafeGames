@@ -1,16 +1,31 @@
-TECHCAFE GAMES TRANSFER DOCUMENT
+TechCafeGames Project
+===================================
+
+About:
+------
+
+The TechCafe games platform allows game developers to create educational
+games that use externally created content. This allows for developers to
+focus on the core gaming experience, and for teachers to tailor content to 
+their students' needs. 
+
+Brains Race Game
 ===================================
 
 ###1. Provide instructions on how to checkout the code from the current repository and where to place it on the local machine. ###
-There are three git repositories: 
+There are four projects in this git repository: 
 
-Brain Race: https://github.com/CMU-15-239/TechCafeGames
+BrainRaceGame: Game that pulls content from the TeacherPortal project and can be played on both computers and mobile devices
 
-Teacher Portal: https://github.com/CMU-15-239/TeacherPortal
+TeacherPortal: A content authoring tool that allows teachers to add content (e.g., questions) that will be used in the Brain Race Game
 
-TechCafe-Node: https://github.com/CMU-15-239/Node-TechCafe
+NodeTechCafe: The API that allows the Brain Race Game to pull content from the Teacher Portal.
+
+GameCreationFramework: Another game for use with the TechCafeGames project. This game provides a basic framework that can be used by others to make their own games for use with TechCafeGames.
 
 For all three of the above projects, clone from the respective git repositories. It does not matter where the code is placed on the local machine.
+
+This repo can be cloned using the following URL https://github.com/CMU-15-239/TechCafeGames.git
 
 * * *
 
@@ -210,7 +225,7 @@ More games.
 
 * * *
 
-##Additional Information:##
+##Additional Information for Brain Race Game:##
 
 #####Keeping the API up to date: #####
 If the location of the Teacher Portal is changed, the API implementation must also be updated in order to continue to correctly serve question content. At the time of writing this document, the Teacher Portal was hosted at http://techcafe-teacher.herokuapp.com. 
@@ -233,3 +248,115 @@ Teachers can manage all questions and their own content sets. Administrators can
 When deploying the Teacher Portal with a new database, the first person to register will automatically become an admin. After that, everyone who registers from techcafe-teacher.herokuapp.com/signup will automatically become a teacher. 
 
 Admins can create new admin accounts and teacher accounts from the “Accounts” page.
+
+TechCaFE TeacherPortal
+======================
+CURRENTLY DEPLOYED VERSION:
+----------------------------------------------------------
+
+The TechCaFE Teacher Portal is a site where teachers can manage questions and content sets that can then be used in educational games for their class. It is built with Ruby on Rails and Bootstrap, with a Postgres database. The teachers can register and then login, and there is an admin account for admin login. The teacher or admin can then create, manage, and delete questions and content sets.
+
+NodeTechCafe Project
+====================
+
+About:
+------
+
+The TechCafe games platform allows game developers to create educational
+games that use externally created content. This allows for developers to
+focus on the core gaming experience, and for teachers to tailor content to 
+their students' needs. 
+
+Node-TechCafe is a Node.js API Implementation for TechCafe's Teacher Portal. 
+
+Created for TechBridgeWorld/TechCafe at Carnegie Mellon University. 
+
+Useful links:
+
+*Teacher Portal (Content Creation Platform):*
+http://techcafe-teacher.herokuapp.com
+
+*Project page:* 
+http://www.cs.cmu.edu/~239/projects/techcafe-games
+
+Installation:
+-------------
+
+Put the folder *Node_TechCafe* under *your-app/modules* (Or wherever you prefer to save it). 
+
+Setting Up the Connection to Teacher Portal:
+------
+
+Inside the file Node_TechCafe.js you will see a seciton similar to the one below. You need to list the URL or IP address of the machine running the teacher portal software. The port will always be 3000 assuming that this port is not being used by other applications.
+
+	var options = {
+		host: '<YOUR SERVER RUNNING TEACHER PORTAL>',
+		port: 3000,
+		method: 'GET',
+	};
+
+Example of Teacher Portal running on a publically available web server:
+	
+	var options = {
+		host: 'www.myserver.com',
+		port: 3000,
+		method: 'GET',
+	};
+	
+Example of specifying a machine that may be running on your local network
+	
+	var options = {
+		host: '192.168.0.12',
+		port: 3000,
+		method: 'GET',
+	};
+	
+Example of running the both the server and Brain Race game on the same machine.
+	
+	var options = {
+		host: 'localhost',
+		port: 3000,
+		method: 'GET',
+	};
+
+Usage: 
+------
+
+	var techcafe = require('./modules/Node_TechCafe/node_techcafe');
+	
+	techcafe.getTeacherList(function(data){
+		//use data
+	});
+	
+	techcafe.getContentByTeacher('TeacherUsername', function(data){
+		//use data
+	});
+
+API: 
+----
+
+###getTeacherList(function):
+Returns a list of JSON objects containing all teachers in the database
+
+*Data Format:*
+
+	[{username:Teacher1}, {username:Teacher2},...]
+
+###getContentSetList(function):
+Returns JSON object containing all content sets in the database
+
+*Data Format:*
+	
+	{ContentSet1: Questions, ContentSet2: Questions, ...}
+
+###getContentByTeacher(teacherID, function):
+Returns JSON object containing all content sets for a given teacher ID
+
+*Data Format:*
+
+	{
+	username: 'username', 
+	content_sets: 
+	[{name:ContentSet1, questions:Questions},
+	{name:ContentSet2, questions:Questions}, ...]
+	}
